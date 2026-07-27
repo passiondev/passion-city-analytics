@@ -1,0 +1,82 @@
+[0m09:54:52.146387 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x11481db20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1148a5070>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1148a4d70>]}
+
+
+============================== 09:54:52.150158 | 79b04979-0967-43db-9714-fd9a8fe4d1a5 ==============================
+[0m09:54:52.150158 [info ] [MainThread]: Running with dbt=1.12.0
+[0m09:54:52.150566 [debug] [MainThread]: running dbt with arguments {'empty': 'None', 'use_colors': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'quiet': 'False', 'log_path': 'logs', 'write_json': 'True', 'profiles_dir': '/Users/trevor.brewer/.dbt', 'version_check': 'True', 'debug': 'False', 'cache_selected_only': 'False', 'partial_parse': 'True', 'static_parser': 'True', 'invocation_command': 'dbt init analytics', 'no_print': 'None', 'use_experimental_parser': 'False', 'send_anonymous_usage_stats': 'True', 'target_path': 'None', 'log_cache_events': 'False', 'hints_enabled': 'True', 'introspect': 'True', 'warn_error': 'None', 'maximum_seed_size_mib': '1', 'indirect_selection': 'eager', 'log_format': 'default', 'fail_fast': 'False'}
+[0m09:54:52.160645 [info ] [MainThread]: Creating dbt configuration folder at /Users/trevor.brewer/.dbt
+[0m09:54:52.161635 [debug] [MainThread]: Starter project path: /Users/trevor.brewer/Documents/GitHub/passion-city-analytics/.venv/lib/python3.12/site-packages/dbt/include/starter_project
+[0m09:54:52.165726 [info ] [MainThread]: Setting up your profile.
+[0m10:00:10.789407 [info ] [MainThread]: Profile analytics written to /Users/trevor.brewer/.dbt/profiles.yml using target's profile_template.yml and your supplied values.
+[0m10:00:10.800497 [info ] [MainThread]: Running dbt debug to validate the project...
+[0m10:00:10.801679 [info ] [MainThread]: dbt version: 1.12.0
+[0m10:00:10.801936 [info ] [MainThread]: python version: 3.12.4
+[0m10:00:10.802144 [info ] [MainThread]: python path: /Users/trevor.brewer/Documents/GitHub/passion-city-analytics/.venv/bin/python3.12
+[0m10:00:10.802372 [info ] [MainThread]: os info: macOS-14.6.1-arm64-arm-64bit
+[0m10:00:10.849507 [info ] [MainThread]: Using profiles dir at /Users/trevor.brewer/.dbt
+[0m10:00:10.849819 [info ] [MainThread]: Using profiles.yml file at /Users/trevor.brewer/.dbt/profiles.yml
+[0m10:00:10.849995 [info ] [MainThread]: Using dbt_project.yml file at /Users/trevor.brewer/Documents/GitHub/passion-city-analytics/analytics/dbt_project.yml
+[0m10:00:10.850156 [info ] [MainThread]: adapter type: bigquery
+[0m10:00:10.850310 [info ] [MainThread]: adapter version: 1.12.0
+[0m10:00:10.920454 [info ] [MainThread]: Configuration:
+[0m10:00:10.920839 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m10:00:10.921044 [info ] [MainThread]:   dbt_project.yml file [[32mOK found and valid[0m]
+[0m10:00:10.921211 [info ] [MainThread]: Required dependencies:
+[0m10:00:10.921500 [debug] [MainThread]: Executing "git --help"
+[0m10:00:10.965949 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--bare]\n           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]\n           [--super-prefix=<path>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone     Clone a repository into a new directory\n   init      Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add       Add file contents to the index\n   mv        Move or rename a file, a directory, or a symlink\n   restore   Restore working tree files\n   rm        Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect    Use binary search to find the commit that introduced a bug\n   diff      Show changes between commits, commit and working tree, etc\n   grep      Print lines matching a pattern\n   log       Show commit logs\n   show      Show various types of objects\n   status    Show the working tree status\n\ngrow, mark and tweak your common history\n   branch    List, create, or delete branches\n   commit    Record changes to the repository\n   merge     Join two or more development histories together\n   rebase    Reapply commits on top of another base tip\n   reset     Reset current HEAD to the specified state\n   switch    Switch branches\n   tag       Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch     Download objects and refs from another repository\n   pull      Fetch from and integrate with another repository or a local branch\n   push      Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m10:00:10.966768 [debug] [MainThread]: STDERR: "b''"
+[0m10:00:10.967009 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m10:00:10.967230 [info ] [MainThread]: Connection:
+[0m10:00:10.967469 [info ] [MainThread]:   method: oauth
+[0m10:00:10.967653 [info ] [MainThread]:   database: bigquery-test-469018
+[0m10:00:10.967837 [info ] [MainThread]:   execution_project: bigquery-test-469018
+[0m10:00:10.968004 [info ] [MainThread]:   schema: dbt_tbrewer
+[0m10:00:10.968157 [info ] [MainThread]:   location: US
+[0m10:00:10.968308 [info ] [MainThread]:   priority: interactive
+[0m10:00:10.968462 [info ] [MainThread]:   maximum_bytes_billed: None
+[0m10:00:10.968614 [info ] [MainThread]:   reservation: None
+[0m10:00:10.968761 [info ] [MainThread]:   impersonate_service_account: None
+[0m10:00:10.968910 [info ] [MainThread]:   job_retry_deadline_seconds: None
+[0m10:00:10.969053 [info ] [MainThread]:   job_retries: 1
+[0m10:00:10.969200 [info ] [MainThread]:   job_creation_timeout_seconds: None
+[0m10:00:10.969346 [info ] [MainThread]:   job_execution_timeout_seconds: 300
+[0m10:00:10.969493 [info ] [MainThread]:   job_link_info_level_log: False
+[0m10:00:10.969639 [info ] [MainThread]:   timeout_seconds: 300
+[0m10:00:10.969782 [info ] [MainThread]:   client_id: None
+[0m10:00:10.969922 [info ] [MainThread]:   token_uri: None
+[0m10:00:10.970066 [info ] [MainThread]:   compute_region: None
+[0m10:00:10.970204 [info ] [MainThread]:   dataproc_cluster_name: None
+[0m10:00:10.970349 [info ] [MainThread]:   gcs_bucket: None
+[0m10:00:10.970495 [info ] [MainThread]:   dataproc_batch: None
+[0m10:00:10.971035 [info ] [MainThread]: Registered adapter: bigquery=1.12.0
+[0m10:00:11.150987 [debug] [MainThread]: Acquiring new bigquery connection 'debug'
+[0m10:00:11.151494 [debug] [MainThread]: On debug: select 1 as id
+[0m10:00:11.151865 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m10:00:12.869272 [debug] [MainThread]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=bigquery-test-469018&j=bq:US:59ca68ab-8e45-4c43-b690-bf460e443453&page=queryresults
+[0m10:00:13.150796 [debug] [MainThread]: SQL status: OK in 0.280 seconds
+[0m10:00:13.475210 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m10:00:13.476145 [info ] [MainThread]: [32mAll checks passed![0m
+[0m10:00:13.476930 [info ] [MainThread]: Your new dbt project "analytics" was created!
+Initialized new project in /Users/trevor.brewer/Documents/GitHub/passion-city-analytics/analytics/analytics
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m10:00:13.512361 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 321.428, "process_in_blocks": "0", "process_kernel_time": 0.603365, "process_mem_max_rss": "203096064", "process_out_blocks": "0", "process_user_time": 2.076744}
+[0m10:00:13.513614 [debug] [MainThread]: Command `dbt init` succeeded at 10:00:13.513393 after 321.43 seconds
+[0m10:00:13.514206 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m10:00:13.514812 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x13131f620>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x124821eb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x113303f80>]}
+[0m10:00:13.515521 [debug] [MainThread]: Flushing usage events
+[0m10:00:13.675482 [debug] [MainThread]: An error was encountered while trying to flush usage events
