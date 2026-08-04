@@ -1,0 +1,3504 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/2.1.0/schema.json",
+  "displayName": "DC Clear All Filters",
+  "name": "Bookmarkd731b413a906c09129c7",
+  "options": {
+    "targetVisualNames": []
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "ReportSection15f3ddd1a471055c9605",
+    "sections": {
+      "ReportSection15f3ddd1a471055c9605": {
+        "filters": {
+          "byExpr": [
+            {
+              "name": "Filter4f217431027114e7a5da",
+              "type": "Categorical",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "a",
+                    "Entity": "AttendanceInPerson_WOW",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "a"
+                                }
+                              },
+                              "Property": "CampusName"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'DC'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AttendanceInPerson_WOW"
+                    }
+                  },
+                  "Property": "CampusName"
+                }
+              },
+              "howCreated": 1
+            },
+            {
+              "name": "Filter583e0a75c0a243fe7fae",
+              "type": "RelativeDate",
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "a",
+                    "Entity": "AttendanceInPerson_WOW",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "Between": {
+                        "Expression": {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "a"
+                              }
+                            },
+                            "Property": "MetricValueDateTime"
+                          }
+                        },
+                        "LowerBound": {
+                          "DateSpan": {
+                            "Expression": {
+                              "DateAdd": {
+                                "Expression": {
+                                  "DateAdd": {
+                                    "Expression": {
+                                      "Now": {}
+                                    },
+                                    "Amount": 1,
+                                    "TimeUnit": 0
+                                  }
+                                },
+                                "Amount": -12,
+                                "TimeUnit": 2
+                              }
+                            },
+                            "TimeUnit": 0
+                          }
+                        },
+                        "UpperBound": {
+                          "DateSpan": {
+                            "Expression": {
+                              "Now": {}
+                            },
+                            "TimeUnit": 0
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "expression": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "AttendanceInPerson_WOW"
+                    }
+                  },
+                  "Property": "MetricValueDateTime"
+                }
+              },
+              "howCreated": 1
+            }
+          ]
+        },
+        "visualContainers": {
+          "433fe7467905ac641626": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "1fa11ea6ea116dd120c4": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "d0d6bb0968484020c851": {
+            "singleVisual": {
+              "visualType": "image",
+              "objects": {}
+            }
+          },
+          "fc8851689109dbbc514b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filtere1a819000d2652669d78",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filter1d073ac04013833ea01e",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "c",
+                        "Entity": "Calendar",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "c"
+                                    }
+                                  },
+                                  "Property": "DayOfWeekName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "DayOfWeekName"
+                    }
+                  },
+                  "howCreated": 1
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "slicer",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "c",
+                                "Entity": "Calendar",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "Comparison": {
+                                    "ComparisonKind": 2,
+                                    "Left": {
+                                      "Column": {
+                                        "Expression": {
+                                          "SourceRef": {
+                                            "Source": "c"
+                                          }
+                                        },
+                                        "Property": "Date"
+                                      }
+                                    },
+                                    "Right": {
+                                      "Literal": {
+                                        "Value": "datetime'2024-08-04T00:00:00'"
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "data": [
+                    {
+                      "properties": {
+                        "startDate": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "datetime'2024-08-04T00:00:00'"
+                            }
+                          }
+                        },
+                        "mode": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "'After'"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "selection": [
+                    {
+                      "properties": {
+                        "strictSingleSelect": {
+                          "expr": {
+                            "Literal": {
+                              "Value": "true"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Values": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "Date"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "08caa6efa6a004076b87": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter736305a7ad9cf66b43fc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CurrWeekAtt"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "062dd881809b3ce0ba7a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "D.C"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "D.C"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "08af869468b1e4c68440": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "20966423594ee3602803",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "PrevWeekAttCards"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "PrevWeekAttCards"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "1cb8f686a45294028429": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter199b37a198b040a0d13d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "Literal"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'bloom'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filter96a9f49b5d3724f24a48",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "EventName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday Gathering'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "EventName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "cecfd6f80d00d0ab760d",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "67a0f73dc30047b74825",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "ca9b0493d14414899662",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "0fef0c75c88ecba76960",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "846600e000c84e03eae7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "4ac1a67f3308a080a4de",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "01c82fbdcc065584a90a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Measure": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "a1"
+                                      }
+                                    },
+                                    "Property": "AttMatrixOnly"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "0L"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "AttMatrixOnly"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  }
+                },
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CityName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CityName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CampusName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CampusName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.ScheduleName"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "ef6978cbc97cde4e5d24": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter199b37a198b040a0d13d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "Literal"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Door Holder'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filter2241e19695eaba36ba64",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "EventName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday Gathering'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "EventName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "6565dae9c7dc88e00cc4",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1ebcb03a56da80d0d629",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "83c43455b021e98d90e1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c88f6f4879012169b001",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "edc5a65077b992a34c56",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a8ea6ab0d0aa677873b3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c144837b52b79b00d60c",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Measure": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "a1"
+                                      }
+                                    },
+                                    "Property": "AttMatrixOnly"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "0L"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "AttMatrixOnly"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CityName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CityName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CampusName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CampusName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.ScheduleName"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "182276081420008c52ed": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter199b37a198b040a0d13d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "Literal"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'MS'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filterd14597f8e59b25eabc84",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "EventName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday Gathering'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "EventName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "53d92de7dd967dbddcd2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "779c550bb62b0e6309d4",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9bc150aa1083a5eac0e1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a04a19ee5b9878202e10",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "de0977cd797d98809243",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "fea2f7016a195d40d8c3",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "55fbb9de2bb550ace3ed",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Measure": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "a1"
+                                      }
+                                    },
+                                    "Property": "AttMatrixOnly"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "0L"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "AttMatrixOnly"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CityName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CityName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CampusName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CampusName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.ScheduleName"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "b45a062f00e86b768a74": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filterbdcd0dc473e31d774ae7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Att"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "b98f95f06d55283aebd0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "203c4b6498083ca300ec": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filterbdcd0dc473e31d774ae7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Att"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "f7cb35021c70d66e6293",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "4df2290d60d6ab10be07": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter199b37a198b040a0d13d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "Literal"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Adults'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filterf39981789d072eb2f7b9",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "EventName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday Gathering'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "EventName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter30711c8908b2c919e61b",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "CampusName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'DC'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filter064997e3452c57de43ba",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "CityName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'D.C.'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9fe5ba7052a67960d150",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7082dd5303d2a05e718c",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2d60b2ebe019abb2073b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d82c953207724b30c103",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "77daf26086deb80790e6",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Measure": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "a1"
+                                      }
+                                    },
+                                    "Property": "AttMatrixOnly"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "0L"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "AttMatrixOnly"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  }
+                },
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CityName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CityName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CampusName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CampusName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.ScheduleName"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "0fc3810de0884c67cda1": {
+            "singleVisual": {
+              "visualType": "pageNavigator",
+              "objects": {}
+            }
+          },
+          "cebb34e3e81b0b20a83a": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "de70ba261b325b71c7e8": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "21fc9247e50c51265ed0": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "786495475d0b97448a36": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "51bab9850589625d98b8": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "74180ad23b9377032006": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "6f857d7c7a406319e7c1": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "19a9cdce0909acc3dd9d": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "cf276a6d831978d60d10": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "1952df87dcb06840013c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "88d27ca824a40024768d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Calendar"
+                            }
+                          },
+                          "Property": "PrevWeekDate"
+                        }
+                      },
+                      "Function": 3
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Aggregation": {
+                      "Expression": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "Calendar"
+                            }
+                          },
+                          "Property": "PrevWeekDate"
+                        }
+                      },
+                      "Function": 3
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "3a82fca1bb69ce070382": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "778c77cf467000737803",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "MaxselectedDate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "MaxselectedDate"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "1e2d9278b361a440dba8": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filteref48b89357ac0e16e9b0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CountNew"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "b54b27ad0a0ae153de30",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "cd1cc886403816940a08",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "MaxselectedDate"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5a11314bd030b69ec06d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CurrWeekAtt"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "48c9d4634cee009077c4",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "PrevWeekAtt"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "PrevWeekAtt"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "8a58f7a2ac238c441657": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "129f30280e5c0cdd92ca": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "18db8b6f672995d1540e": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "3a1a2ca026c6edebe0a7": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "c81ece67a3ce1c2a2046": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "78f8eb2bd133d728710d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "1309650e20155130ab6b": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter307bf980fbf2d38a45b6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Calendar"
+                        }
+                      },
+                      "Property": "MonthName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filterf31faae50b59e9c0b751",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "l",
+                        "Entity": "LocalDateTable_86a6e842-ffda-4376-b8df-fecf282f3fc6",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "l"
+                                    }
+                                  },
+                                  "Property": "Year"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "2023L"
+                                  }
+                                }
+                              ],
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "2024L"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "MetricValueDateTime"
+                    }
+                  },
+                  "howCreated": 1,
+                  "cachedDisplayNames": [
+                    {
+                      "id": {
+                        "scopeId": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "LocalDateTable_86a6e842-ffda-4376-b8df-fecf282f3fc6"
+                                  }
+                                },
+                                "Property": "Year"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "2023L"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "displayName": "2023"
+                    },
+                    {
+                      "id": {
+                        "scopeId": {
+                          "Comparison": {
+                            "ComparisonKind": 0,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Entity": "LocalDateTable_86a6e842-ffda-4376-b8df-fecf282f3fc6"
+                                  }
+                                },
+                                "Property": "Year"
+                              }
+                            },
+                            "Right": {
+                              "Literal": {
+                                "Value": "2024L"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "displayName": "2024"
+                    }
+                  ]
+                },
+                {
+                  "name": "Filterca421ec5088f9e477bc1",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filterbaab02ee8600913faacc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CountNew"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "Filter864a7dcb69acb996f987",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "SparkChartDates"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filter7c9c23ae5c7d72b48ad1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CountNew 5 Week"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "lineChart",
+              "objects": {},
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "SparkChartDates"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "9f1f1791839d79b5dcec": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "13f27db900387b90ae59",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ArrowsconditionsWow"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "52c52c9a389500bbfbeb": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0633ca00b0819ea19549",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ArrowsconditionsYOY"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "card",
+              "objects": {}
+            }
+          },
+          "ecbdefcbdd4b273efa49": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter199b37a198b040a0d13d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "Literal"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'PK'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filter96a9f49b5d3724f24a48",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "EventName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday Gathering'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "EventName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "896eab9ba7650b70b5c0",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "71ed39b3a466c6784d64",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9770181ec63137079e01",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "dd281730d82d7903aa41",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "275349456070859ed536",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "d373cc3e384c80b48501",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f8add3a7ae7101782127",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Measure": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "a1"
+                                      }
+                                    },
+                                    "Property": "AttMatrixOnly"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "0L"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "AttMatrixOnly"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  }
+                },
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CityName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CityName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CampusName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CampusName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.ScheduleName"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          },
+          "d96cdd113b859f1a7ba5": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "Filter199b37a198b040a0d13d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "Literal"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'HS'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "Filterd14597f8e59b25eabc84",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "In": {
+                            "Expressions": [
+                              {
+                                "Column": {
+                                  "Expression": {
+                                    "SourceRef": {
+                                      "Source": "a"
+                                    }
+                                  },
+                                  "Property": "EventName"
+                                }
+                              }
+                            ],
+                            "Values": [
+                              [
+                                {
+                                  "Literal": {
+                                    "Value": "'Sunday Gathering'"
+                                  }
+                                }
+                              ]
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "EventName"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "3596dad71075d10600c2",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e1293427046e0933ac8b",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "83a53942601b00b600ea",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "5WeekAverage N"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "75a96d26abecbbc808bc",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "WOWMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "9c61b454e88cb4a718e5",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "YOYMeasure"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "b5fc284207056888b023",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "72e99ebdbb9674873e47",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "a1",
+                        "Entity": "AttendanceInPerson_WOW",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "Comparison": {
+                                "ComparisonKind": 0,
+                                "Left": {
+                                  "Measure": {
+                                    "Expression": {
+                                      "SourceRef": {
+                                        "Source": "a1"
+                                      }
+                                    },
+                                    "Property": "AttMatrixOnly"
+                                  }
+                                },
+                                "Right": {
+                                  "Literal": {
+                                    "Value": "0L"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "AttMatrixOnly"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CityName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "CampusName"
+                    }
+                  },
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "ScheduleName"
+                    }
+                  }
+                ],
+                "Columns": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "AttendanceInPerson_WOW"
+                        }
+                      },
+                      "Property": "Literal"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CityName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CityName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.CampusName"
+                      ],
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "AttendanceInPerson_WOW"
+                              }
+                            },
+                            "Property": "CampusName"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "AttendanceInPerson_WOW.ScheduleName"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": null
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "visible": {
+                "expr": {
+                  "Literal": {
+                    "Value": "true"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

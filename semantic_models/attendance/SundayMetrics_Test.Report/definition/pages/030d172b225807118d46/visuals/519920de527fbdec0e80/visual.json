@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "519920de527fbdec0e80",
+  "position": {
+    "x": 0,
+    "y": 3628,
+    "z": 5000,
+    "height": 416,
+    "width": 1280,
+    "tabOrder": 18000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Campus Selector"
+                    }
+                  },
+                  "Property": "HTML_SundayGuide"
+                }
+              },
+              "queryRef": "Campus Selector.HTML_SundayGuide",
+              "nativeQueryRef": "HTML_SundayGuide"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

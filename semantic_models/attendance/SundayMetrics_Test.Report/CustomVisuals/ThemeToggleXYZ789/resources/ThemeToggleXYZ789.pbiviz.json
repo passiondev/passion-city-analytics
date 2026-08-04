@@ -1,0 +1,73 @@
+{
+  "visual": {
+    "name": "ThemeToggle",
+    "displayName": "Theme Toggle",
+    "guid": "ThemeToggleXYZ789",
+    "visualClassName": "Visual",
+    "version": "1.0.0.0",
+    "description": "Dark Light theme toggle",
+    "supportUrl": "https://passioncc.org",
+    "gitHubUrl": ""
+  },
+  "author": {
+    "name": "Sandeep Nela",
+    "email": "sandeep@passioncc.org"
+  },
+  "apiVersion": "5.4.0",
+  "style": "style/visual.less",
+  "stringResources": {},
+  "capabilities": {
+    "dataRoles": [
+      {
+        "displayName": "Theme Field",
+        "name": "themeField",
+        "kind": "Grouping"
+      }
+    ],
+    "dataViewMappings": [
+      {
+        "categorical": {
+          "categories": {
+            "for": {
+              "in": "themeField"
+            },
+            "dataReductionAlgorithm": {
+              "top": {
+                "count": 10
+              }
+            }
+          }
+        }
+      }
+    ],
+    "objects": {
+      "general": {
+        "displayName": "General",
+        "properties": {
+          "darkBackground": {
+            "displayName": "Background Color",
+            "type": {
+              "fill": {
+                "solid": {
+                  "color": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "supportsHighlight": false,
+    "suppressDefaultTitle": true,
+    "privileges": []
+  },
+  "content": {
+    "js": "var ThemeToggleXYZ789;(()=>{\"use strict\";var e={760(e,t,n){n.d(t,{b:()=>s});class s{target;host;selectionManager;selectionIds=[];currentTheme=\"Dark\";values=[];constructor(e){this.target=e.element,this.host=e.host,this.selectionManager=e.host.createSelectionManager(),this.target.style.overflow=\"visible\",this.target.style.cursor=\"pointer\",this.target.style.display=\"flex\",this.target.style.alignItems=\"center\",this.target.style.justifyContent=\"center\",this.target.style.width=\"100%\",this.target.style.height=\"100%\",this.target.style.position=\"relative\",this.target.style.border=\"none\",this.target.style.outline=\"none\",this.target.style.boxSizing=\"border-box\"}update(e){const t=e.dataViews[0];if(!(t&&t.categorical&&t.categorical.categories&&t.categorical.categories[0]))return void this.renderEmpty();const n=t.categorical.categories[0];this.values=n.values,this.selectionIds=this.values.map((e,t)=>this.host.createSelectionIdBuilder().withCategory(n,t).createSelectionId());const s=this.selectionManager.getSelectionIds();if(s.length>0){const e=s[0],t=this.selectionIds.findIndex(t=>t.key===e.key);t>=0&&(this.currentTheme=this.values[t])}else this.currentTheme=\"Dark\";this.render()}clearTarget(){for(;this.target.firstChild;)this.target.removeChild(this.target.firstChild)}renderEmpty(){this.clearTarget();const e=document.createElement(\"div\");e.style.fontFamily=\"Inter, sans-serif\",e.style.fontSize=\"12px\",e.style.color=\"#6B7280\",e.textContent=\"Add Theme field\",this.target.appendChild(e)}render(){this.clearTarget();const e=\"Dark\"===this.currentTheme,t=e?\"#FFFFFF\":\"#111827\",n=e?\"#FFFFFF\":\"#D1D5DB\",s=e?\"#111111\":\"#FFFFFF\",i=e?\"44px\":\"4px\";this.target.style.background=\"transparent\",this.target.style.border=\"none\",this.target.style.outline=\"none\",this.target.style.boxShadow=\"none\";const r=document.createElement(\"style\");r.textContent=`\\n            * { box-sizing: border-box; margin: 0; padding: 0; }\\n            .toggle-container {\\n                display: flex;\\n                flex-direction: column;\\n                align-items: center;\\n                justify-content: center;\\n                gap: 10px;\\n                width: 100%;\\n                height: 100%;\\n                background: transparent;\\n            }\\n            .toggle-label {\\n                font-family: Inter, sans-serif;\\n                font-size: 14px;\\n                font-weight: 600;\\n                color: ${t};\\n                letter-spacing: 0.02em;\\n                text-align: center;\\n                line-height: 1;\\n            }\\n            .toggle-track {\\n                width: 80px;\\n                height: 40px;\\n                border-radius: 20px;\\n                background: ${n};\\n                position: relative;\\n                cursor: pointer;\\n                transition: background 0.3s ease;\\n                box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);\\n                border: none;\\n                outline: none;\\n            }\\n            .toggle-thumb {\\n                width: 32px;\\n                height: 32px;\\n                border-radius: 50%;\\n                background: ${s};\\n                position: absolute;\\n                top: 4px;\\n                left: ${i};\\n                transition: left 0.3s ease;\\n                box-shadow: 0 2px 6px rgba(0,0,0,0.3);\\n            }\\n        `,this.target.appendChild(r);const a=document.createElement(\"div\");a.className=\"toggle-container\";const o=document.createElement(\"div\");o.className=\"toggle-label\",o.textContent=e?\"🌙 Dark Mode\":\"☀️ Light Mode\";const l=document.createElement(\"div\");l.className=\"toggle-track\";const c=document.createElement(\"div\");c.className=\"toggle-thumb\",l.appendChild(c),l.addEventListener(\"click\",()=>{const e=\"Dark\"===this.currentTheme?\"Light\":\"Dark\",t=this.values.indexOf(e);t>=0&&(this.selectionManager.select(this.selectionIds[t]),this.currentTheme=e,this.render())}),a.appendChild(o),a.appendChild(l),this.target.appendChild(a)}}}},t={};function n(s){var i=t[s];if(void 0!==i)return i.exports;var r=t[s]={exports:{}};return e[s](r,r.exports,n),r.exports}n.d=(e,t)=>{for(var s in t)n.o(t,s)&&!n.o(e,s)&&Object.defineProperty(e,s,{enumerable:!0,get:t[s]})},n.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),n.r=e=>{\"undefined\"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:\"Module\"}),Object.defineProperty(e,\"__esModule\",{value:!0})};var s={};(()=>{n.r(s),n.d(s,{default:()=>r});var e=n(760),t=window.powerbi,i={name:\"ThemeToggleXYZ789\",displayName:\"Theme Toggle\",class:\"Visual\",apiVersion:\"5.4.0\",create:t=>{if(e.b)return new e.b(t);throw\"Visual instance not found\"},createModalDialog:(e,t,n)=>{const s=globalThis.dialogRegistry;e in s&&new s[e](t,n)},custom:!0};void 0!==t&&(t.visuals=t.visuals||{},t.visuals.plugins=t.visuals.plugins||{},t.visuals.plugins.ThemeToggleXYZ789=i);const r=i})(),ThemeToggleXYZ789=s})();",
+    "iconBase64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2RpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpBOEJGMzkxN0NBRDNFMDExQTcxQ0JFODI3ODBCQUE5RSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo3NEY1QjA1NUQ0OTAxMUUwQTgxREI2NjMxMkNEMUNEMyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo3NEY1QjA1NEQ0OTAxMUUwQTgxREI2NjMxMkNEMUNEMyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IFdpbmRvd3MiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5Mjk5RDU1ODBGRDRFMDExQTcxQ0JFODI3ODBCQUE5RSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpBOEJGMzkxN0NBRDNFMDExQTcxQ0JFODI3ODBCQUE5RSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PpDoNX0AAAI3SURBVHjarJRLSFVRFIY9t7SiRDGLoEEPCRJRaCSYkxCiFCXCF+LIMExQLkilgumgwkbdBuWDRC2EomhURCOjgagkXEgKLUKhidobM6H0+i34rxyPnuvEA5/rXPda/1l7739vJxKJxG3ls93+hEKhTILxJhgMftmsiPxdhHw4CfepeR8dCyjWwwB0kZy3iVgCoQ2ewnmXxhrBD7Cgr/ZQVA17fDRPw2UYhzK6G99IsBse6/0QNME+H8FT4EA/YiPqOgA1q4IMzBNuw6iKjkCpj+Av+AdnEEmD3bxfhzvuDk30HaEaLsEkXCO53rN+Bwg5qsvTuj/TjGYtx9nINhRmEx7AYWiFW7AXOuEcbPOUvIZ2mnrl+PkQUbNEh4QHNKUSDdsSBWEOlmxTEfvs26FL9Khe211if6Acgee+xo7xzMgBxfq9qPe3fgWBGN2lEnqtG9nExM7CV3jp3bDos2bKJB0nHFRxAxRpA/5CIXyHh5ABv6GZqd9dJ6iz2SjbxMMypGhJFtTlNzu3kK7xgDxpove8U66FK2A+s6nul5gVVMEL+Ak7lG/T+g9JcIOGar2CRUoogxMwpP/bLTJMB9bRhDbkk5bBUU0y3ES0xS04CBfN9RSHiY90vJK0BHaSzG9h2eejS3RJeVfdtrGzuGyd8CX7Yq6ExuCH63jaVMPkFOv6OibB6DKs2+VEQp+WYBoqERn2sVWWRNN0YurIfeL14U6YkpkLYCSG6e0yqdCxvKBLIm5FgAEAV0nKuwMYRUsAAAAASUVORK5CYII="
+  },
+  "visualEntryPoint": "",
+  "externalJS": [],
+  "assets": {
+    "icon": "assets/icon.png"
+  }
+}
