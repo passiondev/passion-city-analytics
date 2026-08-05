@@ -1,0 +1,60 @@
+table v_gathering_views
+	lineageTag: 28bb888f-85e3-4393-9bc9-d7a8a44c2fe8
+
+	column video_id
+		dataType: string
+		lineageTag: 1061ac34-1c30-43ff-ad3a-0378998f022e
+		summarizeBy: none
+		sourceColumn: video_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 95250700-cddd-4db8-9d5f-cf828fbb9120
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column published_at
+		dataType: string
+		lineageTag: 82765bee-392c-48e0-a742-fcab3003f5d5
+		summarizeBy: none
+		sourceColumn: published_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_views
+		dataType: int64
+		formatString: 0
+		lineageTag: 522e3f70-ffd9-43bd-afd3-c70ae3447f19
+		summarizeBy: sum
+		sourceColumn: total_views
+
+		annotation SummarizationSetBy = Automatic
+
+	column sunday_date
+		dataType: string
+		lineageTag: cbd35bff-a865-46d2-9f09-e9b630470cad
+		summarizeBy: none
+		sourceColumn: sunday_date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_gathering_views = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    v_gathering_views_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="v_gathering_views",version=""]}[Data]
+				in
+				    v_gathering_views_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

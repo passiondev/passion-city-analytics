@@ -1,0 +1,162 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Errors in queries that were loaded on 2/20/2024 10:47:03 AM.
+queryGroup 'Query Errors - 2/20/2024 10:47:03 AM'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 2/28/2024 10:27:14 AM.
+queryGroup 'Query Errors - 2/28/2024 10:27:14 AM'
+
+	annotation PBI_QueryGroupOrder = 1
+
+/// Errors in queries that were loaded on 2/28/2024 10:27:16 AM.
+queryGroup 'Query Errors - 2/28/2024 10:27:16 AM'
+
+	annotation PBI_QueryGroupOrder = 2
+
+/// Errors in queries that were loaded on 2/28/2024 10:54:43 AM.
+queryGroup 'Query Errors - 2/28/2024 10:54:43 AM'
+
+	annotation PBI_QueryGroupOrder = 3
+
+/// Errors in queries that were loaded on 7/5/2024 12:06:41 PM.
+queryGroup 'Query Errors - 7/5/2024 12:06:41 PM'
+
+	annotation PBI_QueryGroupOrder = 4
+
+/// Errors in queries that were loaded on 7/7/2024 12:52:39 AM.
+queryGroup 'Query Errors - 7/7/2024 12:52:39 AM'
+
+	annotation PBI_QueryGroupOrder = 5
+
+/// Errors in queries that were loaded on 7/7/2024 12:52:41 AM.
+queryGroup 'Query Errors - 7/7/2024 12:52:41 AM'
+
+	annotation PBI_QueryGroupOrder = 6
+
+/// Errors in queries that were loaded on 5/25/2025 7:14:21 PM.
+queryGroup 'Query Errors - 5/25/2025 7:14:21 PM'
+
+	annotation PBI_QueryGroupOrder = 7
+
+/// Errors in queries that were loaded on 6/8/2025 8:19:45 PM.
+queryGroup 'Query Errors - 6/8/2025 8:19:45 PM'
+
+	annotation PBI_QueryGroupOrder = 8
+
+/// Errors in queries that were loaded on 7/6/2025 7:12:36 PM.
+queryGroup 'Query Errors - 7/6/2025 7:12:36 PM'
+
+	annotation PBI_QueryGroupOrder = 9
+
+/// Errors in queries that were loaded on 6/25/2026 10:37:39 PM.
+queryGroup 'Query Errors - 6/25/2026 10:37:39 PM'
+
+	annotation PBI_QueryGroupOrder = 10
+
+annotation PBI_QueryOrder = ["AnalyticsFactMetricbloomMetrics","AnalyticsFactMetricDoorHolders","AnalyticsFactMetricPassionKids","AnalyticsFactMetricMiddleSchool","AnalyticsFactMetricHighSchool","AnalyticsFactMetricGatheringAttendance","AttendanceInPerson_WOW","AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_WOW","Errors in AttendanceInPerson_WOW (2)","Errors in AttendanceInPerson_WOW (3)","Errors in AttendanceInPerson_WOW (4)","AnalyticsFactMetricSplSundaybloomMetrics","AnalyticsFactMetricSplSundayDHMetrics","AnalyticsFactMetricSplSundayGatheringAttMetrics","AnalyticsFactMetricSplSundayPKMetrics","SplSundayAttInPerson_WOW","SplSundayAtt_Online_WOW","Errors in AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_Online_WOW (2)","Errors in AttendanceInPerson_Online_WOW (3)","AnalyticsFactMetric5pmbloom","AnalyticsFactMetric5pmDoorHolders","AnalyticsFactMetric5pmGatheringAttendance","AnalyticsFactMetric5pmPassionKids","5pmSundayAttInPerson","Errors in AttendanceInPerson_Online_WOW (4)","Errors in AttendanceInPerson_Online_WOW (5)","Errors in AttendanceInPerson_Online_WOW (6)","fact_checkin","dim_person","AnalyticsGivingLastGiftByFamily","AnalyticsGivingSignals","v_gathering_views","v_sermon_clips","Errors in AttendanceInPerson_Online_WOW (7)","v_sunday_context","AnalyticsDimPersonHistorical"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation __TEdtr = 1
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table DateTableTemplate_566f6398-4215-4e19-bf23-bc5c34231764
+ref table AnalyticsFactMetricbloomMetrics
+ref table LocalDateTable_fcead7d6-8d50-4bed-891c-1ccd623a147f
+ref table AnalyticsFactMetricDoorHolders
+ref table LocalDateTable_5daabcf3-4c65-4861-ac44-420fb47b082b
+ref table AnalyticsFactMetricPassionKids
+ref table LocalDateTable_a4607ddb-a883-4af7-a7a2-b513d62486a3
+ref table AnalyticsFactMetricGatheringAttendance
+ref table LocalDateTable_1bdae7f5-ec3a-4bf2-9b60-b2ef31106547
+ref table AttendanceInPerson_WOW
+ref table Calendar
+ref table AttendanceInPerson_Online_WOW
+ref table LocalDateTable_ca43bbfb-7c53-490a-a553-c2c04a041f2b
+ref table AnalyticsFactMetricMiddleSchool
+ref table LocalDateTable_c428e439-3f61-4172-8e50-824d7bc52e16
+ref table LocalDateTable_ef8ff5c0-f0f9-4a81-a630-79b50f37644f
+ref table LocalDateTable_88ae3098-0fc2-4e58-a445-51a79edc9140
+ref table LocalDateTable_38370fbd-c89d-4e14-b880-065170ef1ac4
+ref table LocalDateTable_b6d3e045-d7b9-4566-a8ae-3811ecdcb82d
+ref table AnalyticsFactMetricSplSundaybloomMetrics
+ref table LocalDateTable_3933fc9d-df54-4782-bab1-3b4670fa619a
+ref table AnalyticsFactMetricSplSundayDHMetrics
+ref table LocalDateTable_faec6718-18df-4e62-9751-5807fdeccacc
+ref table AnalyticsFactMetricSplSundayGatheringAttMetrics
+ref table LocalDateTable_c0addfdd-e60c-42be-9458-6e3a08786bed
+ref table AnalyticsFactMetricSplSundayPKMetrics
+ref table LocalDateTable_27d6e2df-3f3e-4332-996a-e32c6072f815
+ref table SplSundayAttInPerson_WOW
+ref table LocalDateTable_e7176be1-245f-438c-8244-bc1654e4b674
+ref table SplSundayAtt_Online_WOW
+ref table LocalDateTable_17839373-4ad5-40b6-ab72-8af81a11236b
+ref table LocalDateTable_b505c2e6-642f-4604-ab94-750828ce446f
+ref table AnalyticsFactMetricHighSchool
+ref table LocalDateTable_3fe3c29a-3e30-45ea-be0a-7b4ab0767019
+ref table ChartLegendLocationTotals
+ref table SplSunRollingYearsCounts
+ref table LocalDateTable_40ba220f-ec77-497b-9894-cc75dc1dfadd
+ref table LocalDateTable_34d51a28-af03-4d8e-9a52-dd779f9f7d1f
+ref table LocalDateTable_82b0be0d-1428-460b-b69b-49d1ccc08b0c
+ref table AnalyticsFactMetric5pmbloom
+ref table LocalDateTable_24d6206b-51bf-4727-9d62-54c550da3350
+ref table AnalyticsFactMetric5pmDoorHolders
+ref table LocalDateTable_0ef796f4-6ae5-4adf-be3b-45cefcc55f72
+ref table AnalyticsFactMetric5pmGatheringAttendance
+ref table LocalDateTable_b15fa687-772a-42fe-9e64-66a4a7fd885f
+ref table AnalyticsFactMetric5pmPassionKids
+ref table LocalDateTable_98ffd8a6-e704-4b0b-ab6f-dbe6c916d003
+ref table 5pmSundayAttInPerson
+ref table LocalDateTable_3eecce43-8437-4fc7-82d0-a8d1fec471d0
+ref table Calendar5pm
+ref table LocalDateTable_2fde6ace-35eb-4104-975c-c9f3c3eed459
+ref table 5pm52wksRollingChartLegend
+ref table LocalDateTable_a91f4c7f-f695-44a0-afaf-b1ed767a0085
+ref table LocalDateTable_f0b0c640-d4c8-4bab-8164-de5dbf7205e4
+ref table Theme
+ref table 'Campus Selector'
+ref table fact_checkin
+ref table LocalDateTable_45e29300-017f-4ecf-a607-cf9d4527166a
+ref table dim_person
+ref table LocalDateTable_7b458f5b-e68b-4f1d-944f-c6b1d374945d
+ref table LocalDateTable_61dcf984-c97f-4d1a-aa0d-6caf31cbe8e2
+ref table LocalDateTable_a8b50989-369a-441a-bc9f-9f190e7e627e
+ref table LocalDateTable_ec307504-db39-4eb8-89dd-01c78b1522fc
+ref table LocalDateTable_f403fa21-d367-48cc-9b5a-eebe3e9c9c7c
+ref table LocalDateTable_41517fa3-4c8c-4768-b9d8-c6b8b05340b2
+ref table LocalDateTable_1f5db191-28d7-432f-8a72-c500a568b2cd
+ref table LocalDateTable_ed03b7ca-1eef-434c-9aeb-79be8e25ac15
+ref table LocalDateTable_805af7a0-5fb0-447d-8279-8498c24e8465
+ref table LocalDateTable_08f97ae7-ad7c-461a-b731-266eb2f68c73
+ref table LocalDateTable_00ca5a5c-f823-4b09-a0ef-73b0a502d630
+ref table AnalyticsGivingLastGiftByFamily
+ref table LocalDateTable_a2ace27e-c454-4dca-8e7f-f93cb89f38fb
+ref table LocalDateTable_d6cfc937-bdcd-4220-a7e2-a7a86dfb0949
+ref table AnalyticsGivingSignals
+ref table LocalDateTable_a3492b32-c8f0-4a21-a142-513a244bee14
+ref table LocalDateTable_a44a4804-f696-4f3b-9b86-3c9458bc092b
+ref table LocalDateTable_6a5f2134-c650-4575-841e-68f8ebdf5b68
+ref table LocalDateTable_9bddb686-ff48-4cef-accb-85ca623594d5
+ref table LocalDateTable_210d6bb2-140b-4fca-9c17-50ed428a12cf
+ref table v_gathering_views
+ref table v_sermon_clips
+ref table v_sunday_context
+ref table LocalDateTable_72280db6-bca4-424a-b523-3dd5312bf506
+ref table AnalyticsDimPersonHistorical
+ref table LocalDateTable_03583179-c7b6-4a51-a680-e7940489ddcd
+ref table LocalDateTable_371be6d4-4227-49c0-a049-203494890822
+
+ref cultureInfo en-US
+

@@ -1,0 +1,267 @@
+table AttendanceInPerson_Online_WOW
+	lineageTag: 1ce7e8b5-a3d3-4e02-9563-277279b0dc17
+
+	measure 'ATL Online' = COALESCE(CALCULATE([CountNewonline],AttendanceInPerson_Online_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]),AttendanceInPerson_Online_WOW[CityName]="Atlanta"),0)
+		lineageTag: ca73403f-4e53-4f38-8e7f-6f245383518b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DC Online' = COALESCE(CALCULATE([CountNewonline],AttendanceInPerson_Online_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]),AttendanceInPerson_Online_WOW[CityName]="DC"),"-")
+		lineageTag: 0cd8f47a-0ed5-4cb3-8d61-3165821ac978
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CountNewonline = sum(AttendanceInPerson_Online_WOW[Count])
+		lineageTag: 9b57c1e7-d0ec-4b9d-bcf7-3db53c3220ee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AttOnline = COALESCE(CALCULATE([CountNewonline],AttendanceInPerson_Online_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])),0)
+		lineageTag: 3720d488-cd7b-4117-a37b-ba76dfa4abe4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OnlineCurrWeekAtt =
+			
+			CALCULATE(
+			    [CountNewonline],
+			    AttendanceInPerson_Online_WOW[MetricValueDateTime] = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			) + 0
+		lineageTag: faddc690-67ec-484e-bac0-885cdd474595
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OnlinePrevWeekAtt =
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR LastSundayWithAttendance =
+			    MAXX(
+			        FILTER(
+			            ALL('Calendar'[Date]),
+			            VAR SundayDate = 'Calendar'[Date]
+			            RETURN
+			                SundayDate < SelectedDate
+			                    && WEEKDAY(SundayDate, 2) = 7
+			                    && CALCULATE(
+			                        [CountNewonline],
+			                        AttendanceInPerson_Online_WOW[MetricValueDateTime] = SundayDate
+			                    ) <> 0
+			        ),
+			        'Calendar'[Date]
+			    )
+			RETURN
+			CALCULATE(
+			    [CountNewonline],
+			    AttendanceInPerson_Online_WOW[MetricValueDateTime] = LastSundayWithAttendance
+			)
+		lineageTag: 8a81e1ad-6ade-4dd9-9a36-51fdd1c31d47
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OnlineWOWMeasure =
+			
+			COALESCE(
+			    DIVIDE(
+			        [OnlineCurrWeekAtt] - [OnlinePrevWeekAtt],
+			        [OnlinePrevWeekAtt],
+			        0
+			    ),
+			    "-"
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 741472dc-a2b3-461d-8b8e-f7cce3d4ab9d
+
+	measure OnlineArrowsWOW =
+			
+			SWITCH(
+			    TRUE(),
+			    [OnlineWOWMeasure] >= 0, UNICHAR(9650),
+			    [OnlineWOWMeasure] < 0, UNICHAR(9660),
+			    BLANK()
+			)
+		lineageTag: 58154873-39b5-4bea-861d-601b20901679
+
+	measure OnlinePrevYearAtt =
+			
+			VAR SelectedDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR PrevYearDate = DATE(YEAR(SelectedDate) - 1, MONTH(SelectedDate), DAY(SelectedDate))
+			VAR ClosestSunday =
+			    SWITCH(
+			        WEEKDAY(PrevYearDate, 2),
+			        1, PrevYearDate,
+			        2, PrevYearDate - 1,
+			        3, PrevYearDate - 2,
+			        4, PrevYearDate - 3,
+			        5, PrevYearDate + 2,
+			        6, PrevYearDate + 1,
+			        7, PrevYearDate
+			    )
+			RETURN
+			CALCULATE(
+			    [CountNewonline],
+			    AttendanceInPerson_Online_WOW[MetricValueDateTime] = ClosestSunday
+			)
+		lineageTag: 9576b924-8aed-4658-a1bb-a29d210ad7ce
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OnlineYOYMeasure =
+			
+			COALESCE(
+			    DIVIDE(
+			        [OnlineCurrWeekAtt] - [OnlinePrevYearAtt],
+			        [OnlinePrevYearAtt],
+			        0
+			    ),
+			    "-"
+			)
+		formatString: 0%;-0%;0%
+		lineageTag: 9187b4f8-b2fc-4781-bb9e-4869527f917d
+
+	measure OnlineArrowsYOY =
+			
+			SWITCH(
+			    TRUE(),
+			    [OnlineYOYMeasure] >= 0, UNICHAR(9650),
+			    [OnlineYOYMeasure] < 0, UNICHAR(9660),
+			    BLANK()
+			)
+		lineageTag: 5937bdab-beb7-4447-b192-009e0a14927d
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 79fd5ea0-26aa-4ce8-b08d-de072fe04bbc
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: 8ee3438d-f6d9-4dc6-b030-2759c3ab0948
+			defaultHierarchy: LocalDateTable_ca43bbfb-7c53-490a-a553-c2c04a041f2b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: 2c0b6c23-033f-4d31-b8be-7f934fb248ff
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: 355b0e95-0fd9-4ffe-828d-df0d039724d4
+		summarizeBy: none
+		sourceColumn: ScheduleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Literal
+		dataType: string
+		lineageTag: dca9fc12-f50b-4428-978e-31db370ac912
+		summarizeBy: none
+		sourceColumn: Literal
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Custom
+		dataType: string
+		lineageTag: 2509bf22-2743-4dba-a89f-68b7c8bb11dd
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 2910a6a0-4a93-43b7-868c-689e13b8a6a8
+		summarizeBy: sum
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prev Week'
+		dataType: string
+		lineageTag: ed949a50-179a-490d-ab95-70b3b8304782
+		summarizeBy: none
+		sourceColumn: Prev Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 9f2598d8-7b43-4355-bb59-2061fd29f9ce
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WOW
+		dataType: double
+		lineageTag: 0b271d15-ab54-4f19-ab03-1a70aff62816
+		summarizeBy: sum
+		sourceColumn: WOW
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 099e8700-736f-4e43-a59c-ef0b44c6c081
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: 9bfa2c26-0059-4730-8ddc-d3f911ef12b3
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: 03bff29e-a131-4548-ab72-5a34813a90f0
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AttendanceInPerson_Online_WOW = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({AnalyticsFactMetricPassionKids, AnalyticsFactMetricDoorHolders, AnalyticsFactMetricGatheringAttendance, AnalyticsFactMetricbloomMetrics, AnalyticsFactMetricSplSundaybloomMetrics, AnalyticsFactMetricSplSundayDHMetrics, AnalyticsFactMetricSplSundayGatheringAttMetrics}),
+				    #"Grouped Rows" = Table.Group(Source, {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName", "EventName"}, {{"Count", each List.Sum([Count]), type nullable number}}),
+				    #"Sorted Rows" = Table.Sort(#"Grouped Rows",{{"Literal", Order.Ascending}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Sorted Rows", "Custom", each if [CampusName] = "DC" then "D.C." else if [CampusName] <> "DC" then "Atlanta" else null),
+				    #"Added Index" = Table.AddIndexColumn(#"Added Conditional Column", "Index", 0, 1, Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Added Index", "Custom.1", each try #"Added Index" { [Index] - 7 } [Count] otherwise null),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"Custom.1", "Prev Week"}}),
+				    #"Added Custom1" = Table.AddColumn(#"Renamed Columns", "Custom.1", each Value.Divide([Count]-([Prev Week]),[Prev Week])),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom1",{{"Custom.1", Percentage.Type}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"MetricValueDateTime", "CampusName", "ScheduleName", "Custom", "Index", "Prev Week", "Count", "Custom.1"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Custom.1", "WOW"}}),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Renamed Columns1", "Week of Year", each Date.WeekOfYear([MetricValueDateTime]), Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Week of Year", each ([CampusName] = "Online")),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each ([MetricValueDateTime] <> #date(2024, 12, 24)) and ([CityName] <> null) and ([CityName] = "Atlanta"))
+				in
+				    #"Filtered Rows1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

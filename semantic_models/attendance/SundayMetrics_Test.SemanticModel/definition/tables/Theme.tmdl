@@ -1,0 +1,60 @@
+table Theme
+	lineageTag: 122a1abe-5d73-4b56-bce2-df5b31fd8e3e
+
+	measure SelectedTheme =
+			
+			SELECTEDVALUE(
+			    Theme[Theme],
+			    "Dark"
+			)
+		lineageTag: b372cbf6-578b-4c9c-973e-8d6cf6defeef
+
+	measure CardBackground =
+			
+			IF(
+			    [SelectedTheme] = "Dark",
+			    "#111111",
+			    "#FFFFFF"
+			)
+		lineageTag: ff9c4ec2-f699-4ad2-85fa-69efd3e99ff1
+
+	measure CardTextColor =
+			
+			IF(
+			    [SelectedTheme] = "Dark",
+			    "#FFFFFF",
+			    "#111827"
+			)
+		lineageTag: c750f6bb-807d-4508-a3ce-7327a573dc88
+
+	measure CardSecondaryText =
+			
+			IF(
+			    [SelectedTheme] = "Dark",
+			    "#A1A1AA",
+			    "#6B7280"
+			)
+		lineageTag: 87ff5703-533d-4652-abcf-16c52ff78247
+
+	column Theme
+		lineageTag: 8a40d685-0349-4ee4-af98-ab0752df891f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Theme]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Theme = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Theme", STRING,
+				    {
+				        {"Dark"},
+				        {"Light"}
+				    }
+				)
+
+	annotation PBI_Id = 3ff9d502b9ae49daae3abb80ba03cfbd
+

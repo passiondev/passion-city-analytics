@@ -1,0 +1,79 @@
+table AnalyticsFactMetricSplSundayPKMetrics
+	lineageTag: 42c9bd45-4f4a-47cc-95ee-37a73fe5b33f
+
+	column CityName
+		dataType: string
+		lineageTag: 2ffe5d26-7e79-4ead-b933-fc92d90a8c68
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8a0fe496-4c9b-4114-9a13-bf250cd547ba
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: a7b250cd-34d2-40ce-9ed1-4455640f5fef
+			defaultHierarchy: LocalDateTable_27d6e2df-3f3e-4332-996a-e32c6072f815.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: 910589a2-3d4a-43b9-bd48-b8c8e0afa724
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: d7734ac5-0305-44eb-82b4-1e2b6f525e1d
+		summarizeBy: none
+		sourceColumn: ScheduleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 25ccbf41-969a-46f7-b340-88bbc162e805
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Literal
+		dataType: string
+		lineageTag: f3cdea8f-6edc-436c-a9f4-88ffc5f23535
+		summarizeBy: none
+		sourceColumn: Literal
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AnalyticsFactMetricSplSundayPKMetrics = m
+		mode: import
+		source =
+				let
+				    Source = PowerBI.Dataflows(null),
+				#"589387ad-ce92-442a-b77f-3eb4eb51443d" = Source{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				#"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				dbo_AnalyticsFactMetricSpecialSundaysPassionKids = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="AnalyticsFactMetricSpecialSundaysPassionKids"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(dbo_AnalyticsFactMetricSpecialSundaysPassionKids, each true),
+				    #"Grouped Rows" = Table.Group(#"Filtered Rows", {"CityName", "MetricValueDateTime", "CampusName", "ScheduleName"}, {{"Count", each List.Sum([YValue]), type nullable number}}),
+				    #"Inserted Literal" = Table.AddColumn(#"Grouped Rows", "Literal", each "bloom", type text)
+				in
+				    #"Inserted Literal"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,796 @@
+table AttendanceInPerson_WOW
+	lineageTag: 432344a5-92e1-43d5-a3c9-e848dcc1b173
+
+	measure 5WeekAverage = ```
+			
+			VAR tab =
+			    FILTER (
+			        ALL ( 'AttendanceInPerson_WOW'),
+			        'AttendanceInPerson_WOW'[Week of Year]
+			            > MAX ( 'AttendanceInPerson_WOW'[Week of Year] ) - 5
+			            && 'AttendanceInPerson_WOW'[Week of Year] <= MAX ( 'AttendanceInPerson_WOW'[Week of Year] )
+			    )
+			VAR Ave_Sum =
+			    AVERAGEX (
+			        SUMMARIZE ( tab, 'AttendanceInPerson_WOW'[Week of Year] ),
+			        CALCULATE ( SUM ( 'AttendanceInPerson_WOW'[Count] ) )
+			    )
+			VAR Ave_Count =
+			    AVERAGEX (
+			        SUMMARIZE ( tab, 'AttendanceInPerson_WOW'[Week of Year] ),
+			        CALCULATE ( COUNT ( 'AttendanceInPerson_WOW'[Count] ) )
+			    )
+			RETURN
+			    DIVIDE ( Ave_Sum, Ave_Count )
+			
+			```
+		formatString: 0
+		lineageTag: f05fd5e2-a0e9-4e86-930a-094fc744ad6f
+
+		changedProperty = FormatString
+
+	measure TotalAttendance =
+			CALCULATE (
+			    SUM ( AttendanceInPerson_WOW[Count]),
+			    'AttendanceInPerson_WOW'[MetricValueDateTime] = MAX('AttendanceInPerson_WOW'[MetricValueDateTime]))
+		lineageTag: 3ec9a2cf-b80d-4c26-a487-94789006ebbe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Cumberland = COALESCE(CALCULATE([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]),'AttendanceInPerson_WOW'[CampusName]="Cumberland"),0)
+		lineageTag: fc855ba6-a53b-4272-8258-005b09562bb7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Trilith = COALESCE(CALCULATE([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]),'AttendanceInPerson_WOW'[CampusName]="Trilith"),0)
+		lineageTag: c4040023-d2b3-46e1-a343-ecbc47409972
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'D.C' = COALESCE(CALCULATE([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]),'AttendanceInPerson_WOW'[CampusName]="DC"),"-")
+		lineageTag: 7356a74b-b7aa-43a5-9f5a-b894f6cafee1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TotalAttendancePrevWeek =
+			CALCULATE (
+			    SUM ( AttendanceInPerson_WOW[Count]),
+			    'AttendanceInPerson_WOW'[MetricValueDateTime] = MAX('AttendanceInPerson_WOW'[Week of Year])-1)
+		lineageTag: 27ba714b-7d2c-4007-abe9-0c44dddad39b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Online = ```
+			CALCULATE (
+			    SUM ( AttendanceInPerson_WOW[Count]),'AttendanceInPerson_WOW'[CampusName]="Online",
+			    'AttendanceInPerson_WOW'[MetricValueDateTime] = MAX ('AttendanceInPerson_WOW'[MetricValueDateTime])
+			    
+			)
+			```
+		lineageTag: af8209e1-54a5-4959-a722-a94a6fac4991
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CountNew = Sum(AttendanceInPerson_WOW[Count])
+		lineageTag: 96dc5871-2732-4ff5-bab7-f5eb839f8eda
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MaxDate = ```
+			SELECTEDVALUE('Calendar'[Date])
+			
+			```
+		formatString: General Date
+		lineageTag: ef4b8020-5854-4dd9-91c6-0790293e7d51
+
+	measure CurrWeekAtt = Calculate([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]= MINX(VALUES('Calendar'[Date]),'Calendar'[Date]))+0
+		lineageTag: 5821c7f1-2f27-4f00-884e-fb14a7ffd255
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevWeekAtt = ```
+			VAR SelectedDate =
+			    MIN ( 'Calendar'[selecteddate] )
+			
+			VAR LastSundayWithAttendance =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'Calendar'[Date] ),
+			            VAR SundayDate = 'Calendar'[Date]
+			            RETURN
+			                SundayDate < SelectedDate
+			                    && WEEKDAY ( SundayDate, 2 ) = 7
+			                    && CALCULATE (
+			                        [CountNew],
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = SundayDate
+			                    ) <> 0
+			        ),
+			        'Calendar'[Date]
+			    )
+			
+			RETURN Calculate([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=LastSundayWithAttendance)
+			
+			
+			```
+		lineageTag: d9cb4e63-1778-4dd2-85bf-f6a3e144e44c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WOWMeasure = COALESCE( Divide([CurrWeekAtt]-[PrevWeekAtt],[PrevWeekAtt],0),"-")
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 7090a945-c9c7-4de5-896e-b52f8df49943
+
+	measure Att = COALESCE(CALCULATE([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])),0)
+		lineageTag: 3c96573b-dd6b-4990-9c98-caac4211a8ae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5WeekAverage N' = ```
+			
+			Var currdate=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])
+			var sundays = CALCULATE(DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-35,DAY))
+			return
+			 if(sundays = 5,CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-35,DAY))/5+0,CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-49,DAY))/5+0)
+			
+			```
+		lineageTag: 954111cc-d603-4d95-8385-95219dfa7fc1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YOYMeasure = COALESCE(Divide([CurrWeekAtt]-[PrevYearAttCount],[PrevYearAttCount],0),"-")
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: aef1cf66-af52-45ed-804b-dd334f9cd5fe
+
+	measure 'CountNew YoY%' =
+			
+			IF(
+				ISFILTERED('AttendanceInPerson_WOW'[MetricValueDateTime]),
+				ERROR("Time intelligence quick measures can only be grouped or filtered by the Power BI-provided date hierarchy or primary date column."),
+				VAR __PREV_YEAR =
+					CALCULATE(
+						[CountNew],
+						DATEADD('AttendanceInPerson_WOW'[MetricValueDateTime].[Date], -1, YEAR)
+					)
+				RETURN
+					DIVIDE([CountNew] - __PREV_YEAR, __PREV_YEAR)
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 01bb601f-2810-477d-93f0-9cb4889d625a
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "YearOverYear"
+				}
+
+		changedProperty = FormatString
+
+	measure 'selected Date' = FIRSTDATE('Calendar'[Date])
+		formatString: General Date
+		lineageTag: 8baccc55-0581-453b-8d86-cd5f75175322
+
+	measure PrevYearAttCount = ```
+			
+			VAR prevyeardate=DATE( Year('Calendar'[MaxselectedDate])-1, MONTH('Calendar'[MaxselectedDate]),DAY('Calendar'[MaxselectedDate]))
+			VAR closestSunday=
+			SWITCH(
+			    WEEKDAY(prevyeardate,2),
+			1, prevyeardate,
+			2,prevyeardate-1,
+			3,prevyeardate-2,
+			4,prevyeardate-3,
+			5,prevyeardate+2,
+			6,prevyeardate+1,
+			7,prevyeardate
+			)
+			Return 
+			CALCULATE(AttendanceInPerson_WOW[CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=closestSunday
+			)
+			
+			```
+		lineageTag: 47139973-9e58-40fe-978d-e540a74613e3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CountNew 5 Week' =
+			
+			Var currdate=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])
+			return
+			 CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-35,DAY))
+		lineageTag: 72e42624-ff89-41eb-99e2-710e5f8fcca2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 515 = COALESCE(CALCULATE([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]),'AttendanceInPerson_WOW'[CampusName]="515"),0)
+		lineageTag: d4042b0a-0785-4ece-829b-955c2c049f81
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure uparrow = "iVBORw0KGgoAAAANSUhEUgAAAE0AAADACAYAAABBJ+62AAAAAXNSR0IArs4c6QAAAHhlWElmTU0AKgAAAAgABAEaAAUAAAABAAAAPgEbAAUAAAABAAAARgEoAAMAAAABAAIAAIdpAAQAAAABAAAATgAAAAAAAAFKAAAAAQAAAUoAAAABAAOgAQADAAAAAQABAACgAgAEAAAAAQAAAE2gAwAEAAAAAQAAAMAAAAAAYFfq5gAAAAlwSFlzAAAywAAAMsABKGRa2wAAA5pJREFUeAHt2jGO00AARuEZkiDgABQUVHQcAsEJVkLcgYIGiYIrICHRIMExOAFaDkFHRUHBAQApiQansFhISOzn8XiSPEurZHf9bO+3f5kQPHoLxN5FoeDFl6e354tbb1fLH89e33v/vdBtO93mWqezCp+0AZstbn4MMTzZvG6+L/wIe29X3dJasBjj/fbJU0qf18ufj2pZXFVou8BqhKsGbR9YbXBVoHUBqwlucrQ+YLXATYpGwGqAmwxtCNjUcJOg5QCbEq44Wk6wqeCKoo0BNgVcMbQxwUrDFUErAVYSbnS0kmCl4EZFmwKsBNxoaFOCjQ03CloNYGPCZUerCWwsuKxoNYKNAZcNrWaw3HBZ0I4BLCfcYLRjAssFNwjtGMFywGG0YwYbCofQTgFsCFxvtFMCo3C90E4RjMB1RjtlsL5wndDOAawP3EG0cwLrCrcX7RzBusD9F+2cwQ7B7UQTrGULYdfHvLbQBPsD1r77F+4vNMFapu3Xq3Dzq7+eXb/xuFH81Iyy+eJHSvEixnCHXyFvmVL4FmP6MOSqzd8TNj7NNd41b/MfL78+vwwhPsh/ZXbFFNLlq7tvHrJ6u6ryg8rbj1nXT0QD/w/RRAMCIHFpogEBkLg00YAASFyaaEAAJC5NNCAAEpcmGhAAiUsTDQiAxKWJBgRA4tJEAwIgcWmiAQGQuDTRgABIXJpoQAAkLk00IAASlyYaEACJSxMNCIDEpYkGBEDi0kQDAiBxaaIBAZC4NNGAAEhcmmhAACQuTTQgABKXJhoQAIlLEw0IgMSliQYEQOLSRAMCIHFpogEBkLg00YAASFyaaEAAJC5NNCAAEpcmGhAAiUsTDQiAxKWJBgRA4tJEAwIgcWmiAQGQuDTRgABIXJpoQAAkLk00IAASlyYaEACJSxMNCIDEpYkGBEDi0kQDAiBxaaIBAZC4NNGAAEhcmmhAACQuTTQgABKXJhoQAIlLEw0IgMSliQYEQOLSRAMCIHFpogEBkLg00YAASFyaaEAAJC5NNCAAEpcmGhAAiUsTDQiAxKWJBgRA4tJEAwIgcWmiAQGQuDTRgABIXJpoQAAkLk00IAASlyYaEACJSxMNCIDEpYkGBEDi0kQDAiBxaaIBAZC4NNGAAEhcmmhAACQuTTQgABKXJhoQAIlLEw0IgMSliQYEQOLSRAMCIHFpogEBkMxBczD5tU4X69VqcfDEQifM5rNloVt5GwUyCvwGgTXAIPMdHAEAAAAASUVORK5CYII="
+		lineageTag: ccd90752-cab6-47fc-8467-68f0af1aeb23
+		dataCategory: ImageUrl
+
+	measure ArrowsconditionsWow = ```
+			SWITCH(
+			    TRUE(),
+			    AttendanceInPerson_WOW[WOWMeasure]>=0,UNICHAR(9650),
+			    AttendanceInPerson_WOW[WOWMeasure]<0,UNICHAR(9660),
+			    BLANK()
+			    )
+			
+			```
+		lineageTag: bec3e3d7-9061-48db-8737-b74127809797
+
+	measure ArrowsconditionsYOY = ```
+			SWITCH(
+			    TRUE(),
+			    AttendanceInPerson_WOW[YOYMeasure]>=0,UNICHAR(9650),
+			    AttendanceInPerson_WOW[YOYMeasure]<0,UNICHAR(9660),
+			    BLANK()
+			    )
+			
+			```
+		lineageTag: cb86d0bc-8037-4293-a6a2-5faebfe90017
+
+	measure AttMatrixOnly = CALCULATE([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]))+0
+		lineageTag: 1bef41f3-9571-420a-9dd5-6eb5b099c74a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevWeekAttCards = Coalesce(if(Calculate([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[selecteddate]),'Calendar'[selecteddate])-7)<>0,Calculate([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[selecteddate]),'Calendar'[selecteddate])-7),Calculate([CountNew],AttendanceInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[selecteddate]),'Calendar'[selecteddate])-21)),"-")
+		lineageTag: de53c957-9491-4c95-a2c6-ae243ce28c42
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CountNew 52 Weeks' =
+			
+			Var currdate=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])
+			return
+			 CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-365,DAY))
+		lineageTag: d8909d7f-0434-4c09-80d7-679b0195d427
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ATLRollingCharts = (CALCULATE([CountNew],'AttendanceInPerson_WOW'[CampusName]<>"DC"))
+		lineageTag: 0db1a405-407d-4ee5-99f4-e94e8a429f80
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 515RollingCharts = (CALCULATE([CountNew],'AttendanceInPerson_WOW'[CampusName]="515"))
+		lineageTag: b65136c7-b3d5-44cf-a937-ec77d8a7e86d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CBLRollingCharts = (CALCULATE([CountNew],'AttendanceInPerson_WOW'[CampusName]="Cumberland"))
+		lineageTag: 91c9f463-e753-4a27-b94f-134793a740a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TRLRollingCharts = (CALCULATE([CountNew],'AttendanceInPerson_WOW'[CampusName]="Trilith"))
+		lineageTag: f5d58c19-cd11-4452-88cd-0cc4a7039bd1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DCRollingCharts = (CALCULATE([CountNew],'AttendanceInPerson_WOW'[CampusName]="DC"))
+		lineageTag: 5a97d464-6366-44f2-b357-4daecfbe9f5d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_PastYear_Global =
+			
+			VAR SelectedDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR StartDate = DATE(YEAR(SelectedDate) - 1, MONTH(SelectedDate), DAY(SelectedDate))
+			VAR HolidayDates =
+			    CALCULATETABLE(
+			        VALUES(SplSundayAttInPerson_WOW[MetricValueDateTime]),
+			        SplSundayAttInPerson_WOW[EventName] IN {"Easter", "Christmas"}
+			    )
+			VAR Total =
+			    CALCULATE(
+			        SUM(AttendanceInPerson_WOW[Count]),
+			        KEEPFILTERS(
+			            AttendanceInPerson_WOW[Count] <> BLANK()
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			VAR Sundays =
+			    CALCULATE(
+			        DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        KEEPFILTERS(
+			            AttendanceInPerson_WOW[Count] <> BLANK()
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			RETURN DIVIDE(Total, Sundays)
+		lineageTag: d4819aa5-a048-42ce-be83-6027791fdac2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_PastYear_Global_Display = COALESCE(FORMAT([Avg_PastYear_Global], "0"), "-")
+		lineageTag: 6b5f92c6-4383-404f-8f45-22bbfddf4920
+
+	measure Avg_PastYear_515 =
+			
+			VAR SelectedDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR StartDate = DATE(YEAR(SelectedDate) - 1, MONTH(SelectedDate), DAY(SelectedDate))
+			VAR HolidayDates =
+			    CALCULATETABLE(
+			        VALUES(SplSundayAttInPerson_WOW[MetricValueDateTime]),
+			        SplSundayAttInPerson_WOW[EventName] IN {"Easter", "Christmas"}
+			    )
+			VAR Total =
+			    CALCULATE(
+			        SUM(AttendanceInPerson_WOW[Count]),
+			        KEEPFILTERS(AttendanceInPerson_WOW[Count] <> BLANK()),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        AttendanceInPerson_WOW[CampusName] = "515",
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			VAR Sundays =
+			    CALCULATE(
+			        DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        KEEPFILTERS(AttendanceInPerson_WOW[Count] <> BLANK()),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        AttendanceInPerson_WOW[CampusName] = "515",
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			RETURN DIVIDE(Total, Sundays)
+		lineageTag: d1e368cb-adf4-4ce1-86fc-0f0bf74a89a9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_PastYear_515_Display = COALESCE(FORMAT([Avg_PastYear_515], "0"), "-")
+		lineageTag: bf34bbd1-7935-4e4a-997e-b87c851ca794
+
+	measure Avg_PastYear_Cumberland =
+			
+			VAR SelectedDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR StartDate = DATE(YEAR(SelectedDate) - 1, MONTH(SelectedDate), DAY(SelectedDate))
+			VAR HolidayDates =
+			    CALCULATETABLE(
+			        VALUES(SplSundayAttInPerson_WOW[MetricValueDateTime]),
+			        SplSundayAttInPerson_WOW[EventName] IN {"Easter", "Christmas"}
+			    )
+			VAR Total =
+			    CALCULATE(
+			        SUM(AttendanceInPerson_WOW[Count]),
+			        KEEPFILTERS(AttendanceInPerson_WOW[Count] <> BLANK()),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        AttendanceInPerson_WOW[CampusName] = "Cumberland",
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			VAR Sundays =
+			    CALCULATE(
+			        DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        KEEPFILTERS(AttendanceInPerson_WOW[Count] <> BLANK()),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        AttendanceInPerson_WOW[CampusName] = "Cumberland",
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			RETURN DIVIDE(Total, Sundays)
+		lineageTag: e5dcf192-c99e-4f32-9dc9-d617897b61dd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_PastYear_Cumberland_Display = ```
+			COALESCE(FORMAT([Avg_PastYear_Cumberland], "0"), "-")
+			
+			```
+		lineageTag: db6a7343-38dc-4d09-a15f-6f3e660d9977
+
+	measure Avg_PastYear_Trilith =
+			
+			VAR SelectedDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR StartDate = DATE(YEAR(SelectedDate) - 1, MONTH(SelectedDate), DAY(SelectedDate))
+			VAR HolidayDates =
+			    CALCULATETABLE(
+			        VALUES(SplSundayAttInPerson_WOW[MetricValueDateTime]),
+			        SplSundayAttInPerson_WOW[EventName] IN {"Easter", "Christmas"}
+			    )
+			VAR Total =
+			    CALCULATE(
+			        SUM(AttendanceInPerson_WOW[Count]),
+			        KEEPFILTERS(AttendanceInPerson_WOW[Count] <> BLANK()),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        AttendanceInPerson_WOW[CampusName] = "Trilith",
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			VAR Sundays =
+			    CALCULATE(
+			        DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        KEEPFILTERS(AttendanceInPerson_WOW[Count] <> BLANK()),
+			        AttendanceInPerson_WOW[MetricValueDateTime] >= StartDate &&
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= SelectedDate,
+			        AttendanceInPerson_WOW[CampusName] = "Trilith",
+			        NOT(AttendanceInPerson_WOW[MetricValueDateTime] IN HolidayDates)
+			    )
+			RETURN DIVIDE(Total, Sundays)
+		lineageTag: 0a03a05b-7744-4c42-b1c0-fb5c921a0230
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Avg_PastYear_Trilith_Display = ```
+			COALESCE(FORMAT([Avg_PastYear_Trilith], "0"), "-")
+			
+			```
+		lineageTag: 0cadf2dd-2b5e-46c7-998c-ee145ae56aa8
+
+	measure Selected_Literal_Title =
+			
+			COALESCE(
+			    SELECTEDVALUE(AttendanceInPerson_WOW[Literal]),
+			    "All Ministries"
+			)
+		lineageTag: ac7fbd52-5036-4ae8-b63f-a7d679a8d797
+
+	measure 'Current Week Display' =
+			
+			VAR SelectedDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			RETURN
+			CALCULATE([CountNew], AttendanceInPerson_WOW[MetricValueDateTime] = SelectedDate) + 0
+		lineageTag: 1b3c2ebb-76ab-4e23-a92d-aa2e2f9200d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Previous Week Display' =
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR LastSunday =
+			    MAXX(
+			        FILTER(
+			            ALL('Calendar'[Date]),
+			            VAR SundayDate = 'Calendar'[Date]
+			            RETURN
+			                SundayDate < SelectedDate
+			                    && WEEKDAY(SundayDate, 2) = 7
+			                    && CALCULATE(
+			                        [CountNew],
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = SundayDate
+			                    ) <> 0
+			        ),
+			        'Calendar'[Date]
+			    )
+			RETURN
+			CALCULATE([CountNew], AttendanceInPerson_WOW[MetricValueDateTime] = LastSunday)
+		lineageTag: 3e00f514-9d7d-4b2f-b0e5-6c76dd04c776
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 515_vs_PastYearAvg =
+			
+			DIVIDE(
+			    [515],
+			    [Avg_PastYear_515],
+			    0
+			)
+		lineageTag: 74933ec8-f523-4d14-ba76-a14eea5b934f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 515_vs_PastYearAvg_Display =
+			
+			FORMAT([515_vs_PastYearAvg], "0%") & " of Avg"
+		lineageTag: 9fc7ac17-7c30-4015-9597-cecaf6291130
+
+	column FormattedDate = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime].[Date],"mmm yy")
+		lineageTag: 93b4cf5d-4cba-4683-aa17-59f84df27f78
+		summarizeBy: none
+		sortByColumn: YearMonthNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonthNumber = ```
+			
+			CONVERT (
+			CONCATENATE (
+			RIGHT ( YEAR ( AttendanceInPerson_WOW[MetricValueDateTime].[Date] ), 2 ),
+			IF (
+			MONTH ( AttendanceInPerson_WOW[MetricValueDateTime].[Date]  ) < 10,
+			CONCATENATE ( 0, MONTH ( AttendanceInPerson_WOW[MetricValueDateTime].[Date]  ) ),
+			MONTH ( AttendanceInPerson_WOW[MetricValueDateTime].[Date]  )
+			)
+			),
+			INTEGER
+			)
+			
+			```
+		formatString: 0
+		lineageTag: d15e2763-acba-4af9-bfec-9bc9df65532e
+		summarizeBy: sum
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column SparkChartDates = AttendanceInPerson_WOW[MetricValueDateTime].[Date]
+		formatString: mmmm d\, yyyy
+		lineageTag: 2e3bced5-ccb3-4dde-a82c-f31876ec8a11
+		summarizeBy: none
+		sortByColumn: SparkChartSortOrder
+
+		variation Variation
+			isDefault
+			relationship: 177d9a38-1e47-4796-a586-8248b7ddfde5
+			defaultHierarchy: LocalDateTable_b6d3e045-d7b9-4566-a8ae-3811ecdcb82d.'Date Hierarchy'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'selected date column' = FIRSTDATE('Calendar'[Date])
+		formatString: General Date
+		lineageTag: e558de20-df38-4d14-b64d-1ea55df6fad9
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 14c3c317-465a-490a-8a83-1ed7e0037619
+			defaultHierarchy: LocalDateTable_88ae3098-0fc2-4e58-a445-51a79edc9140.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column md = [MaxselectedDate]
+		formatString: General Date
+		lineageTag: daffb6a8-86f5-4687-9f2c-aba6234c5aa3
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: bfac2f1b-1585-4255-89e8-d9025fe8ed40
+			defaultHierarchy: LocalDateTable_38370fbd-c89d-4e14-b880-065170ef1ac4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SparkChartSortOrder = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime].[Date],"YYYYMMDD")
+		lineageTag: 6cad8da2-4b52-4a2d-93ef-8d5d9e85eb4d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricDayFormat = WEEKNUM(AttendanceInPerson_WOW[MetricValueDateTime],1)
+		formatString: 0
+		lineageTag: 657fccd3-4855-482e-95bb-7892f7fda1f4
+		summarizeBy: sum
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 52WksSortOrder = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime].[Date],"YYMMDD")
+		lineageTag: d189d4e8-2c50-41c3-8e5b-ef07d8884e70
+		summarizeBy: none
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dd41ac2e-90de-46c0-8c63-18899857fa2f
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: d4cf4c8d-91b7-448f-9b93-8d4d8c91ca9c
+			defaultHierarchy: LocalDateTable_40ba220f-ec77-497b-9894-cc75dc1dfadd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: 396b774b-6eba-48cd-81c1-e669503294a4
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: 0a3a369f-fa16-493e-b674-d312f2a432f4
+		summarizeBy: none
+		sourceColumn: ScheduleName
+		sortByColumn: ScheduleSortOrder
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Literal
+		dataType: string
+		lineageTag: 139bf449-63d3-4484-a43b-120f97e71d56
+		summarizeBy: none
+		sourceColumn: Literal
+		sortByColumn: LiteralSortOrder
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: eb1d9d99-a181-4de4-a1de-4f342f92890f
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: d07663fc-ad47-4f14-a2c2-b43ec68114bc
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 9a1f92cd-53df-4a62-a719-5220e5aae1ef
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Custom
+		dataType: string
+		lineageTag: a8482c72-04a3-4c7c-8e01-5b178434af1b
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: double
+		lineageTag: 5d9a354c-e305-485e-a030-e1991f06a9fd
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ScheduleSortOrder
+		dataType: double
+		lineageTag: 6610e604-7875-4b6a-94c3-2553a42534e1
+		summarizeBy: sum
+		sourceColumn: ScheduleSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CampusSortOrder
+		dataType: double
+		lineageTag: 8ad2df5e-f9cf-4b9f-9fb9-f5640ff0ed62
+		summarizeBy: sum
+		sourceColumn: CampusSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 72190908-49a6-482f-be50-3627bf7a4e32
+		summarizeBy: none
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column Rolling52WksSort = YEAR ( AttendanceInPerson_WOW[MetricValueDateTime].[Date] ) & FORMAT(WEEKNUM(AttendanceInPerson_WOW[MetricValueDateTime],1),"00")
+		lineageTag: c3aeb0a0-c7ff-4338-86b0-4e850c45bc31
+		summarizeBy: none
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Start Date' = AttendanceInPerson_WOW[MetricValueDateTime] - WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime],1) + 1
+		formatString: General Date
+		lineageTag: 169a9ed6-877c-446f-8513-0157b0f01757
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 7d28d711-6cee-4034-be59-228f14a10990
+			defaultHierarchy: LocalDateTable_34d51a28-af03-4d8e-9a52-dd779f9f7d1f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricValueMonthStartDate = DATE(YEAR(AttendanceInPerson_WOW[MetricValueDateTime]),MONTH(AttendanceInPerson_WOW[MetricValueDateTime]),1)
+		formatString: General Date
+		lineageTag: 7766e680-8cf9-450a-b7dc-440bb6e0a725
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 3d86e022-4eb8-478c-af77-50dada1ba5e9
+			defaultHierarchy: LocalDateTable_82b0be0d-1428-460b-b69b-49d1ccc08b0c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ServiceSlot =
+			
+			SWITCH(
+			    TRUE(),
+			    AttendanceInPerson_WOW[ScheduleName] IN {"9:15am", "9:30am"}, "9:30am Gathering",
+			    AttendanceInPerson_WOW[ScheduleName] IN {"11:00am", "11:45am"}, "11:45am Gathering",
+			    BLANK()
+			)
+		lineageTag: 7c52f175-e994-4b33-899c-c7d11b9a6b8d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column LiteralSortOrder
+		dataType: int64
+		formatString: 0
+		lineageTag: bd90cdcf-d649-4699-920d-cf12fce51ed8
+		summarizeBy: sum
+		sourceColumn: LiteralSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricDate =
+			
+			INT(AttendanceInPerson_WOW[MetricValueDateTime])
+		formatString: 0
+		lineageTag: 274cd6c8-502d-4afc-8008-8d8898ec0621
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AttendanceInPerson_WOW-d171b305-4ae6-4ae2-a2e4-a888f31f81f2 = m
+		mode: import
+		source = ```
+				let 
+				    Source = Table.Combine({AnalyticsFactMetricPassionKids, AnalyticsFactMetricDoorHolders, AnalyticsFactMetricGatheringAttendance, AnalyticsFactMetricbloomMetrics, AnalyticsFactMetricMiddleSchool, AnalyticsFactMetricSplSundaybloomMetrics, AnalyticsFactMetricSplSundayDHMetrics, AnalyticsFactMetricSplSundayGatheringAttMetrics, AnalyticsFactMetricHighSchool}),
+				    #"Grouped Rows" = Table.Group(Source, {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName","EventName"}, {{"Count", each List.Sum([Count]), type nullable number}}),
+				    #"Sorted Rows" = Table.Sort(#"Grouped Rows",{{"MetricValueDateTime", Order.Descending}, {"CampusName", Order.Ascending}, {"ScheduleName", Order.Ascending}, {"Literal", Order.Ascending}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Sorted Rows", each ([CampusName] <> "Online")),
+				    #"Added Conditional Column" = Table.AddColumn(#"Filtered Rows1", "Custom", each if [CampusName] = "DC" then "D.C." else if [CampusName] <> "DC" then "Atlanta" else null),
+				    #"Inserted Week of Year1" = Table.AddColumn(#"Added Conditional Column", "Week of Year", each Date.WeekOfYear([MetricValueDateTime]), Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Week of Year1", each true),
+				    #"Added Conditional Column4" = Table.AddColumn(#"Filtered Rows", "ScheduleSortOrder", each if [ScheduleName] = "9:30am" then 1 else if [ScheduleName] = "11:30am" then 2 else if [ScheduleName] = "11:45am" then 3 else if [ScheduleName] = "5pm" then 4 else 5),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column4", "CampusSortOrder", each if [CampusName] = "515" then 1 else if [CampusName] = "Cumberland" then 2 else if [CampusName] = "Trilith" then 3 else if [CampusName] = "DC" then 4 else 5),
+				    #"Grouped Rows1" = Table.Group(#"Added Conditional Column1", {"MetricValueDateTime"}, {{"DateIndex", each _, type table [MetricValueDateTime=nullable date, CampusName=nullable text, ScheduleName=nullable text, Literal=text, CityName=nullable text, EventName=nullable text, Count=nullable number, Custom=text, Week of Year=number, ScheduleSortOrder=number, CampusSortOrder=number]}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Grouped Rows1", "Index", 1, 1, Int64.Type),
+				    #"Expanded DateIndex" = Table.ExpandTableColumn(#"Added Index", "DateIndex", {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName", "EventName", "Count", "Custom", "Week of Year", "ScheduleSortOrder", "CampusSortOrder"}, {"DateIndex.MetricValueDateTime", "DateIndex.CampusName", "DateIndex.ScheduleName", "DateIndex.Literal", "DateIndex.CityName", "DateIndex.EventName", "DateIndex.Count", "DateIndex.Custom", "DateIndex.Week of Year", "DateIndex.ScheduleSortOrder", "DateIndex.CampusSortOrder"}),    #"Removed Columns" = Table.RemoveColumns(#"Expanded DateIndex",{"MetricValueDateTime"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns",{{"DateIndex.MetricValueDateTime", "MetricValueDateTime"}, {"DateIndex.CampusName", "CampusName"}, {"DateIndex.ScheduleName", "ScheduleName"}, {"DateIndex.Literal", "Literal"}, {"DateIndex.CityName", "CityName"}, {"DateIndex.EventName", "EventName"}, {"DateIndex.Count", "Count"}, {"DateIndex.Custom", "Custom"}, {"DateIndex.Week of Year", "Week of Year"}, {"DateIndex.ScheduleSortOrder", "ScheduleSortOrder"}, {"DateIndex.CampusSortOrder", "CampusSortOrder"}}),
+				    #"Filtered Rows2" = Table.SelectRows(#"Renamed Columns", each ([MetricValueDateTime] <> #date(2016, 12, 24) and [MetricValueDateTime] <> #date(2017, 12, 24) and [MetricValueDateTime] <> #date(2019, 12, 24) and [MetricValueDateTime] <> #date(2020, 12, 24) and [MetricValueDateTime] <> #date(2021, 12, 24) and [MetricValueDateTime] <> #date(2022, 12, 24) and [MetricValueDateTime] <> #date(2023, 12, 24) and [MetricValueDateTime] <> #date(2024, 12, 24)) and ([EventName] = "Sunday Gathering") and ([CityName] = "Atlanta")),
+				    #"Added LiteralSortOrder" = Table.AddColumn(#"Filtered Rows2", "LiteralSortOrder", each 
+				        if [Literal] = "Adults" then 1
+				        else if [Literal] = "Door Holder" then 2
+				        else if [Literal] = "HS" then 3
+				        else if [Literal] = "MS" then 4
+				        else if [Literal] = "PK" then 5
+				        else if [Literal] = "bloom" then 6
+				        else 99
+				    , Int64.Type)
+				in
+				    #"Added LiteralSortOrder"
+				```
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

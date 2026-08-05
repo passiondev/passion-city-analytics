@@ -1,0 +1,87 @@
+table AnalyticsFactMetricMiddleSchool
+	lineageTag: dd12f4e5-a769-45fa-8059-f3702883d248
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 29314283-b17d-4a62-8b8c-2910c74b7fff
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: a4eefbe6-d3a6-45d3-afdb-67e92a5e1b34
+			defaultHierarchy: LocalDateTable_c428e439-3f61-4172-8e50-824d7bc52e16.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: 5bb58a3d-2ba3-476b-811d-e8438bc54e7c
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 6855bf44-0a21-42c0-8bc9-72e28a379c2c
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Literal
+		dataType: string
+		lineageTag: 67cca5d8-26a2-420b-836a-3fcab9e009cd
+		summarizeBy: none
+		sourceColumn: Literal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: 8185047a-cc84-4dd1-9371-c1e71b3d4a21
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: 066e8838-8383-464e-a3e1-4028d35f1020
+		summarizeBy: none
+		sourceColumn: ScheduleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: ab3169d6-180a-4f43-93fa-909b29668ff8
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AnalyticsFactMetricMiddleSchool = m
+		mode: import
+		source =
+				let
+				    Source = PowerBI.Dataflows(null),
+				#"589387ad-ce92-442a-b77f-3eb4eb51443d" = Source{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				#"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				dbo_AnalyticsFactMetricMiddleSchool = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="AnalyticsFactMetricMiddleSchool"]}[Data],
+				    #"Grouped Rows" = Table.Group(dbo_AnalyticsFactMetricMiddleSchool, {"CityName", "MetricValueDateTime", "CampusName", "ScheduleName","EventName"}, {{"Count", each List.Sum([YValue]), type nullable number}}),
+				    #"Inserted Literal" = Table.AddColumn(#"Grouped Rows", "Literal", each "MS", type text),
+				    #"Sorted Rows" = Table.Sort(#"Inserted Literal",{{"MetricValueDateTime", Order.Descending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

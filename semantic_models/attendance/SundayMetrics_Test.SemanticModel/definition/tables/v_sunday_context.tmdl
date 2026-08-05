@@ -1,0 +1,211 @@
+table v_sunday_context
+	lineageTag: cd9337d6-651f-4d22-8b2b-465e7dfb5014
+
+	column service_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 47e5784f-3567-45b4-82bf-100d710b0f87
+		summarizeBy: none
+		sourceColumn: service_date
+
+		variation Variation
+			isDefault
+			relationship: ba405011-96e1-4eba-99df-777f8a4983b2
+			defaultHierarchy: LocalDateTable_72280db6-bca4-424a-b523-3dd5312bf506.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column campus
+		dataType: string
+		lineageTag: 3abc4d73-c7b8-408a-9ed4-4e25423d4028
+		summarizeBy: none
+		sourceColumn: campus
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_temp_f
+		dataType: double
+		lineageTag: 611510f4-280a-499f-bca4-7cecb66b719d
+		summarizeBy: sum
+		sourceColumn: avg_temp_f
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_precip_in
+		dataType: double
+		lineageTag: d74b75d4-5885-4d66-bc95-67c478a1627b
+		summarizeBy: sum
+		sourceColumn: total_precip_in
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rained
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d3464626-7f5c-4376-bc7a-7911c2cc0369
+		summarizeBy: none
+		sourceColumn: rained
+
+		annotation SummarizationSetBy = Automatic
+
+	column max_wind_mph
+		dataType: double
+		lineageTag: c24c898f-51bf-4dc8-a82b-82728c6e984e
+		summarizeBy: sum
+		sourceColumn: max_wind_mph
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column weather_severity
+		dataType: int64
+		formatString: 0
+		lineageTag: 61c8a841-891b-4962-803e-a2947f8b5abb
+		summarizeBy: sum
+		sourceColumn: weather_severity
+
+		annotation SummarizationSetBy = Automatic
+
+	column weather_condition
+		dataType: string
+		lineageTag: e57742a6-390c-484d-8485-bf18a0122e44
+		summarizeBy: none
+		sourceColumn: weather_condition
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_holiday_sunday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f842da27-e602-4baf-b04a-ea1907d152bf
+		summarizeBy: none
+		sourceColumn: is_holiday_sunday
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_holiday_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 13300eb4-1691-4178-ab4d-704987320089
+		summarizeBy: none
+		sourceColumn: is_holiday_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_christmas_trough
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 387e8cf0-8bbb-4600-92fa-0c97e8d15031
+		summarizeBy: none
+		sourceColumn: is_christmas_trough
+
+		annotation SummarizationSetBy = Automatic
+
+	column holiday_names
+		dataType: string
+		lineageTag: e1cc4d77-2ccc-4d5c-b52e-e4d823fd6d5b
+		summarizeBy: none
+		sourceColumn: holiday_names
+
+		annotation SummarizationSetBy = Automatic
+
+	column sunday_holiday_category
+		dataType: string
+		lineageTag: f8f163f2-8fc8-4e1b-8281-a144b1d34eee
+		summarizeBy: none
+		sourceColumn: sunday_holiday_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_school_break
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: da3aebbb-c54b-45bf-9410-d2dec571b12f
+		summarizeBy: none
+		sourceColumn: is_school_break
+
+		annotation SummarizationSetBy = Automatic
+
+	column break_name
+		dataType: string
+		lineageTag: 68ee106a-12b5-4915-a463-8d0acf249736
+		summarizeBy: none
+		sourceColumn: break_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column break_districts
+		dataType: string
+		lineageTag: d121f612-da3c-45fa-ab53-927aca8e1d04
+		summarizeBy: none
+		sourceColumn: break_districts
+
+		annotation SummarizationSetBy = Automatic
+
+	column share_on_break
+		dataType: double
+		lineageTag: b50fad87-d65c-4b30-8bfb-4e64869c8ad3
+		summarizeBy: sum
+		sourceColumn: share_on_break
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sunday_context_label
+		dataType: string
+		lineageTag: edccdffd-c292-403e-8ec6-5b11c4fe819b
+		summarizeBy: none
+		sourceColumn: sunday_context_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column context_suppression_score
+		dataType: double
+		lineageTag: 7e155355-638b-4110-bf2e-364345e5b2aa
+		summarizeBy: sum
+		sourceColumn: context_suppression_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sunday_holiday_names
+		dataType: string
+		lineageTag: dbd12222-e748-4566-9145-5face9d67d62
+		summarizeBy: none
+		sourceColumn: sunday_holiday_names
+
+		annotation SummarizationSetBy = Automatic
+
+	column adjacent_holiday_names
+		dataType: string
+		lineageTag: f8357bcc-c692-4b9f-83ec-82cfe2ed4a9b
+		summarizeBy: none
+		sourceColumn: adjacent_holiday_names
+
+		annotation SummarizationSetBy = Automatic
+
+	partition v_sunday_context = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    v_sunday_context_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="v_sunday_context",version=""]}[Data]
+				in
+				    v_sunday_context_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

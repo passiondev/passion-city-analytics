@@ -1,0 +1,172 @@
+table SplSundayAtt_Online_WOW
+	lineageTag: c6a5ab54-8fe5-4035-a002-33ca5384622b
+
+	measure OnlCountMeasure = Sum(SplSundayAtt_Online_WOW[Count] )
+		lineageTag: 9a8bd9f1-54c2-4621-b5a9-75d53ce66177
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurrentYearEasterOnl = ```
+			
+			VAR curyear=( Year('Calendar'[MaxselectedDate]))
+			Return 
+			CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=curyear,SplSundayAtt_Online_WOW[EventName]="Easter")
+			```
+		lineageTag: a1d374bc-9d4f-492d-b5ce-249c542109fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurrChristmasAttOnl = ```
+			
+			VAR curyear=( Year('Calendar'[MaxselectedDate]))
+			VAR prevyear=Year('Calendar'[MaxselectedDate])-1
+			Return 
+			if(ISBLANK(CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=curyear,AttendanceInPerson_Online_WOW[EventName]="Christmas")),CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=prevyear,AttendanceInPerson_Online_WOW[EventName]="Christmas"),CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=curyear,AttendanceInPerson_Online_WOW[EventName]="Christmas"))
+			
+			```
+		lineageTag: 57922011-953e-4664-8415-62f4bb822dde
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: ccbbb0a7-bf33-4995-94eb-eab4f6b73040
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: b787957a-a549-4914-b184-b92fb8b73f68
+			defaultHierarchy: LocalDateTable_17839373-4ad5-40b6-ab72-8af81a11236b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: ec88ea86-5a7e-4db9-9369-380fa692cc71
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: f8330577-a63e-4f60-aa93-402c9113b1e7
+		summarizeBy: none
+		sourceColumn: ScheduleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Literal
+		dataType: string
+		lineageTag: 3f76cc6c-aca6-447a-8d58-5fc2d2b9a20c
+		summarizeBy: none
+		sourceColumn: Literal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: 3287d2ce-6670-4367-83be-89781cdcea45
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: 5692acb5-b256-475a-8137-4a7bee15e2d5
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Custom
+		dataType: string
+		lineageTag: 1042f5d3-f0c0-497c-baa0-7581d27f02b8
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index
+		dataType: int64
+		formatString: 0
+		lineageTag: 856d36b9-7d0c-464f-89b9-fcc96f6945bd
+		summarizeBy: none
+		sourceColumn: Index
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Prev Week'
+		dataType: string
+		lineageTag: 6989206a-0154-406e-b7a6-cfa19bf9af7b
+		summarizeBy: none
+		sourceColumn: Prev Week
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 033f9ab0-1c89-45a2-9d99-d60d1571be77
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WOW
+		dataType: double
+		lineageTag: 46f581a7-edd5-4c27-adc8-46009a7ef607
+		summarizeBy: sum
+		sourceColumn: WOW
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 9f8f38bb-bd44-4be9-8d49-722556a160fc
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormattedDateSplSunOnl = Year(SplSundayAtt_Online_WOW[MetricValueDateTime])
+		formatString: 0
+		lineageTag: ba8b9054-5f9e-4bec-b810-20cff770cfe4
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SplSundayAtt_Online_WOW = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({AnalyticsFactMetricSplSundaybloomMetrics, AnalyticsFactMetricSplSundayDHMetrics, AnalyticsFactMetricSplSundayGatheringAttMetrics}),
+				    #"Filtered Rows1" = Table.SelectRows(Source, each ([CampusName] = "Online")),
+				    #"Grouped Rows" = Table.Group(#"Filtered Rows1", {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName","EventName"}, {{"Count", each List.Sum([Count]), type nullable number}}),
+				    #"Sorted Rows" = Table.Sort(#"Grouped Rows",{{"Literal", Order.Ascending}}),
+				    #"Added Conditional Column" = Table.AddColumn(#"Sorted Rows", "Custom", each if [CampusName] = "DC" then "D.C." else if [CampusName] <> "DC" then "Atlanta" else null),
+				    #"Added Index" = Table.AddIndexColumn(#"Added Conditional Column", "Index", 0, 1, Int64.Type),
+				    #"Added Custom" = Table.AddColumn(#"Added Index", "Custom.1", each try #"Added Index" { [Index] - 7 } [Count] otherwise null),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom",{{"Custom.1", "Prev Week"}}),
+				    #"Added Custom1" = Table.AddColumn(#"Renamed Columns", "Custom.1", each Value.Divide([Count]-([Prev Week]),[Prev Week])),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom1",{{"Custom.1", Percentage.Type}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Changed Type",{"MetricValueDateTime", "CampusName", "ScheduleName", "Custom", "Index", "Prev Week", "Count", "Custom.1"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Custom.1", "WOW"}}),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Renamed Columns1", "Week of Year", each Date.WeekOfYear([MetricValueDateTime]), Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Week of Year", each ([CityName] = "Atlanta"))
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

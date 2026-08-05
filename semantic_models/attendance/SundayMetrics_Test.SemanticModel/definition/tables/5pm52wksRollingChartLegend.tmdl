@@ -1,0 +1,137 @@
+table 5pm52wksRollingChartLegend
+	lineageTag: 56b38ea1-b7ae-45e1-9979-3db25ab6b3d3
+
+	measure HTML_VideoBanner = ```
+			
+			"
+			<div class='pcc-banner'>
+			
+			  <video class='pcc-video' autoplay muted loop playsinline>
+			    <source src='https://passioncitychurch.com/wp-content/uploads/2026/02/GLOBAL-BANNER-WEB-LOOP-2026-UPDATE-V1.mp4' type='video/mp4'>
+			  </video>
+			
+			  <div class='pcc-overlay'></div>
+			
+			  <div class='pcc-text-wrap'>
+			    <div class='pcc-title'>passion city church</div>
+			  </div>
+			
+			</div>
+			
+			<style>
+			.pcc-banner{
+			  width:100%;
+			  height:260px;
+			  position:relative;
+			  overflow:hidden;
+			  border-radius:10px;
+			  background:#000;
+			}
+			
+			.pcc-video{
+			  position:absolute;
+			  inset:0;
+			  width:100%;
+			  height:100%;
+			  object-fit:cover;
+			  object-position:center 20%;
+			 
+			}
+			
+			.pcc-overlay{
+			  position:absolute;
+			  inset:0;
+			  background:linear-gradient(
+			    to bottom,
+			    rgba(0,0,0,0.05) 0%,
+			    rgba(0,0,0,0.62) 100%
+			  );
+			}
+			
+			.pcc-text-wrap{
+			  position:absolute;
+			  left:0;
+			  bottom:0;
+			  width:100%;
+			  display:flex;
+			  justify-content:center;
+			  align-items:center;
+			  padding-bottom:28px;
+			}
+			
+			.pcc-title{
+			  font-family:'Helvetica Now Display','Helvetica Neue','Arial Black','Inter',sans-serif;
+			  font-weight:900;
+			  font-size:44px;
+			  line-height:1;
+			  color:#ffffff;
+			  letter-spacing:-0.07em;
+			  text-shadow:0 2px 30px rgba(0,0,0,0.45);
+			  opacity:0;
+			  transform:translateY(50px);
+			  animation:pccRiseUp 1.8s cubic-bezier(0.16,1,0.3,1) 0.4s forwards;
+			}
+			
+			@keyframes pccRiseUp{
+			  from{
+			    opacity:0;
+			    transform:translateY(50px);
+			  }
+			  to{
+			    opacity:1;
+			    transform:translateY(0);
+			  }
+			}
+			</style>
+			"
+			```
+		lineageTag: 4fe29bde-8fae-4381-8148-a20ac54ea5c2
+
+	column 5pm52wksRollingChartLegend
+		lineageTag: fdf84018-f27d-446e-bba5-251f2ce3f52d
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: '5pm52wksRollingChartLegend Order'
+
+		relatedColumnDetails
+			groupByColumn: '5pm52wksRollingChartLegend Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column '5pm52wksRollingChartLegend Fields'
+		isHidden
+		lineageTag: 66fc24bc-2db3-4b57-aa05-20d7d291aa8f
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: '5pm52wksRollingChartLegend Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column '5pm52wksRollingChartLegend Order'
+		isHidden
+		formatString: 0
+		lineageTag: cb45d7cb-e5f4-48bb-8cfc-cf765d596938
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 5pm52wksRollingChartLegend = calculated
+		mode: import
+		source = ```
+				{
+				    ("ATL", NAMEOF('5pmSundayAttInPerson'[5pmATLRollingCharts]), 0),
+				    ("515", NAMEOF('5pmSundayAttInPerson'[5pm515RollingCharts]), 1),
+				    ("CBL", NAMEOF('5pmSundayAttInPerson'[5pmCBLRollingCharts]), 2)
+				    
+				}
+				```
+
+	annotation PBI_Id = 8fd5cb31890b42abb14bd639cfe35df8
+

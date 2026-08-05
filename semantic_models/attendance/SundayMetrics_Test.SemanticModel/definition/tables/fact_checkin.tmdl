@@ -1,0 +1,194 @@
+table fact_checkin
+	lineageTag: 725b134f-6b68-4bab-b82e-93bcdcdb1d25
+
+	column AOSundayDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 26383d9a-3bbb-43ac-807a-26cb5bfcb559
+		summarizeBy: none
+		sourceColumn: AOSundayDate
+
+		variation Variation
+			isDefault
+			relationship: ad9a8dc6-580b-49fd-9517-0ecba1f98a8a
+			defaultHierarchy: LocalDateTable_45e29300-017f-4ecf-a607-cf9d4527166a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PrimaryFamilyId
+		dataType: int64
+		formatString: 0
+		lineageTag: 8951f337-c085-47bd-9e35-0771e2d3cf5a
+		summarizeBy: none
+		sourceColumn: PrimaryFamilyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 1d77da57-b141-4326-ad94-5b297c94ec02
+		summarizeBy: none
+		sourceColumn: LastGiftDate
+
+		variation Variation
+			isDefault
+			relationship: 1b40fee9-0c15-440d-9142-c2ea32048354
+			defaultHierarchy: LocalDateTable_9bddb686-ff48-4cef-accb-85ca623594d5.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PrevGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6ab849bb-8d10-422b-85b6-a4721de92dc2
+		summarizeBy: none
+		sourceColumn: PrevGiftDate
+
+		variation Variation
+			isDefault
+			relationship: 6d988595-1867-4796-9313-5d98c1dd2fbc
+			defaultHierarchy: LocalDateTable_210d6bb2-140b-4fca-9c17-50ed428a12cf.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Lat
+		dataType: double
+		lineageTag: f9a42179-22ba-4386-9b1a-3a1e694d90b1
+		summarizeBy: sum
+		sourceColumn: Lat
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Lng
+		dataType: double
+		lineageTag: 420ca064-4f42-422f-b477-ed7c7e655d59
+		summarizeBy: sum
+		sourceColumn: Lng
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CampusList
+		dataType: string
+		lineageTag: 5dbe027e-0798-4fcf-bd78-6212e6943028
+		summarizeBy: none
+		sourceColumn: CampusList
+
+		annotation SummarizationSetBy = Automatic
+
+	column MinList
+		dataType: string
+		lineageTag: 41817692-a56d-4c19-95c1-0ec6e3ca8263
+		summarizeBy: none
+		sourceColumn: MinList
+
+		annotation SummarizationSetBy = Automatic
+
+	column Headcount
+		dataType: int64
+		formatString: 0
+		lineageTag: defc47d8-4a4b-47fb-a7fe-ce635625cbf6
+		summarizeBy: sum
+		sourceColumn: Headcount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_checkin = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"]}[Data],
+				    fact_checkin_ = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="fact_checkin",version=""]}[Data],
+				
+				    // Filter early — only what the heatmap needs
+				    Filtered = Table.SelectRows(fact_checkin_, each
+				        [ADidAttend] = true and
+				        [ACampusId] <> null and
+				        ([ACampusId] = 2 or [ACampusId] = 3 or [ACampusId] = 13) and
+				        [GTName] <> "Adults" and
+				        [GTName] <> null and
+				        [AOSundayDate] <> null
+				    ),
+				
+				    // Drop all columns except what we need
+				    Selected = Table.SelectColumns(Filtered, {
+				        "PersonId", "AOSundayDate", "ACampusId", "GTName"
+				    }),
+				
+				    // Join dim_person for lat/lng and family ID
+				    MergedPerson = Table.NestedJoin(Selected, {"PersonId"}, dim_person, {"PersonId"}, "dim_person", JoinKind.LeftOuter),
+				    ExpandedPerson = Table.ExpandTableColumn(MergedPerson, "dim_person", {
+				        "PrimaryFamilyId", "MappedAddressLatitude", "MappedAddressLongitude"
+				    }, {"PrimaryFamilyId", "Lat", "Lng"}),
+				
+				    // Filter out bad/missing coordinates immediately
+				    FilteredCoords = Table.SelectRows(ExpandedPerson, each
+				        [Lat] <> null and [Lat] <> 0 and
+				        [Lng] <> null and [Lng] <> 0 and
+				        [Lat] >= 33.3 and [Lat] <= 34.5 and
+				        [Lng] >= -85.2 and [Lng] <= -83.8 and
+				        [PrimaryFamilyId] <> null
+				    ),
+				
+				    // Assign ministry codes
+				    AddMinCode = Table.AddColumn(FilteredCoords, "MinCode", each
+				        if [GTName] = "Passion Kids" then "p"
+				        else if [GTName] = "Middle School" then "m"
+				        else if [GTName] = "High School" then "h"
+				        else if List.Contains({"bloom | Ability","bloom | 3yrs +","bloom | < 3yrs","bloom | Grade Level"}, [GTName]) then "b"
+				        else if List.Contains({"Door Holders","Secured Door Holder","Door Holder [checkin]"}, [GTName]) then "d"
+				        else "x"
+				    ),
+				
+				    // Drop unknown ministries
+				    FilteredMin = Table.SelectRows(AddMinCode, each [MinCode] <> "x"),
+				
+				    // Assign campus codes
+				    AddCampusCode = Table.AddColumn(FilteredMin, "CampusCode", each
+				        if [ACampusId] = 2 then "5"
+				        else if [ACampusId] = 3 then "C"
+				        else if [ACampusId] = 13 then "T"
+				        else "U"
+				    ),
+				
+				    // Join giving data
+				    MergedGiving = Table.NestedJoin(AddCampusCode, {"PrimaryFamilyId"}, AnalyticsGivingLastGiftByFamily, {"PrimaryFamilyId"}, "Giving", JoinKind.LeftOuter),
+				    ExpandedGiving = Table.ExpandTableColumn(MergedGiving, "Giving", {"LastGiftDate", "PrevGiftDate"}, {"LastGiftDate", "PrevGiftDate"}),
+				
+				    // Group by Sunday + Family — one row per family per week
+				    Grouped = Table.Group(ExpandedGiving, {
+				        "AOSundayDate", "PrimaryFamilyId", "Lat", "Lng", "LastGiftDate", "PrevGiftDate"
+				    }, {
+				        {"CampusList", each Text.Combine(List.Distinct([CampusCode]), ""), type text},
+				        {"MinList", each Text.Combine(List.Distinct([MinCode]), ""), type text},
+				        {"Headcount", each Table.RowCount(_), Int64.Type}
+				    }),
+				
+				    // Set types
+				    ChangedTypes = Table.TransformColumnTypes(Grouped, {
+				        {"AOSundayDate", type date},
+				        {"Lat", type number},
+				        {"Lng", type number},
+				        {"Headcount", Int64.Type}
+				    })
+				
+				in
+				    ChangedTypes
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

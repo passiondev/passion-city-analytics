@@ -1,0 +1,52 @@
+table ChartLegendLocationTotals
+	lineageTag: 6480aa0d-f22f-485d-a7c0-56bf224e1017
+
+	column ChartLegendLocationTotals
+		lineageTag: e60a3fce-3228-40c9-a49b-e407fd11e9e5
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'ChartLegendLocationTotals Order'
+
+		relatedColumnDetails
+			groupByColumn: 'ChartLegendLocationTotals Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ChartLegendLocationTotals Fields'
+		isHidden
+		lineageTag: 55670b2b-8511-4781-b065-eb031f3acdc0
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'ChartLegendLocationTotals Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'ChartLegendLocationTotals Order'
+		isHidden
+		formatString: 0
+		lineageTag: 8f02e170-1893-49e5-81a2-6e61865c32f9
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ChartLegendLocationTotals = calculated
+		mode: import
+		source = ```
+				{
+				    ("ATL", NAMEOF('AttendanceInPerson_WOW'[ATLRollingCharts]), 0),
+				    ("515", NAMEOF('AttendanceInPerson_WOW'[515RollingCharts]), 1),
+				    ("CBL", NAMEOF('AttendanceInPerson_WOW'[CBLRollingCharts]), 2),
+				    ("Trilith", NAMEOF('AttendanceInPerson_WOW'[TRLRollingCharts]), 3)
+				    
+				}
+				```
+
+	annotation PBI_Id = d31eea3d99f8409c8d5ae66639832c11
+

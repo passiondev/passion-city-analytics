@@ -1,0 +1,51 @@
+table SplSunRollingYearsCounts
+	lineageTag: 9eb4ea5b-a8bb-4d6b-9115-b1167eb0575d
+
+	column SplSunRollingYearsCounts
+		lineageTag: b7a9980b-3d99-4800-8065-189c907b972a
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'SplSunRollingYearsCounts Order'
+
+		relatedColumnDetails
+			groupByColumn: 'SplSunRollingYearsCounts Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SplSunRollingYearsCounts Fields'
+		isHidden
+		lineageTag: a901196c-ce6f-4c20-9ab4-de230109d6b8
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'SplSunRollingYearsCounts Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SplSunRollingYearsCounts Order'
+		isHidden
+		formatString: 0
+		lineageTag: 8a416e61-82f1-42c5-a712-22aebd224a92
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SplSunRollingYearsCounts = calculated
+		mode: import
+		source =
+				{
+				    ("ATLSplSunRollingCharts", NAMEOF('SplSundayAttInPerson_WOW'[ATLSplSunRollingCharts]), 0),
+				    ("515SplSunRollingCharts", NAMEOF('SplSundayAttInPerson_WOW'[515SplSunRollingCharts]), 1),
+				    ("CBLRollingCharts", NAMEOF('AttendanceInPerson_WOW'[CBLRollingCharts]), 2),
+				    ("TRLRollingCharts", NAMEOF('AttendanceInPerson_WOW'[TRLRollingCharts]), 3),
+				    ("DCRollingCharts", NAMEOF('AttendanceInPerson_WOW'[DCRollingCharts]), 4)
+				}
+
+	annotation PBI_Id = 5d21657d02bf4a7e802d6226edc67a6a
+

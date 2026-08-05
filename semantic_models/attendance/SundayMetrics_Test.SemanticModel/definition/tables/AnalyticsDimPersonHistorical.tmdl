@@ -1,0 +1,77 @@
+table AnalyticsDimPersonHistorical
+	lineageTag: 0c66837f-8ae0-4106-99bc-75dfc06a7e08
+
+	column PersonId
+		dataType: int64
+		formatString: 0
+		lineageTag: 20b473ce-2cf9-45aa-82a5-96b4fd038e09
+		summarizeBy: none
+		sourceColumn: PersonId
+
+		annotation SummarizationSetBy = Automatic
+
+	column EffectiveDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c88b00ab-275a-4fe5-ba82-21eb49d3371e
+		summarizeBy: none
+		sourceColumn: EffectiveDate
+
+		variation Variation
+			isDefault
+			relationship: ba84d524-b845-495a-8400-4714ddcc0992
+			defaultHierarchy: LocalDateTable_03583179-c7b6-4a51-a680-e7940489ddcd.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ExpireDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5df412dd-b673-46ce-9ede-ab105c9f4d71
+		summarizeBy: none
+		sourceColumn: ExpireDate
+
+		variation Variation
+			isDefault
+			relationship: 8feb7736-de16-4210-9d82-8d69804a1f4b
+			defaultHierarchy: LocalDateTable_371be6d4-4227-49c0-a049-203494890822.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CurrentJourneyGivingStage
+		dataType: string
+		lineageTag: bc222d0a-d9f8-4b35-8146-854e3b414f0e
+		summarizeBy: none
+		sourceColumn: CurrentJourneyGivingStage
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrentRowIndicator
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cb3329bc-867f-450c-bcfb-5785aaa64721
+		summarizeBy: none
+		sourceColumn: CurrentRowIndicator
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AnalyticsDimPersonHistorical = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    AnalyticsDimPersonHistorical_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="AnalyticsDimPersonHistorical",version=""]}[Data]
+				in
+				    AnalyticsDimPersonHistorical_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

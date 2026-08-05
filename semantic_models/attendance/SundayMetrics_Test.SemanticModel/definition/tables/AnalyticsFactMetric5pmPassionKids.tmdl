@@ -1,0 +1,130 @@
+table AnalyticsFactMetric5pmPassionKids
+	lineageTag: c1a5f3ca-010d-4507-9e94-d3cb7b90de84
+
+	column Id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6294ed50-91bd-427b-9b22-21090bb062ad
+		summarizeBy: count
+		sourceColumn: Id
+
+		annotation SummarizationSetBy = Automatic
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e0f5e398-5131-40a7-87db-eccb0b65892e
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: 19fc5079-8ddd-4917-b2ad-6b00c9a9f1be
+			defaultHierarchy: LocalDateTable_98ffd8a6-e704-4b0b-ab6f-dbe6c916d003.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column YValue
+		dataType: double
+		lineageTag: 75fe47ee-5214-4ddf-95c3-51989b052025
+		summarizeBy: sum
+		sourceColumn: YValue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsGoal
+		dataType: int64
+		formatString: 0
+		lineageTag: 65d8f000-71f6-4672-9c38-f15ebc4b8c5c
+		summarizeBy: sum
+		sourceColumn: IsGoal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusId
+		dataType: int64
+		formatString: 0
+		lineageTag: b0098407-d7e9-4129-aa8a-6d1a0f7114ba
+		summarizeBy: count
+		sourceColumn: CampusId
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleId
+		dataType: int64
+		formatString: 0
+		lineageTag: 49bba8d3-621d-4774-951a-21bf50922005
+		summarizeBy: count
+		sourceColumn: ScheduleId
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityId
+		dataType: int64
+		formatString: 0
+		lineageTag: c8080d10-5794-4d01-af0d-158dd6cb8b5c
+		summarizeBy: count
+		sourceColumn: CityId
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventId
+		dataType: int64
+		formatString: 0
+		lineageTag: 38107e7a-5ac8-4cc4-852b-59dab08bc7be
+		summarizeBy: count
+		sourceColumn: EventId
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusName
+		dataType: string
+		lineageTag: 28ef1a0c-5825-4c58-bd2a-b5faf89f679b
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: a095edca-7803-4a55-ad2b-4f49dd361121
+		summarizeBy: none
+		sourceColumn: ScheduleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: cd232c7a-b8b4-41c2-9554-863d1a02c801
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: 130af1aa-d029-4175-b072-e180ed557b24
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition AnalyticsFactMetric5pmPassionKids = m
+		mode: import
+		source =
+				let
+				    Source = PowerBI.Dataflows(null),
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Source{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    dbo_AnalyticsFactMetric5pmPassionKids = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="AnalyticsFactMetric5pmPassionKids"]}[Data]
+				in
+				    dbo_AnalyticsFactMetric5pmPassionKids
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

@@ -1,0 +1,85 @@
+table AnalyticsGivingSignals
+	lineageTag: f6166592-9e03-4ef0-ba15-05f0cfc963c9
+
+	column PrimaryFamilyId
+		dataType: int64
+		formatString: 0
+		lineageTag: 437b0056-a5de-4a74-be71-a9377958c561
+		summarizeBy: count
+		sourceColumn: PrimaryFamilyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column PersonId
+		dataType: int64
+		formatString: 0
+		lineageTag: 8914ae30-c1c9-4dd5-8d8c-c5cb11dc305a
+		summarizeBy: none
+		sourceColumn: PersonId
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 0f79bf0c-611a-441f-9587-f134bcbe0563
+		summarizeBy: none
+		sourceColumn: FirstGiftDate
+
+		variation Variation
+			isDefault
+			relationship: bda5bc2b-427a-4584-8a56-4c693d492eb1
+			defaultHierarchy: LocalDateTable_a3492b32-c8f0-4a21-a142-513a244bee14.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column LastGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e7448e97-2603-4d9f-a22c-aafb7adcc2f3
+		summarizeBy: none
+		sourceColumn: LastGiftDate
+
+		variation Variation
+			isDefault
+			relationship: a4498927-35c5-4713-9e30-bea97498d997
+			defaultHierarchy: LocalDateTable_a44a4804-f696-4f3b-9b86-3c9458bc092b.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PrevGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2fc163fa-f16c-4b43-a3f0-e95c05e740f0
+		summarizeBy: none
+		sourceColumn: PrevGiftDate
+
+		variation Variation
+			isDefault
+			relationship: 7597bbbb-e462-47bd-b860-14b3e283b467
+			defaultHierarchy: LocalDateTable_6a5f2134-c650-4575-841e-68f8ebdf5b68.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition AnalyticsGivingSignals = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    AnalyticsGivingSignals_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="AnalyticsGivingSignals",version=""]}[Data]
+				in
+				    AnalyticsGivingSignals_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

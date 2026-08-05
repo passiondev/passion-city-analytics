@@ -1,0 +1,39 @@
+EVALUATE
+VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+VAR _maxAttDate = MAXX(
+    FILTER(
+        ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+        WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+    ),
+    AttendanceInPerson_WOW[MetricValueDateTime]
+)
+VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxAttDate, _calDate)
+VAR _PrevDate = MAXX(
+    FILTER(
+        ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+        AttendanceInPerson_WOW[MetricValueDateTime] < _SelectedDate
+            && WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+            && CALCULATE(
+                SUM(AttendanceInPerson_WOW[Count]),
+                AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"},
+                REMOVEFILTERS(AttendanceInPerson_WOW[Literal])
+            ) > 0
+    ),
+    AttendanceInPerson_WOW[MetricValueDateTime]
+)
+
+RETURN
+SUMMARIZE(
+    FILTER(
+        ALL(AttendanceInPerson_WOW),
+        AttendanceInPerson_WOW[MetricValueDateTime] IN {_SelectedDate, _PrevDate}
+            && AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"}
+    ),
+    AttendanceInPerson_WOW[Literal],
+    AttendanceInPerson_WOW[MetricValueDateTime],
+    AttendanceInPerson_WOW[CampusName],
+    "Count", SUM(AttendanceInPerson_WOW[Count])
+)
+ORDER BY
+    AttendanceInPerson_WOW[Literal],
+    AttendanceInPerson_WOW[MetricValueDateTime]

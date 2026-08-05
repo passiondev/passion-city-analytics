@@ -1,0 +1,4081 @@
+table 'Campus Selector'
+	lineageTag: 932c6c91-377b-42d7-9d2b-953fe9b6aa39
+
+	measure WOW_Numeric_Cumberland = ```
+			
+			DIVIDE(
+			    CALCULATE([CurrWeekAtt], AttendanceInPerson_WOW[CampusName]="Cumberland") - 
+			    CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="Cumberland"),
+			    CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="Cumberland"),
+			    0
+			)
+			```
+		lineageTag: 38191f39-005e-4b48-b46d-b7e5740a1a3d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YOY_Numeric_Cumberland = ```
+			
+			DIVIDE(
+			    CALCULATE([CurrWeekAtt], AttendanceInPerson_WOW[CampusName]="Cumberland") - 
+			    CALCULATE([PrevYearAttCount], AttendanceInPerson_WOW[CampusName]="Cumberland"),
+			    CALCULATE([PrevYearAttCount], AttendanceInPerson_WOW[CampusName]="Cumberland"),
+			    0
+			)
+			```
+		lineageTag: fe48bd02-0b23-4797-9e57-918ea576c3f9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WOW_Numeric_515 = ```
+			
+			DIVIDE(
+			    CALCULATE([CurrWeekAtt], AttendanceInPerson_WOW[CampusName]="515") - 
+			    CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="515"),
+			    CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="515"),
+			    0
+			)
+			```
+		lineageTag: bdcba55d-be38-40a4-80d0-7b5a8061aaf4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YOY_Numeric_515 = ```
+			
+			DIVIDE(
+			    CALCULATE([CurrWeekAtt], AttendanceInPerson_WOW[CampusName]="515") - 
+			    CALCULATE([PrevYearAttCount], AttendanceInPerson_WOW[CampusName]="515"),
+			    CALCULATE([PrevYearAttCount], AttendanceInPerson_WOW[CampusName]="515"),
+			    0
+			)
+			```
+		lineageTag: a955a043-edd3-487a-9f72-f5a7417b8701
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WOW_Numeric_Trilith = ```
+			
+			DIVIDE(
+			    CALCULATE([CurrWeekAtt], AttendanceInPerson_WOW[CampusName]="Trilith") - 
+			    CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="Trilith"),
+			    CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="Trilith"),
+			    0
+			)
+			```
+		lineageTag: ed767bfc-fd9e-41e0-bc7a-52fc6a9a023d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_Card_Overall = ```
+			
+			VAR Att = [Att]
+			VAR PrevWk = [PrevWeekAtt]
+			VAR WoW = DIVIDE([CurrWeekAtt] - [PrevWeekAtt], [PrevWeekAtt], 0)
+			VAR YoY = DIVIDE([CurrWeekAtt] - [PrevYearAttCount], [PrevYearAttCount], 0)
+			VAR PastYrAvg = [Avg_PastYear_Global]
+			VAR Ratio = DIVIDE([Att], PastYrAvg, 0)
+			VAR RatioPct = FORMAT(Ratio, "0%") & " of avg"
+			VAR BarW = FORMAT(MIN(Ratio * 100, 150), "0")
+			VAR Bg = [CardBackground]
+			VAR Txt = [CardTextColor]
+			VAR Sec = [CardSecondaryText]
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR CampusColor = IF(IsDark, "#ffffff", "#111111")
+			VAR TrackColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR BorderColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR WoWColor = IF(WoW >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR YoYColor = IF(YoY >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR WoWArrow = IF(WoW >= 0, "▲", "▼")
+			VAR YoYArrow = IF(YoY >= 0, "▲", "▼")
+			VAR WoWPct = FORMAT(ABS(WoW), "0.0%")
+			VAR YoYPct = FORMAT(ABS(YoY), "0.0%")
+			VAR WoWLabel = WoWArrow & " " & WoWPct
+			VAR YoYLabel = YoYArrow & " " & YoYPct
+			VAR WoWDash = FORMAT(MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR WoWGap = FORMAT(175.93 - MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYDash = FORMAT(MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYGap = FORMAT(175.93 - MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR AttFmt = FORMAT(Att, "#,0")
+			VAR PrevFmt = FORMAT(PrevWk, "#,0")
+			VAR AvgFmt = FORMAT(PastYrAvg, "#,0")
+			
+			-- Weather icon + holiday line injected here
+			VAR WeatherSVG = [WeatherIcon]
+			
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR SundayHolidayName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[sunday_holiday_names],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR AdjacentHolidayName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[adjacent_holiday_names],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR IsHoliday = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_holiday_weekend],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR IsSundayHoliday = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_holiday_sunday],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			
+			-- Sunday holiday line (amber, white text, no prefix)
+			VAR SundayHolidayLine =
+			    IF(
+			        IsSundayHoliday = TRUE() && SundayHolidayName <> BLANK(),
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:#F5A623; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:600; color:#FFFFFF; font-family:Inter,sans-serif; line-height:1.4;'>" & SundayHolidayName & "</span>
+			        </div>",
+			        ""
+			    )
+			
+			-- Adjacent holiday line (gray, muted text, "Near:" prefix)
+			VAR AdjacentHolidayLine =
+			    IF(
+			        AdjacentHolidayName <> BLANK(),
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:6px;'>
+			            <div style='width:3px; align-self:stretch; background:#6B7280; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:500; color:" & IF(IsDark, "#9CA3AF", "#6B7280") & "; font-family:Inter,sans-serif; line-height:1.4;'>Near: " & AdjacentHolidayName & "</span>
+			        </div>",
+			        ""
+			    )
+			
+			-- No holiday fallback
+			VAR HolidayLine =
+			    IF(
+			        IsHoliday = TRUE(),
+			        SundayHolidayLine & AdjacentHolidayLine,
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:500; color:" & IF(IsDark, "#4B5563", "#9CA3AF") & "; font-family:Inter,sans-serif;'>No holiday this week</span>
+			        </div>"
+			    )
+			
+			RETURN
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			.card-overall { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:12px; padding:20px; font-family:Inter,sans-serif; position:relative; overflow:hidden; width:100%; box-sizing:border-box; }
+			.top-bar-overall { position:absolute; top:0; left:0; right:0; height:10px; background:" & CampusColor & "; border-radius:12px 12px 0 0; }
+			.badge-overall { display:inline-block; background:" & CampusColor & "26; color:" & CampusColor & "; padding:4px 14px; border-radius:6px; font-size:13px; font-weight:700; margin-top:6px; }
+			.att-label { font-size:12px; font-weight:700; color:" & Sec & "; margin-top:14px; margin-bottom:4px; }
+			.att-num { font-size:46px; font-weight:900; color:" & Txt & "; margin:0; animation:fadeSlideIn 0.8s ease-out; }
+			.circles-row { display:flex; justify-content:center; gap:40px; margin:16px 0; }
+			.circle-item { display:flex; flex-direction:column; align-items:center; gap:4px; }
+			.circle-label { font-size:11px; color:" & Sec & "; }
+			.divider { border:none; border-top:0.5px solid " & BorderColor & "; margin:12px 0; }
+			.data-row { display:flex; justify-content:space-between; align-items:baseline; }
+			.data-label { font-size:12px; color:" & Sec & "; }
+			.data-val { font-size:20px; font-weight:700; color:" & Txt & "; animation:fadeSlideIn 0.8s ease-out; }
+			.bar-track { height:5px; border-radius:3px; background:" & TrackColor & "; margin-top:6px; margin-bottom:4px; overflow:hidden; }
+			.bar-fill { height:5px; border-radius:3px; background:" & CampusColor & "; animation:barFill 0.8s ease-out forwards; }
+			.ratio-text { font-size:12px; font-weight:700; color:" & CampusColor & "; text-align:right; }
+			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+			@keyframes barFill { from { width:0%; } to { width:" & BarW & "%; } }
+			@keyframes pulsering { 
+			  0%,100% { stroke-opacity:0.9; stroke-width:7; } 
+			  50% { stroke-opacity:0.3; stroke-width:5; } 
+			} </style>
+			<div class='card-overall'>
+			<div class='top-bar-overall'></div>
+			
+			<div style='display:flex; justify-content:space-between; align-items:center; margin-top:6px;'>
+			    <div class='badge-overall' style='margin-top:0;'>Global</div>
+			    <div style='line-height:0;'>" & WeatherSVG & "</div>
+			</div>
+			
+			<div class='att-label'>Attendance</div>
+			<div class='att-num' id='att-overall'>" & AttFmt & "</div>
+			<div class='circles-row'>
+			<div class='circle-item'>
+			<svg width='64' height='64'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & WoWColor & "' stroke-width='7' stroke-dasharray='" & WoWDash & " " & WoWGap & "' stroke-dashoffset='-44' stroke-linecap='round' style='animation:pulsering 2s ease-in-out infinite'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & WoWColor & "' font-family='Inter,sans-serif'>" & WoWLabel & "</text>
+			</svg>
+			<div class='circle-label'>WoW</div>
+			</div>
+			<div class='circle-item'>
+			<svg width='64' height='64'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & YoYColor & "' stroke-width='7' stroke-dasharray='" & YoYDash & " " & YoYGap & "' stroke-dashoffset='-44' stroke-linecap='round' style='animation:pulsering 2s ease-in-out infinite 0.5s'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & YoYColor & "' font-family='Inter,sans-serif'>" & YoYLabel & "</text>
+			</svg>
+			<div class='circle-label'>YoY</div>
+			</div>
+			</div>
+			<hr class='divider'/>
+			<div class='data-row'>
+			<span class='data-label'>Previous week</span>
+			<span class='data-val'>" & PrevFmt & "</span>
+			</div>
+			<hr class='divider'/>
+			<div class='data-row'>
+			<span class='data-label'>Past year avg</span>
+			<span class='data-val'>" & AvgFmt & "</span>
+			</div>
+			<div class='bar-track'><div class='bar-fill'></div></div>
+			<div class='ratio-text'>" & RatioPct & "</div>
+			
+			" & HolidayLine & "
+			
+			</div>
+			<script>
+			(function(){
+			var el=document.getElementById('att-overall');
+			var target=" & Att & ";
+			var duration=1000;
+			var startTime=null;
+			function ease(t){return 1-Math.pow(1-t,3);}
+			function animate(ts){
+			if(!startTime)startTime=ts;
+			var p=Math.min((ts-startTime)/duration,1);
+			el.textContent=Math.floor(ease(p)*target).toLocaleString();
+			if(p<1)requestAnimationFrame(animate);
+			}
+			requestAnimationFrame(animate);
+			})();
+			</script>"
+			```
+		lineageTag: bb9722ea-e62a-4590-a9a1-7167fa7feeae
+
+	measure HTML_Card_515 = ```
+			
+			VAR Att = [515]
+			VAR PrevWk = CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="515")
+			VAR WoW = [WOW_Numeric_515]
+			VAR YoY = [YOY_Numeric_515]
+			VAR PastYrAvg = [Avg_PastYear_515]
+			VAR Ratio = DIVIDE([515], PastYrAvg, 0)
+			VAR RatioPct = FORMAT(Ratio, "0%") & " of avg"
+			VAR BarW = FORMAT(MIN(Ratio * 100, 150), "0")
+			VAR Bg = [CardBackground]
+			VAR Txt = [CardTextColor]
+			VAR Sec = [CardSecondaryText]
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR CampusColor = "#00B8E4"
+			VAR TrackColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR BorderColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR WoWColor = IF(WoW >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR YoYColor = IF(YoY >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR WoWArrow = IF(WoW >= 0, "▲", "▼")
+			VAR YoYArrow = IF(YoY >= 0, "▲", "▼")
+			VAR WoWPct = FORMAT(ABS(WoW), "0.0%")
+			VAR YoYPct = FORMAT(ABS(YoY), "0.0%")
+			VAR WoWLabel = WoWArrow & " " & WoWPct
+			VAR YoYLabel = YoYArrow & " " & YoYPct
+			VAR WoWDash = FORMAT(MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR WoWGap = FORMAT(175.93 - MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYDash = FORMAT(MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYGap = FORMAT(175.93 - MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR AttFmt = FORMAT(Att, "#,0")
+			VAR PrevFmt = FORMAT(PrevWk, "#,0")
+			VAR AvgFmt = FORMAT(PastYrAvg, "#,0")
+			
+			-- School break variables
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR IsBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_school_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR BreakName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[break_name],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR ShareOnBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR BreakAccent = "#60A5FA"
+			VAR BreakTextColor = IF(IsDark, "#FFFFFF", "#FFFFFF")
+			VAR SharePct = FORMAT(ShareOnBreak, "0%")
+			
+			VAR SchoolBreakLine = 
+			    IF(
+			        IsBreak = TRUE() && BreakName <> BLANK(),
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & BreakAccent & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & " · " & SharePct & " on break</span>
+			        </div>",
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:500; color:" & IF(IsDark, "#4B5563", "#9CA3AF") & "; font-family:Inter,sans-serif;'>No school break this week</span>
+			        </div>"
+			    )
+			
+			RETURN
+			"<!-- theme:" & [SelectedTheme] & " -->
+			<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			* { box-sizing:border-box; margin:0; padding:0; }
+			.card-515 { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:12px; padding:20px; font-family:Inter,sans-serif; position:relative; overflow:hidden; width:100%; }
+			.top-bar-515 { position:absolute; top:0; left:0; right:0; height:10px; background:" & CampusColor & "; border-radius:12px 12px 0 0; }
+			.badge-515 { display:inline-block; background:" & CampusColor & "26; color:" & CampusColor & "; padding:4px 14px; border-radius:6px; font-size:13px; font-weight:700; margin-top:6px; }
+			.att-label-515 { font-size:12px; font-weight:700; color:" & Sec & "; margin-top:14px; margin-bottom:4px; }
+			.att-num-515 { font-size:46px; font-weight:900; color:" & Txt & "; margin:0; animation:fadeSlideIn 0.8s ease-out; }
+			.circles-row-515 { display:flex; justify-content:center; gap:40px; margin:16px 0; }
+			.circle-item-515 { display:flex; flex-direction:column; align-items:center; gap:4px; }
+			.circle-label-515 { font-size:11px; color:" & Sec & "; }
+			.wow-ring-515 { animation:pulsering 2s ease-in-out infinite; }
+			.yoy-ring-515 { animation:pulsering 2s ease-in-out infinite 0.5s; }
+			.divider-515 { border:none; border-top:0.5px solid " & BorderColor & "; margin:12px 0; }
+			.data-row-515 { display:flex; justify-content:space-between; align-items:baseline; }
+			.data-label-515 { font-size:12px; color:" & Sec & "; }
+			.data-val-515 { font-size:20px; font-weight:700; color:" & Txt & "; animation:fadeSlideIn 0.8s ease-out; }
+			.bar-track-515 { height:5px; border-radius:3px; background:" & TrackColor & "; margin-top:6px; margin-bottom:4px; }
+			.bar-fill-515 { height:5px; border-radius:3px; background:" & CampusColor & "; animation:barFill515 0.8s ease-out forwards; }
+			.ratio-text-515 { font-size:12px; font-weight:700; color:" & CampusColor & "; text-align:right; }
+			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+			@keyframes barFill515 { from { width:0%; } to { width:" & BarW & "%; } }
+			@keyframes pulsering { 0%,100% { stroke-opacity:0.9; stroke-width:7; } 50% { stroke-opacity:0.3; stroke-width:5; } }
+			</style>
+			<div class='card-515'>
+			<div class='top-bar-515'></div>
+			<div class='badge-515'>515</div>
+			<div class='att-label-515'>Attendance</div>
+			<div class='att-num-515' id='att-515'>" & AttFmt & "</div>
+			<div class='circles-row-515'>
+			<div class='circle-item-515'>
+			<svg width='64' height='64' overflow='visible'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & WoWColor & "' stroke-width='7' stroke-dasharray='" & WoWDash & " " & WoWGap & "' stroke-dashoffset='-44' stroke-linecap='round' class='wow-ring-515'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & WoWColor & "' font-family='Inter,sans-serif'>" & WoWLabel & "</text>
+			</svg>
+			<div class='circle-label-515'>WoW</div>
+			</div>
+			<div class='circle-item-515'>
+			<svg width='64' height='64' overflow='visible'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & YoYColor & "' stroke-width='7' stroke-dasharray='" & YoYDash & " " & YoYGap & "' stroke-dashoffset='-44' stroke-linecap='round' class='yoy-ring-515'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & YoYColor & "' font-family='Inter,sans-serif'>" & YoYLabel & "</text>
+			</svg>
+			<div class='circle-label-515'>YoY</div>
+			</div>
+			</div>
+			<hr class='divider-515'/>
+			<div class='data-row-515'>
+			<span class='data-label-515'>Previous week</span>
+			<span class='data-val-515'>" & PrevFmt & "</span>
+			</div>
+			<hr class='divider-515'/>
+			<div class='data-row-515'>
+			<span class='data-label-515'>Past year avg</span>
+			<span class='data-val-515'>" & AvgFmt & "</span>
+			</div>
+			<div class='bar-track-515'><div class='bar-fill-515'></div></div>
+			<div class='ratio-text-515'>" & RatioPct & "</div>
+			
+			" & SchoolBreakLine & "
+			
+			</div>
+			<script>
+			(function(){
+			var el=document.getElementById('att-515');
+			var target=" & Att & ";
+			var duration=1000;
+			var startTime=null;
+			function ease(t){return 1-Math.pow(1-t,3);}
+			function animate(ts){
+			if(!startTime)startTime=ts;
+			var p=Math.min((ts-startTime)/duration,1);
+			el.textContent=Math.floor(ease(p)*target).toLocaleString();
+			if(p<1)requestAnimationFrame(animate);
+			}
+			requestAnimationFrame(animate);
+			})();
+			</script>"
+			```
+		lineageTag: f1fbbd12-7455-4b93-a4ac-0ac25006fb88
+
+	measure YOY_Numeric_Trilith = ```
+			
+			DIVIDE(
+			    CALCULATE([CurrWeekAtt], AttendanceInPerson_WOW[CampusName]="Trilith") - 
+			    CALCULATE([PrevYearAttCount], AttendanceInPerson_WOW[CampusName]="Trilith"),
+			    CALCULATE([PrevYearAttCount], AttendanceInPerson_WOW[CampusName]="Trilith"),
+			    0
+			)
+			```
+		lineageTag: 302a72e2-9f58-47ea-920b-6d007be7dac5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_Card_CBL = ```
+			
+			VAR Att = [Cumberland]
+			VAR PrevWk = CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="Cumberland")
+			VAR WoW = [WOW_Numeric_Cumberland]
+			VAR YoY = [YOY_Numeric_Cumberland]
+			VAR PastYrAvg = [Avg_PastYear_Cumberland]
+			VAR Ratio = DIVIDE([Cumberland], PastYrAvg, 0)
+			VAR RatioPct = FORMAT(Ratio, "0%") & " of avg"
+			VAR BarW = FORMAT(MIN(Ratio * 100, 150), "0")
+			VAR Bg = [CardBackground]
+			VAR Txt = [CardTextColor]
+			VAR Sec = [CardSecondaryText]
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR CampusColor = "#FF641C"
+			VAR TrackColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR BorderColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR WoWColor = IF(WoW >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR YoYColor = IF(YoY >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR WoWArrow = IF(WoW >= 0, "▲", "▼")
+			VAR YoYArrow = IF(YoY >= 0, "▲", "▼")
+			VAR WoWPct = FORMAT(ABS(WoW), "0.0%")
+			VAR YoYPct = FORMAT(ABS(YoY), "0.0%")
+			VAR WoWLabel = WoWArrow & " " & WoWPct
+			VAR YoYLabel = YoYArrow & " " & YoYPct
+			VAR WoWDash = FORMAT(MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR WoWGap = FORMAT(175.93 - MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYDash = FORMAT(MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYGap = FORMAT(175.93 - MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR AttFmt = FORMAT(Att, "#,0")
+			VAR PrevFmt = FORMAT(PrevWk, "#,0")
+			VAR AvgFmt = FORMAT(PastYrAvg, "#,0")
+			-- Add these VAR blocks before RETURN in HTML_Card_CBL
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR IsBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_school_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Cumberland"
+			    )
+			VAR BreakName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[break_name],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Cumberland"
+			    )
+			VAR ShareOnBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Cumberland"
+			    )
+			VAR BreakAccent = "#60A5FA"
+			VAR BreakTextColor = IF(IsDark, "#FFFFFF", "#FFFFFF")
+			VAR SharePct = FORMAT(ShareOnBreak, "0%")
+			
+			VAR SchoolBreakLine = 
+			    IF(
+			        IsBreak = TRUE() && BreakName <> BLANK(),
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & BreakAccent & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & " · " & SharePct & " on break</span>
+			        </div>",
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:500; color:" & IF(IsDark, "#4B5563", "#9CA3AF") & "; font-family:Inter,sans-serif;'>No school break this week</span>
+			        </div>"
+			    )
+			RETURN
+			"<!-- theme:" & [SelectedTheme] & " -->
+			<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			* { box-sizing:border-box; margin:0; padding:0; }
+			.card-cbl { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:12px; padding:20px; font-family:Inter,sans-serif; position:relative; overflow:hidden; width:100%; }
+			.top-bar-cbl { position:absolute; top:0; left:0; right:0; height:10px; background:" & CampusColor & "; border-radius:12px 12px 0 0; }
+			.badge-cbl { display:inline-block; background:" & CampusColor & "26; color:" & CampusColor & "; padding:4px 14px; border-radius:6px; font-size:13px; font-weight:700; margin-top:6px; }
+			.att-label-cbl { font-size:12px; font-weight:700; color:" & Sec & "; margin-top:14px; margin-bottom:4px; }
+			.att-num-cbl { font-size:46px; font-weight:900; color:" & Txt & "; margin:0; animation:fadeSlideIn 0.8s ease-out; }
+			.circles-row-cbl { display:flex; justify-content:center; gap:40px; margin:16px 0; }
+			.circle-item-cbl { display:flex; flex-direction:column; align-items:center; gap:4px; }
+			.circle-label-cbl { font-size:11px; color:" & Sec & "; }
+			.wow-ring-cbl { animation:pulsering 2s ease-in-out infinite; }
+			.yoy-ring-cbl { animation:pulsering 2s ease-in-out infinite 0.5s; }
+			.divider-cbl { border:none; border-top:0.5px solid " & BorderColor & "; margin:12px 0; }
+			.data-row-cbl { display:flex; justify-content:space-between; align-items:baseline; }
+			.data-label-cbl { font-size:12px; color:" & Sec & "; }
+			.data-val-cbl { font-size:20px; font-weight:700; color:" & Txt & "; animation:fadeSlideIn 0.8s ease-out; }
+			.bar-track-cbl { height:5px; border-radius:3px; background:" & TrackColor & "; margin-top:6px; margin-bottom:4px; }
+			.bar-fill-cbl { height:5px; border-radius:3px; background:" & CampusColor & "; animation:barFillCBL 0.8s ease-out forwards; }
+			.ratio-text-cbl { font-size:12px; font-weight:700; color:" & CampusColor & "; text-align:right; }
+			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+			@keyframes barFillCBL { from { width:0%; } to { width:" & BarW & "%; } }
+			@keyframes pulsering { 0%,100% { stroke-opacity:0.9; stroke-width:7; } 50% { stroke-opacity:0.3; stroke-width:5; } }
+			</style>
+			<div class='card-cbl'>
+			<div class='top-bar-cbl'></div>
+			<div class='badge-cbl'>CBL</div>
+			<div class='att-label-cbl'>Attendance</div>
+			<div class='att-num-cbl' id='att-cbl'>" & AttFmt & "</div>
+			<div class='circles-row-cbl'>
+			<div class='circle-item-cbl'>
+			<svg width='64' height='64' overflow='visible'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & WoWColor & "' stroke-width='7' stroke-dasharray='" & WoWDash & " " & WoWGap & "' stroke-dashoffset='-44' stroke-linecap='round' class='wow-ring-cbl'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & WoWColor & "' font-family='Inter,sans-serif'>" & WoWLabel & "</text>
+			</svg>
+			<div class='circle-label-cbl'>WoW</div>
+			</div>
+			<div class='circle-item-cbl'>
+			<svg width='64' height='64' overflow='visible'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & YoYColor & "' stroke-width='7' stroke-dasharray='" & YoYDash & " " & YoYGap & "' stroke-dashoffset='-44' stroke-linecap='round' class='yoy-ring-cbl'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & YoYColor & "' font-family='Inter,sans-serif'>" & YoYLabel & "</text>
+			</svg>
+			<div class='circle-label-cbl'>YoY</div>
+			</div>
+			</div>
+			<hr class='divider-cbl'/>
+			<div class='data-row-cbl'>
+			<span class='data-label-cbl'>Previous week</span>
+			<span class='data-val-cbl'>" & PrevFmt & "</span>
+			</div>
+			<hr class='divider-cbl'/>
+			<div class='data-row-cbl'>
+			<span class='data-label-cbl'>Past year avg</span>
+			<span class='data-val-cbl'>" & AvgFmt & "</span>
+			</div>
+			<div class='bar-track-cbl'><div class='bar-fill-cbl'></div></div>
+			<div class='ratio-text-cbl'>" & RatioPct & "</div>
+			" & SchoolBreakLine & "
+			</div>
+			<script>
+			(function(){
+			var el=document.getElementById('att-cbl');
+			var target=" & Att & ";
+			var duration=1000;
+			var startTime=null;
+			function ease(t){return 1-Math.pow(1-t,3);}
+			function animate(ts){
+			if(!startTime)startTime=ts;
+			var p=Math.min((ts-startTime)/duration,1);
+			el.textContent=Math.floor(ease(p)*target).toLocaleString();
+			if(p<1)requestAnimationFrame(animate);
+			}
+			requestAnimationFrame(animate);
+			})();
+			</script>"
+			```
+		lineageTag: 5f1bfaf5-073e-4f8b-b0c0-232127413855
+
+	measure HTML_Card_TRL = ```
+			
+			VAR Att = [Trilith]
+			VAR PrevWk = CALCULATE([PrevWeekAtt], AttendanceInPerson_WOW[CampusName]="Trilith")
+			VAR WoW = [WOW_Numeric_Trilith]
+			VAR YoY = [YOY_Numeric_Trilith]
+			VAR PastYrAvg = [Avg_PastYear_Trilith]
+			VAR Ratio = DIVIDE([Trilith], PastYrAvg, 0)
+			VAR RatioPct = FORMAT(Ratio, "0%") & " of avg"
+			VAR BarW = FORMAT(MIN(Ratio * 100, 150), "0")
+			VAR Bg = [CardBackground]
+			VAR Txt = [CardTextColor]
+			VAR Sec = [CardSecondaryText]
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR CampusColor = "#931EE7"
+			VAR TrackColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR BorderColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR WoWColor = IF(WoW >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR YoYColor = IF(YoY >= 0, IF(IsDark, "#4ADE80", "#166534"), IF(IsDark, "#F87171", "#991B1B"))
+			VAR WoWArrow = IF(WoW >= 0, "▲", "▼")
+			VAR YoYArrow = IF(YoY >= 0, "▲", "▼")
+			VAR WoWPct = FORMAT(ABS(WoW), "0.0%")
+			VAR YoYPct = FORMAT(ABS(YoY), "0.0%")
+			VAR WoWLabel = WoWArrow & " " & WoWPct
+			VAR YoYLabel = YoYArrow & " " & YoYPct
+			VAR WoWDash = FORMAT(MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR WoWGap = FORMAT(175.93 - MIN(ABS(WoW) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYDash = FORMAT(MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR YoYGap = FORMAT(175.93 - MIN(ABS(YoY) / 0.5, 1) * 175.93, "0.00")
+			VAR AttFmt = FORMAT(Att, "#,0")
+			VAR PrevFmt = FORMAT(PrevWk, "#,0")
+			VAR AvgFmt = FORMAT(PastYrAvg, "#,0")
+			-- Add these VAR blocks before RETURN in HTML_Card_TRL
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR IsBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_school_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Trilith"
+			    )
+			VAR BreakName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[break_name],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Trilith"
+			    )
+			VAR ShareOnBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Trilith"
+			    )
+			VAR BreakAccent = "#60A5FA"
+			VAR BreakTextColor = IF(IsDark, "#FFFFFF", "#FFFFFF")
+			VAR SharePct = FORMAT(ShareOnBreak, "0%")
+			
+			VAR SchoolBreakLine = 
+			    IF(
+			        IsBreak = TRUE() && BreakName <> BLANK(),
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & BreakAccent & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & " · " & SharePct & " on break</span>
+			        </div>",
+			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
+			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
+			            <span style='font-size:11px; font-weight:500; color:" & IF(IsDark, "#4B5563", "#9CA3AF") & "; font-family:Inter,sans-serif;'>No school break this week</span>
+			        </div>"
+			    )
+			RETURN
+			"<!-- theme:" & [SelectedTheme] & " -->
+			<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			* { box-sizing:border-box; margin:0; padding:0; }
+			.card-trl { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:12px; padding:20px; font-family:Inter,sans-serif; position:relative; overflow:hidden; width:100%; }
+			.top-bar-trl { position:absolute; top:0; left:0; right:0; height:10px; background:" & CampusColor & "; border-radius:12px 12px 0 0; }
+			.badge-trl { display:inline-block; background:" & CampusColor & "26; color:" & CampusColor & "; padding:4px 14px; border-radius:6px; font-size:13px; font-weight:700; margin-top:6px; }
+			.att-label-trl { font-size:12px; font-weight:700; color:" & Sec & "; margin-top:14px; margin-bottom:4px; }
+			.att-num-trl { font-size:46px; font-weight:900; color:" & Txt & "; margin:0; animation:fadeSlideIn 0.8s ease-out; }
+			.circles-row-trl { display:flex; justify-content:center; gap:40px; margin:16px 0; }
+			.circle-item-trl { display:flex; flex-direction:column; align-items:center; gap:4px; }
+			.circle-label-trl { font-size:11px; color:" & Sec & "; }
+			.wow-ring-trl { animation:pulsering 2s ease-in-out infinite; }
+			.yoy-ring-trl { animation:pulsering 2s ease-in-out infinite 0.5s; }
+			.divider-trl { border:none; border-top:0.5px solid " & BorderColor & "; margin:12px 0; }
+			.data-row-trl { display:flex; justify-content:space-between; align-items:baseline; }
+			.data-label-trl { font-size:12px; color:" & Sec & "; }
+			.data-val-trl { font-size:20px; font-weight:700; color:" & Txt & "; animation:fadeSlideIn 0.8s ease-out; }
+			.bar-track-trl { height:5px; border-radius:3px; background:" & TrackColor & "; margin-top:6px; margin-bottom:4px; }
+			.bar-fill-trl { height:5px; border-radius:3px; background:" & CampusColor & "; animation:barFillTRL 0.8s ease-out forwards; }
+			.ratio-text-trl { font-size:12px; font-weight:700; color:" & CampusColor & "; text-align:right; }
+			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+			@keyframes barFillTRL { from { width:0%; } to { width:" & BarW & "%; } }
+			@keyframes pulsering { 0%,100% { stroke-opacity:0.9; stroke-width:7; } 50% { stroke-opacity:0.3; stroke-width:5; } }
+			</style>
+			<div class='card-trl'>
+			<div class='top-bar-trl'></div>
+			<div class='badge-trl'>TRL</div>
+			<div class='att-label-trl'>Attendance</div>
+			<div class='att-num-trl' id='att-trl'>" & AttFmt & "</div>
+			<div class='circles-row-trl'>
+			<div class='circle-item-trl'>
+			<svg width='64' height='64' overflow='visible'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & WoWColor & "' stroke-width='7' stroke-dasharray='" & WoWDash & " " & WoWGap & "' stroke-dashoffset='-44' stroke-linecap='round' class='wow-ring-trl'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & WoWColor & "' font-family='Inter,sans-serif'>" & WoWLabel & "</text>
+			</svg>
+			<div class='circle-label-trl'>WoW</div>
+			</div>
+			<div class='circle-item-trl'>
+			<svg width='64' height='64' overflow='visible'>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & TrackColor & "' stroke-width='7'/>
+			<circle cx='32' cy='32' r='28' fill='none' stroke='" & YoYColor & "' stroke-width='7' stroke-dasharray='" & YoYDash & " " & YoYGap & "' stroke-dashoffset='-44' stroke-linecap='round' class='yoy-ring-trl'/>
+			<text x='32' y='36' text-anchor='middle' font-size='10' font-weight='700' fill='" & YoYColor & "' font-family='Inter,sans-serif'>" & YoYLabel & "</text>
+			</svg>
+			<div class='circle-label-trl'>YoY</div>
+			</div>
+			</div>
+			<hr class='divider-trl'/>
+			<div class='data-row-trl'>
+			<span class='data-label-trl'>Previous week</span>
+			<span class='data-val-trl'>" & PrevFmt & "</span>
+			</div>
+			<hr class='divider-trl'/>
+			<div class='data-row-trl'>
+			<span class='data-label-trl'>Past year avg</span>
+			<span class='data-val-trl'>" & AvgFmt & "</span>
+			</div>
+			<div class='bar-track-trl'><div class='bar-fill-trl'></div></div>
+			<div class='ratio-text-trl'>" & RatioPct & "</div>
+			" & SchoolBreakLine & "
+			</div>
+			<script>
+			(function(){
+			var el=document.getElementById('att-trl');
+			var target=" & Att & ";
+			var duration=1000;
+			var startTime=null;
+			function ease(t){return 1-Math.pow(1-t,3);}
+			function animate(ts){
+			if(!startTime)startTime=ts;
+			var p=Math.min((ts-startTime)/duration,1);
+			el.textContent=Math.floor(ease(p)*target).toLocaleString();
+			if(p<1)requestAnimationFrame(animate);
+			}
+			requestAnimationFrame(animate);
+			})();
+			</script>"
+			```
+		lineageTag: d7fe2927-8d3f-4eca-9507-b0a08e305462
+
+	measure HTML_ThemeToggle =
+			
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR Bg = [CardBackground]
+			VAR BorderColor = IF(IsDark, "#2A2A2A", "#E5E7EB")
+			VAR ActiveBg = IF(IsDark, "#3A3A3A", "#FFFFFF")
+			VAR ActiveTxt = [CardTextColor]
+			VAR InactiveTxt = [CardSecondaryText]
+			RETURN
+			"<!-- theme:" & [SelectedTheme] & " -->
+			<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+			* { box-sizing:border-box; margin:0; padding:0; }
+			body { background:transparent; }
+			.toggle-wrap {
+			  background:" & Bg & ";
+			  border:1px solid " & BorderColor & ";
+			  border-radius:8px;
+			  padding:4px;
+			  display:inline-flex;
+			  gap:4px;
+			  font-family:Inter,sans-serif;
+			  pointer-events:none;
+			  width:100%;
+			}
+			.toggle-btn {
+			  flex:1;
+			  padding:6px 16px;
+			  border-radius:6px;
+			  font-size:13px;
+			  font-weight:600;
+			  border:none;
+			  text-align:center;
+			}
+			.toggle-active {
+			  background:" & ActiveBg & ";
+			  color:" & ActiveTxt & ";
+			  box-shadow:0 1px 3px rgba(0,0,0,0.15);
+			}
+			.toggle-inactive {
+			  background:transparent;
+			  color:" & InactiveTxt & ";
+			}
+			</style>
+			<div class='toggle-wrap'>
+			  <div class='toggle-btn " & IF(IsDark, "toggle-active", "toggle-inactive") & "'>🌙 Dark</div>
+			  <div class='toggle-btn " & IF(IsDark, "toggle-inactive", "toggle-active") & "'>☀️ Light</div>
+			</div>"
+		lineageTag: 5e05deef-a677-4949-927c-63a072403f46
+
+	measure HTML_MonthlyData =
+			
+			VAR _Today = TODAY()
+			VAR _StartDate = DATE(YEAR(_Today) - 1, MONTH(_Today), 1)VAR _Months =
+			    FILTER(
+			        SUMMARIZE(
+			            AttendanceInPerson_WOW,
+			            AttendanceInPerson_WOW[YearMonthNumber],
+			            AttendanceInPerson_WOW[FormattedDate]
+			        ),
+			        AttendanceInPerson_WOW[YearMonthNumber] >= VALUE(FORMAT(_StartDate, "YYMM"))
+			    )
+			
+			VAR _515 =
+			    CONCATENATEX(
+			        _Months,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] = "515"
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[YearMonthNumber], ASC
+			    )
+			
+			VAR _CBL =
+			    CONCATENATEX(
+			        _Months,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] = "Cumberland"
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[YearMonthNumber], ASC
+			    )
+			
+			VAR _TRL =
+			    CONCATENATEX(
+			        _Months,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] = "Trilith"
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[YearMonthNumber], ASC
+			    )
+			
+			VAR _ATL =
+			    CONCATENATEX(
+			        _Months,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] IN {"515", "Cumberland", "Trilith"}
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[YearMonthNumber], ASC
+			    )
+			
+			VAR _Labels =
+			    CONCATENATEX(
+			        _Months,
+			        AttendanceInPerson_WOW[FormattedDate],
+			        ",",
+			        AttendanceInPerson_WOW[YearMonthNumber], ASC
+			    )
+			
+			RETURN
+			    _Labels & "|" & _ATL & "|" & _515 & "|" & _CBL & "|" & _TRL
+		lineageTag: bb7bf3c6-dcfd-4c2e-8eb3-14ae92394596
+
+	measure HTML_WeeklyData =
+			
+			VAR _Today = TODAY()
+			VAR _CurrentWeek = WEEKNUM(_Today, 1)
+			VAR _CurrentYear = YEAR(_Today)
+			VAR _StartSort = VALUE(FORMAT(_CurrentYear - 1, "0000") & FORMAT(_CurrentWeek, "00"))
+			
+			VAR _Weeks =
+			    FILTER(
+			        SUMMARIZE(
+			            AttendanceInPerson_WOW,
+			            AttendanceInPerson_WOW[Rolling52WksSort],
+			            AttendanceInPerson_WOW[FormattedDate]
+			        ),
+			        VALUE(AttendanceInPerson_WOW[Rolling52WksSort]) >= _StartSort
+			    )
+			
+			VAR _515 =
+			    CONCATENATEX(
+			        _Weeks,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] = "515"
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[Rolling52WksSort], ASC
+			    )
+			
+			VAR _CBL =
+			    CONCATENATEX(
+			        _Weeks,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] = "Cumberland"
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[Rolling52WksSort], ASC
+			    )
+			
+			VAR _TRL =
+			    CONCATENATEX(
+			        _Weeks,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] = "Trilith"
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[Rolling52WksSort], ASC
+			    )
+			
+			VAR _ATL =
+			    CONCATENATEX(
+			        _Weeks,
+			        CALCULATE(
+			            SUM(AttendanceInPerson_WOW[Count]),
+			            AttendanceInPerson_WOW[CampusName] IN {"515", "Cumberland", "Trilith"}
+			        ),
+			        ",",
+			        AttendanceInPerson_WOW[Rolling52WksSort], ASC
+			    )
+			
+			VAR _Labels =
+			    CONCATENATEX(
+			        _Weeks,
+			        AttendanceInPerson_WOW[FormattedDate],
+			        ",",
+			        AttendanceInPerson_WOW[Rolling52WksSort], ASC
+			    )
+			
+			RETURN
+			    _Labels & "|" & _ATL & "|" & _515 & "|" & _CBL & "|" & _TRL
+		lineageTag: fa873995-a873-4582-9654-fca1baea338b
+
+	measure HTML_YoYData =
+			
+			VAR _CampusName =
+			    SWITCH(
+			        SELECTEDVALUE('Campus Selector'[CampusKey]),
+			        "515", "515",
+			        "Cumberland", "Cumberland",
+			        "Trilith", "Trilith",
+			        "515"
+			    )
+			
+			VAR _MinYear = YEAR(TODAY()) - 4
+			VAR _MaxYear = YEAR(TODAY())
+			
+			VAR _AllWeeks =
+			    SELECTCOLUMNS(
+			        SUMMARIZE(
+			            FILTER(
+			                AttendanceInPerson_WOW,
+			                AttendanceInPerson_WOW[CampusName] = _CampusName
+			            ),
+			            AttendanceInPerson_WOW[Week of Year]
+			        ),
+			        "Wk", AttendanceInPerson_WOW[Week of Year]
+			    )
+			
+			VAR _Y1 = _MinYear
+			VAR _Y2 = _MinYear + 1
+			VAR _Y3 = _MinYear + 2
+			VAR _Y4 = _MinYear + 3
+			VAR _Y5 = _MaxYear
+			
+			VAR _YearList = _Y1 & "," & _Y2 & "," & _Y3 & "," & _Y4 & "," & _Y5
+			
+			VAR _WeekLabels =
+			    CONCATENATEX(_AllWeeks, "Wk " & [Wk], ",", [Wk], ASC)
+			
+			VAR _D1 =
+			    CONCATENATEX(_AllWeeks, CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y1), ",", [Wk], ASC)
+			
+			VAR _D2 =
+			    CONCATENATEX(_AllWeeks, CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y2), ",", [Wk], ASC)
+			
+			VAR _D3 =
+			    CONCATENATEX(_AllWeeks, CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y3), ",", [Wk], ASC)
+			
+			VAR _D4 =
+			    CONCATENATEX(_AllWeeks, CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y4), ",", [Wk], ASC)
+			
+			VAR _D5 =
+			    CONCATENATEX(_AllWeeks, CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y5), ",", [Wk], ASC)
+			
+			RETURN
+			    _WeekLabels & "||" & _YearList & "||" & _D1 & "|" & _D2 & "|" & _D3 & "|" & _D4 & "|" & _D5
+		lineageTag: a93edf3f-1f36-4d65-ab35-56b64d5b3ac3
+
+	measure HTML_SelectedCampus =
+			
+			SELECTEDVALUE('Campus Selector'[CampusKey], "Overall")
+		lineageTag: eeff4512-d487-40bd-af13-d3f028de11c8
+
+	measure HTML_Theme =
+			
+			SELECTEDVALUE('Theme'[Theme], "Dark")
+		lineageTag: e037442f-dea7-46d4-93ea-f4d440e4191f
+
+	measure HTML_Card1 =
+			
+			VAR _campus = [HTML_SelectedCampus]
+			VAR _monthly = [HTML_MonthlyData]
+			VAR _weekly = [HTML_WeeklyData]
+			VAR _yoy = [HTML_YoYData]
+			VAR _theme = [HTML_Theme]
+			VAR _bg = IF(_theme = "Dark", "#0d0d0d", "#f8f8f8")
+			VAR _tickc = IF(_theme = "Dark", "#aaaaaa", "#333333")
+			VAR _grid = IF(_theme = "Dark", "rgba(255,255,255,0.06)", "rgba(0,0,0,0.08)")
+			VAR _bb = IF(_theme = "Dark", "#161616", "#ffffff")
+			VAR _tabBg = IF(_theme = "Dark", "#181818", "#eeeeee")
+			VAR _tabColor = IF(_theme = "Dark", "#aaaaaa", "#333333")
+			VAR _tabBorder = IF(_theme = "Dark", "#252525", "#dddddd")
+			VAR _bdgBg = IF(_theme = "Dark", "#181818", "#eeeeee")
+			VAR _bdgColor = IF(_theme = "Dark", "#aaaaaa", "#333333")
+			VAR _bdgBorder = IF(_theme = "Dark", "#222", "#dddddd")
+			VAR _labelColor = IF(_theme = "Dark", "#aaaaaa", "#333333")
+			VAR _tooltipBg = IF(_theme = "Dark", "#1a1a1a", "#ffffff")
+			VAR _tooltipBorder = IF(_theme = "Dark", "#2a2a2a", "#dddddd")
+			VAR _tooltipTitle = IF(_theme = "Dark", "#888", "#999")
+			VAR _tooltipBody = IF(_theme = "Dark", "#ffffff", "#111111")
+			VAR _c = SUBSTITUTE(_campus, """", "")
+			VAR _m = SUBSTITUTE(_monthly, """", "")
+			VAR _w = SUBSTITUTE(_weekly, """", "")
+			VAR _y = SUBSTITUTE(_yoy, """", "")
+			
+			VAR _html =
+			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:100%;min-width:0;}.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 16px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.bdg{font-size:10px;padding:3px 9px;border-radius:10px;background:" & _bdgBg & ";color:" & _bdgColor & ";border:1px solid " & _bdgBorder & ";}.cb{background:" & _bb & ";border-radius:10px;padding:14px 16px;margin-bottom:10px;}.cb:last-child{margin-bottom:0;}.ct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}.cl{font-size:10px;color:" & _labelColor & ";text-transform:uppercase;letter-spacing:0.07em;}.lg{display:flex;gap:10px;flex-wrap:wrap;}.li{display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:2px 6px;border-radius:4px;border:1px solid transparent;transition:all 0.15s;}.li.hl{border-color:#aaa;}.ls{width:10px;height:3px;border-radius:1px;flex-shrink:0;}.cw{position:relative;width:100%;height:220px;}canvas{width:100%!important;height:100%!important;image-rendering:auto;}</style>" &
+			"<div class=""w""><div class=""hdr""><div class=""tabs"">" &
+			"<div class=""tab active"" data-c=""Overall"" style=""--tc:" & IF(_theme = "Dark", "#ffffff", "#111111") & ";"">Global</div>" &
+			"<div class=""tab"" data-c=""515"" style=""--tc:#00B8E4;"">515</div>" &
+			"<div class=""tab"" data-c=""Cumberland"" style=""--tc:#FF641C;"">CBL</div>" &
+			"<div class=""tab"" data-c=""Trilith"" style=""--tc:#931EE7;"">Trilith</div>" &
+			"</div><div class=""bdg"" id=""bdg"">All campuses</div></div>" &
+			"<div id=""gv"">" &
+			"<div class=""cb""><div class=""ct""><div class=""cl"">Rolling 12 months</div><div class=""lg"" id=""gl1""></div></div><div class=""cw""><canvas id=""gc1""></canvas></div></div>" &
+			"<div class=""cb""><div class=""ct""><div class=""cl"">Rolling 52 weeks</div><div class=""lg"" id=""gl2""></div></div><div class=""cw""><canvas id=""gc2""></canvas></div></div>" &
+			"</div>" &
+			"<div id=""cv"" style=""display:none;""><div class=""cb""><div class=""ct""><div class=""cl"" id=""yoylbl"">Year over year</div><div class=""lg"" id=""yl""></div></div><div class=""cw""><canvas id=""yc""></canvas></div></div></div>" &
+			"</div>" &
+			"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js""></script>" &
+			"<script>" &
+			"var RAW_CAMPUS=""" & _c & """;" &
+			"var RAW_MON=""" & _m & """;" &
+			"var RAW_WK=""" & _w & """;" &
+			"var RAW_YOY=""" & _y & """;" &
+			"var GRID=""" & _grid & """;" &
+			"var TICKC=""" & _tickc & """;" &
+			"var TRBG=""" & _tooltipBg & """;" &
+			"var TRBR=""" & _tooltipBorder & """;" &
+			"var TRTC=""" & _tooltipTitle & """;" &
+			"var TRBC=""" & _tooltipBody & """;" &
+			"var IS_DARK=" & IF(_theme = "Dark", "true", "false") & ";" &
+			"var C={Overall:{label:""ATL"",color:IS_DARK?""#ffffff"":""#111111"",fill:IS_DARK?""rgba(255,255,255,0.08)"":""rgba(0,0,0,0.06)""},""515"":{label:""515"",color:""#00B8E4"",fill:""rgba(0,184,228,0.12)""},Cumberland:{label:""CBL"",color:""#FF641C"",fill:""rgba(255,100,28,0.12)""},Trilith:{label:""Trilith"",color:""#931EE7"",fill:""rgba(30,231,184,0.10)""}};" &
+			"var YR_LINE_DARK=[""#444444"",""#666666"",""#7c6fcd"",""#aaaaaa""];" &
+			"var YR_LINE_LIGHT=[""#cccccc"",""#aaaaaa"",""#7c6fcd"",""#666666""];" &
+			"var charts={};var activeYr=-1;var activeCampus=""515"";var currentYrs=[];var currentAccent="""";" &
+			"function kill(id){if(charts[id]){charts[id].destroy();delete charts[id];}}" &
+			"function parse(str){if(!str){return [];}return str.split("","").map(function(v){var n=parseFloat(v);return isNaN(n)?null:n;});}" &
+			"function lineColor(yi,total){if(yi===total-1)return currentAccent;return IS_DARK?YR_LINE_DARK[Math.min(yi,YR_LINE_DARK.length-1)]:YR_LINE_LIGHT[Math.min(yi,YR_LINE_LIGHT.length-1)];}" &
+			"function baseOpts(xMax){return{responsive:true,maintainAspectRatio:false,devicePixelRatio:2,interaction:{mode:""index"",intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:TRBG,borderColor:TRBR,borderWidth:1,titleColor:TRTC,bodyColor:TRBC,padding:9,callbacks:{label:function(c){return "" ""+c.dataset.label+"": ""+(c.parsed.y?Math.round(c.parsed.y).toLocaleString():""—"");}}}},scales:{x:{grid:{color:GRID},ticks:{color:TICKC,font:{size:11},maxRotation:0,autoSkip:true,maxTicksLimit:xMax||8},border:{display:false}},y:{grid:{color:GRID},ticks:{color:TICKC,font:{size:11},callback:function(v){return v>=1000?(v/1000).toFixed(0)+""K"":v;}},border:{display:false}}}}}" &
+			"function mkLegGlobal(id,items){var el=document.getElementById(id);if(!el)return;el.innerHTML="""";items.forEach(function(it){var s=document.createElement(""span"");s.className=""li"";s.style.color=it.color;var dot=document.createElement(""span"");dot.className=""ls"";dot.style.background=it.color;s.appendChild(dot);s.appendChild(document.createTextNode(it.label));el.appendChild(s);});}" &
+			"function mkLegYoy(id){var el=document.getElementById(id);if(!el)return;el.innerHTML="""";currentYrs.forEach(function(yr,yi){var isSelected=yi===activeYr;var labelCol=isSelected?currentAccent:TICKC;var dotCol=lineColor(yi,currentYrs.length);var s=document.createElement(""span"");s.className=""li""+(isSelected?"" hl"":"""");s.dataset.yi=yi;s.style.color=labelCol;var dot=document.createElement(""span"");dot.className=""ls"";dot.style.background=dotCol;s.appendChild(dot);s.appendChild(document.createTextNode(yr));el.appendChild(s);});document.querySelectorAll(""#yl .li"").forEach(function(el){el.addEventListener(""click"",function(){updateYrHL(parseInt(el.dataset.yi));});});}" &
+			"function updateYrHL(yi){var ch=charts.yc;if(!ch)return;if(activeYr===yi){activeYr=-1;}else{activeYr=yi;}var total=currentYrs.length;ch.data.datasets.forEach(function(ds,i){if(activeYr>=0){var isSelected=i===activeYr;ds.borderColor=isSelected?currentAccent:IS_DARK?""#333333"":""#cccccc"";ds.borderWidth=isSelected?3:1;ds.borderDash=isSelected?[]:[4,3];}else{var isLast=i===total-1;ds.borderColor=lineColor(i,total);ds.borderWidth=isLast?2.5:1;ds.borderDash=isLast?[]:[4,3];}});ch.update(""none"");mkLegYoy(""yl"");}" &
+			"function setActiveTab(c){document.querySelectorAll("".tab"").forEach(function(x){x.classList.remove(""active"");if(x.dataset.c===c){x.classList.add(""active"");}});}" &
+			"function renderGlobal(){setActiveTab(""Overall"");document.getElementById(""gv"").style.display=""block"";document.getElementById(""cv"").style.display=""none"";document.getElementById(""bdg"").textContent=""All campuses"";var mp=RAW_MON.split(""|"");var wp=RAW_WK.split(""|"");var ml=(mp[0]||"""").split("","");var wl=(wp[0]||"""").split("","");var keys=[""Overall"",""515"",""Cumberland"",""Trilith""];mkLegGlobal(""gl1"",keys.map(function(k){return{label:C[k].label,color:C[k].color};}));mkLegGlobal(""gl2"",keys.map(function(k){return{label:C[k].label,color:C[k].color};}));kill(""gc1"");kill(""gc2"");var ds1=keys.map(function(k,i){return{label:C[k].label,data:parse(mp[i+1]),borderColor:C[k].color,backgroundColor:C[k].fill,borderWidth:k===""Overall""?2:1.5,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:4,spanGaps:true};});var ds2=keys.map(function(k,i){return{label:C[k].label,data:parse(wp[i+1]),borderColor:C[k].color,backgroundColor:C[k].fill,borderWidth:k===""Overall""?2:1.5,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:4,spanGaps:true};});var o1=baseOpts(12);o1.scales.x.ticks.autoSkip=false;o1.scales.x.ticks.maxRotation=40;charts.gc1=new Chart(document.getElementById(""gc1""),{type:""line"",data:{labels:ml,datasets:ds1},options:o1});charts.gc2=new Chart(document.getElementById(""gc2""),{type:""line"",data:{labels:wl,datasets:ds2},options:baseOpts(8)});}" &
+			"function renderCampus(c){if(!C[c]){renderGlobal();return;}setActiveTab(c);activeCampus=c;activeYr=-1;currentAccent=C[c].color;var lbl=C[c].label;document.getElementById(""gv"").style.display=""none"";document.getElementById(""cv"").style.display=""block"";document.getElementById(""bdg"").textContent=lbl+"" — year over year"";document.getElementById(""yoylbl"").textContent=""Rolling 52 weeks — ""+lbl+"" — year over year"";var sections=RAW_YOY.split(""||"");var wkLabels=(sections[0]||"""").split("","");currentYrs=(sections[1]||"""").split("","").filter(function(x){return x!=="""";});var yearDataParts=(sections[2]||"""").split(""|"");var total=currentYrs.length;kill(""yc"");var ds=currentYrs.map(function(yr,yi){var isLast=yi===total-1;return{label:yr,data:parse(yearDataParts[yi]),borderColor:lineColor(yi,total),backgroundColor:""transparent"",borderWidth:isLast?2.5:1,fill:false,tension:0.2,pointRadius:0,pointHoverRadius:4,borderDash:isLast?[]:[4,3],spanGaps:true};});charts.yc=new Chart(document.getElementById(""yc""),{type:""line"",data:{labels:wkLabels,datasets:ds},options:baseOpts(10)});mkLegYoy(""yl"");}" &
+			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){var c=t.dataset.c;if(c===""Overall""){renderGlobal();}else{renderCampus(c);}});});" &
+			"function init(){if(typeof Chart===""undefined""){setTimeout(init,100);return;}if(!RAW_CAMPUS || RAW_CAMPUS===""Overall"" || RAW_CAMPUS===""Global""){renderGlobal();}else{renderCampus(RAW_CAMPUS);}}" &
+			"setTimeout(init,100);" &
+			"</script>"
+			
+			RETURN _html
+		lineageTag: 2b821bbb-0641-4587-8f82-f696c709680f
+
+	measure Current =
+			
+			VAR SelectedDate =
+			    MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			RETURN
+			CALCULATE(
+			    [CountNew],
+			    AttendanceInPerson_WOW[MetricValueDateTime] = SelectedDate
+			)
+		lineageTag: dd2a68fa-f47e-404a-bd44-54c193078d06
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Previous =
+			
+			VAR SelectedDate =
+			    MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			
+			VAR SundaysBefore =
+			    FILTER(
+			        ALL('Calendar'),
+			        'Calendar'[Date] < SelectedDate
+			            && WEEKDAY('Calendar'[Date], 2) = 7
+			    )
+			
+			VAR PrevDate =
+			    MAXX(
+			        FILTER(
+			            SundaysBefore,
+			            VAR ThisDate = 'Calendar'[Date]
+			            RETURN
+			                CALCULATE(
+			                    [CountNew],
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = ThisDate
+			                ) <> 0
+			        ),
+			        'Calendar'[Date]
+			    )
+			
+			RETURN
+			CALCULATE(
+			    [CountNew],
+			    AttendanceInPerson_WOW[MetricValueDateTime] = PrevDate
+			)
+		lineageTag: ffdf81b3-f4ce-45e3-b03e-b94012a0bc15
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_BarData =
+			
+			VAR _Categories =
+			    FILTER(
+			        VALUES(AttendanceInPerson_WOW[Literal]),
+			        NOT ISBLANK(AttendanceInPerson_WOW[Literal])
+			    )
+			RETURN
+			CONCATENATEX(
+			    _Categories,
+			    AttendanceInPerson_WOW[Literal]
+			        & "~" & FORMAT(COALESCE([Previous], 0), "0")
+			        & "~" & FORMAT(COALESCE([Current], 0), "0"),
+			    "|",
+			    AttendanceInPerson_WOW[Literal],
+			    ASC
+			)
+		lineageTag: d37f9041-5c13-47c8-8ce1-ffbbd54b40c1
+
+	measure HTML_BarData_All = ```
+			
+			VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			VAR _maxAttDate = 
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			            WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxAttDate, _calDate)
+			
+			VAR _PrevDate =
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			            AttendanceInPerson_WOW[MetricValueDateTime] < _SelectedDate
+			                && WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			                && CALCULATE(
+			                    SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"},
+			                    REMOVEFILTERS(AttendanceInPerson_WOW[Literal])
+			                ) > 0
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			
+			VAR _Cats =
+			    ADDCOLUMNS(
+			        FILTER(
+			            CALCULATETABLE(
+			                VALUES(AttendanceInPerson_WOW[Literal]),
+			                REMOVEFILTERS(AttendanceInPerson_WOW[CampusName])
+			            ),
+			            NOT ISBLANK(AttendanceInPerson_WOW[Literal])
+			        ),
+			        "__Sort",
+			            SWITCH(
+			                AttendanceInPerson_WOW[Literal],
+			                "Adults", 1,
+			                "Door Holder", 2,
+			                "bloom", 3,
+			                "PK", 4,
+			                "MS", 5,
+			                "HS", 6,
+			                99
+			            )
+			    )
+			
+			VAR _Global =
+			    CONCATENATEX(
+			        _Cats,
+			        VAR _lit = AttendanceInPerson_WOW[Literal]
+			        RETURN
+			            _lit
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"},
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _PrevDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            )
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"},
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _SelectedDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            ),
+			        "|",
+			        [__Sort],
+			        ASC
+			    )
+			
+			VAR _515 =
+			    CONCATENATEX(
+			        _Cats,
+			        VAR _lit = AttendanceInPerson_WOW[Literal]
+			        RETURN
+			            _lit
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] = "515",
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _PrevDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            )
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] = "515",
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _SelectedDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            ),
+			        "|",
+			        [__Sort],
+			        ASC
+			    )
+			
+			VAR _CBL =
+			    CONCATENATEX(
+			        _Cats,
+			        VAR _lit = AttendanceInPerson_WOW[Literal]
+			        RETURN
+			            _lit
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] = "Cumberland",
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _PrevDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            )
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] = "Cumberland",
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _SelectedDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            ),
+			        "|",
+			        [__Sort],
+			        ASC
+			    )
+			
+			VAR _TRL =
+			    CONCATENATEX(
+			        _Cats,
+			        VAR _lit = AttendanceInPerson_WOW[Literal]
+			        RETURN
+			            _lit
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] = "Trilith",
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _PrevDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            )
+			            & "~" &
+			            FORMAT(
+			                COALESCE(
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Campus Selector'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW[CampusName]),
+			                        AttendanceInPerson_WOW[CampusName] = "Trilith",
+			                        AttendanceInPerson_WOW[Literal] = _lit,
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _SelectedDate
+			                    ),
+			                    0
+			                ),
+			                "0"
+			            ),
+			        "|",
+			        [__Sort],
+			        ASC
+			    )
+			
+			RETURN
+			    _Global & "||" & _515 & "||" & _CBL & "||" & _TRL
+			```
+		lineageTag: 9f248c5c-fab3-4645-827b-f11983f0f159
+
+	measure HTML_CurrentVsPreviousBarChart =
+			
+			
+			VAR _theme = [HTML_Theme]
+			
+			VAR _campus = [HTML_SelectedCampus]
+			
+			VAR _data = SUBSTITUTE([HTML_BarData_All], """", "")
+			
+			VAR _isDark = _theme = "Dark"
+			
+			VAR _bg = IF(_isDark, "#0d0d0d", "#f8f8f8")
+			
+			VAR _cardBg = IF(_isDark, "#161616", "#ffffff")
+			
+			VAR _txt = IF(_isDark, "#aaaaaa", "#333333")
+			
+			VAR _tabBg = IF(_isDark, "#181818", "#eeeeee")
+			
+			VAR _tabColor = IF(_isDark, "#aaaaaa", "#333333")
+			
+			VAR _tabBorder = IF(_isDark, "#252525", "#dddddd")
+			
+			VAR _bdgBg = IF(_isDark, "#181818", "#eeeeee")
+			
+			VAR _bdgColor = IF(_isDark, "#aaaaaa", "#333333")
+			
+			VAR _bdgBorder = IF(_isDark, "#222", "#dddddd")
+			
+			VAR _grid = IF(_isDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.08)")
+			
+			VAR _axisColor = IF(_isDark, "#555555", "#cccccc")
+			
+			VAR _prevColor = IF(_isDark, "#444444", "#cccccc")
+			
+			VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			
+			VAR _maxAttDate = MAXX(
+			
+			FILTER(
+			
+			ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			
+			WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			
+			),
+			
+			AttendanceInPerson_WOW[MetricValueDateTime]
+			
+			)
+			
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxAttDate, _calDate)
+			
+			VAR _PrevDate = MAXX(
+			
+			FILTER(
+			
+			ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			
+			AttendanceInPerson_WOW[MetricValueDateTime] < _SelectedDate
+			
+			&& WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			
+			&& CALCULATE(
+			
+			SUM(AttendanceInPerson_WOW[Count]),
+			
+			AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"},
+			
+			REMOVEFILTERS(AttendanceInPerson_WOW[Literal])
+			
+			) > 0
+			
+			),
+			
+			AttendanceInPerson_WOW[MetricValueDateTime]
+			
+			)
+			
+			VAR _prevDateFmt = FORMAT(_PrevDate, "M/D/YYYY")
+			
+			VAR _curDateFmt = FORMAT(_SelectedDate, "M/D/YYYY")
+			
+			RETURN
+			
+			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:630px;min-width:630px;}.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.bdg{font-size:10px;padding:3px 9px;border-radius:10px;background:" & _bdgBg & ";color:" & _bdgColor & ";border:1px solid " & _bdgBorder & ";}.cb{background:" & _cardBg & ";border-radius:10px;padding:14px 16px;}.top-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;}.card-label{font-size:10px;color:" & _txt & ";text-transform:uppercase;letter-spacing:0.07em;}.legend-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:3px;}.legend{display:flex;gap:12px;}.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:" & _txt & ";}.leg-dot{width:8px;height:8px;border-radius:50%;}.dates{font-size:10px;color:" & _txt & ";opacity:0.6;display:flex;gap:12px;}.chart-wrap{display:flex;gap:6px;}.y-axis{width:36px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;height:200px;padding-top:2px;}.y-lbl{font-size:10px;color:" & _axisColor & ";text-align:right;}.chart-right{flex:1;display:flex;flex-direction:column;}.bars-outer{position:relative;height:200px;}.grid-lines{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;}.grid-line{width:100%;height:1px;background:" & _grid & ";}.bars-inner{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:flex-end;gap:2px;}.grp{flex:1;height:100%;display:flex;align-items:flex-end;justify-content:center;gap:2px;}.barbox{position:relative;width:22px;height:100%;display:flex;align-items:flex-end;justify-content:center;}.val{position:absolute;font-size:9px;font-weight:600;color:" & _txt & ";opacity:0;animation:fadeIn 0.4s ease forwards;text-align:center;width:100%;white-space:nowrap;}.bar{width:22px;border-radius:3px 3px 0 0;height:0px;position:absolute;bottom:0;}.labels-row{display:flex;margin-top:6px;gap:2px;}.lbl-cell{flex:1;text-align:center;font-size:9px;color:" & _txt & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}</style>" &
+			
+			"<div class=""w""><div class=""hdr""><div class=""tabs"">" &
+			
+			"<div class=""tab active"" data-i=""0"" style=""--tc:" & IF(_isDark, "#ffffff", "#111111") & ";"">Global</div>" &
+			
+			"<div class=""tab"" data-i=""1"" style=""--tc:#00B8E4;"">515</div>" &
+			
+			"<div class=""tab"" data-i=""2"" style=""--tc:#FF641C;"">CBL</div>" &
+			
+			"<div class=""tab"" data-i=""3"" style=""--tc:#931EE7;"">Trilith</div>" &
+			
+			"</div><div class=""bdg"" id=""bdg"">All campuses</div></div>" &
+			
+			"<div class=""cb"">" &
+			
+			"<div class=""top-row""><div class=""card-label"">Current vs previous week</div>" &
+			
+			"<div class=""legend-wrap""><div class=""legend"">" &
+			
+			"<span class=""leg""><span class=""leg-dot"" id=""prev-dot""></span>Previous</span>" &
+			
+			"<span class=""leg""><span class=""leg-dot"" id=""curr-dot""></span>Current</span>" &
+			
+			"</div><div class=""dates""><span>" & _prevDateFmt & "</span><span>" & _curDateFmt & "</span></div></div></div>" &
+			
+			"<div class=""chart-wrap"">" &
+			
+			"<div class=""y-axis"" id=""y-axis""></div>" &
+			
+			"<div class=""chart-right"">" &
+			
+			"<div class=""bars-outer"">" &
+			
+			"<div class=""grid-lines"" id=""grid-lines""></div>" &
+			
+			"<div class=""bars-inner"" id=""bars-inner""></div>" &
+			
+			"</div>" &
+			
+			"<div class=""labels-row"" id=""labels-row""></div>" &
+			
+			"</div></div></div></div>" &
+			
+			"<script>(function(){" &
+			
+			"var RAW=""" & _data & """;" &
+			
+			"var IS_DARK=" & IF(_isDark, "true", "false") & ";" &
+			
+			"var CAMPUS=[{name:""Global"",badge:""All campuses"",cur:IS_DARK?""#ffffff"":""#111111"",prev:""" & _prevColor & """},{name:""515"",badge:""515"",cur:""#00B8E4"",prev:""#005f77""},{name:""CBL"",badge:""CBL"",cur:""#FF641C"",prev:""#8a3410""},{name:""Trilith"",badge:""Trilith"",cur:""#931EE7"",prev:""#4c0f78""}];" &
+			
+			"function getInitialIndex(){var c=""" & SUBSTITUTE(_campus, """", "") & """;if(c===""515"")return 1;if(c===""Cumberland"")return 2;if(c===""Trilith"")return 3;return 0;}" &
+			
+			"function parseBlock(i){var block=RAW.split(""||"")[i]||"""";return block.split(""|"").map(function(r){var p=r.split(""~"");return{label:p[0],prev:Number(p[1])||0,cur:Number(p[2])||0};}).filter(function(x){return x.label;});}" &
+			
+			"function animateBars(){" &
+			
+			"var groups=document.querySelectorAll("".grp"");" &
+			
+			"var ease=function(t){return 1-Math.pow(1-t,3);};" &
+			
+			"groups.forEach(function(grp,gi){" &
+			
+			"var bars=grp.querySelectorAll("".bar"");" &
+			
+			"bars.forEach(function(b){" &
+			
+			"var target=parseInt(b.dataset.h)||0;" &
+			
+			"var valEl=b.parentNode.querySelector("".val"");" &
+			
+			"b.style.height=""0px"";" &
+			
+			"setTimeout(function(){" &
+			
+			"var start=null;" &
+			
+			"requestAnimationFrame(function run(ts){" &
+			
+			"if(!start)start=ts;" &
+			
+			"var p=Math.min((ts-start)/500,1);" &
+			
+			"var h=Math.round(ease(p)*target);" &
+			
+			"b.style.height=h+""px"";" &
+			
+			"if(valEl)valEl.style.bottom=(h+3)+""px"";" &
+			
+			"if(p<1)requestAnimationFrame(run);" &
+			
+			"});" &
+			
+			"},gi*80);" &
+			
+			"});});}" &
+			
+			"function render(i){" &
+			
+			"var c=CAMPUS[i];var rows=parseBlock(i);var max=1;" &
+			
+			"rows.forEach(function(r){max=Math.max(max,r.prev,r.cur);});" &
+			
+			"var steps=4;var raw=max/steps;var mag=Math.pow(10,Math.floor(Math.log10(raw)));var f=raw/mag;var e=1e-9;" &
+			
+			"var nf=f<=2?Math.ceil(f*10-e)/10:(f<=4?Math.ceil(f*5-e)/5:Math.ceil(f*2.5-e)/2.5);" &
+			
+			"var stepVal=Math.round(nf*10)*mag/10;" &
+			
+			"if(!stepVal||stepVal<=0)stepVal=1000;var yMax=stepVal*steps;var barH=200;" &
+			
+			"document.getElementById(""bdg"").textContent=c.badge;" &
+			
+			"document.getElementById(""prev-dot"").style.background=c.prev;" &
+			
+			"document.getElementById(""curr-dot"").style.background=c.cur;" &
+			
+			"var yHtml="""";for(var s=steps;s>=0;s--){var v=stepVal*s;var lbl;if(v>=1000&&v%100===0){var kv=v/1000;lbl=(kv%1===0?kv:kv.toFixed(1))+""K"";}else{lbl=v.toLocaleString();}yHtml+=""<div class='y-lbl'>""+lbl+""</div>"";}document.getElementById(""y-axis"").innerHTML=yHtml;" &
+			
+			"var glHtml="""";for(var g=0;g<=steps;g++){glHtml+=""<div class='grid-line'></div>"";}document.getElementById(""grid-lines"").innerHTML=glHtml;" &
+			
+			"var bHtml="""";var lHtml="""";rows.forEach(function(r,idx){" &
+			
+			"var ph=yMax>0?(r.prev/yMax)*100:0;" &
+			
+			"var ch=yMax>0?(r.cur/yMax)*100:0;" &
+			
+			"var ph_px=r.prev>0?Math.max(Math.round(ph*barH/100),3):3;" &
+			
+			"var ch_px=r.cur>0?Math.max(Math.round(ch*barH/100),3):3;" &
+			
+			"var valDelay=(idx*0.06+0.4).toFixed(2);" &
+			
+			"bHtml+=""<div class='grp'>"";" &
+			
+			"bHtml+=""<div class='barbox'><div class='val' style='bottom:5px;animation-delay:""+valDelay+""s'>""+r.prev.toLocaleString()+""</div><div class='bar' data-h='""+ph_px+""' style='background:""+c.prev+""'></div></div>"";" &
+			
+			"bHtml+=""<div class='barbox'><div class='val' style='bottom:5px;animation-delay:""+valDelay+""s'>""+r.cur.toLocaleString()+""</div><div class='bar' data-h='""+ch_px+""' style='background:""+c.cur+""'></div></div>"";" &
+			
+			"bHtml+=""</div>"";" &
+			
+			"lHtml+=""<div class='lbl-cell'>""+r.label+""</div>"";" &
+			
+			"});" &
+			
+			"document.getElementById(""bars-inner"").innerHTML=bHtml;" &
+			
+			"document.getElementById(""labels-row"").innerHTML=lHtml;" &
+			
+			"requestAnimationFrame(function(){requestAnimationFrame(function(){animateBars();});});" &
+			
+			"document.querySelectorAll("".tab"").forEach(function(t){t.classList.remove(""active"");if(Number(t.dataset.i)===i)t.classList.add(""active"");});}" &
+			
+			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){render(Number(t.dataset.i));});});" &
+			
+			"render(getInitialIndex());" &
+			
+			"})();</script>"
+		lineageTag: 4ec8af40-d247-4dde-a3a9-de7db15c905d
+
+	measure HTML_5WeekData =
+			
+			VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			VAR _maxAttDate = MAXX(
+			    FILTER(
+			        ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			    ),
+			    AttendanceInPerson_WOW[MetricValueDateTime]
+			)
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxAttDate, _calDate)
+			VAR _5Weeks = TOPN(
+			    5,
+			    FILTER(
+			        SUMMARIZE(
+			            AttendanceInPerson_WOW,
+			            AttendanceInPerson_WOW[MetricValueDateTime]
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime] <= _SelectedDate
+			            && WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			            && CALCULATE(
+			                SUM(AttendanceInPerson_WOW[Count]),
+			                AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"},
+			                REMOVEFILTERS(AttendanceInPerson_WOW[Literal])
+			            ) > 0
+			    ),
+			    AttendanceInPerson_WOW[MetricValueDateTime], DESC
+			)
+			VAR _Sorted = ADDCOLUMNS(_5Weeks, "__d", AttendanceInPerson_WOW[MetricValueDateTime])
+			VAR _Labels = CONCATENATEX(_Sorted, FORMAT(AttendanceInPerson_WOW[MetricValueDateTime], "MMM D~YYYY"), ",", [__d], ASC)
+			VAR _ATL = CONCATENATEX(_Sorted,
+			    FORMAT(COALESCE(CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] IN {"515","Cumberland","Trilith"}, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])), 0), "0"),
+			    ",", [__d], ASC)
+			VAR _515 = CONCATENATEX(_Sorted,
+			    FORMAT(COALESCE(CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = "515", REMOVEFILTERS(AttendanceInPerson_WOW[Literal])), 0), "0"),
+			    ",", [__d], ASC)
+			VAR _CBL = CONCATENATEX(_Sorted,
+			    FORMAT(COALESCE(CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = "Cumberland", REMOVEFILTERS(AttendanceInPerson_WOW[Literal])), 0), "0"),
+			    ",", [__d], ASC)
+			VAR _TRL = CONCATENATEX(_Sorted,
+			    FORMAT(COALESCE(CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = "Trilith", REMOVEFILTERS(AttendanceInPerson_WOW[Literal])), 0), "0"),
+			    ",", [__d], ASC)
+			RETURN
+			    _Labels & "|" & _ATL & "|" & _515 & "|" & _CBL & "|" & _TRL
+		lineageTag: a6219606-0038-4f6e-96dc-45c0d6d098ad
+
+	measure HTML_5WeekOverview =
+			
+			VAR _theme = [HTML_Theme]
+			VAR _campus = [HTML_SelectedCampus]
+			VAR _data = SUBSTITUTE([HTML_5WeekData], """", "")
+			VAR _isDark = _theme = "Dark"
+			VAR _bg = IF(_isDark, "#0d0d0d", "#f8f8f8")
+			VAR _cardBg = IF(_isDark, "#161616", "#ffffff")
+			VAR _txt = IF(_isDark, "#aaaaaa", "#333333")
+			VAR _tabBg = IF(_isDark, "#181818", "#eeeeee")
+			VAR _tabColor = IF(_isDark, "#aaaaaa", "#333333")
+			VAR _tabBorder = IF(_isDark, "#252525", "#dddddd")
+			VAR _grid = IF(_isDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.08)")
+			VAR _axisColor = IF(_isDark, "#555555", "#cccccc")
+			VAR _avgBg = IF(_isDark, "#161616", "#ffffff")
+			VAR _avgBorder = IF(_isDark, "#222222", "#dddddd")
+			
+			RETURN
+			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:630px;min-width:630px;}.hdr{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.avg-pill{margin-left:auto;background:" & _avgBg & ";border-radius:8px;padding:5px 14px;border:1px solid " & _avgBorder & ";text-align:center;flex-shrink:0;}.avg-lbl{font-size:9px;color:" & _axisColor & ";text-transform:uppercase;letter-spacing:0.07em;}.avg-val{font-size:16px;font-weight:700;}.cb{background:" & _cardBg & ";border-radius:10px;padding:14px 16px;}.card-label{font-size:10px;color:" & _txt & ";text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;}.chart-wrap{display:flex;gap:6px;}.y-axis{width:36px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;height:200px;padding-top:2px;}.y-lbl{font-size:10px;color:" & _axisColor & ";text-align:right;}.chart-right{flex:1;display:flex;flex-direction:column;}.canvas-wrap{position:relative;height:200px;}.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;}.labels-row{display:flex;margin-top:8px;}.lbl-cell{flex:1;text-align:center;font-size:9px;color:" & _txt & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}</style>" &
+			"<div class=""w""><div class=""hdr""><div class=""tabs"">" &
+			"<div class=""tab active"" data-i=""0"" style=""--tc:" & IF(_isDark, "#ffffff", "#111111") & ";"">Global</div>" &
+			"<div class=""tab"" data-i=""1"" style=""--tc:#00B8E4;"">515</div>" &
+			"<div class=""tab"" data-i=""2"" style=""--tc:#FF641C;"">CBL</div>" &
+			"<div class=""tab"" data-i=""3"" style=""--tc:#931EE7;"">Trilith</div>" &
+			"</div>" &
+			"<div class=""avg-pill""><div class=""avg-lbl"">5 Week Avg</div><div class=""avg-val"" id=""avg-val"">—</div></div>" &
+			"</div>" &
+			"<div class=""cb""><div class=""card-label"">5 week overview</div>" &
+			"<div class=""chart-wrap""><div class=""y-axis"" id=""y-axis""></div>" &
+			"<div class=""chart-right""><div class=""canvas-wrap"">" &
+			"<canvas id=""chart-canvas""></canvas>" &
+			"</div><div class=""labels-row"" id=""labels-row""></div>" &
+			"</div></div></div></div>" &
+			"<script>(function(){" &
+			"var RAW=""" & _data & """;" &
+			"var IS_DARK=" & IF(_isDark, "true", "false") & ";" &
+			"var GRID=""" & _grid & """;" &
+			"var AXISCOL=""" & _axisColor & """;" &
+			"var TXTCOL=""" & _txt & """;" &
+			"var CAMPUS=[" &
+			"{color:IS_DARK?""#ffffff"":""#111111""}," &
+			"{color:""#00B8E4""}," &
+			"{color:""#FF641C""}," &
+			"{color:""#931EE7""}" &
+			"];" &
+			"function getIdx(){var c=""" & SUBSTITUTE(_campus, """", "") & """;if(c===""515"")return 1;if(c===""Cumberland"")return 2;if(c===""Trilith"")return 3;return 0;}" &
+			"function parse(s){return s.split("","").map(function(v){return parseInt(v)||0;});}" &
+			"var animId=null;" &
+			"var bounce=function(t){var n=7.5625,d=2.75;if(t<1/d)return n*t*t;else if(t<2/d)return n*(t-=1.5/d)*t+0.75;else if(t<2.5/d)return n*(t-=2.25/d)*t+0.9375;return n*(t-=2.625/d)*t+0.984375;};" &
+			"var eio=function(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;};" &
+			"function render(i){" &
+			"if(animId)cancelAnimationFrame(animId);" &
+			"var c=CAMPUS[i];" &
+			"var parts=RAW.split(""|"");" &
+			"var labels=parts[0].split("","");" &
+			"var vals=parse(parts[i+1]);" &
+			"var a=Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length);" &
+			"var avgEl=document.getElementById(""avg-val"");" &
+			"avgEl.style.color=c.color;" &
+			"(function(){var start=null;var dur=800;var ease=function(t){return 1-Math.pow(1-t,3);};function tick(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);avgEl.textContent=Math.floor(ease(p)*a).toLocaleString();if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);})();" &
+			"var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);" &
+			"var pad=Math.round((max-min)*0.4);var yMax=max+pad;var yMin=Math.max(0,min-pad);" &
+			"var steps=4;var raw=(yMax-yMin)/steps;" &
+			"var mag=Math.pow(10,Math.floor(Math.log10(raw||1)));var stepVal=Math.ceil(raw/mag)*mag||1000;" &
+			"yMax=yMin+stepVal*steps;" &
+			"var yHtml="""";for(var s=steps;s>=0;s--){var v=yMin+stepVal*s;yHtml+=""<div class='y-lbl'>""+( v>=1000?(v/1000).toFixed(1)+""K"":v)+""</div>"";}document.getElementById(""y-axis"").innerHTML=yHtml;" &
+			"var lHtml="""";var prevYr="""";labels.forEach(function(l){var sp=l.split(""~"");var dateStr=sp[0];var yr=sp[1];var display=dateStr+(yr!==prevYr?"" ""+yr:"""");prevYr=yr;lHtml+=""<div class='lbl-cell'>""+display+""</div>"";});document.getElementById(""labels-row"").innerHTML=lHtml;" &
+			"var canvas=document.getElementById(""chart-canvas"");" &
+			"var W=canvas.parentNode.offsetWidth||500;var H=canvas.parentNode.offsetHeight||200;" &
+			"canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+""px"";canvas.style.height=H+""px"";" &
+			"var ctx=canvas.getContext(""2d"");ctx.scale(2,2);" &
+			"var PT=20;var PB=4;var PL=30;var PR=30;" &
+			"var cW=W-PL-PR;var cH=H-PT-PB;var n=vals.length;" &
+			"function xp(idx){return PL+idx*(cW/(n-1));}" &
+			"function yp(v){return PT+cH-(((v-yMin)/(yMax-yMin))*cH);}" &
+			"var pts=vals.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});" &
+			"function drawGrid(){for(var g=0;g<=steps;g++){var gy=PT+g*(cH/steps);ctx.strokeStyle=GRID;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,gy);ctx.lineTo(W-PR,gy);ctx.stroke();}}" &
+			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;" &
+			"var startT=null;" &
+			"function frame(ts){" &
+			"if(!startT)startT=ts;" &
+			"var elapsed=ts-startT;" &
+			"ctx.clearRect(0,0,W,H);drawGrid();" &
+			"var lp=Math.min(elapsed/LINE_DUR,1);var lep=eio(lp);var maxIdx=lep*(n-1);" &
+			"ctx.beginPath();ctx.strokeStyle=c.color;ctx.lineWidth=2.5;ctx.lineJoin=""round"";ctx.lineCap=""round"";" &
+			"pts.forEach(function(p,idx){" &
+			"if(idx===0){ctx.moveTo(p.x,p.y);return;}" &
+			"if(idx<=maxIdx){ctx.lineTo(p.x,p.y);}" &
+			"else if(idx-1<maxIdx){" &
+			"var frac=maxIdx-(idx-1);" &
+			"ctx.lineTo(pts[idx-1].x+(p.x-pts[idx-1].x)*frac,pts[idx-1].y+(p.y-pts[idx-1].y)*frac);" &
+			"}" &
+			"});ctx.stroke();" &
+			"pts.forEach(function(p,idx){if(idx<=maxIdx){ctx.beginPath();ctx.fillStyle=c.color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
+			"if(elapsed>LINE_DUR){" &
+			"var la=(elapsed-LINE_DUR)/LABEL_DUR;" &
+			"pts.forEach(function(p,idx){" &
+			"var delay=idx/n;" &
+			"var pt=Math.max(0,(la-delay)/0.4);" &
+			"var ep=bounce(Math.min(pt,1));" &
+			"if(ep>0){" &
+			"ctx.globalAlpha=Math.min(ep*2,1);" &
+			"ctx.fillStyle=c.color;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";" &
+			"ctx.fillText(p.v.toLocaleString(),p.x,p.y-10);" &
+			"ctx.globalAlpha=1;" &
+			"}" &
+			"});" &
+			"}" &
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;" &
+			"}" &
+			"animId=requestAnimationFrame(frame);" &
+			"document.querySelectorAll("".tab"").forEach(function(t){t.classList.remove(""active"");if(Number(t.dataset.i)===i)t.classList.add(""active"");});}" &
+			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){render(Number(t.dataset.i));});});" &
+			"setTimeout(function(){render(getIdx());},50);" &
+			"})();</script>"
+		lineageTag: 371d3651-b6fb-4f6e-aa01-13292d1f464e
+
+	measure HTML_RegularSundayTable =
+			
+			VAR _theme = [HTML_Theme]
+			VAR _isDark = _theme = "Dark"
+			
+			VAR _bg = IF(_isDark, "#080808", "#f8f8f8")
+			VAR _cardBg = IF(_isDark, "#121212", "#ffffff")
+			VAR _txt = IF(_isDark, "#f7f7f7", "#222222")
+			VAR _muted = IF(_isDark, "#d6d6d6", "#555555")
+			VAR _soft = IF(_isDark, "#9f9f9f", "#777777")
+			VAR _line = IF(_isDark, "rgba(255,255,255,0.16)", "rgba(0,0,0,0.12)")
+			VAR _headBg = IF(_isDark, "rgba(255,255,255,0.05)", "rgba(0,0,0,0.04)")
+			
+			VAR _calDate =
+			    MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			
+			VAR _rawDate =
+			    IF(
+			        ISBLANK(_calDate) || YEAR(_calDate) < 2020,
+			        MAXX(ALL(AttendanceInPerson_WOW), AttendanceInPerson_WOW[MetricValueDateTime]),
+			        _calDate
+			    )
+			
+			VAR _SelectedDate =
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW),
+			            AttendanceInPerson_WOW[MetricValueDateTime] <= _rawDate
+			                && AttendanceInPerson_WOW[ScheduleName] IN {"9:30am", "11:45am", "5:00pm"}
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			
+			VAR _PrevDate =
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW),
+			            AttendanceInPerson_WOW[MetricValueDateTime] < _SelectedDate
+			                && AttendanceInPerson_WOW[ScheduleName] IN {"9:30am", "11:45am", "5:00pm"}
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			
+			VAR _YoYDate =
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW),
+			            AttendanceInPerson_WOW[MetricValueDateTime] <= _SelectedDate - 364
+			                && AttendanceInPerson_WOW[ScheduleName] IN {"9:30am", "11:45am", "5:00pm"}
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			
+			VAR _Literals =
+			    DATATABLE(
+			        "Literal", STRING,
+			        {
+			            {"Adults"},
+			            {"Door Holder"},
+			            {"bloom"},
+			            {"PK"},
+			            {"MS"},
+			            {"HS"}
+			        }
+			    )
+			
+			VAR _Campuses =
+			    DATATABLE(
+			        "Campus", STRING,
+			        "CampusShort", STRING,
+			        "Color", STRING,
+			        {
+			            {"515", "515", "#00B8E4"},
+			            {"Cumberland", "CBL", "#FF641C"},
+			            {"Trilith", "TRL", "#931EE7"}
+			        }
+			    )
+			
+			VAR _Services =
+			    DATATABLE(
+			        "Service", STRING,
+			        "Sort", INTEGER,
+			        {
+			            {"9:30am", 1},
+			            {"11:45am", 2},
+			            {"5:00pm", 3}
+			        }
+			    )
+			
+			VAR _last5Dates =
+			    TOPN(
+			        5,
+			        SELECTCOLUMNS(
+			            SUMMARIZE(
+			                FILTER(
+			                    ALL(AttendanceInPerson_WOW),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] <= _SelectedDate
+			                        && AttendanceInPerson_WOW[ScheduleName] IN {"9:30am", "11:45am", "5:00pm"}
+			                ),
+			                AttendanceInPerson_WOW[MetricValueDateTime]
+			            ),
+			            "D", AttendanceInPerson_WOW[MetricValueDateTime]
+			        ),
+			        [D],
+			        DESC
+			    )
+			
+			VAR _Base =
+			    CROSSJOIN(_Literals, _Campuses, _Services)
+			
+			VAR _Data =
+			    CONCATENATEX(
+			        ADDCOLUMNS(
+			            _Base,
+			            "Cur",
+			                VAR lit = [Literal]
+			                VAR campus = [Campus]
+			                VAR svc = [Service]
+			                RETURN
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Calendar'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW),
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _SelectedDate,
+			                        AttendanceInPerson_WOW[CampusName] = campus,
+			                        AttendanceInPerson_WOW[Literal] = lit,
+			                        AttendanceInPerson_WOW[ScheduleName] = svc
+			                    ),
+			            "Prev",
+			                VAR lit = [Literal]
+			                VAR campus = [Campus]
+			                VAR svc = [Service]
+			                RETURN
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Calendar'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW),
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _PrevDate,
+			                        AttendanceInPerson_WOW[CampusName] = campus,
+			                        AttendanceInPerson_WOW[Literal] = lit,
+			                        AttendanceInPerson_WOW[ScheduleName] = svc
+			                    ),
+			            "YoY",
+			                VAR lit = [Literal]
+			                VAR campus = [Campus]
+			                VAR svc = [Service]
+			                RETURN
+			                    CALCULATE(
+			                        SUM(AttendanceInPerson_WOW[Count]),
+			                        REMOVEFILTERS('Calendar'),
+			                        REMOVEFILTERS(AttendanceInPerson_WOW),
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = _YoYDate,
+			                        AttendanceInPerson_WOW[CampusName] = campus,
+			                        AttendanceInPerson_WOW[Literal] = lit,
+			                        AttendanceInPerson_WOW[ScheduleName] = svc
+			                    ),
+			            "Avg5",
+			                VAR lit = [Literal]
+			                VAR campus = [Campus]
+			                VAR svc = [Service]
+			                RETURN
+			                    AVERAGEX(
+			                        _last5Dates,
+			                        VAR d = [D]
+			                        RETURN
+			                            CALCULATE(
+			                                SUM(AttendanceInPerson_WOW[Count]),
+			                                REMOVEFILTERS('Calendar'),
+			                                REMOVEFILTERS(AttendanceInPerson_WOW),
+			                                AttendanceInPerson_WOW[MetricValueDateTime] = d,
+			                                AttendanceInPerson_WOW[CampusName] = campus,
+			                                AttendanceInPerson_WOW[Literal] = lit,
+			                                AttendanceInPerson_WOW[ScheduleName] = svc
+			                            )
+			                    )
+			        ),
+			        [Literal] & "~" &
+			        [Campus] & "~" &
+			        [CampusShort] & "~" &
+			        [Color] & "~" &
+			        [Service] & "~" &
+			        FORMAT(COALESCE([Cur], 0), "0") & "~" &
+			        FORMAT(COALESCE([Prev], 0), "0") & "~" &
+			        FORMAT(COALESCE([Avg5], 0), "0") & "~" &
+			        FORMAT(COALESCE([YoY], 0), "0"),
+			        "|"
+			    )
+			RETURN
+			"
+			<style>
+			html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+			*{box-sizing:border-box;margin:0;padding:0;}
+			.wrap{background:" & _bg & ";padding:14px;font-family:Segoe UI,sans-serif;width:100%;height:100%;overflow:auto;color:" & _txt & ";-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+			.tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+			.tab{padding:6px 18px;border-radius:22px;font-size:12px;font-weight:700;border:1.5px solid " & _line & ";color:" & _muted & ";background:" & _cardBg & ";cursor:pointer;transition:all .25s ease;}
+			.tab.act{border-color:#00B8E4;color:#00B8E4;background:rgba(0,184,228,.14);box-shadow:0 0 14px rgba(0,184,228,.18);}
+			.grid{display:grid;grid-template-columns:minmax(320px,.88fr) minmax(560px,1.72fr);gap:12px;align-items:start;}
+			.card{background:" & _cardBg & ";border-radius:14px;overflow:hidden;border:1px solid " & _line & ";}
+			.global-head{padding:18px;background:" & _headBg & ";border-bottom:1px solid " & _line & ";}
+			.global-label{color:" & _muted & ";font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
+			.global-value{font-size:46px;font-weight:900;color:" & _txt & ";line-height:1;}
+			table{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed;}
+			td{padding:10px 13px;border-top:1px solid " & _line & ";vertical-align:middle;}
+			.svc{color:" & _muted & ";font-weight:650;white-space:nowrap;}
+			.att{color:" & _txt & ";text-align:right;font-weight:900;white-space:nowrap;}
+			.num{color:" & _muted & ";text-align:right;font-weight:750;white-space:nowrap;}
+			.pos{color:#4ADE80;text-align:right;font-weight:900;white-space:nowrap;}
+			.neg{color:#F87171;text-align:right;font-weight:900;white-space:nowrap;}
+			.neu{color:" & _soft & ";text-align:right;font-weight:800;white-space:nowrap;}
+			.col-hdr{color:" & _muted & ";font-size:10px;font-weight:900;text-align:right;text-transform:uppercase;letter-spacing:.07em;padding-top:9px;padding-bottom:9px;white-space:nowrap;}
+			.tot-row td{border-top:1.5px solid " & _line & ";font-weight:900;background:rgba(128,128,128,.06);}
+			.campus-stack{display:flex;flex-direction:column;gap:11px;}
+			.campus-card{display:grid;grid-template-columns:110px minmax(0,1fr);min-height:120px;}
+			.campus-side{padding:15px 13px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid " & _line & ";}
+			.campus-name{font-weight:900;font-size:17px;margin-bottom:7px;}
+			.campus-total{font-weight:900;font-size:28px;line-height:1;}
+			.by-campus{padding:18px 16px 20px 18px;border-top:1px solid " & _line & ";}
+			.small-title{color:" & _muted & ";font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;margin-bottom:15px;}
+			.metric-table td:first-child{width:45%;}
+			.campus-table td:nth-child(1){width:19%;text-align:left;}
+			.campus-table td:nth-child(2){width:14%;}
+			.campus-table td:nth-child(3){width:14%;}
+			.campus-table td:nth-child(4){width:18%;}
+			.campus-table td:nth-child(5){width:17%;}
+			.campus-table td:nth-child(6){width:18%;}
+			.lolli-wrap{display:flex;flex-direction:column;gap:18px;width:100%;}
+			.lolli-row{display:grid;grid-template-columns:58px minmax(120px,1fr) 78px;align-items:center;gap:12px;width:100%;}
+			.lolli-name{font-size:15px;font-weight:900;white-space:nowrap;}
+			.lolli-track{height:7px;border-radius:999px;background:rgba(128,128,128,.18);position:relative;overflow:hidden;min-width:0;}
+			.lolli-fill{height:7px;border-radius:999px;position:absolute;left:0;top:0;}
+			.lolli-val{font-size:15px;font-weight:900;text-align:right;white-space:nowrap;}
+			.anim-num{display:inline-block;min-width:1ch;}
+			@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+			@media(max-width:920px){.grid{grid-template-columns:1fr;}.lolli-row{grid-template-columns:58px minmax(140px,1fr) 78px;}}
+			</style>
+			<script>
+			(function(){
+			  var meta=document.createElement('meta');
+			  meta.name='viewport';
+			  meta.content='width=device-width,initial-scale=1.0,maximum-scale=1.0';
+			  document.head.appendChild(meta);
+			})();
+			</script>
+			<div class='wrap'>
+			  <div class='tabs' id='tabs'></div>
+			  <div class='grid'>
+			    <div class='card' id='globalCard'></div>
+			    <div class='campus-stack' id='campusCards'></div>
+			  </div>
+			</div>
+			<script>
+			(function(){
+			var raw=""" & _Data & """;
+			var literals=['Adults','Door Holder','bloom','PK','MS','HS'];
+			var campuses=[
+			{name:'515',short:'515',color:'#00B8E4'},
+			{name:'Cumberland',short:'CBL',color:'#FF641C'},
+			{name:'Trilith',short:'TRL',color:'#931EE7'}
+			];
+			var services=['9:30am','11:45am','5:00pm'];
+			var rows=raw.split('|').filter(Boolean).map(function(r){
+			 var p=r.split('~');
+			 return{literal:p[0],campus:p[1],short:p[2],color:p[3],service:p[4],cur:+p[5]||0,prev:+p[6]||0,avg:+p[7]||0,yoy:+p[8]||0};
+			});
+			function n(v){return Math.round(v||0).toLocaleString();}
+			function pct(cur,base){if(!base||base===0)return '—';var v=((cur-base)/base)*100;return (v>0?'+':'')+v.toFixed(1)+'%';}
+			function cls(cur,base){if(!base||base===0)return 'neu';return cur>base?'pos':cur<base?'neg':'neu';}
+			function sum(a,f){return a.reduce(function(x,y){return x+(+y[f]||0);},0);}
+			function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+			function numSpan(v,zeroDash){
+			 if(zeroDash&&(!v||v===0))return '—';
+			 return '<span class=\'anim-num\' data-num=\''+Math.round(v||0)+'\'>'+n(v)+'</span>';
+			}
+			function runCounts(){
+			 document.querySelectorAll('.anim-num').forEach(function(el){
+			  var target=+el.getAttribute('data-num')||0;
+			  var start=null;var dur=700;
+			  function step(ts){
+			   if(start===null)start=ts;
+			   var p=Math.min((ts-start)/dur,1);
+			   var e=1-Math.pow(1-p,3);
+			   el.textContent=Math.round(e*target).toLocaleString();
+			   if(p<1)requestAnimationFrame(step);
+			  }
+			  requestAnimationFrame(step);
+			 });
+			}
+			function renderTabs(active){
+			 var h='';
+			 literals.forEach(function(l){h+='<div class=\'tab '+(l===active?'act':'')+'\' data-lit=\''+esc(l)+'\'>'+esc(l)+'</div>';});
+			 document.getElementById('tabs').innerHTML=h;
+			 document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){render(t.getAttribute('data-lit'));});});
+			}
+			function renderGlobal(literal){
+			 var all=rows.filter(function(x){return x.literal===literal;});
+			 var cur=sum(all,'cur'),prev=sum(all,'prev'),avg=sum(all,'avg'),yoy=sum(all,'yoy');
+			 var maxCampus=1;
+			 campuses.forEach(function(c){maxCampus=Math.max(maxCampus,sum(all.filter(function(x){return x.campus===c.name;}),'cur'));});
+			 var lolli='';
+			 campuses.forEach(function(c){
+			  var cr=all.filter(function(x){return x.campus===c.name;});
+			  var cv=sum(cr,'cur');
+			  var w=Math.max(0,Math.min(100,Math.round((cv/maxCampus)*100)));
+			  lolli+=
+			   '<div class=\'lolli-row\'>'+
+			   '<div class=\'lolli-name\' style=\'color:'+c.color+'\'>'+c.short+'</div>'+
+			   '<div class=\'lolli-track\'><div class=\'lolli-fill\' style=\'background:'+c.color+';width:'+w+'%\'></div></div>'+
+			   '<div class=\'lolli-val\' style=\'color:'+c.color+'\'>'+n(cv)+'</div>'+
+			   '</div>';
+			 });
+			 document.getElementById('globalCard').innerHTML=
+			  '<div class=\'global-head\'><div class=\'global-label\'>Global</div><div class=\'global-value\'>'+n(cur)+'</div></div>'+
+			  '<table class=\'metric-table\'>'+
+			  '<tr><td class=\'svc\'>Prev WK</td><td class=\'num\'>'+n(prev)+'</td></tr>'+
+			  '<tr><td class=\'svc\'>5WK Avg</td><td class=\'num\'>'+n(avg)+'</td></tr>'+
+			  '<tr><td class=\'svc\'>WoW%</td><td class=\''+cls(cur,prev)+'\'>'+pct(cur,prev)+'</td></tr>'+
+			  '<tr><td class=\'svc\'>YoY%</td><td class=\''+cls(cur,yoy)+'\'>'+pct(cur,yoy)+'</td></tr>'+
+			  '</table>'+
+			  '<div class=\'by-campus\'><div class=\'small-title\'>By campus</div><div class=\'lolli-wrap\'>'+lolli+'</div></div>';
+			}
+			function renderCampusCards(literal){
+			 var html='';
+			 campuses.forEach(function(c){
+			  var cr=rows.filter(function(x){return x.literal===literal&&x.campus===c.name;});
+			  var visibleServices=services.filter(function(s){
+			   var r=cr.filter(function(x){return x.service===s;})[0];
+			   return r&&(r.cur||r.prev||r.avg||r.yoy);
+			  });
+			  var totalCur=sum(cr,'cur'),totalPrev=sum(cr,'prev'),totalAvg=sum(cr,'avg'),totalYoy=sum(cr,'yoy');
+			  html+='<div class=\'card\'><div class=\'campus-card\'>';
+			  html+='<div class=\'campus-side\' style=\'background:'+c.color+'22;border-right-color:'+c.color+'66\'><div class=\'campus-name\' style=\'color:'+c.color+'\'>'+c.short+'</div><div class=\'campus-total\' style=\'color:'+c.color+'\'>'+numSpan(totalCur,false)+'</div></div>';
+			  html+='<table class=\'campus-table\'><tr><td class=\'col-hdr\' style=\'text-align:left;\'>Service</td><td class=\'col-hdr\'>Att</td><td class=\'col-hdr\'>Prev</td><td class=\'col-hdr\'>5WK Avg</td><td class=\'col-hdr\'>WoW%</td><td class=\'col-hdr\'>YoY%</td></tr>';
+			  if(visibleServices.length===0){
+			   html+='<tr><td class=\'svc\'>No data</td><td class=\'att\'>—</td><td class=\'num\'>—</td><td class=\'num\'>—</td><td class=\'neu\'>—</td><td class=\'neu\'>—</td></tr>';
+			  }else{
+			   visibleServices.forEach(function(s){
+			    var r=cr.filter(function(x){return x.service===s;})[0]||{cur:0,prev:0,avg:0,yoy:0};
+			    html+='<tr><td class=\'svc\'>'+s+'</td><td class=\'att\'>'+numSpan(r.cur,true)+'</td><td class=\'num\'>'+numSpan(r.prev,true)+'</td><td class=\'num\'>'+numSpan(r.avg,true)+'</td><td class=\''+cls(r.cur,r.prev)+'\'>'+pct(r.cur,r.prev)+'</td><td class=\''+cls(r.cur,r.yoy)+'\'>'+pct(r.cur,r.yoy)+'</td></tr>';
+			   });
+			  }
+			  html+='<tr class=\'tot-row\'><td class=\'svc\' style=\'color:'+c.color+'\'>Total</td><td class=\'att\' style=\'color:'+c.color+'\'>'+numSpan(totalCur,false)+'</td><td class=\'num\'>'+numSpan(totalPrev,false)+'</td><td class=\'num\'>'+numSpan(totalAvg,false)+'</td><td class=\''+cls(totalCur,totalPrev)+'\'>'+pct(totalCur,totalPrev)+'</td><td class=\''+cls(totalCur,totalYoy)+'\'>'+pct(totalCur,totalYoy)+'</td></tr>';
+			  html+='</table></div></div>';
+			 });
+			 document.getElementById('campusCards').innerHTML=html;
+			}
+			function render(literal){
+			 renderTabs(literal);
+			 renderGlobal(literal);
+			 renderCampusCards(literal);
+			 setTimeout(runCounts,30);
+			}
+			render('Adults');
+			})();
+			</script>
+			"
+		lineageTag: 218993e8-a5e7-4dcc-9d2a-ceb656b31196
+
+	measure HTML_CheckInMapData =
+			
+			VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			VAR _maxDate =
+			    MAXX(
+			        FILTER(ALL(fact_checkin), fact_checkin[AOSundayDate] <= TODAY()),
+			        fact_checkin[AOSundayDate]
+			    )
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
+			VAR _Sunday = DATEVALUE(_SelectedDate)
+			
+			VAR _Rows = FILTER(
+			    ALL(fact_checkin),
+			    DATEVALUE(fact_checkin[AOSundayDate]) = _Sunday
+			)
+			
+			VAR _WithGiving = ADDCOLUMNS(
+			    _Rows,
+			    "GivingCode", FORMAT( [GivingStage], "0" )
+			)
+			
+			RETURN
+			CONCATENATEX(
+			    _WithGiving,
+			    FORMAT([Lat], "0.0000") & "," &
+			    FORMAT([Lng], "0.0000") & "," &
+			    [CampusList] & "," &
+			    [MinList] & "," &
+			    [Headcount] & "," &
+			    [GivingCode],
+			    ";"
+			)
+		lineageTag: a170ef00-0103-4e9a-8a69-e7e195d1c5ae
+
+	measure HTML_CheckInHeatmap =
+			
+			VAR _data = [HTML_CheckInMapData]
+			VAR _isDark = [HTML_Theme] = "Dark"
+			VAR _style = IF(_isDark, "mapbox://styles/mapbox/dark-v11", "mapbox://styles/mapbox/streets-v12")
+			VAR _bg = IF(_isDark, "#111111", "#f8f8f8")
+			VAR _tabBg = IF(_isDark, "#181818", "#eeeeee")
+			VAR _tabBorder = IF(_isDark, "#333333", "#dddddd")
+			VAR _tabColor = IF(_isDark, "#aaaaaa", "#333333")
+			VAR _activeColor = IF(_isDark, "#ffffff", "#111111")
+			VAR _infoBg = IF(_isDark, "rgba(20,20,20,.95)", "rgba(255,255,255,.95)")
+			VAR _infoColor = IF(_isDark, "#dddddd", "#222222")
+			VAR _labelColor = IF(_isDark, "#888888", "#777777")
+			VAR _pinBg = IF(_isDark, "#111111", "#ffffff")
+			VAR _titleColor = IF(_isDark, "#ffffff", "#111111")
+			VAR _token = "pk.eyJ1IjoidGVjaC0yNjhnZW5lcmF0aW9uIiwiYSI6ImNtc2c5NGJ1NTAwaTUyd3E5cXQyejgycXkifQ.CaGq4DLkzk-Edh_4TeqG0w"
+			
+			RETURN
+			"
+			<script src='https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js'></script>
+			<link href='https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css' rel='stylesheet'/>
+			
+			<style>
+			html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;}
+			
+			.wrap{
+			    width:100%;
+			    height:100%;
+			    display:flex;
+			    flex-direction:column;
+			    position:relative;
+			    background:" & _bg & ";
+			    font-family:sans-serif;
+			}
+			
+			.titlebar{
+			    padding:10px 12px 0 12px;
+			    display:flex;
+			    align-items:baseline;
+			    gap:8px;
+			    flex-shrink:0;
+			    background:" & _bg & ";
+			}
+			
+			.title{
+			    font-size:14px;
+			    font-weight:700;
+			    color:" & _titleColor & ";
+			}
+			
+			.subtitle{
+			    font-size:11px;
+			    color:" & _labelColor & ";
+			}
+			
+			.info-btn{
+			    margin-left:auto;
+			    width:18px;
+			    height:18px;
+			    border-radius:50%;
+			    border:1px solid " & _tabBorder & ";
+			    color:" & _tabColor & ";
+			    background:" & _tabBg & ";
+			    font-size:11px;
+			    font-weight:700;
+			    cursor:pointer;
+			    display:flex;
+			    align-items:center;
+			    justify-content:center;
+			    user-select:none;
+			    position:relative;
+			}
+			
+			.info-popover{
+			    position:absolute;
+			    top:26px;
+			    right:0;
+			    width:280px;
+			    background:" & _infoBg & ";
+			    border:1px solid " & _tabBorder & ";
+			    border-radius:10px;
+			    color:" & _infoColor & ";
+			    font-size:11px;
+			    line-height:1.6;
+			    padding:12px 14px;
+			    box-shadow:0 4px 16px rgba(0,0,0,.35);
+			    z-index:1000;
+			    display:none;
+			    text-align:left;
+			}
+			
+			.info-popover.show{display:block;}
+			
+			.info-popover h4{
+			    margin:0 0 6px 0;
+			    font-size:12px;
+			    font-weight:700;
+			}
+			
+			.info-popover .sec{margin-top:8px;}
+			
+			.info-popover .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;}
+			
+			.header{
+			    padding:8px 12px;
+			    display:flex;
+			    gap:6px;
+			    flex-wrap:wrap;
+			    flex-shrink:0;
+			    background:" & _bg & ";
+			    align-items:center;
+			}
+			
+			.tab{
+			    padding:4px 12px;
+			    border-radius:20px;
+			    border:1px solid " & _tabBorder & ";
+			    color:" & _tabColor & ";
+			    background:" & _tabBg & ";
+			    font-size:11px;
+			    font-weight:600;
+			    cursor:pointer;
+			    user-select:none;
+			}
+			
+			.tab.act{
+			    border-color:" & _activeColor & ";
+			    color:" & _activeColor & ";
+			}
+			
+			.divider{
+			    width:1px;
+			    height:18px;
+			    background:" & _tabBorder & ";
+			    margin:0 4px;
+			}
+			
+			.toggle{
+			    padding:4px 12px;
+			    border-radius:20px;
+			    border:1px solid " & _tabBorder & ";
+			    color:" & _tabColor & ";
+			    background:" & _tabBg & ";
+			    font-size:11px;
+			    font-weight:600;
+			    cursor:pointer;
+			    user-select:none;
+			}
+			
+			.toggle:hover{
+			    border-color:#639922;
+			    color:#639922;
+			}
+			
+			#map{
+			    width:100%;
+			    height:500px;
+			    background:" & _bg & ";
+			}
+			
+			.info-box,.legend{
+			    position:absolute;
+			    background:" & _infoBg & ";
+			    border:1px solid " & _tabBorder & ";
+			    border-radius:10px;
+			    color:" & _infoColor & ";
+			    font-size:11px;
+			    z-index:10;
+			    pointer-events:none;
+			    box-shadow:0 2px 8px rgba(0,0,0,.25);
+			}
+			
+			.info-box{
+			    bottom:10px;
+			    left:10px;
+			    padding:10px 14px;
+			    line-height:1.7;
+			    min-width:190px;
+			}
+			
+			.legend{
+			    bottom:10px;
+			    right:10px;
+			    padding:8px 12px;
+			    line-height:1.8;
+			}
+			
+			.legend.hidden{display:none;}
+			
+			.area{font-size:13px;font-weight:700;margin-bottom:4px;}
+			.lbl{color:" & _labelColor & ";}
+			.sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;border:1px solid rgba(255,255,255,.5);}
+			
+			.campus-pin{
+			    width:38px;
+			    height:38px;
+			    border-radius:50%;
+			    background:" & _pinBg & ";
+			    display:flex;
+			    align-items:center;
+			    justify-content:center;
+			    font-size:9px;
+			    font-weight:800;
+			    font-family:sans-serif;
+			    box-shadow:0 0 14px rgba(0,0,0,.55);
+			    z-index:9999!important;
+			    cursor:pointer;
+			    transition:opacity 0.2s ease;
+			}
+			
+			.campus-pin.dimmed{
+			    opacity:0.25;
+			}
+			
+			.household-dot{
+			    z-index:1!important;
+			}
+			
+			.mapboxgl-marker{
+			    z-index:1;
+			}
+			
+			.campus-marker{
+			    z-index:9999!important;
+			}
+			
+			.reset-btn{
+			    position:absolute;
+			    top:60px;
+			    right:10px;
+			    padding:6px 12px;
+			    border-radius:20px;
+			    border:1px solid " & _tabBorder & ";
+			    background:" & _tabBg & ";
+			    color:" & _tabColor & ";
+			    font-size:11px;
+			    font-weight:600;
+			    cursor:pointer;
+			    z-index:10;
+			    user-select:none;
+			}
+			
+			.reset-btn:hover{
+			    border-color:" & _activeColor & ";
+			    color:" & _activeColor & ";
+			}
+			
+			.mapboxgl-ctrl-logo,.mapboxgl-ctrl-attrib{display:none!important;}
+			</style>
+			
+			<div class='wrap'>
+			    <div class='titlebar'>
+			        <div class='title'>Household Engagement Map</div>
+			        <div class='subtitle' id='subtitle'>Check-In View</div>
+			        <div class='info-btn' id='infoBtn'>
+			            i
+			            <div class='info-popover' id='infoPopover'>
+			                <h4>About this map</h4>
+			                <div>Shows households that checked in this week, plotted at their home address.</div>
+			
+			                <div class='sec'><b>Tabs along the top</b> filter which households you see by which group checked in (Door Holders, bloom, Passion Kids, Middle School, High School), or All for everyone.</div>
+			
+			                <div class='sec'><b>Campus pins</b> (CBL, 515, TRL)  click one to show only households from that campus. Click it again to show all campuses.</div>
+			
+			                <div class='sec'><b>Check-In View</b> (default)  dots are colored by campus:</div>
+			                <div><span class='sw' style='background:#00B8E4'></span>515</div>
+			                <div><span class='sw' style='background:#FF641C'></span>CBL</div>
+			                <div><span class='sw' style='background:#931EE7'></span>Trilith</div>
+			                <div><span class='sw' style='background:#FFD700'></span>Multi-campus</div>
+			
+			                <div class='sec'><b>Giving View</b>  each household's giving journey stage from Rock. The letter inside each dot still shows their campus:</div>
+			                <div><span class='sw' style='background:#3B82F6'></span>New  first-time giver</div>
+			                <div><span class='sw' style='background:#639922'></span>Consistent  gives regularly</div>
+			                <div><span class='sw' style='background:#6D5BD0'></span>Occasional  gives now and then</div>
+			                <div><span class='sw' style='background:#BA7517'></span>Lapsed  gave before, has paused</div>
+			                <div><span class='sw' style='background:#8B2E2E'></span>Former  no recent giving</div>
+			                <div><span class='sw' style='background:#9a9890'></span>Non-giver</div>
+			            </div>
+			        </div>
+			    </div>
+			
+			    <div class='header'>
+			        <div class='tab act' data-f='all'>All</div>
+			        <div class='tab' data-f='d'>Door Holder</div>
+			        <div class='tab' data-f='b'>bloom</div>
+			        <div class='tab' data-f='p'>PK</div>
+			        <div class='tab' data-f='m'>MS</div>
+			        <div class='tab' data-f='h'>HS</div>
+			        <div class='divider'></div>
+			        <div class='toggle' id='givingToggle'>Giving View</div>
+			    </div>
+			
+			    <div id='map'></div>
+			
+			    <div class='info-box' id='infoBox'>Hover a dot for details</div>
+			
+			    <div class='legend' id='legendMinistry'>
+			        <div><span class='sw' style='background:#00B8E4'></span>515</div>
+			        <div><span class='sw' style='background:#FF641C'></span>CBL</div>
+			        <div><span class='sw' style='background:#931EE7'></span>TRL</div>
+			        <div><span class='sw' style='background:#FFD700'></span>Multi-campus</div>
+			    </div>
+			
+			    <div class='legend hidden' id='legendGiving'>
+			        <div><span class='sw' style='background:#3B82F6'></span>New</div>
+			        <div><span class='sw' style='background:#639922'></span>Consistent</div>
+			        <div><span class='sw' style='background:#6D5BD0'></span>Occasional</div>
+			        <div><span class='sw' style='background:#BA7517'></span>Lapsed</div>
+			        <div><span class='sw' style='background:#8B2E2E'></span>Former</div>
+			        <div><span class='sw' style='background:#9a9890'></span>Non-giver</div>
+			    </div>
+			
+			    <div class='reset-btn' id='resetBtn'>Reset View</div>
+			</div>
+			
+			<script>
+			var RAW='" & _data & "';
+			var activeMinistry='all';
+			var givingMode=false;
+			var activeCampus=null;
+			var markers=[];
+			var campusMarkers=[];
+			var map;
+			var STROKE_COLOR = " &
+			IF(
+			    _isDark,
+			    "'rgba(255,255,255,0.45)'",
+			    "'rgba(0,0,0,0.30)'"
+			) &
+			";
+			
+			var MINISTRY_LABELS={d:'Door Holder',b:'bloom',p:'Passion Kids',m:'Middle School',h:'High School'};
+			var CAMPUS_LABELS={'5':'515','C':'Cumberland','T':'Trilith','D':'DC','O':'Online','G':'Global','U':'Unknown'};
+			
+			var GIVING_LABELS={
+			    0:'Non-giver',
+			    1:'New giver',
+			    2:'Consistent giver',
+			    3:'Occasional giver',
+			    4:'Lapsed giver',
+			    5:'Former giver'
+			};
+			
+			var GIVING_COLORS={
+			    0:'#9a9890',
+			    1:'#3B82F6',
+			    2:'#639922',
+			    3:'#6D5BD0',
+			    4:'#BA7517',
+			    5:'#8B2E2E'
+			};
+			
+			var infoBox=document.getElementById('infoBox');
+			var legendMinistry=document.getElementById('legendMinistry');
+			var legendGiving=document.getElementById('legendGiving');
+			var givingToggle=document.getElementById('givingToggle');
+			var subtitle=document.getElementById('subtitle');
+			var infoBtn=document.getElementById('infoBtn');
+			var infoPopover=document.getElementById('infoPopover');
+			
+			var CAMPUSES=[
+			    {lat:33.818205,lng:-84.370739,label:'515',code:'5',color:'#00B8E4'},
+			    {lat:33.872732,lng:-84.475164,label:'CBL',code:'C',color:'#FF641C'},
+			    {lat:33.483429,lng:-84.506836,label:'TRL',code:'T',color:'#931EE7'}
+			];
+			
+			function clearMarkers(){
+			    markers.forEach(function(m){ m.remove(); });
+			    markers=[];
+			}
+			
+			function getColor(campus){
+			    var color='#00B8E4';
+			    if(campus.indexOf('C') > -1){ color='#FF641C'; }
+			    if(campus.indexOf('T') > -1){ color='#931EE7'; }
+			    if(campus.length > 1){ color='#FFD700'; }
+			    return color;
+			}
+			
+			function addCampusPins(){
+			    CAMPUSES.forEach(function(c){
+			        var el=document.createElement('div');
+			        el.className='campus-pin';
+			        el.style.border='2.5px solid '+c.color;
+			        el.style.color=c.color;
+			        el.style.zIndex='9999';
+			        el.textContent=c.label;
+			
+			        el.addEventListener('click',function(){
+			            if(activeCampus === c.code){
+			                activeCampus = null;
+			            } else {
+			                activeCampus = c.code;
+			            }
+			            updateCampusPinStyles();
+			            renderMarkers();
+			        });
+			
+			        var marker=new mapboxgl.Marker({element:el, anchor:'center'})
+			            .setLngLat([c.lng,c.lat])
+			            .addTo(map);
+			
+			        marker.getElement().classList.add('campus-marker');
+			        marker.getElement().style.zIndex='9999';
+			        marker.code=c.code;
+			
+			        campusMarkers.push(marker);
+			    });
+			}
+			
+			function updateCampusPinStyles(){
+			    campusMarkers.forEach(function(m){
+			        var el=m.getElement();
+			        if(activeCampus === null){
+			            el.classList.remove('dimmed');
+			        } else if(m.code === activeCampus){
+			            el.classList.remove('dimmed');
+			        } else {
+			            el.classList.add('dimmed');
+			        }
+			    });
+			}
+			
+			function renderStandardDot(p, ministry){
+			    var lat=parseFloat(p[0]);
+			    var lng=parseFloat(p[1]);
+			    var campus=p[2];
+			    var headcount=parseInt(p[4]);
+			
+			    if(isNaN(lat) || isNaN(lng)) return;
+			
+			    var color=getColor(campus);
+			
+			    var size=10;
+			    if(ministry.length >= 3){ size=16; }
+			    else if(ministry.length >= 2){ size=13; }
+			
+			    var el=document.createElement('div');
+			    el.className='household-dot';
+			    el.style.width=size+'px';
+			    el.style.height=size+'px';
+			    el.style.borderRadius='50%';
+			    el.style.background=color;
+			    el.style.border='1px solid ' + STROKE_COLOR;
+			    el.style.cursor='pointer';
+			    el.style.zIndex='1';
+			
+			    el.addEventListener('mouseenter',function(){
+			        var mins=ministry.split('').map(function(x){return MINISTRY_LABELS[x] || x;}).join(', ');
+			        var camps=campus.split('').map(function(x){return CAMPUS_LABELS[x] || x;}).join(', ');
+			        var peopleLabel = headcount+(headcount===1?' person':' people');
+			        var minLabel = ministry.length+(ministry.length===1?' ministry':' ministries');
+			
+			        infoBox.innerHTML =
+			            '<div class=""area"" style=""color:'+color+'"">'+camps+'</div>' +
+			            '<div><span class=""lbl"">Household:</span> '+peopleLabel+'</div>' +
+			            '<div><span class=""lbl"">Ministries:</span> '+mins+' ('+minLabel+')</div>';
+			    });
+			
+			    el.addEventListener('mouseleave',function(){
+			        infoBox.innerHTML='Hover a dot for details';
+			    });
+			
+			    var marker=new mapboxgl.Marker({element:el, anchor:'center'})
+			        .setLngLat([lng,lat])
+			        .addTo(map);
+			
+			    marker.getElement().style.zIndex='1';
+			
+			    markers.push(marker);
+			}
+			
+			function renderGivingDot(p, ministry){
+			    var lat=parseFloat(p[0]);
+			    var lng=parseFloat(p[1]);
+			    var campus=p[2];
+			    var headcount=parseInt(p[4]);
+			    var givingCode=p[5] || '0';
+			
+			    if(isNaN(lat) || isNaN(lng)) return;
+			
+			    var fillColor=GIVING_COLORS[givingCode] || GIVING_COLORS[0];
+			
+			    var size=14;
+			
+			    var campusLabel = campus.length === 1 ? campus : 'M';
+			
+			    var el=document.createElement('div');
+			    el.style.width=size+'px';
+			    el.style.height=size+'px';
+			    el.style.borderRadius='50%';
+			    el.style.background=fillColor;
+			    el.style.color='#ffffff';
+			    el.style.display='flex';
+			    el.style.alignItems='center';
+			    el.style.justifyContent='center';
+			    el.style.fontSize='7px';
+			    el.style.fontWeight='800';
+			    el.style.fontFamily='sans-serif';
+			    el.style.cursor='pointer';
+			    el.textContent=campusLabel;
+			
+			    el.addEventListener('mouseenter',function(){
+			        var camps=campus.split('').map(function(x){return CAMPUS_LABELS[x] || x;}).join(', ');
+			        var peopleLabel = headcount+(headcount===1?' person':' people');
+			        var givingLabel = GIVING_LABELS[givingCode] || 'Unknown';
+			
+			        infoBox.innerHTML =
+			            '<div class=""area"" style=""color:'+fillColor+'"">'+camps+'</div>' +
+			            '<div><span class=""lbl"">Household:</span> '+peopleLabel+'</div>' +
+			            '<div><span class=""lbl"">Giving:</span> '+givingLabel+'</div>';
+			    });
+			
+			    el.addEventListener('mouseleave',function(){
+			        infoBox.innerHTML='Hover a dot for details';
+			    });
+			
+			    var marker=new mapboxgl.Marker({element:el, anchor:'center'})
+			        .setLngLat([lng,lat])
+			        .addTo(map);
+			
+			    markers.push(marker);
+			}
+			
+			function renderMarkers(){
+			    clearMarkers();
+			
+			    var rows = RAW.split(';');
+			    var rendered = 0;
+			    var errors = 0;
+			
+			    rows.forEach(function(r){
+			        var p=r.split(',');
+			        if(p.length < 5) return;
+			
+			        var campus=p[2];
+			        var ministry=p[3];
+			
+			        if(activeMinistry !== 'all' && ministry.indexOf(activeMinistry) === -1) return;
+			        if(activeCampus !== null && campus.indexOf(activeCampus) === -1) return;
+			
+			        try {
+			            if(givingMode){
+			                renderGivingDot(p, ministry);
+			            } else {
+			                renderStandardDot(p, ministry);
+			            }
+			            rendered++;
+			        } catch(e) {
+			            errors++;
+			            console.error('Render error:', e, p);
+			        }
+			    });
+			
+			    console.log('Total rows:', rows.length, 'Rendered:', rendered, 'Errors:', errors);
+			}
+			
+			function updateLegend(){
+			    if(givingMode){
+			        legendMinistry.classList.add('hidden');
+			        legendGiving.classList.remove('hidden');
+			        subtitle.textContent='Giving View';
+			        givingToggle.textContent='Check-In View';
+			    } else {
+			        legendMinistry.classList.remove('hidden');
+			        legendGiving.classList.add('hidden');
+			        subtitle.textContent='Check-In View';
+			        givingToggle.textContent='Giving View';
+			    }
+			}
+			
+			setTimeout(function(){
+			    mapboxgl.accessToken='" & _token & "';
+			
+			    map=new mapboxgl.Map({
+			        container:'map',
+			        style:'" & _style & "',
+			        center:[-84.40,33.85],
+			        zoom:9,
+			        attributionControl:false
+			    });
+			
+			    map.on('load',function(){
+			        renderMarkers();
+			        addCampusPins();
+			    });
+			
+			    document.querySelectorAll('[data-f]').forEach(function(btn){
+			        btn.addEventListener('click',function(){
+			            document.querySelectorAll('[data-f]').forEach(function(b){ b.classList.remove('act'); });
+			            btn.classList.add('act');
+			            activeMinistry=btn.getAttribute('data-f');
+			            renderMarkers();
+			        });
+			    });
+			
+			    givingToggle.addEventListener('click',function(){
+			        givingMode = !givingMode;
+			        updateLegend();
+			        renderMarkers();
+			    });
+			
+			    infoBtn.addEventListener('click',function(e){
+			        e.stopPropagation();
+			        infoPopover.classList.toggle('show');
+			    });
+			
+			    document.addEventListener('click',function(e){
+			        if(!infoBtn.contains(e.target)){
+			            infoPopover.classList.remove('show');
+			        }
+			    });
+			
+			    document.getElementById('resetBtn').addEventListener('click',function(){
+			        map.flyTo({center:[-84.40,33.85],zoom:9});
+			    });
+			},500);
+			</script>
+			"
+		lineageTag: e715dba5-3693-4bc5-bd62-7671d6187d35
+
+	measure HTML_CheckInHeatmap2 =
+			
+			VAR _data = [HTML_CheckInMapData]
+			VAR _isDark = [HTML_Theme] = "Dark"
+			VAR _style = IF(_isDark, "mapbox://styles/mapbox/dark-v11", "mapbox://styles/mapbox/streets-v12")
+			VAR _bg = IF(_isDark, "#111111", "#f8f8f8")
+			VAR _tabBg = IF(_isDark, "#181818", "#eeeeee")
+			VAR _tabBorder = IF(_isDark, "#333333", "#dddddd")
+			VAR _tabColor = IF(_isDark, "#aaaaaa", "#333333")
+			VAR _activeColor = IF(_isDark, "#ffffff", "#111111")
+			VAR _infoBg = IF(_isDark, "rgba(20,20,20,.95)", "rgba(255,255,255,.95)")
+			VAR _infoColor = IF(_isDark, "#dddddd", "#222222")
+			VAR _labelColor = IF(_isDark, "#888888", "#777777")
+			VAR _pinBg = IF(_isDark, "#111111", "#ffffff")
+			VAR _token = "pk.eyJ1IjoidGVjaC0yNjhnZW5lcmF0aW9uIiwiYSI6ImNtcWIxZjNmbzA5bm8ycHByYjhmNnl5N2QifQ.ECNCw7txUuO4aCCQ6IqqMQ"
+			
+			RETURN
+			"
+			<script src='https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js'></script>
+			<link href='https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css' rel='stylesheet'/>
+			
+			<style>
+			html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;}
+			
+			.wrap{
+			    width:100%;
+			    height:100%;
+			    display:flex;
+			    flex-direction:column;
+			    position:relative;
+			    background:" & _bg & ";
+			    font-family:sans-serif;
+			}
+			
+			.header{
+			    padding:8px 12px;
+			    display:flex;
+			    gap:6px;
+			    flex-wrap:wrap;
+			    flex-shrink:0;
+			    background:" & _bg & ";
+			}
+			
+			.tab{
+			    padding:4px 12px;
+			    border-radius:20px;
+			    border:1px solid " & _tabBorder & ";
+			    color:" & _tabColor & ";
+			    background:" & _tabBg & ";
+			    font-size:11px;
+			    font-weight:600;
+			    cursor:pointer;
+			    user-select:none;
+			}
+			
+			.tab.act{
+			    border-color:" & _activeColor & ";
+			    color:" & _activeColor & ";
+			}
+			
+			#map{
+			    width:100%;
+			    height:500px;
+			    background:" & _bg & ";
+			}
+			
+			.info-box,.legend{
+			    position:absolute;
+			    background:" & _infoBg & ";
+			    border:1px solid " & _tabBorder & ";
+			    border-radius:10px;
+			    color:" & _infoColor & ";
+			    font-size:11px;
+			    z-index:10;
+			    pointer-events:none;
+			    box-shadow:0 2px 8px rgba(0,0,0,.25);
+			}
+			
+			.info-box{
+			    bottom:10px;
+			    left:10px;
+			    padding:10px 14px;
+			    line-height:1.7;
+			    min-width:190px;
+			}
+			
+			.legend{
+			    bottom:10px;
+			    right:10px;
+			    padding:8px 12px;
+			    line-height:1.8;
+			}
+			
+			.area{font-size:13px;font-weight:700;margin-bottom:4px;}
+			.lbl{color:" & _labelColor & ";}
+			.sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;border:1px solid rgba(255,255,255,.5);}
+			
+			.campus-pin{
+			    width:38px;
+			    height:38px;
+			    border-radius:50%;
+			    background:" & _pinBg & ";
+			    display:flex;
+			    align-items:center;
+			    justify-content:center;
+			    font-size:9px;
+			    font-weight:800;
+			    font-family:sans-serif;
+			    box-shadow:0 0 14px rgba(0,0,0,.55);
+			    z-index:9999!important;
+			}
+			
+			.household-dot{
+			    z-index:1!important;
+			}
+			
+			.mapboxgl-marker{
+			    z-index:1;
+			}
+			
+			.campus-marker{
+			    z-index:9999!important;
+			}
+			
+			.mapboxgl-ctrl-logo,.mapboxgl-ctrl-attrib{display:none!important;}
+			</style>
+			
+			<div class='wrap'>
+			    <div class='header'>
+			        <div class='tab act' data-f='all'>All</div>
+			        <div class='tab' data-f='d'>Door Holder</div>
+			        <div class='tab' data-f='b'>bloom</div>
+			        <div class='tab' data-f='p'>PK</div>
+			        <div class='tab' data-f='m'>MS</div>
+			        <div class='tab' data-f='h'>HS</div>
+			    </div>
+			
+			    <div id='map'></div>
+			
+			    <div class='info-box' id='infoBox'>Hover a dot for details</div>
+			
+			    <div class='legend'>
+			        <div><span class='sw' style='background:#00B8E4'></span>515</div>
+			        <div><span class='sw' style='background:#FF641C'></span>CBL</div>
+			        <div><span class='sw' style='background:#1EE7B8'></span>TRL</div>
+			        <div><span class='sw' style='background:#FFD700'></span>Multi-campus</div>
+			    </div>
+			</div>
+			
+			<script>
+			var RAW='" & _data & "';
+			var activeMinistry='all';
+			var markers=[];
+			var campusMarkers=[];
+			var map;
+			var STROKE_COLOR = " &
+			IF(
+			    _isDark,
+			    "'rgba(255,255,255,0.45)'",
+			    "'rgba(0,0,0,0.30)'"
+			) &
+			";
+			
+			var MINISTRY_LABELS={d:'Door Holder',b:'bloom',p:'Passion Kids',m:'Middle School',h:'High School'};
+			var CAMPUS_LABELS={'5':'515','C':'Cumberland','T':'Trilith','D':'DC','O':'Online','G':'Global','U':'Unknown'};
+			var infoBox=document.getElementById('infoBox');
+			
+			var CAMPUSES=[
+			    {lat:33.8195,lng:-84.3705,label:'515',color:'#00B8E4'},
+			    {lat:33.8855,lng:-84.4655,label:'CBL',color:'#FF641C'},
+			    {lat:33.4030,lng:-84.4715,label:'TRL',color:'#1EE7B8'}
+			];
+			
+			function clearMarkers(){
+			    markers.forEach(function(m){ m.remove(); });
+			    markers=[];
+			}
+			
+			function getColor(campus){
+			    var color='#00B8E4';
+			    if(campus.indexOf('C') > -1){ color='#FF641C'; }
+			    if(campus.indexOf('T') > -1){ color='#1EE7B8'; }
+			    if(campus.length > 1){ color='#FFD700'; }
+			    return color;
+			}
+			
+			function addCampusPins(){
+			    CAMPUSES.forEach(function(c){
+			        var el=document.createElement('div');
+			        el.className='campus-pin';
+			        el.style.border='2.5px solid '+c.color;
+			        el.style.color=c.color;
+			        el.style.zIndex='9999';
+			        el.textContent=c.label;
+			
+			        var marker=new mapboxgl.Marker({element:el, anchor:'center'})
+			            .setLngLat([c.lng,c.lat])
+			            .addTo(map);
+			
+			        marker.getElement().classList.add('campus-marker');
+			        marker.getElement().style.zIndex='9999';
+			
+			        campusMarkers.push(marker);
+			    });
+			}
+			
+			function renderMarkers(){
+			    clearMarkers();
+			
+			    RAW.split(';').forEach(function(r){
+			        var p=r.split(',');
+			        if(p.length < 5) return;
+			
+			        var lat=parseFloat(p[0]);
+			        var lng=parseFloat(p[1]);
+			        var campus=p[2];
+			        var ministry=p[3];
+			        var headcount=parseInt(p[4]);
+			
+			        if(isNaN(lat) || isNaN(lng)) return;
+			        if(activeMinistry !== 'all' && ministry.indexOf(activeMinistry) === -1) return;
+			
+			        var color=getColor(campus);
+			
+			        var size=10;
+			        if(ministry.length >= 3){ size=16; }
+			        else if(ministry.length >= 2){ size=13; }
+			
+			        var el=document.createElement('div');
+			        el.className='household-dot';
+			        el.style.width=size+'px';
+			        el.style.height=size+'px';
+			        el.style.borderRadius='50%';
+			        el.style.background=color;
+			        el.style.border='1px solid ' + STROKE_COLOR;
+			        el.style.cursor='pointer';
+			        el.style.zIndex='1';
+			
+			        el.addEventListener('mouseenter',function(){
+			            var mins=ministry.split('').map(function(x){return MINISTRY_LABELS[x] || x;}).join(', ');
+			            var camps=campus.split('').map(function(x){return CAMPUS_LABELS[x] || x;}).join(', ');
+			
+			            infoBox.innerHTML =
+			                '<div class=""area"" style=""color:'+color+'"">'+camps+'</div>' +
+			                '<div><span class=""lbl"">Household:</span> '+headcount+' people</div>' +
+			                '<div><span class=""lbl"">Ministries:</span> '+mins+'</div>';
+			        });
+			
+			        el.addEventListener('mouseleave',function(){
+			            infoBox.innerHTML='Hover a dot for details';
+			        });
+			
+			        var marker=new mapboxgl.Marker({element:el, anchor:'center'})
+			            .setLngLat([lng,lat])
+			            .addTo(map);
+			
+			        marker.getElement().style.zIndex='1';
+			
+			        markers.push(marker);
+			    });
+			
+			    campusMarkers.forEach(function(m){
+			        m.getElement().style.zIndex='9999';
+			    });
+			}
+			
+			setTimeout(function(){
+			    mapboxgl.accessToken='" & _token & "';
+			
+			    map=new mapboxgl.Map({
+			        container:'map',
+			        style:'" & _style & "',
+			        center:[-84.40,33.85],
+			        zoom:9,
+			        attributionControl:false
+			    });
+			
+			    map.on('load',function(){
+			        renderMarkers();
+			        addCampusPins();
+			    });
+			
+			    document.querySelectorAll('.tab').forEach(function(btn){
+			        btn.addEventListener('click',function(){
+			            document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('act'); });
+			            btn.classList.add('act');
+			            activeMinistry=btn.getAttribute('data-f');
+			            renderMarkers();
+			        });
+			    });
+			},500);
+			</script>
+			"
+		lineageTag: e8c9c2d2-47a9-4e33-afbb-0181bbcd0d54
+
+	measure FirstGiftsThisWeek =
+			
+			VAR _WeekEnd = [MaxselectedDate]
+			VAR _WeekStart = _WeekEnd - 6
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT(AnalyticsGivingSignals[PersonId]),
+			    AnalyticsGivingSignals[FirstGiftDate] >= _WeekStart,
+			    AnalyticsGivingSignals[FirstGiftDate] <= _WeekEnd
+			)
+		formatString: 0
+		lineageTag: d0f63745-dffe-4704-a107-f780eb7319f1
+
+	measure OnlineAttendance =
+			
+			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
+			VAR _Sun = FORMAT(_SelectedDate, "YYYY-MM-DD")
+			RETURN
+			SUMX(
+			    FILTER(
+			        v_gathering_views,
+			        v_gathering_views[sunday_date] = _Sun
+			    ),
+			    ROUND(v_gathering_views[total_views] * 1.94, 0)
+			)
+		lineageTag: 28260510-2b85-4459-bc7a-2afe9b4c5ae6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SermonTitleRaw =
+			
+			VAR _Start = [MaxselectedDate]
+			VAR _End = [MaxselectedDate] + 1
+			RETURN
+			CALCULATE(
+			    SELECTEDVALUE(v_sermon_clips[title]),
+			    FILTER(v_sermon_clips, DATEVALUE(v_sermon_clips[published_at]) >= _Start && DATEVALUE(v_sermon_clips[published_at]) <= _End)
+			)
+		lineageTag: 42eb2b76-7e90-4f81-ab14-4f7d8a8fcfea
+
+	measure SermonTitle =
+			
+			VAR _Raw = [SermonTitleRaw]
+			VAR _Pos = IF(ISBLANK(_Raw), BLANK(), FIND(" - ", _Raw, 1, BLANK()))
+			RETURN
+			IF(
+			    ISBLANK(_Raw) || ISBLANK(_Pos),
+			    _Raw,
+			    TRIM(LEFT(_Raw, _Pos - 1))
+			)
+		lineageTag: 6b1003b2-e8eb-45ca-85ae-cd35b3d10913
+
+	measure SermonViews =
+			
+			VAR _Start = [MaxselectedDate]
+			VAR _End = [MaxselectedDate] + 1
+			RETURN
+			CALCULATE(
+			    SUM(v_sermon_clips[total_views]),
+			    FILTER(v_sermon_clips, DATEVALUE(v_sermon_clips[published_at]) >= _Start && DATEVALUE(v_sermon_clips[published_at]) <= _End)
+			)
+		formatString: 0
+		lineageTag: dea58c20-c549-455a-bf98-e1097ce68396
+
+	measure SermonSpeaker =
+			
+			VAR _Raw = [SermonTitleRaw]
+			VAR _Pos = IF(ISBLANK(_Raw), BLANK(), FIND(" - ", _Raw, 1, BLANK()))
+			RETURN
+			IF(
+			    ISBLANK(_Raw) || ISBLANK(_Pos),
+			    BLANK(),
+			    TRIM(MID(_Raw, _Pos + 3, LEN(_Raw)))
+			)
+		lineageTag: 3ae85653-3b71-4b75-aaf5-1daecefe891d
+
+	measure SermonVideoId =
+			
+			VAR _Start = [MaxselectedDate]
+			VAR _End = [MaxselectedDate] + 1
+			RETURN
+			CALCULATE(
+			    SELECTEDVALUE(v_sermon_clips[video_id]),
+			    FILTER(v_sermon_clips, DATEVALUE(v_sermon_clips[published_at]) >= _Start && DATEVALUE(v_sermon_clips[published_at]) <= _End)
+			)
+		lineageTag: bbcc3da7-b7b6-4faa-b97d-daf3559a86c3
+
+	measure SermonThumbnailUrl =
+			
+			VAR _VideoId = [SermonVideoId]
+			RETURN
+			IF(
+			    ISBLANK(_VideoId),
+			    BLANK(),
+			    "https://img.youtube.com/vi/" & _VideoId & "/maxresdefault.jpg"
+			)
+		lineageTag: 1659faa9-8341-485d-974a-296993aa80c9
+
+	measure PrevWeekOnlineAttendance =
+			
+			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
+			VAR _Sun = FORMAT(_SelectedDate - 7, "YYYY-MM-DD")
+			RETURN
+			SUMX(
+			    FILTER(
+			        v_gathering_views,
+			        v_gathering_views[sunday_date] = _Sun
+			    ),
+			    ROUND(v_gathering_views[total_views] * 1.94, 0)
+			)
+		lineageTag: 13b12436-7eba-4c53-b86f-4bbce7886928
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure HTML_Card_Online =
+			
+			VAR _CurAtt = [OnlineAttendance]
+			VAR _PrevAtt = [PrevWeekOnlineAttendance]
+			VAR _WoW = DIVIDE(_CurAtt - _PrevAtt, _PrevAtt, 0)
+			VAR _AttFmt = FORMAT(_CurAtt, "#,0")
+			VAR _PrevFmt = FORMAT(_PrevAtt, "#,0")
+			VAR _Thumb = [SermonThumbnailUrl]
+			VAR _IsDark = [SelectedTheme] = "Dark"
+			VAR _Bg = [CardBackground]
+			VAR _Txt = [CardTextColor]
+			VAR _Sec = [CardSecondaryText]
+			VAR _BorderColor = IF(_IsDark, "#2A2A2A", "#E5E7EB")
+			VAR _WoWColor = IF(_WoW >= 0, IF(_IsDark, "#4ADE80", "#166634"), IF(_IsDark, "#F87171", "#991B1B"))
+			VAR _WoWArrow = IF(_WoW >= 0, "▲", "▼")
+			VAR _WoWPct = FORMAT(ABS(_WoW), "0.0%")
+			VAR _NoData = ISBLANK([SermonVideoId]) || _CurAtt = 0
+			VAR _PlaceholderBg = IF(_IsDark, "#1A1A1A", "#F3F4F6")
+			RETURN
+			IF(
+			    _NoData,
+			    "<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			.online-card-nd { background:" & _Bg & "; border:1px solid " & _BorderColor & "; border-radius:14px; overflow:hidden; font-family:Inter,sans-serif; width:100%; box-sizing:border-box; }
+			.thumb-wrap-nd { position:relative; width:100%; height:330px; background:" & _PlaceholderBg & "; overflow:hidden; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; }
+			.nd-icon { font-size:28px; opacity:0.3; }
+			.nd-text { font-size:12px; font-weight:600; color:" & _Sec & "; opacity:0.6; letter-spacing:0.04em; text-transform:uppercase; }
+			.stat-row-nd { display:flex; align-items:center; justify-content:center; padding:18px 18px 20px; }
+			.nd-label { font-size:11px; font-weight:700; color:" & _Sec & "; opacity:0.5; text-transform:uppercase; letter-spacing:0.06em; }
+			</style>
+			<div class='online-card-nd'>
+			<div class='thumb-wrap-nd'>
+			<div class='nd-icon'>📡</div>
+			<div class='nd-text'>No data for this week</div>
+			</div>
+			<div class='stat-row-nd'>
+			<div class='nd-label'>Online attendance</div>
+			</div>
+			</div>",
+			
+			    "<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			.online-card { background:" & _Bg & "; border:1px solid " & _BorderColor & "; border-radius:14px; overflow:hidden; font-family:Inter,sans-serif; width:100%; box-sizing:border-box; }
+			.thumb-wrap { position:relative; width:100%; height:330px; background:#000; overflow:hidden; }
+			.thumb-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+			.play-chip { position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.55); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; letter-spacing:0.02em; }
+			.stat-row { display:flex; align-items:flex-end; justify-content:space-between; padding:18px 18px 20px; }
+			.stat-label-d { font-size:11px; font-weight:700; color:" & _Sec & "; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+			.stat-num-d { font-size:38px; font-weight:900; color:" & _Txt & "; line-height:1; animation:fadeSlideIn 0.8s ease-out; }
+			.wow-chip { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
+			.wow-pct { font-size:13px; font-weight:800; color:" & _WoWColor & "; display:flex; align-items:center; gap:3px; }
+			.wow-prev { font-size:11px; color:" & _Sec & "; font-weight:600; }
+			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+			</style>
+			<div class='online-card'>
+			<div class='thumb-wrap'>
+			<img src='" & _Thumb & "' />
+			<div class='play-chip'>SERMON</div>
+			</div>
+			<div class='stat-row'>
+			<div>
+			<div class='stat-label-d'>Online attendance</div>
+			<div class='stat-num-d'>" & _AttFmt & "</div>
+			</div>
+			<div class='wow-chip'>
+			<div class='wow-pct'>" & _WoWArrow & " " & _WoWPct & "</div>
+			<div class='wow-prev'>Prev wk " & _PrevFmt & "</div>
+			</div>
+			</div>
+			</div>"
+			)
+		lineageTag: f9701b41-ab78-459e-b3bc-f403ecdbf72f
+
+	measure FTG_5WeekChartData = ```
+			
+			VAR _WeekEnd0 = [MaxselectedDate]
+			VAR _5Weeks = ADDCOLUMNS(
+			    GENERATESERIES(0, 4, 1),
+			    "__WeekEnd", _WeekEnd0 - (4 - [Value]) * 7,
+			    "__WeekStart", _WeekEnd0 - (4 - [Value]) * 7 - 6
+			)
+			VAR _Labels = CONCATENATEX(
+			    _5Weeks,
+			    VAR _we = [__WeekEnd]
+			    RETURN FORMAT(_we, "MMM D~YYYY"),
+			    ",",
+			    [__WeekEnd], ASC
+			)
+			VAR _Vals = CONCATENATEX(
+			    _5Weeks,
+			    VAR _ws = [__WeekStart]
+			    VAR _we = [__WeekEnd]
+			    VAR _cnt = 
+			        COALESCE(
+			            CALCULATE(
+			                DISTINCTCOUNT('AnalyticsGivingSignals'[PersonId]),
+			                'AnalyticsGivingSignals'[FirstGiftDate] >= _ws,
+			                'AnalyticsGivingSignals'[FirstGiftDate] <= _we
+			            ),
+			            0
+			        )
+			    RETURN FORMAT(_cnt, "0"),
+			    ",",
+			    [__WeekEnd], ASC
+			)
+			RETURN
+			    _Labels & "|" & _Vals
+			```
+		lineageTag: fe8841dc-a07a-4dee-8c03-169473cf1a99
+
+	measure 'First Time Givers (Selected Week)' =
+			
+			VAR _WeekEnd = [MaxselectedDate]
+			VAR _WeekStart = _WeekEnd - 6
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT('AnalyticsGivingSignals'[PersonId]),
+			    'AnalyticsGivingSignals'[FirstGiftDate] >= _WeekStart,
+			    'AnalyticsGivingSignals'[FirstGiftDate] <= _WeekEnd
+			)
+		formatString: 0
+		lineageTag: c9196185-2845-4f6f-906a-4045f9b02b20
+
+	measure 'First Time Givers (Previous Week)' =
+			
+			VAR _WeekEnd = [MaxselectedDate] - 7
+			VAR _WeekStart = _WeekEnd - 6
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT('AnalyticsGivingSignals'[PersonId]),
+			    'AnalyticsGivingSignals'[FirstGiftDate] >= _WeekStart,
+			    'AnalyticsGivingSignals'[FirstGiftDate] <= _WeekEnd
+			)
+		formatString: 0
+		lineageTag: 67893253-d7b5-4f35-a4d6-a342e1f44fa1
+
+	measure HTML_Card_FirstTimeGivers =
+			
+			VAR _CurFTG = [First Time Givers (Selected Week)]
+			VAR _CurFmt = FORMAT(_CurFTG, "#,0")
+			VAR _IsDark = [SelectedTheme] = "Dark"
+			VAR _Bg = [CardBackground]
+			VAR _Txt = [CardTextColor]
+			VAR _Sec = [CardSecondaryText]
+			VAR _BorderColor = IF(_IsDark, "#2A2A2A", "#E5E7EB")
+			VAR _GridColor = IF(_IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.08)")
+			VAR _LineColor = IF(_IsDark, "#FFFFFF", "#111111")
+			VAR _ChartData = [FTG_5WeekChartData]
+			RETURN
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			html,body{height:100%;margin:0;padding:0;}
+			.ftg-card{background:" & _Bg & ";border:1px solid " & _BorderColor & ";border-radius:14px;overflow:hidden;font-family:Inter,sans-serif;width:100%;height:100vh;box-sizing:border-box;display:flex;flex-direction:column;}
+			.ftg-stat-row{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 22px 8px;flex-shrink:0;}
+			.ftg-note{font-size:10px;font-weight:600;color:" & _Sec & ";text-align:right;line-height:1.2;white-space:nowrap;}
+			.ftg-label{font-size:12px;font-weight:700;color:" & _Sec & ";text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
+			.ftg-num{font-size:46px;font-weight:900;color:" & _Txt & ";line-height:1;animation:ftgFadeIn 0.8s ease-out;}
+			.ftg-chart-wrap{padding:0 22px 0;position:relative;flex:1 1 auto;min-height:0;}
+			.ftg-chart-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;display:block;}
+			.ftg-labels-row{position:relative;height:28px;flex-shrink:0;margin:4px 22px 16px;}
+			@keyframes ftgFadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+			</style>
+			<div class='ftg-card'>
+			<div class='ftg-stat-row'>
+			<div>
+			<div class='ftg-label'>ATL First Time Givers</div>
+			<div class='ftg-num'>" & _CurFmt & "</div>
+			</div>
+			<div class='ftg-note'> Reporting period: Monday to Sunday
+			</div>
+			</div>
+			<div class='ftg-chart-wrap'><canvas id='ftg-canvas'></canvas></div>
+			<div class='ftg-labels-row' id='ftg-labels'></div>
+			</div>
+			<script>
+			(function(){
+			try{
+			var RAW=""" & _ChartData & """;
+			var COLOR=""" & _LineColor & """;
+			var GRID=""" & _GridColor & """;
+			var LBLCOL=""" & _Sec & """;
+			var parts=RAW.split(""|"");
+			var labels=parts[0]?parts[0].split("",""):[];
+			var vals=parts[1]?parts[1].split("","").map(function(v){return parseInt(v)||0;}):[];
+			if(vals.length===0){return;}
+			var n=vals.length;
+			function setupAndDraw(){
+			var canvas=document.getElementById(""ftg-canvas"");
+			var wrap=canvas.parentNode;
+			var W=wrap.offsetWidth;
+			var H=wrap.offsetHeight;
+			if(W<10||H<10){setTimeout(setupAndDraw,50);return;}
+			canvas.width=W*2;canvas.height=H*2;
+			canvas.style.width=W+""px"";canvas.style.height=H+""px"";
+			var ctx=canvas.getContext(""2d"");ctx.scale(2,2);
+			var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);
+			var pad=Math.round((max-min)*0.3)||3;
+			var yMax=max+pad;var yMin=Math.max(0,min-pad);
+			var PT=30,PB=10,PL=30,PR=30;
+			var cW=W-PL-PR,cH=H-PT-PB;
+			function xp(i){return PL+i*(cW/(n-1));}
+			function yp(v){return PT+cH-(((v-yMin)/(yMax-yMin))*cH);}
+			var pts=vals.map(function(v,i){return{x:xp(i),y:yp(v),v:v};});
+			var labelsEl=document.getElementById(""ftg-labels"");
+			var prevYr="""";
+			var lHtml="""";
+			labels.forEach(function(l,i){
+			var sp=l.split(""~"");
+			var dateStr=sp[0];
+			var yr=sp[1]||"""";
+			var display=dateStr+(yr!==prevYr?"" ""+yr:"""");
+			prevYr=yr;
+			var xPct=(pts[i].x/W)*100;
+			lHtml+=""<div style='position:absolute;left:""+xPct+""%;transform:translateX(-50%);font-size:9px;color:""+LBLCOL+"";white-space:nowrap;'>""+display+""</div>"";
+			});
+			labelsEl.innerHTML=lHtml;
+			function eio(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+			function bounce(t){var nn=7.5625,d=2.75;if(t<1/d)return nn*t*t;else if(t<2/d)return nn*(t-=1.5/d)*t+0.75;else if(t<2.5/d)return nn*(t-=2.25/d)*t+0.9375;return nn*(t-=2.625/d)*t+0.984375;}
+			function drawGrid(){
+			ctx.strokeStyle=GRID;ctx.lineWidth=1;
+			for(var g=0;g<=3;g++){
+			var gy=PT+g*(cH/3);
+			ctx.beginPath();ctx.moveTo(PL,gy);ctx.lineTo(W-PR,gy);ctx.stroke();
+			}
+			}
+			var LINE_DUR=600,LABEL_DUR=400,TOTAL=LINE_DUR+LABEL_DUR+200;
+			var startT=null;
+			function frame(ts){
+			if(!startT)startT=ts;
+			var elapsed=ts-startT;
+			ctx.clearRect(0,0,W,H);drawGrid();
+			var lp=Math.min(elapsed/LINE_DUR,1);var lep=eio(lp);var maxIdx=lep*(n-1);
+			var lastX=pts[0].x,lastY=pts[0].y;
+			ctx.beginPath();ctx.strokeStyle=COLOR;ctx.lineWidth=2.5;ctx.lineJoin=""round"";ctx.lineCap=""round"";
+			pts.forEach(function(p,idx){
+			if(idx===0){ctx.moveTo(p.x,p.y);return;}
+			if(idx<=maxIdx){ctx.lineTo(p.x,p.y);lastX=p.x;lastY=p.y;}
+			else if(idx-1<maxIdx){
+			var frac=maxIdx-(idx-1);
+			lastX=pts[idx-1].x+(p.x-pts[idx-1].x)*frac;
+			lastY=pts[idx-1].y+(p.y-pts[idx-1].y)*frac;
+			ctx.lineTo(lastX,lastY);
+			}
+			});
+			ctx.stroke();
+			if(lp>=0.999){
+			ctx.beginPath();ctx.fillStyle=COLOR;
+			ctx.globalAlpha=0.2*(1+Math.sin(elapsed/220))*0.5+0.1;
+			ctx.arc(lastX,lastY,9,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+			}
+			pts.forEach(function(p,idx){
+			if(idx<=maxIdx){ctx.beginPath();ctx.fillStyle=COLOR;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}
+			});
+			if(elapsed>LINE_DUR){
+			var la=(elapsed-LINE_DUR)/LABEL_DUR;
+			pts.forEach(function(p,idx){
+			var delay=idx/n;var pt=Math.max(0,(la-delay)/0.4);var ep=bounce(Math.min(pt,1));
+			if(ep>0){
+			ctx.globalAlpha=Math.min(ep*2,1);ctx.fillStyle=COLOR;ctx.font=""bold 12px Inter,sans-serif"";
+			ctx.textAlign=""center"";
+			ctx.fillText(p.v.toLocaleString(),p.x,Math.max(p.y-12,16));
+			ctx.globalAlpha=1;
+			}
+			});
+			}
+			if(elapsed<TOTAL||lp>=0.999)requestAnimationFrame(frame);
+			}
+			requestAnimationFrame(frame);
+			}
+			setupAndDraw();
+			}catch(e){
+			document.getElementById(""ftg-labels"").innerHTML=""<div style='color:#F87171;font-size:9px'>""+e.message+""</div>"";
+			}
+			})();
+			</script>"
+		lineageTag: 73532cb8-9666-46c1-9cfc-7ca6bd484a39
+
+	measure SchoolBreakLine_Cumberland = ```
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR IsBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_school_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Cumberland"
+			    )
+			VAR BreakName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[break_name],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Cumberland"
+			    )
+			VAR ShareOnBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Cumberland"
+			    )
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR AccentColor = IF(IsDark, "#60A5FA", "#2563EB")
+			VAR TextColor = IF(IsDark, "#60A5FA", "#2563EB")
+			VAR SharePct = FORMAT(ShareOnBreak, "0%")
+			
+			RETURN
+			IF(
+			    IsBreak = TRUE() && BreakName <> BLANK(),
+			    "<div style='display:flex; align-items:center; gap:8px; margin-top:8px;'>
+			        <div style='width:3px; height:14px; background:" & AccentColor & "; border-radius:2px;'></div>
+			        <span style='font-size:11px; font-weight:600; color:" & TextColor & "; font-family:Inter,sans-serif;'>" & BreakName & " · " & SharePct & " on break</span>
+			    </div>",
+			    ""
+			)
+			```
+		lineageTag: 26ee0a1d-1679-4782-9efc-b8c2c9103543
+
+	measure HTML_SundayGuide =
+			
+			VAR _IsDark = [SelectedTheme] = "Dark"
+			
+			VAR _RootBg =        IF(_IsDark, "#0d0d0d", "#E2E3DA")
+			VAR _PillBg =        IF(_IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.06)")
+			VAR _PillBorder =    IF(_IsDark, "rgba(255,255,255,0.14)", "rgba(0,0,0,0.13)")
+			VAR _PillBgHover =   IF(_IsDark, "rgba(255,255,255,0.11)", "rgba(0,0,0,0.1)")
+			VAR _PillBorderHov = IF(_IsDark, "rgba(255,255,255,0.22)", "rgba(0,0,0,0.2)")
+			VAR _PillText =      IF(_IsDark, "rgba(255,255,255,0.5)", "rgba(0,0,0,0.4)")
+			VAR _CrossColor =    IF(_IsDark, "white", "black")
+			VAR _CrossOpacity =  IF(_IsDark, "0.45", "0.3")
+			VAR _PccColor = IF(_IsDark, "rgba(255,255,255,0.35)", "rgba(255,255,255,0.80)")
+			VAR _ChatCardBg =    IF(_IsDark, "#141414", "#F5F5F2")
+			VAR _ChatCardBrd =   IF(_IsDark, "#282828", "#d4d5cc")
+			VAR _ChatHdrBrd =    IF(_IsDark, "#1e1e1e", "#d4d5cc")
+			VAR _ChatNameCol =   IF(_IsDark, "#666", "#888")
+			VAR _CloseBg =       IF(_IsDark, "#1a1a1a", "#E2E3DA")
+			VAR _CloseBrd =      IF(_IsDark, "#252525", "#c8c9c0")
+			VAR _CloseStroke =   IF(_IsDark, "#555", "#888")
+			VAR _ScrollThumb =   IF(_IsDark, "#2a2a2a", "#c8c9c0")
+			VAR _BotBg =         IF(_IsDark, "#1c1c1c", "#EAEAE6")
+			VAR _BotText =       IF(_IsDark, "#888", "#555")
+			VAR _UserBg =        IF(_IsDark, "#1e3a5f", "#d4e4f5")
+			VAR _UserText =      IF(_IsDark, "#7eb8f7", "#1a4f7a")
+			VAR _TypingDot =     IF(_IsDark, "#555", "#aaa")
+			VAR _InpBg =         IF(_IsDark, "#1c1c1c", "#EAEAE6")
+			VAR _InpBrd =        IF(_IsDark, "#282828", "#c8c9c0")
+			VAR _InpText =       IF(_IsDark, "#ccc", "#333")
+			VAR _InpPH =         IF(_IsDark, "#444", "#aaa")
+			VAR _SendBg =        IF(_IsDark, "#1c1c1c", "#EAEAE6")
+			VAR _SendBrd =       IF(_IsDark, "#282828", "#c8c9c0")
+			VAR _SendArrow =     IF(_IsDark, "#666", "#888")
+			VAR _ErrColor =      IF(_IsDark, "#F87171", "#991B1B")
+			VAR _DotColor =      "#639922"
+			
+			RETURN
+			"<style>
+			*{box-sizing:border-box;margin:0;padding:0;}
+			html,body{width:100%;height:100%;overflow:hidden;background:" & _RootBg & ";font-family:'Helvetica Neue',Arial,sans-serif;}
+			#sg-root{position:relative;width:100%;height:400px;background:" & _RootBg & ";overflow:hidden;}
+			#sg-bar{position:absolute;bottom:0;left:0;right:0;}
+			#sg-pill-wrap{display:flex;justify-content:center;padding:14px 0 8px;}
+			#sg-pill{display:inline-flex;align-items:center;gap:8px;background:" & _PillBg & ";border:0.5px solid " & _PillBorder & ";border-radius:20px;padding:7px 20px;cursor:pointer;transition:background 0.2s,border-color 0.2s,opacity 0.35s ease;}
+			#sg-pill:hover{background:" & _PillBgHover & ";border-color:" & _PillBorderHov & ";}
+			#sg-pill-label{font-size:12px;font-weight:700;color:" & _PillText & ";letter-spacing:0.04em;}
+			#sg-pcc{
+			  width:100%;
+			  display:block;
+			  opacity:1;
+			  transition:transform 0.65s cubic-bezier(0.4,0,0.2,1),opacity 0.55s ease;
+			  pointer-events:none;
+			  padding-bottom:6px;
+			  transform-origin:left center;
+			}
+			#sg-chat-area{position:absolute;bottom:0;left:0;right:0;padding:12px 14px 14px;opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s cubic-bezier(0.16,1,0.3,1);pointer-events:none;}
+			#sg-chat-card{background:" & _ChatCardBg & ";border:0.5px solid " & _ChatCardBrd & ";border-radius:14px;overflow:hidden;}
+			#sg-chat-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:0.5px solid " & _ChatHdrBrd & ";}
+			#sg-chat-title{display:flex;align-items:center;gap:8px;}
+			#sg-dot{width:7px;height:7px;border-radius:50%;background:" & _DotColor & ";}
+			#sg-name{font-size:12px;font-weight:700;color:" & _ChatNameCol & ";}
+			#sg-close{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:6px;border:0.5px solid " & _CloseBrd & ";cursor:pointer;background:" & _CloseBg & ";transition:border-color 0.2s;flex-shrink:0;}
+			#sg-close:hover{border-color:" & _CloseStroke & ";}
+			#sg-msgs{padding:12px 14px;display:flex;flex-direction:column;gap:8px;height:210px;overflow-y:auto;scroll-behavior:smooth;}
+			#sg-msgs::-webkit-scrollbar{width:3px;}
+			#sg-msgs::-webkit-scrollbar-track{background:transparent;}
+			#sg-msgs::-webkit-scrollbar-thumb{background:" & _ScrollThumb & ";border-radius:2px;}
+			.msg-bot{align-self:flex-start;background:" & _BotBg & ";border-radius:10px 10px 10px 3px;padding:8px 12px;font-size:11px;color:" & _BotText & ";max-width:86%;line-height:1.6;}
+			.msg-user{align-self:flex-end;background:" & _UserBg & ";border-radius:10px 10px 3px 10px;padding:8px 12px;font-size:11px;color:" & _UserText & ";max-width:72%;line-height:1.6;}
+			.msg-typing{align-self:flex-start;background:" & _BotBg & ";border-radius:10px 10px 10px 3px;padding:10px 14px;display:flex;align-items:center;gap:4px;}
+			.typing-dot{width:5px;height:5px;border-radius:50%;background:" & _TypingDot & ";animation:typingPulse 1.2s ease-in-out infinite;}
+			.typing-dot:nth-child(2){animation-delay:0.2s;}
+			.typing-dot:nth-child(3){animation-delay:0.4s;}
+			@keyframes typingPulse{0%,80%,100%{opacity:0.3;transform:scale(0.85);}40%{opacity:1;transform:scale(1);}}
+			#sg-inp-row{display:flex;align-items:center;gap:8px;padding:10px 14px 12px;border-top:0.5px solid " & _ChatHdrBrd & ";}
+			#sg-inp{flex:1;background:" & _InpBg & ";border:0.5px solid " & _InpBrd & ";border-radius:8px;height:32px;font-size:11px;color:" & _InpText & ";padding:0 12px;outline:none;font-family:'Helvetica Neue',Arial,sans-serif;transition:border-color 0.2s;}
+			#sg-inp::placeholder{color:" & _InpPH & ";}
+			#sg-send{width:32px;height:32px;background:" & _SendBg & ";border:0.5px solid " & _SendBrd & ";border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity 0.2s;}
+			#sg-send:hover{opacity:0.7;}
+			#sg-error{display:none;font-size:10px;color:" & _ErrColor & ";padding:4px 14px 8px;text-align:center;}
+			</style>
+			<div id='sg-root'>
+			<div id='sg-bar'>
+			<div id='sg-chat-area'>
+			<div id='sg-chat-card'>
+			<div id='sg-chat-header'>
+			<div id='sg-chat-title'><div id='sg-dot'></div><span id='sg-name'>Sunday Guide</span></div>
+			<div id='sg-close' onclick='sgClose()'>
+			<svg width='9' height='9' viewBox='0 0 9 9' fill='none'>
+			<line x1='1' y1='1' x2='8' y2='8' stroke='" & _CloseStroke & "' stroke-width='1.2' stroke-linecap='round'/>
+			<line x1='8' y1='1' x2='1' y2='8' stroke='" & _CloseStroke & "' stroke-width='1.2' stroke-linecap='round'/>
+			</svg>
+			</div>
+			</div>
+			<div id='sg-msgs'>
+			<div class='msg-bot'>Hey! I'm Sunday Guide, here to help make sense of any visual on this page. What are you curious about?</div>
+			</div>
+			<div id='sg-error'>Something went wrong. Please try again.</div>
+			<div id='sg-inp-row'>
+			<input id='sg-inp' type='text' placeholder='Ask about any visual...' onkeydown='if(event.key===""Enter"")sgSend()'/>
+			<div id='sg-send' onclick='sgSend()'>
+			<svg width='11' height='11' viewBox='0 0 11 11' fill='none'>
+			<line x1='5.5' y1='10' x2='5.5' y2='1' stroke='" & _SendArrow & "' stroke-width='1.3' stroke-linecap='round'/>
+			<polyline points='2,4 5.5,1 9,4' stroke='" & _SendArrow & "' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round' fill='none'/>
+			</svg>
+			</div>
+			</div>
+			</div>
+			</div>
+			<div id='sg-collapsed'>
+			<div id='sg-pill-wrap'>
+			<div id='sg-pill' onclick='sgOpen()'>
+			<svg width='11' height='11' viewBox='0 0 11 11' fill='none' style='opacity:" & _CrossOpacity & ";flex-shrink:0;'>
+			<line x1='5.5' y1='0' x2='5.5' y2='11' stroke='" & _CrossColor & "' stroke-width='1.2'/>
+			<line x1='0' y1='4' x2='11' y2='4' stroke='" & _CrossColor & "' stroke-width='1.2'/>
+			</svg>
+			<span id='sg-pill-label'>Sunday Guide</span>
+			</div>
+			</div>
+			<div id='sg-pcc'>
+			<svg id='sg-pcc-svg' width='100%' height='155' style='display:block;overflow:visible;'>
+			<text id='sg-pcc-text' y='165' font-family='Arial Black,Helvetica Neue,Impact,Arial,sans-serif' font-weight='600' font-size='130' letter-spacing='-5' fill='" & _PccColor & "' textLength='100%' lengthAdjust='spacingAndGlyphs'>passion city church</text>
+			</svg>
+			</div>
+			</div>
+			</div>
+			</div>
+			<script>
+			var pccScale=1;
+			var GEMINI_API_KEY='Key-place-holder';
+			var GEMINI_URL='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key='+GEMINI_API_KEY;
+			var SYSTEM_PROMPT='You are Sunday Guide, a friendly and warm assistant built into the Passion City Church Sunday Metrics Dashboard. Your only job is to help people understand what they are looking at on this dashboard. You explain visuals, describe data, and guide navigation. You never make recommendations, suggest decisions, or judge numbers as good or bad. You always use ministry language, never business language.\n\nLANGUAGE RULES:\nAlways say people or people of the House, never customers.\nAlways say gathering or Sunday gathering, never event.\nAlways say the House for the PCC community.\nAlways say estimated online reach, never online viewers or digital attendance.\nAlways say generosity or giving, never revenue.\nAlways say a step of faith for First Time Givers.\nAlways say lighter Sunday, never underperforming or below target.\nNever use KPI, target, benchmark, revenue, acquisition, or retention.\nTone: warm, clear, ministry-native, never prescriptive.\n\nABOUT PASSION CITY CHURCH:\nPassion City Church is a Jesus church. Mission: For God, For People, For the City, For the World. Founded by Louie Giglio. The community is called the House. Three Atlanta locations: 515 in Buckhead with Pastor Brad Jones, Cumberland also called CBL in Vinings and Smyrna with Pastor Jonathan Pickens, and Trilith also called TRL in Fayetteville with Pastor Dan Watson. Washington DC is a partner church operating independently and is NOT included in this dashboard. Rooms of the House include bloom for children 6 weeks through Pre-K, Passion Kids or PK for Kindergarten through 5th grade, Passion Students for Middle School and High School, Door Holders who are volunteers, and Adults who attend the main gathering.\n\nDASHBOARD STORY:\nThis dashboard tells the story of each Sunday gathering. It answers four questions: How did we gather this Sunday shown in the attendance cards. How far did we reach shown in the online card and First Time Givers. What is the trend over time shown in the rolling charts and table. Who are our people shown in the heatmap.\n\nVISUAL 1 - ATTENDANCE CARDS:\nThere are four cards: Global, 515, CBL, and TRL. Global equals 515 plus Cumberland plus Trilith combined. DC is not included. Each card shows the current attendance number, a WoW ring, a YoY ring, the previous week number, the past year average, and a percent of avg bar. WoW means Week over Week and compares this Sunday to the most recent previous Sunday with attendance data. YoY means Year over Year and compares this Sunday to the closest Sunday one year ago. Green rings mean more people than the comparison period. Red rings mean fewer people. Past year avg is the rolling 12-month average excluding Easter and Christmas because those are naturally higher Sundays. The percent of avg bar shows how this Sunday compares to that average: above 100 percent means stronger than average, 80 to 100 percent means slightly lighter, below 80 percent means notably lighter. Colors are: Global in white or grey, 515 in blue, CBL in orange, TRL in teal. Typical ranges are 515 around 2500 to 2800, Cumberland around 1400 to 1700, Trilith around 1100 to 1400. The date slicer at the top controls which Sunday is displayed.\n\nVISUAL 2 - ONLINE ATTENDANCE CARD:\nCRITICAL: This card shows TWO completely separate things that come from TWO different YouTube videos.\n\nFirst: the THUMBNAIL IMAGE. This is the photo or video preview shown on the card. It comes from the edited sermon clip video that is uploaded to YouTube after the gathering. The sermon clip is used ONLY for the thumbnail image. It has absolutely nothing to do with the attendance number.\n\nSecond: the ESTIMATED ONLINE REACH NUMBER. This number comes ONLY from the YouTube live stream videos of the Sunday gathering. It does NOT come from the sermon clip. The raw live stream views are multiplied by 1.94 to estimate total reach. The 1.94 multiplier accounts for people watching together on shared screens. The platform is YouTube only.\n\nIf someone asks which videos are counted for the number: the live stream videos, not the sermon clip.\nIf someone asks which platform: YouTube only.\nIf someone asks about the 1.94 multiplier: it estimates total reach from raw YouTube live stream views.\nIf someone asks why there is no data: either the sermon clip thumbnail has not been uploaded yet, or the data has not refreshed.\nThe card also shows a WoW percent comparing this week to last week.\nOnline reach complements in-person attendance but is not registered attendance.\n\nVISUAL 3 - FIRST TIME GIVERS CARD:\nShows how many people gave to Passion City Church for the very first time this week, with a 5-week trend line. This is a key indicator of new people taking a step of faith. Giving at PCC is worship, not a transaction. Typical range is 39 to 64 per week. There is no target. This is a spiritual indicator, never a business metric. Never say it is too low or needs to improve.\n\nVISUAL 4 - ROLLING LINE CHART:\nShows a long-term historical view of attendance trends. Navigate using tabs at the top: Global, 515, CBL, TRL. Global view shows two charts: rolling 12 months with monthly totals and rolling 52 weeks with weekly totals, each with one line per campus. Campus view shows one chart with rolling 52 weeks year over year, one line per year up to 5 years, current year highlighted. Click a year in the legend to highlight it.\n\nVISUAL 5 - CURRENT VS PREVIOUS BAR CHART:\nShows side-by-side comparison of this Sunday vs the previous Sunday broken down by ministry room. Navigate using campus tabs: Global, 515, CBL, TRL. And ministry tabs: Adults, Door Holder, bloom, PK, MS, HS. Each group shows two bars: previous week in muted color and current week in campus color. Numbers show on top of each bar.\n\nVISUAL 6 - 5 WEEK OVERVIEW CHART:\nShows short-term momentum: attendance for the last 5 Sundays as a line chart with data point labels. The 5 week average shows as a pill in the top right. Campus tabs: Global, 515, CBL, TRL. Shows whether the House is trending up, holding steady, or trending lighter recently.\n\nVISUAL 7 - REGULAR SUNDAY TABLE:\nThe most detailed breakdown in the dashboard. Shows attendance by campus, by service time, and by ministry room. Ministry tabs across the top: Adults, Door Holder, bloom, PK, MS, HS. Rows show 515, Cumberland, and Trilith each with 9:30am, 11:45am, and a Total row. Columns show: Att for current attendance, Prev for previous week, 5WK Avg, WoW percent, and YoY percent. This is the drill-down version of the attendance cards.\n\nVISUAL 8 - HOUSEHOLD HEATMAP:\nShows a map of Atlanta where each dot is one household plotted at their home address based on check-in data from this Sunday. Ministry filter tabs at the top: All, Door Holder, bloom, PK, MS, HS. These filter which households are shown. Campus pins on the map for 515, CBL, and TRL: click to filter to that campus, click again to reset. Dot size is larger for households with members in more ministry rooms. There is a Reset View button to return to default zoom.\n\nThere are two view modes toggled by a button. Check-in View is the default: blue dots for 515, orange for Cumberland, teal for Trilith, gold for multi-campus households. Giving View shows: gray for no gift ever, solid green for gave within 4 weeks, pulsing green for new or returning giver, pulsing amber for no gift in 5 to 12 weeks, pulsing red for quiet meaning no gift in 13 or more weeks. Pulsing dots mean something changed recently in giving pattern. Hover over any dot to see campus, household size, and ministries. Data comes from Rock RMS check-in records and home address coordinates.\n\nSunday Guide describes and helps navigate the heatmap only. Sunday Guide never makes recommendations, suggests outreach strategies, or interprets giving patterns as positive or concerning.\n\nTECHNICAL LAYER - only answer if someone explicitly asks how something is built or calculated:\nData pipeline: Attendance data flows from Rock RMS to SQL Server to GCP ODBC Gateway to Sunday Dashboard 2.0 Dataflow to Power BI Desktop. Online attendance flows from YouTube to BigQuery via YouTube Data Transfer to the video_titles table to the v_gathering_views view to Sunday Dashboard 2.0 Dataflow to Power BI Desktop. Heatmap data flows from Rock RMS to SQL Server to GCP ODBC Gateway to the Person and Check-in Dataflow to Power BI Desktop using dim_person and fact_checkin tables.\n\nAttendance cards technical: Source table AttendanceInPerson_WOW combines 9 Rock RMS metric tables via Power Query. Filters: CampusName not Online, EventName equals Sunday Gathering, CityName equals Atlanta, Christmas dates 2016 through 2024 excluded. DC excluded from Global in DAX by filtering CampusName in 515, Cumberland, Trilith. WoW DAX finds last Sunday before selected date where attendance is non-zero. YoY DAX finds closest Sunday one year ago using SWITCH WEEKDAY logic. Past year avg excludes Easter and Christmas from SplSundayAttInPerson_WOW. Rings use MIN of ABS value divided by 0.5 times 175.93 where 50 percent change equals a full ring, SVG circle radius 28. Cards are HTML strings from DAX measures with SVG rings, CSS animations, and JavaScript count-up.\n\nOnline attendance technical: TWO completely separate video sources. First the THUMBNAIL comes from v_sermon_clips BigQuery view which filters video_titles where title matches the pattern percent space dash space percent for Speaker Name format. SermonVideoId DAX finds the video published on the selected Sunday. Thumbnail URL is https://img.youtube.com/vi/video_id/maxresdefault.jpg. Second the REACH NUMBER comes from v_gathering_views BigQuery view which filters video_titles where title matches Sunday Gathering or FULL GATHERING patterns. These are live stream videos only. A sunday_date column was added to video_titles in BigQuery to assign each video to its correct Sunday regardless of publish day. OnlineAttendance DAX uses SUMX FILTER v_gathering_views where sunday_date equals the formatted selected date, multiplied by 1.94. The 1.94 multiplier was reverse-engineered from historical manual spreadsheet data. Live streams go private within 1 to 2 days after Sunday.\n\nFirst Time Givers technical: Source is AnalyticsGivingSignals. DAX uses DISTINCTCOUNT of PersonId where FirstGiftDate is within the 7-day window ending on the selected Sunday.\n\nHeatmap technical: Source is fact_checkin pre-aggregated in Power Query. Filters ATL campuses only with valid coordinates within Atlanta boundary lat 33.3 to 34.5 lng minus 85.2 to minus 83.8. Joins dim_person and AnalyticsGivingLastGiftByFamily. Groups by Sunday date and FamilyId giving approximately 210000 rows. Giving codes: n equals no gift ever, b equals new or returning meaning gave this week and previous gift was more than 28 days before, g equals gave within 28 days, a equals last gift 29 to 84 days ago, r equals last gift 84 or more days ago. Data format is lat comma lng comma campusList comma ministryList comma headcount comma givingCode separated by semicolons. Map uses Mapbox GL JS v3.6.0.\n\nCONVERSATION RULES:\nOnly answer questions about this dashboard and Passion City Church. If asked something unrelated say you are Sunday Guide and can only help with questions about the Sunday Metrics Dashboard. Never suggest decisions or recommendations. Never say a number is good, bad, concerning, or impressive. Never use business language. If asked about data not in this dashboard say that information is not available here. Remember the full conversation for follow-up questions. For the heatmap describe and navigate only, never prescribe. Keep answers concise, 2 to 4 sentences for simple questions. Be warm and helpful.\n';
+			var conversationHistory=[];
+			var isLoading=false;
+			var isOpen=false;
+			var pccScale=1;
+			function sgOpen(){
+			if(isOpen)return;
+			isOpen=true;
+			var pcc=document.getElementById('sg-pcc');
+			var pill=document.getElementById('sg-pill');
+			var chatArea=document.getElementById('sg-chat-area');
+			pcc.style.transition='transform 0.65s cubic-bezier(0.4,0,0.2,1),opacity 0.55s ease';
+			pcc.style.transform='translateY(100px) scaleX('+pccScale+')';
+			pcc.style.opacity='0';
+			pill.style.transition='opacity 0.3s ease';
+			pill.style.opacity='0';
+			pill.style.pointerEvents='none';
+			setTimeout(function(){
+			chatArea.style.pointerEvents='all';
+			chatArea.style.opacity='1';
+			chatArea.style.transform='translateY(0)';
+			document.getElementById('sg-inp').focus();
+			},520);
+			}
+			function sgClose(){
+			if(!isOpen)return;
+			var chatArea=document.getElementById('sg-chat-area');
+			var pcc=document.getElementById('sg-pcc');
+			var pill=document.getElementById('sg-pill');
+			chatArea.style.opacity='0';
+			chatArea.style.transform='translateY(20px)';
+			chatArea.style.pointerEvents='none';
+			setTimeout(function(){
+			pcc.style.transition='none';
+			pcc.style.transform='translateY(100px) scaleX('+pccScale+')';
+			pcc.style.opacity='0';
+			requestAnimationFrame(function(){requestAnimationFrame(function(){
+			pcc.style.transition='transform 0.65s cubic-bezier(0.16,1,0.3,1),opacity 0.55s ease';
+			pill.style.transition='opacity 0.5s ease 0.2s';
+			pcc.style.transform='translateY(0) scaleX('+pccScale+')';
+			pcc.style.opacity='1';
+			pill.style.opacity='1';
+			pill.style.pointerEvents='all';
+			isOpen=false;
+			setTimeout(fitPccText,50);
+			});});
+			},380);
+			}
+			function addMessage(text,role){
+			var msgs=document.getElementById('sg-msgs');
+			var div=document.createElement('div');
+			div.className=role==='user'?'msg-user':'msg-bot';
+			div.textContent=text;
+			msgs.appendChild(div);
+			msgs.scrollTop=msgs.scrollHeight;
+			}
+			function addTyping(){
+			var msgs=document.getElementById('sg-msgs');
+			var div=document.createElement('div');
+			div.className='msg-typing';
+			div.id='sg-typing';
+			for(var i=0;i<3;i++){var dot=document.createElement('div');dot.className='typing-dot';div.appendChild(dot);}
+			msgs.appendChild(div);
+			msgs.scrollTop=msgs.scrollHeight;
+			}
+			function removeTyping(){var t=document.getElementById('sg-typing');if(t)t.remove();}
+			function setError(show){document.getElementById('sg-error').style.display=show?'block':'none';}
+			function setLoading(val){
+			isLoading=val;
+			document.getElementById('sg-send').style.opacity=val?'0.4':'1';
+			document.getElementById('sg-inp').disabled=val;
+			}
+			async function sgSend(){
+			if(isLoading)return;
+			var inp=document.getElementById('sg-inp');
+			var text=inp.value.trim();
+			if(!text)return;
+			inp.value='';
+			setError(false);
+			addMessage(text,'user');
+			conversationHistory.push({role:'user',parts:[{text:text}]});
+			setLoading(true);
+			addTyping();
+			var messages=[];
+			var systemSet=false;
+			for(var i=0;i<conversationHistory.length;i++){
+			var msg=conversationHistory[i];
+			if(!systemSet&&msg.role==='user'){
+			messages.push({role:'user',parts:[{text:SYSTEM_PROMPT+'\n\nUser: '+msg.parts[0].text}]});
+			systemSet=true;
+			}else{messages.push(msg);}
+			}
+			var maxRetries=3;
+			var attempt=0;
+			var success=false;
+			while(attempt<maxRetries&&!success){
+			try{
+			if(attempt>0){await new Promise(function(r){setTimeout(r,1500*attempt);});}
+			var response=await fetch(GEMINI_URL,{
+			method:'POST',
+			headers:{'Content-Type':'application/json'},
+			body:JSON.stringify({contents:messages,generationConfig:{temperature:0.7,maxOutputTokens:400}})
+			});
+			var data=await response.json();
+			if(data.candidates&&data.candidates[0]&&data.candidates[0].content){
+			var reply=data.candidates[0].content.parts[0].text;
+			conversationHistory.push({role:'model',parts:[{text:reply}]});
+			removeTyping();
+			addMessage(reply,'bot');
+			success=true;
+			}else if(data.error&&data.error.code===503){
+			attempt++;
+			if(attempt>=maxRetries){
+			removeTyping();
+			setError(true);
+			conversationHistory.pop();
+			}
+			}else{
+			removeTyping();
+			conversationHistory.pop();
+			setError(true);
+			success=true;
+			}
+			}catch(e){
+			attempt++;
+			if(attempt>=maxRetries){
+			removeTyping();
+			setError(true);
+			conversationHistory.pop();
+			}
+			}
+			}
+			setLoading(false);}
+			</script>"
+		lineageTag: 8fe5e7cc-9292-4d62-bd0d-22ba334c4ec7
+
+	measure GivingStage =
+			
+			VAR _fam = SELECTEDVALUE(fact_checkin[PrimaryFamilyId])
+			VAR _selectedDate = MIN('Calendar'[Date])
+			
+			-- Step 1: Get all PersonIds in this family from dim_person
+			VAR _personIds =
+			    CALCULATETABLE(
+			        VALUES(dim_person[PersonId]),
+			        FILTER(
+			            ALL(dim_person),
+			            dim_person[PrimaryFamilyId] = _fam
+			                && dim_person[CurrentRowIndicator] = TRUE()
+			        )
+			    )
+			
+			-- Step 2: Look up their giving stage AS OF the selected Sunday
+			VAR _members =
+			    CALCULATETABLE(
+			        VALUES('AnalyticsDimPersonHistorical'[CurrentJourneyGivingStage]),
+			        FILTER(
+			            ALL('AnalyticsDimPersonHistorical'),
+			            'AnalyticsDimPersonHistorical'[PersonId] IN _personIds
+			                && 'AnalyticsDimPersonHistorical'[EffectiveDate] <= _selectedDate
+			                && 'AnalyticsDimPersonHistorical'[ExpireDate] > _selectedDate
+			        )
+			    )
+			
+			-- Step 3: Pick the most engaged stage (same tiebreak logic as before)
+			VAR _ranked =
+			    ADDCOLUMNS(
+			        _members,
+			        "Rank",
+			            SWITCH('AnalyticsDimPersonHistorical'[CurrentJourneyGivingStage],
+			                "Consistent Giver", 1,
+			                "New Giver",        2,
+			                "Occasional Giver", 3,
+			                "Lapsed Giver",     4,
+			                "Former Giver",     5,
+			                "Non-Giver",        6,
+			                7),
+			        "Code",
+			            SWITCH('AnalyticsDimPersonHistorical'[CurrentJourneyGivingStage],
+			                "New Giver",        1,
+			                "Consistent Giver", 2,
+			                "Occasional Giver", 3,
+			                "Lapsed Giver",     4,
+			                "Former Giver",     5,
+			                "Non-Giver",        0,
+			                0)
+			    )
+			
+			VAR _bestRank = MINX(_ranked, [Rank])
+			VAR _code = MINX(FILTER(_ranked, [Rank] = _bestRank), [Code])
+			
+			RETURN
+			    IF(ISBLANK(_code), 0, _code)
+		formatString: 0
+		lineageTag: 07bdb038-4709-4633-848a-7b7835c87284
+
+	measure WeatherIcon = ```
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR WeatherCondition = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[weather_condition],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR CloudColor = IF(IsDark, "#9CA3AF", "#6B7280")
+			VAR SunYellow = "#F5A623"
+			VAR RainBlue = "#5BA4CF"
+			VAR RainBlueDark = "#2E86C1"
+			VAR SnowBlue = "#AED6F1"
+			VAR LabelColor = IF(IsDark, "#9CA3AF", "#6B7280")
+			
+			VAR ConditionLabel = 
+			    SWITCH(
+			        WeatherCondition,
+			        "sunny", "Sunny",
+			        "partly_cloudy", "Partly cloudy",
+			        "cloudy", "Cloudy",
+			        "drizzle", "Drizzle",
+			        "rain", "Rain",
+			        "snow", "Snow",
+			        ""
+			    )
+			
+			VAR IconSVG = 
+			    SWITCH(
+			        WeatherCondition,
+			
+			"sunny",
+			"<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+			<circle cx='16' cy='16' r='8' fill='" & SunYellow & "'/>
+			<rect x='15' y='1' width='2' height='4' rx='1' fill='" & SunYellow & "'/>
+			<rect x='15' y='27' width='2' height='4' rx='1' fill='" & SunYellow & "'/>
+			<rect x='1' y='15' width='4' height='2' rx='1' fill='" & SunYellow & "'/>
+			<rect x='27' y='15' width='4' height='2' rx='1' fill='" & SunYellow & "'/>
+			<rect x='15' y='1' width='2' height='4' rx='1' fill='" & SunYellow & "' transform='rotate(45 16 16)'/>
+			<rect x='15' y='1' width='2' height='4' rx='1' fill='" & SunYellow & "' transform='rotate(135 16 16)'/>
+			<rect x='15' y='1' width='2' height='4' rx='1' fill='" & SunYellow & "' transform='rotate(225 16 16)'/>
+			<rect x='15' y='1' width='2' height='4' rx='1' fill='" & SunYellow & "' transform='rotate(315 16 16)'/>
+			</svg>",
+			
+			       "partly_cloudy",
+			"<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+			<circle cx='11' cy='12' r='5' fill='" & SunYellow & "'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "'/>
+			<rect x='10' y='18' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(0 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(45 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(90 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(135 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(180 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(225 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(270 11 12)'/>
+			<rect x='10' y='2' width='2' height='3' rx='1' fill='" & SunYellow & "' transform='rotate(315 11 12)'/>
+			<path d='M9 20 Q5 20 5 24 Q3 24 3 27 Q3 30 7 30 L25 30 Q29 30 29 26 Q29 22 24 22 Q22 19 18 19 Q14 18 11 20 Q10 20 9 20 Z' fill='" & CloudColor & "'/>
+			</svg>",
+			
+			        "cloudy",
+			        "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+			        <path d='M8 22 Q4 22 4 17 Q4 12 9 11 Q9 5 16 5 Q22 5 23 11 Q28 11 28 17 Q28 22 24 22 Z' fill='" & CloudColor & "'/>
+			        </svg>",
+			
+			        "drizzle",
+			        "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+			        <path d='M8 18 Q4 18 4 13 Q4 8 9 7 Q9 2 16 2 Q22 2 23 7 Q28 7 28 13 Q28 18 24 18 Z' fill='" & CloudColor & "'/>
+			        <line x1='10' y1='22' x2='9' y2='27' stroke='" & RainBlue & "' stroke-width='1.5' stroke-linecap='round'/>
+			        <line x1='16' y1='22' x2='15' y2='27' stroke='" & RainBlue & "' stroke-width='1.5' stroke-linecap='round'/>
+			        <line x1='22' y1='22' x2='21' y2='27' stroke='" & RainBlue & "' stroke-width='1.5' stroke-linecap='round'/>
+			        </svg>",
+			
+			        "rain",
+			        "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+			        <path d='M8 18 Q4 18 4 13 Q4 8 9 7 Q9 2 16 2 Q22 2 23 7 Q28 7 28 13 Q28 18 24 18 Z' fill='" & CloudColor & "'/>
+			        <line x1='10' y1='22' x2='8' y2='29' stroke='" & RainBlueDark & "' stroke-width='2' stroke-linecap='round'/>
+			        <line x1='16' y1='22' x2='14' y2='29' stroke='" & RainBlueDark & "' stroke-width='2' stroke-linecap='round'/>
+			        <line x1='22' y1='22' x2='20' y2='29' stroke='" & RainBlueDark & "' stroke-width='2' stroke-linecap='round'/>
+			        </svg>",
+			
+			        "snow",
+			        "<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+			        <path d='M8 18 Q4 18 4 13 Q4 8 9 7 Q9 2 16 2 Q22 2 23 7 Q28 7 28 13 Q28 18 24 18 Z' fill='" & CloudColor & "'/>
+			        <circle cx='10' cy='23' r='2' fill='" & SnowBlue & "'/>
+			        <circle cx='16' cy='27' r='2' fill='" & SnowBlue & "'/>
+			        <circle cx='22' cy='23' r='2' fill='" & SnowBlue & "'/>
+			        </svg>",
+			
+			        ""
+			    )
+			
+			RETURN
+			IF(
+			    WeatherCondition <> BLANK() && WeatherCondition <> "",
+			    "<div style='display:flex; flex-direction:column; align-items:center; gap:3px;'>" 
+			    & IconSVG 
+			    & "<span style='font-size:10px; font-weight:600; color:" & LabelColor & "; font-family:Inter,sans-serif; white-space:nowrap;'>" & ConditionLabel & "</span>"
+			    & "</div>",
+			    ""
+			)
+			```
+		lineageTag: e4e6e550-24cb-4cb4-b76f-6bc888d3b806
+
+	measure SchoolBreakLine_515 = ```
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR IsBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_school_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR BreakName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[break_name],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR ShareOnBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR AccentColor = IF(IsDark, "#60A5FA", "#2563EB")
+			VAR TextColor = IF(IsDark, "#60A5FA", "#2563EB")
+			VAR SharePct = FORMAT(ShareOnBreak, "0%")
+			
+			RETURN
+			IF(
+			    IsBreak = TRUE() && BreakName <> BLANK(),
+			    "<div style='display:flex; align-items:center; gap:8px; margin-top:8px;'>
+			        <div style='width:3px; height:14px; background:" & AccentColor & "; border-radius:2px;'></div>
+			        <span style='font-size:11px; font-weight:600; color:" & TextColor & "; font-family:Inter,sans-serif;'>" & BreakName & " · " & SharePct & " on break</span>
+			    </div>",
+			    ""
+			)
+			```
+		lineageTag: 0bab359f-64c3-4bad-ab7a-be1a75301545
+
+	measure HolidayLine = ```
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR HolidayName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[holiday_names],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR IsHoliday = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_holiday_weekend],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "515"
+			    )
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR AccentColor = IF(IsDark, "#F5A623", "#D97706")
+			VAR TextColor = IF(IsDark, "#F5A623", "#D97706")
+			
+			RETURN
+			IF(
+			    IsHoliday = TRUE() && HolidayName <> BLANK(),
+			    "<div style='display:flex; align-items:center; gap:8px; margin-top:8px;'>
+			        <div style='width:3px; height:14px; background:" & AccentColor & "; border-radius:2px;'></div>
+			        <span style='font-size:11px; font-weight:600; color:" & TextColor & "; font-family:Inter,sans-serif;'>" & HolidayName & "</span>
+			    </div>",
+			    ""
+			)
+			```
+		lineageTag: 9f56a38e-9486-48ab-aaa4-bbafcb7291a7
+
+	measure SchoolBreakLine_Trilith = ```
+			
+			VAR SelectedDate = MIN('Calendar'[selecteddate])
+			VAR IsBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[is_school_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Trilith"
+			    )
+			VAR BreakName = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[break_name],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Trilith"
+			    )
+			VAR ShareOnBreak = 
+			    LOOKUPVALUE(
+			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[service_date], SelectedDate,
+			        'v_sunday_context'[campus], "Trilith"
+			    )
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR AccentColor = IF(IsDark, "#60A5FA", "#2563EB")
+			VAR TextColor = IF(IsDark, "#60A5FA", "#2563EB")
+			VAR SharePct = FORMAT(ShareOnBreak, "0%")
+			
+			RETURN
+			IF(
+			    IsBreak = TRUE() && BreakName <> BLANK(),
+			    "<div style='display:flex; align-items:center; gap:8px; margin-top:8px;'>
+			        <div style='width:3px; height:14px; background:" & AccentColor & "; border-radius:2px;'></div>
+			        <span style='font-size:11px; font-weight:600; color:" & TextColor & "; font-family:Inter,sans-serif;'>" & BreakName & " · " & SharePct & " on break</span>
+			    </div>",
+			    ""
+			)   
+			```
+		lineageTag: 8da1a582-bb3c-4f67-9041-b63055c2195a
+
+	column CampusLabel
+		lineageTag: 9e347b89-c56b-40cc-ade9-d1df94466e3c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [CampusLabel]
+		sortByColumn: SortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusKey
+		lineageTag: ffa4d8a3-8b43-4d77-b88e-3abf179d204c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [CampusKey]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusColor
+		lineageTag: 744a508e-e786-4576-8d57-aed632fb9019
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [CampusColor]
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder
+		formatString: 0
+		lineageTag: 0b15423c-d28c-4cd6-87cd-be84a675ae86
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [SortOrder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Campus Selector' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "CampusLabel", STRING,
+				    "CampusKey", STRING,
+				    "CampusColor", STRING,
+				    "SortOrder", INTEGER,
+				    {
+				        {"Overall", "Overall", "#FF4FC3", 1},
+				        {"515", "515", "#00B8E4", 2},
+				        {"CBL", "Cumberland", "#FF641C", 3},
+				        {"TRL", "Trilith", "#1EE7B8", 4}
+				    }
+				)
+
+	annotation PBI_Id = 610ec626d2ce4ebebad701013ddd7308
+

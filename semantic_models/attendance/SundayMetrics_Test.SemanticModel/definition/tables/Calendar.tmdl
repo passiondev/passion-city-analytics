@@ -1,0 +1,227 @@
+table Calendar
+	lineageTag: cf6ff02a-8d97-4ccc-9826-a34e259da2b3
+
+	measure MaxselectedDate = MINX(VALUES('Calendar'[selecteddate]),'Calendar'[selecteddate])
+		formatString: Short Date
+		lineageTag: 445766a1-0133-4369-9362-92e708bcaffc
+
+	measure Last5weeks = [MaxselectedDate]-35
+		formatString: Short Date
+		lineageTag: 8b0ef5b4-a03c-40d5-929c-5d51ce1f37df
+
+	measure PrevWeekDateUSE =
+			VAR SelectedDate =
+			    MIN ( 'Calendar'[selecteddate] )
+			
+			VAR LastSundayWithAttendance =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'Calendar'[Date] ),
+			            VAR SundayDate = 'Calendar'[Date]
+			            RETURN
+			                SundayDate < SelectedDate
+			                    && WEEKDAY ( SundayDate, 2 ) = 7
+			                    && CALCULATE (
+			                        [CountNew],
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = SundayDate
+			                    ) <> 0
+			        ),
+			        'Calendar'[Date]
+			    )
+			
+			RETURN FORMAT(LastSundayWithAttendance, "MM/DD/YYYY")
+		lineageTag: c28633a3-1359-44d2-a14b-4e73ed896387
+
+	measure 'Latest Data Date' =
+			
+			" " & FORMAT(
+			    MAX(AttendanceInPerson_WOW[MetricValueDateTime]),
+			    "M/D/YYYY"
+			)
+		lineageTag: e34e4a5e-6a85-4bbd-ae85-8c894fb06711
+
+	column Date
+		formatString: Short Date
+		lineageTag: 388b849e-5000-40fa-956d-85338052d802
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: af082dac-13d6-4096-aacc-4bda4158f64b
+			defaultHierarchy: LocalDateTable_b505c2e6-642f-4604-ab94-750828ce446f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Year
+		formatString: 0
+		lineageTag: c5aefbb1-56bb-47ab-ae8e-8c05ba5fb6ce
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNumber
+		formatString: 0
+		lineageTag: 72db3df8-50de-4938-a3fb-2db9c7db3d18
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [MonthNumber]
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		lineageTag: 60d17c50-e659-405c-b246-827df10bdc17
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [MonthName]
+		sortByColumn: MonthNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekNumber
+		formatString: 0
+		lineageTag: 1b0ce64b-50cf-4738-ac3f-48a50f1da7ae
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [WeekNumber]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekNumber
+		formatString: 0
+		lineageTag: ac222409-f698-4252-953b-6bb9b13d882e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [DayOfWeekNumber]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekName
+		lineageTag: d793cfd2-cd2a-4d7e-85b9-d8cfa8cc588f
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DayOfWeekName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		formatString: 0
+		lineageTag: 3165ef46-bff3-4c3f-b865-a23b7b5ef40c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		lineageTag: 2f9f09d5-0e18-48e7-8329-6a83788a03f9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [YearMonth]
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		lineageTag: 9315650b-2617-4402-8310-c34729afd0ca
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [YearQuarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column PrevWeekDate = ```
+			VAR SelectedDate =
+			    MIN ( 'Calendar'[selecteddate] )
+			
+			VAR LastSundayWithAttendance =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'Calendar'[Date] ),
+			            VAR SundayDate = 'Calendar'[Date]
+			            RETURN
+			                SundayDate < SelectedDate
+			                    && WEEKDAY ( SundayDate, 2 ) = 7
+			                    && CALCULATE (
+			                        [CountNew],
+			                        AttendanceInPerson_WOW[MetricValueDateTime] = SundayDate
+			                    ) <> 0
+			        ),
+			        'Calendar'[Date]
+			    )
+			
+			RETURN 
+			// LastSundayWithAttendance
+			int(LastSundayWithAttendance)
+			// FORMAT(LastSundayWithAttendance, "MM/DD/YYYY")
+			```
+		lineageTag: 195ce145-56d8-4859-88c0-94a0a1c2e8a8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year-Default = Year(today())
+		formatString: 0
+		lineageTag: 9da90358-95e6-41b2-b5c0-61c0de20f5eb
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column selecteddate = FIRSTDATE('Calendar'[Date])
+		formatString: General Date
+		lineageTag: d20d5345-9d6f-4cc4-8f24-eeece9f865bd
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 4ab2401b-78cf-4e53-84bb-f4e560ad10f8
+			defaultHierarchy: LocalDateTable_ef8ff5c0-f0f9-4a81-a630-79b50f37644f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column AutoDate =
+			
+			IF(
+			    'Calendar'[Date] = CALCULATE(
+			        MAX(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        ALL('Calendar')
+			    ),
+			    'Calendar'[Date],
+			    BLANK()
+			)
+		formatString: General Date
+		lineageTag: 0ed64455-1c3a-439c-9f9c-79f7cc81d072
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: d6e54f76-7777-4dd9-8b8a-eea573673bd0
+			defaultHierarchy: LocalDateTable_f0b0c640-d4c8-4bab-8164-de5dbf7205e4.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar-da4b6cfa-5b98-4655-9dc0-aa46185ff415 = calculated
+		mode: import
+		source =
+				
+				ADDCOLUMNS (
+				    CALENDAR (DATE(2011,1,1), MAX(AttendanceInPerson_WOW[MetricValueDateTime])),
+				    "Year", YEAR([Date]),
+				    "MonthNumber", MONTH([Date]),
+				    "MonthName", FORMAT([Date], "MMMM"),
+				    "WeekNumber", WEEKNUM([Date]),
+				    "DayOfWeekNumber", WEEKDAY([Date]),
+				    "DayOfWeekName", FORMAT([Date], "DDDD"),
+				    "Quarter", QUARTER([Date]),
+				    "YearMonth", FORMAT([Date], "YYYY-MM"),
+				    "YearQuarter", FORMAT([Date], "YYYY") & "-Q" & QUARTER([Date])
+				)
+
+	annotation PBI_Id = 8f5995d6b2f24915997e414f6636b662
+

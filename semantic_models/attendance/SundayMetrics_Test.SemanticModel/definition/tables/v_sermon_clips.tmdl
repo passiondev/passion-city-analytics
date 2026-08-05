@@ -1,0 +1,89 @@
+table v_sermon_clips
+	lineageTag: f7987f4b-4a30-4b3a-9bda-ac172aa0fb18
+
+	column video_id
+		dataType: string
+		lineageTag: 5f444bce-8c51-45ba-8739-5a31a44d9f28
+		summarizeBy: none
+		sourceColumn: video_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: 2ee6b50c-d856-47ea-a07e-c1e514c7ad26
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column published_at
+		dataType: string
+		lineageTag: 29fc967c-a36b-4d62-abc3-fc89540880ef
+		summarizeBy: none
+		sourceColumn: published_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_views
+		dataType: int64
+		formatString: 0
+		lineageTag: b6a04869-2cf9-48d5-98e4-3bf78f8b721e
+		summarizeBy: sum
+		sourceColumn: total_views
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_likes
+		dataType: int64
+		formatString: 0
+		lineageTag: 7755ab5f-ae18-4952-9c8d-4543ad107af1
+		summarizeBy: sum
+		sourceColumn: total_likes
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_comments
+		dataType: int64
+		formatString: 0
+		lineageTag: 4253c5af-1fdf-4ebe-86eb-745a999e398c
+		summarizeBy: sum
+		sourceColumn: total_comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_shares
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ba16a3c-940c-4172-a6ee-e6c41b547e5f
+		summarizeBy: sum
+		sourceColumn: total_shares
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_watch_minutes
+		dataType: double
+		lineageTag: d03ad670-872b-45aa-97d4-8ae85496ba09
+		summarizeBy: sum
+		sourceColumn: total_watch_minutes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition v_sermon_clips = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    v_sermon_clips_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="v_sermon_clips",version=""]}[Data]
+				in
+				    v_sermon_clips_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

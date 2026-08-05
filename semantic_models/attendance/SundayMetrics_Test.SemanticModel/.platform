@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "SundayMetrics_Test"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3cfaffee-f2a9-4394-9e40-9874216cdacd"
+  }
+}

@@ -1,0 +1,57 @@
+table AnalyticsGivingLastGiftByFamily
+	lineageTag: 337638dd-c1d1-4576-9acb-55cd8ee08b7d
+
+	column PrimaryFamilyId
+		dataType: int64
+		formatString: 0
+		lineageTag: 3e39a5f8-115e-41cc-8c1c-47b185943f11
+		summarizeBy: none
+		sourceColumn: PrimaryFamilyId
+
+		annotation SummarizationSetBy = Automatic
+
+	column LastGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 48a06109-4dfc-4f84-b96b-9126b6e09b0e
+		summarizeBy: none
+		sourceColumn: LastGiftDate
+
+		variation Variation
+			isDefault
+			relationship: 8a1f4925-4147-4e3e-b862-3d74bf67ac71
+			defaultHierarchy: LocalDateTable_a2ace27e-c454-4dca-8e7f-f93cb89f38fb.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column PrevGiftDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9d208afd-a60e-47d6-8048-af7d03fe1452
+		summarizeBy: none
+		sourceColumn: PrevGiftDate
+
+		variation Variation
+			isDefault
+			relationship: 62cdeb66-4047-4215-9a2f-2f52f6620850
+			defaultHierarchy: LocalDateTable_d6cfc937-bdcd-4220-a7e2-a7a86dfb0949.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition AnalyticsGivingLastGiftByFamily = m
+		mode: import
+		source =
+				let
+				    Source = AnalyticsGivingSignals,
+				    #"Grouped Rows" = Table.Group(Source, {"PrimaryFamilyId"}, {{"LastGiftDate", each List.Max([LastGiftDate]), type nullable date}, {"PrevGiftDate", each List.Max([PrevGiftDate]), type nullable date}})
+				in
+				    #"Grouped Rows"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

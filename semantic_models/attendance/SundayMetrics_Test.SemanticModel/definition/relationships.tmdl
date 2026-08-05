@@ -1,0 +1,278 @@
+relationship 3b7791bf-3257-499a-b276-cb7d75bcea2e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricbloomMetrics.MetricValueDateTime
+	toColumn: LocalDateTable_fcead7d6-8d50-4bed-891c-1ccd623a147f.Date
+
+relationship ae7e14ea-79f4-47dc-afa5-4e300213b9d7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricDoorHolders.MetricValueDateTime
+	toColumn: LocalDateTable_5daabcf3-4c65-4861-ac44-420fb47b082b.Date
+
+relationship d3ca6342-a376-4c5e-956c-702a2b3abfc8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricPassionKids.MetricValueDateTime
+	toColumn: LocalDateTable_a4607ddb-a883-4af7-a7a2-b513d62486a3.Date
+
+relationship 87528741-08df-40dd-ba58-8b0df105b8a3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricGatheringAttendance.MetricValueDateTime
+	toColumn: LocalDateTable_1bdae7f5-ec3a-4bf2-9b60-b2ef31106547.Date
+
+relationship 8ee3438d-f6d9-4dc6-b030-2759c3ab0948
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_Online_WOW.MetricValueDateTime
+	toColumn: LocalDateTable_ca43bbfb-7c53-490a-a553-c2c04a041f2b.Date
+
+relationship a4eefbe6-d3a6-45d3-afdb-67e92a5e1b34
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricMiddleSchool.MetricValueDateTime
+	toColumn: LocalDateTable_c428e439-3f61-4172-8e50-824d7bc52e16.Date
+
+relationship 4ab2401b-78cf-4e53-84bb-f4e560ad10f8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.selecteddate
+	toColumn: LocalDateTable_ef8ff5c0-f0f9-4a81-a630-79b50f37644f.Date
+
+relationship 14c3c317-465a-490a-8a83-1ed7e0037619
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_WOW.'selected date column'
+	toColumn: LocalDateTable_88ae3098-0fc2-4e58-a445-51a79edc9140.Date
+
+relationship bfac2f1b-1585-4255-89e8-d9025fe8ed40
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_WOW.md
+	toColumn: LocalDateTable_38370fbd-c89d-4e14-b880-065170ef1ac4.Date
+
+relationship 177d9a38-1e47-4796-a586-8248b7ddfde5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_WOW.SparkChartDates
+	toColumn: LocalDateTable_b6d3e045-d7b9-4566-a8ae-3811ecdcb82d.Date
+
+relationship 60c4aa2a-6fa1-4255-8f6f-fba060b3eb28
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricSplSundaybloomMetrics.MetricValueDateTime
+	toColumn: LocalDateTable_3933fc9d-df54-4782-bab1-3b4670fa619a.Date
+
+relationship 9837eb79-d4fa-42ea-afeb-75559e6a2e33
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricSplSundayDHMetrics.MetricValueDateTime
+	toColumn: LocalDateTable_faec6718-18df-4e62-9751-5807fdeccacc.Date
+
+relationship 318265da-6bb5-4e5a-b8a9-b6d63bdbd00d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricSplSundayGatheringAttMetrics.MetricValueDateTime
+	toColumn: LocalDateTable_c0addfdd-e60c-42be-9458-6e3a08786bed.Date
+
+relationship a7b250cd-34d2-40ce-9ed1-4455640f5fef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricSplSundayPKMetrics.MetricValueDateTime
+	toColumn: LocalDateTable_27d6e2df-3f3e-4332-996a-e32c6072f815.Date
+
+relationship 702ded04-6c59-4d00-a27c-47525598e398
+	joinOnDateBehavior: datePartOnly
+	fromColumn: SplSundayAttInPerson_WOW.MetricValueDateTime
+	toColumn: LocalDateTable_e7176be1-245f-438c-8244-bc1654e4b674.Date
+
+relationship b787957a-a549-4914-b184-b92fb8b73f68
+	joinOnDateBehavior: datePartOnly
+	fromColumn: SplSundayAtt_Online_WOW.MetricValueDateTime
+	toColumn: LocalDateTable_17839373-4ad5-40b6-ab72-8af81a11236b.Date
+
+relationship af082dac-13d6-4096-aacc-4bda4158f64b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.Date
+	toColumn: LocalDateTable_b505c2e6-642f-4604-ab94-750828ce446f.Date
+
+relationship e943e8dd-3e04-4ade-9c67-f0f668dea837
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetricHighSchool.MetricValueDateTime
+	toColumn: LocalDateTable_3fe3c29a-3e30-45ea-be0a-7b4ab0767019.Date
+
+relationship d4cf4c8d-91b7-448f-9b93-8d4d8c91ca9c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_WOW.MetricValueDateTime
+	toColumn: LocalDateTable_40ba220f-ec77-497b-9894-cc75dc1dfadd.Date
+
+relationship AutoDetected_de4f26e8-c84a-4eb1-a9ac-da0b86ff6720
+	fromColumn: AttendanceInPerson_WOW.Index
+	toColumn: SplSundayAtt_Online_WOW.Index
+
+relationship 7d28d711-6cee-4034-be59-228f14a10990
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_WOW.'Week Start Date'
+	toColumn: LocalDateTable_34d51a28-af03-4d8e-9a52-dd779f9f7d1f.Date
+
+relationship 3d86e022-4eb8-478c-af77-50dada1ba5e9
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AttendanceInPerson_WOW.MetricValueMonthStartDate
+	toColumn: LocalDateTable_82b0be0d-1428-460b-b69b-49d1ccc08b0c.Date
+
+relationship 7305a7f3-f0f6-4817-b1a6-6069824d7009
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetric5pmbloom.MetricValueDateTime
+	toColumn: LocalDateTable_24d6206b-51bf-4727-9d62-54c550da3350.Date
+
+relationship a6197c9a-061e-434e-a0e5-fc40f953b28f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetric5pmDoorHolders.MetricValueDateTime
+	toColumn: LocalDateTable_0ef796f4-6ae5-4adf-be3b-45cefcc55f72.Date
+
+relationship 17cb1d98-7617-4558-81c5-4dc12443b5ff
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetric5pmGatheringAttendance.MetricValueDateTime
+	toColumn: LocalDateTable_b15fa687-772a-42fe-9e64-66a4a7fd885f.Date
+
+relationship 19fc5079-8ddd-4917-b2ad-6b00c9a9f1be
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsFactMetric5pmPassionKids.MetricValueDateTime
+	toColumn: LocalDateTable_98ffd8a6-e704-4b0b-ab6f-dbe6c916d003.Date
+
+relationship d8e45faf-4ee5-477c-ab89-7c30dd1f832f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 5pmSundayAttInPerson.MetricValueDateTime
+	toColumn: LocalDateTable_3eecce43-8437-4fc7-82d0-a8d1fec471d0.Date
+
+relationship 7fa2379b-ff4c-43d9-befe-684eb5bba50a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar5pm.selecteddate5PM
+	toColumn: LocalDateTable_2fde6ace-35eb-4104-975c-c9f3c3eed459.Date
+
+relationship 4a365270-9683-4d84-94e1-8d06b5f5c408
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar5pm.Date
+	toColumn: LocalDateTable_a91f4c7f-f695-44a0-afaf-b1ed767a0085.Date
+
+relationship d6e54f76-7777-4dd9-8b8a-eea573673bd0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Calendar.AutoDate
+	toColumn: LocalDateTable_f0b0c640-d4c8-4bab-8164-de5dbf7205e4.Date
+
+relationship ad9a8dc6-580b-49fd-9517-0ecba1f98a8a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_checkin.AOSundayDate
+	toColumn: LocalDateTable_45e29300-017f-4ecf-a607-cf9d4527166a.Date
+
+relationship 8c619630-e66b-477e-8673-c14683f8770b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.EffectiveDate
+	toColumn: LocalDateTable_7b458f5b-e68b-4f1d-944f-c6b1d374945d.Date
+
+relationship f6a21060-f847-47e4-88f0-d59732be1dec
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.ExpireDate
+	toColumn: LocalDateTable_61dcf984-c97f-4d1a-aa0d-6caf31cbe8e2.Date
+
+relationship cdc6bd74-4fc9-4517-b8e4-2f12aeb88e23
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.RecordStatusLastModifiedDateTime
+	toColumn: LocalDateTable_a8b50989-369a-441a-bc9f-9f190e7e627e.Date
+
+relationship 62add604-14da-48ed-975b-96d5b1d7966a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.AnniversaryDate
+	toColumn: LocalDateTable_ec307504-db39-4eb8-89dd-01c78b1522fc.Date
+
+relationship 709037af-a2ae-4cef-999c-4da36307d40d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.core_EraStartDate
+	toColumn: LocalDateTable_f403fa21-d367-48cc-9b5a-eebe3e9c9c7c.Date
+
+relationship 6d432544-7f1e-416c-abc3-c3d9bed53c5e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.core_EraFirstGave
+	toColumn: LocalDateTable_41517fa3-4c8c-4768-b9d8-c6b8b05340b2.Date
+
+relationship 688e3615-ae65-46cd-8d7d-2701b64a7b7f
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.core_EraLastGave
+	toColumn: LocalDateTable_1f5db191-28d7-432f-8a72-c500a568b2cd.Date
+
+relationship f65b370d-671b-4d1f-a862-00ad791022c7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.LastClassificationRunDateTime
+	toColumn: LocalDateTable_ed03b7ca-1eef-434c-9aeb-79be8e25ac15.Date
+
+relationship 1c4fa9d3-7b17-4f0d-ab35-83def8df3bee
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.NextExpectedGiftDate
+	toColumn: LocalDateTable_805af7a0-5fb0-447d-8279-8498c24e8465.Date
+
+relationship 065bce2c-146c-43f6-9f05-b35d91d6fc61
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.JourneyGivingStageChangeDate
+	toColumn: LocalDateTable_08f97ae7-ad7c-461a-b731-266eb2f68c73.Date
+
+relationship 5e64de2e-eaa9-466a-999a-d84a8b703441
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_person.ModifiedDateTime
+	toColumn: LocalDateTable_00ca5a5c-f823-4b09-a0ef-73b0a502d630.Date
+
+relationship 8a1f4925-4147-4e3e-b862-3d74bf67ac71
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsGivingLastGiftByFamily.LastGiftDate
+	toColumn: LocalDateTable_a2ace27e-c454-4dca-8e7f-f93cb89f38fb.Date
+
+relationship 62cdeb66-4047-4215-9a2f-2f52f6620850
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsGivingLastGiftByFamily.PrevGiftDate
+	toColumn: LocalDateTable_d6cfc937-bdcd-4220-a7e2-a7a86dfb0949.Date
+
+relationship bda5bc2b-427a-4584-8a56-4c693d492eb1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsGivingSignals.FirstGiftDate
+	toColumn: LocalDateTable_a3492b32-c8f0-4a21-a142-513a244bee14.Date
+
+relationship a4498927-35c5-4713-9e30-bea97498d997
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsGivingSignals.LastGiftDate
+	toColumn: LocalDateTable_a44a4804-f696-4f3b-9b86-3c9458bc092b.Date
+
+relationship 7597bbbb-e462-47bd-b860-14b3e283b467
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsGivingSignals.PrevGiftDate
+	toColumn: LocalDateTable_6a5f2134-c650-4575-841e-68f8ebdf5b68.Date
+
+relationship 1b40fee9-0c15-440d-9142-c2ea32048354
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_checkin.LastGiftDate
+	toColumn: LocalDateTable_9bddb686-ff48-4cef-accb-85ca623594d5.Date
+
+relationship 6d988595-1867-4796-9313-5d98c1dd2fbc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_checkin.PrevGiftDate
+	toColumn: LocalDateTable_210d6bb2-140b-4fca-9c17-50ed428a12cf.Date
+
+relationship AutoDetected_d94c1a65-e7e7-43f4-9e50-d0f372cb45af
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: AnalyticsGivingSignals.PersonId
+	toColumn: dim_person.PersonId
+
+relationship AutoDetected_61f958cc-8c23-4396-b9bb-2efdd1c44711
+	fromColumn: fact_checkin.PrimaryFamilyId
+	toColumn: AnalyticsGivingLastGiftByFamily.PrimaryFamilyId
+
+relationship AutoDetected_e836f254-5d30-40b7-a52f-8314bca13679
+	isActive: false
+	fromColumn: AnalyticsGivingSignals.PrimaryFamilyId
+	toColumn: AnalyticsGivingLastGiftByFamily.PrimaryFamilyId
+
+relationship ba405011-96e1-4eba-99df-777f8a4983b2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: v_sunday_context.service_date
+	toColumn: LocalDateTable_72280db6-bca4-424a-b523-3dd5312bf506.Date
+
+relationship ba84d524-b845-495a-8400-4714ddcc0992
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsDimPersonHistorical.EffectiveDate
+	toColumn: LocalDateTable_03583179-c7b6-4a51-a680-e7940489ddcd.Date
+
+relationship 8feb7736-de16-4210-9d82-8d69804a1f4b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: AnalyticsDimPersonHistorical.ExpireDate
+	toColumn: LocalDateTable_371be6d4-4227-49c0-a049-203494890822.Date
+
+relationship AutoDetected_d828188b-e781-4025-a848-4e5107e9a8c8
+	fromColumn: AnalyticsDimPersonHistorical.PersonId
+	toColumn: dim_person.PersonId
+

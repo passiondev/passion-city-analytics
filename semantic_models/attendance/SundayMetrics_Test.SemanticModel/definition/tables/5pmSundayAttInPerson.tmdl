@@ -1,0 +1,392 @@
+table 5pmSundayAttInPerson
+	lineageTag: a635e9c5-e9b0-4a7e-9cbc-0dca9423736f
+
+	measure 5pmCountNew = Sum('5pmSundayAttInPerson'[Count])
+		lineageTag: 9e17486f-337f-40b3-9955-5557da0063bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Latest5pm =
+			
+			VAR SelectedDate =  [MaxselectedDate5PM]
+			RETURN
+			CALCULATE(sum('5pmSundayAttInPerson'[Count]),'5pmSundayAttInPerson'[MetricValueDateTime] = SelectedDate)
+		lineageTag: 74a0ace4-cd50-41c1-b3f7-b84752cbfcf1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevMonth5pm = ```
+			
+			VAR prevmon=PREVIOUSDAY(Calendar5pm[selecteddate5PM].[Date])
+			var prevmonlatest='5pmSundayAttInPerson'[Previous1]
+			Return 
+			Coalesce(CALCULATE(sum('5pmSundayAttInPerson'[Count]), '5pmSundayAttInPerson'[MetricValueDateTime]=prevmonlatest),0)
+			
+			```
+		lineageTag: 83cf01ae-1dbd-4205-811e-b16648a7a610
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5PMWOWMeasure = Coalesce(Divide([Latest5pm]-[PrevMonth5pm],[PrevMonth5pm],0),"-")
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 37b20838-fbea-48d6-a217-0dfa68347628
+
+	measure 5pmMonthAtt = Calculate([5pmCountNew],'5pmSundayAttInPerson'[MetricValueDateTime]= MINX(VALUES(Calendar5pm[Date]),Calendar5pm[Date]))+0
+		lineageTag: 3168180c-08bb-494b-b3d0-dc523a85c70a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurCountAvg = AVERAGE('5pmSundayAttInPerson'[Count])
+		lineageTag: 46caa90b-1f11-44c4-b9ad-3554e7519843
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurrYearAvgAtt = Calculate([5pmCountNew],'5pmSundayAttInPerson'[MetricValueDateTime]= MINX(VALUES(Calendar5pm[Date]),Calendar5pm[Date]))+0
+		lineageTag: a8d49ec1-1c31-49b0-8d58-b6d7a9f64c8d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevYearAvg =
+			
+			
+			Calculate(AVERAGE('5pmSundayAttInPerson'[Count]), Year('5pmSundayAttInPerson'[MetricValueDateTime]) = YEAR(MIN(Calendar5pm[selecteddate5PM]))-1)+0
+		lineageTag: 984173a8-2bba-4656-94fd-0356f4401ef4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurYearAvg =
+			
+			
+			Calculate(AVERAGE('5pmSundayAttInPerson'[Count]), Year('5pmSundayAttInPerson'[MetricValueDateTime]) = YEAR(MIN(Calendar5pm[selecteddate5PM])))+0
+		lineageTag: 9dd0f607-5480-41dd-a3b9-6eb81de955fc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5PMYOYMeasure = Coalesce(Divide([CurrYrAvg]-[5pmPrevAVG],[5pmPrevAVG],0),"-")
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 582ac96a-a357-403d-9670-4a17002fcad3
+
+	measure 5pmArrowsconditionsMOM =
+			SWITCH(
+			    TRUE(),
+			    '5pmSundayAttInPerson'[5PMWOWMeasure]>=0,UNICHAR(9650),
+			    '5pmSundayAttInPerson'[5PMWOWMeasure]<0,UNICHAR(9660),
+			    BLANK()
+			    )
+		lineageTag: 7f7f26bb-f660-48b3-892f-023501f802c7
+
+	measure 5pmTrilithCurYrPlaceHolder = ```
+			
+			VAR curyear=( Year(Calendar5pm[MaxselectedDate5PM]))
+			
+			Return 
+			if(ISBLANK(CALCULATE(sum('5pmSundayAttInPerson'[Count]),YEAR('5pmSundayAttInPerson'[MetricValueDateTime])=curyear,'5pmSundayAttInPerson'[CampusName]="Trilith")),"-")
+			```
+		lineageTag: 95a29faf-2d7f-48a5-b9e1-d4fbf595afd5
+
+	measure 5pmCurAtt = ```
+			COALESCE('5pmSundayAttInPerson'[Latest5pm],0) 
+			```
+		lineageTag: 840955f3-f304-4f56-9e3d-42e22abe0d19
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5pmCurrentYearYOY = ```
+			
+			VAR curyear=( Year(Calendar5pm[MaxselectedDate5PM]))
+			VAR monthnum=( MONTH(Calendar5pm[MaxselectedDate5PM]))
+			Return 
+			CALCULATE(average('5pmSundayAttInPerson'[Count]),
+			YEAR('5pmSundayAttInPerson'[MetricValueDateTime])=curyear,MONTH('5pmSundayAttInPerson'[MetricValueDateTime])>=0 && MONTH('5pmSundayAttInPerson'[MetricValueDateTime])<=monthnum
+			)
+			```
+		lineageTag: 3578a184-1f8b-4720-bb5f-7fa88fb22391
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5pmPrevAVG =
+			
+			VAR MINDATE=STARTOFYEAR(Calendar5pm[selecteddate5PM])
+			VAR SelectedDate = [MaxselectedDate5PM]
+			VAR LastYearDate = DATE(YEAR(SelectedDate)-1,MONTH(SelectedDate),Day(SelectedDate))
+			var Total = CALCULATE(SUM( '5pmSundayAttInPerson'[Count]),filter('5pmSundayAttInPerson',year('5pmSundayAttInPerson'[MetricValueDateTime])=year(LastYearDate) && '5pmSundayAttInPerson'[MetricValueDateTime]>=DATE(YEAR(MINDATE)-1,1,1) && '5pmSundayAttInPerson'[MetricValueDateTime]<=LastYearDate
+			))
+			
+			VAR DataPoints = CALCULATE(DISTINCTCOUNT(Calendar5pm[Date]),ALL(Calendar5pm),Calendar5pm[selecteddate5PM]<=LastYearDate && YEAR(Calendar5pm[selecteddate5PM]) = YEAR(LastYearDate))
+			RETURN
+			    DIVIDE(Total,DataPoints)
+		lineageTag: 92c97459-348d-4e7b-a145-0ab33444d252
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5pmArrowsconditionsYOY = ```
+			SWITCH(
+			    TRUE(),
+			    '5pmSundayAttInPerson'[5PMYOYMeasure]>=0,UNICHAR(9650),
+			    '5pmSundayAttInPerson'[5PMYOYMeasure]<0,UNICHAR(9660),
+			    BLANK()
+			    )
+			
+			```
+		lineageTag: c65fa167-ee4a-46dd-969e-9d34bf196244
+
+	measure 5pmATLRollingCharts = (CALCULATE([5pmCountNew],'5pmSundayAttInPerson'[CampusName]<>"DC"))
+		lineageTag: 5831a68c-10a8-471a-ab4d-e7c47cb0106c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5pm515RollingCharts = (CALCULATE([5pmCountNew],'5pmSundayAttInPerson'[CampusName]="515"))
+		lineageTag: ca5f2b92-dbf6-4ab4-893c-eaa711ceac96
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5pmCBLRollingCharts = (CALCULATE([5pmCountNew],'5pmSundayAttInPerson'[CampusName]="Cumberland"))
+		lineageTag: f713f65c-777d-41a1-b57a-63dec0150dbf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 5pmDCRollingCharts = (CALCULATE([5pmCountNew],'5pmSundayAttInPerson'[CampusName]="DC"))
+		lineageTag: b456f245-4952-44dc-97fb-b0f99d218d72
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurMonDate = Calendar5pm[MaxselectedDate5PM]
+		formatString: yyyy-mm
+		lineageTag: 41950cb4-2d16-4a41-bdee-d5d42cf45182
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure PrevMonDate = ```
+			(FORMAT([Previous1],"yyyy-MM")) 
+			```
+		lineageTag: 4ab9a225-3115-470f-9748-cc7a4a565121
+
+	measure CurMonth5pm = ```
+			
+			VAR curmon=Calendar5pm[MaxselectedDate5PM]
+			Return 
+			Coalesce(CALCULATE(sum('5pmSundayAttInPerson'[Count]), '5pmSundayAttInPerson'[MetricValueDateTime]=curmon),0)
+			```
+		lineageTag: fecb66fc-e1fd-46f9-9148-cc019614370e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Previous1 = ```
+			
+			var maxdate=SELECTEDVALUE(Calendar5pm[Date])
+			VAR PrevDate = 
+			CALCULATE(
+			    MAX( Calendar5pm[Date] ),
+			    FILTER(
+			        ALL( Calendar5pm ),
+			        Calendar5pm[Date] < maxdate
+			    )
+			) 
+			    
+			RETURN
+			     PrevDate 
+			
+			```
+		formatString: General Date
+		lineageTag: e361c512-dac5-4392-a14e-1a891e27878a
+
+	measure CurYrAvgVarchar = Coalesce([CurrYrAvg],0)
+		lineageTag: 566a5409-3ec5-47d5-bf03-8d036ebf6b73
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevYrAvgVarchar = Coalesce([5pmPrevAVG],0)
+		lineageTag: 915f6204-e375-4131-be59-5c71c5551547
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'VAR STARTOFPREVYR' = DATE(year(Calendar5pm[MaxselectedDate5PM])-1,1,1)
+		formatString: General Date
+		lineageTag: 3fd611a4-d7df-407b-a1da-5b5ec0b41ed8
+
+	measure CurrYrAvg =
+			
+			VAR MINDATE=STARTOFYEAR(Calendar5pm[selecteddate5PM])
+			var Total = CALCULATE(SUM( '5pmSundayAttInPerson'[Count]),filter('5pmSundayAttInPerson',year('5pmSundayAttInPerson'[MetricValueDateTime])=year(Calendar5pm[MaxselectedDate5PM]) && '5pmSundayAttInPerson'[MetricValueDateTime]>=MINDATE && '5pmSundayAttInPerson'[MetricValueDateTime]<=Calendar5pm[MaxselectedDate5PM]
+			))
+			VAR SelectedDate = [MaxselectedDate5PM]
+			VAR DataPoints = CALCULATE(DISTINCTCOUNT(Calendar5pm[Date]),ALL(Calendar5pm),Calendar5pm[selecteddate5PM]<=SelectedDate && YEAR(Calendar5pm[selecteddate5PM]) = YEAR(SelectedDate))
+			RETURN
+			    DIVIDE(Total,DataPoints)
+		lineageTag: 3dfc4222-8462-4f54-b2ce-dbee808da07a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevYrTotal =
+			
+			VAR PrevYrDATE=DATE(year(Calendar5pm[MaxselectedDate5PM])-1,month(Calendar5pm[MaxselectedDate5PM]),EOMONTH(Calendar5pm[MaxselectedDate5PM],0))
+			VAR STARTOFPREVYR=DATE(year(Calendar5pm[MaxselectedDate5PM])-1,1,1)
+			
+			RETURN
+			CALCULATE(SUM( '5pmSundayAttInPerson'[Count]),filter('5pmSundayAttInPerson',year('5pmSundayAttInPerson'[MetricValueDateTime])=year(Calendar5pm[MaxselectedDate5PM])-1 && '5pmSundayAttInPerson'[MetricValueDateTime]>=STARTOFPREVYR && '5pmSundayAttInPerson'[MetricValueDateTime]<=PrevYrDATE
+			))
+		lineageTag: 08956ab8-1f27-4cce-8959-be00ea76072b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 9f1ca628-e10f-421a-b7c1-f0a6cb6e97bf
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: d8e45faf-4ee5-477c-ab89-7c30dd1f832f
+			defaultHierarchy: LocalDateTable_3eecce43-8437-4fc7-82d0-a8d1fec471d0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: 9390fd29-afe6-4451-bff3-bc6a8c0e964f
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: bf909949-a54a-4264-ba9f-5a0757e3b55a
+		summarizeBy: none
+		sourceColumn: ScheduleName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Literal
+		dataType: string
+		lineageTag: 3138e57f-cd24-4a94-9876-2db7cd5ef693
+		summarizeBy: none
+		sourceColumn: Literal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: 59d184a3-7892-4c33-80f5-b6e94feb565c
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: dc015dd7-fb6b-4da1-abd6-b210fed84962
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 81fb71b5-c976-411b-8680-5cb2c3750887
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Custom
+		dataType: string
+		lineageTag: c4af4e75-9286-4212-b8db-a9b3b9630a41
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: 074ae903-4ca1-405f-ae69-5d9d9785683b
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleSortOrder
+		dataType: string
+		lineageTag: 33ff3bf4-5ff9-4042-9826-a97475c4fad4
+		summarizeBy: none
+		sourceColumn: ScheduleSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusSortOrder
+		dataType: string
+		lineageTag: 4f6c556d-e583-4f5b-abd3-54a6001dd5f7
+		summarizeBy: none
+		sourceColumn: CampusSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleSort
+		dataType: string
+		lineageTag: f4b832de-3bf0-4c6e-b7ae-d9d8333646fb
+		summarizeBy: none
+		sourceColumn: ScheduleSort
+
+		annotation SummarizationSetBy = Automatic
+
+	column 5pmFormattedDate = FORMAT('5pmSundayAttInPerson'[MetricValueDateTime].[Date],"mmm yy")
+		lineageTag: 1134dafd-33d0-46bf-87cb-fe9efa89dc9f
+		summarizeBy: none
+		sortByColumn: 5pmYearMonthNumber
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 5pmYearMonthNumber = ```
+			
+			CONVERT (
+			CONCATENATE (
+			RIGHT ( YEAR ( '5pmSundayAttInPerson'[MetricValueDateTime].[Date] ), 2 ),
+			IF (
+			MONTH ('5pmSundayAttInPerson'[MetricValueDateTime].[Date]  ) < 10,
+			CONCATENATE ( 0, MONTH ( '5pmSundayAttInPerson'[MetricValueDateTime].[Date] ) ),
+			MONTH ( '5pmSundayAttInPerson'[MetricValueDateTime].[Date] )
+			)
+			),
+			INTEGER
+			)
+			
+			```
+		formatString: 0
+		lineageTag: cf5bd16f-cc41-4347-818f-5c899b5856f3
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 5pmSundayAttInPerson = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({AnalyticsFactMetric5pmbloom, AnalyticsFactMetric5pmDoorHolders, AnalyticsFactMetric5pmGatheringAttendance}),
+				    #"Grouped Rows" = Table.Group(Source, {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName","EventName"}, {{"Count", each List.Sum([Count]), type nullable number}}),
+				    #"Sorted Rows" = Table.Sort(#"Grouped Rows",{{"MetricValueDateTime", Order.Descending}, {"CampusName", Order.Ascending}, {"ScheduleName", Order.Ascending}, {"Literal", Order.Ascending}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Sorted Rows", each ([CampusName] <> "Online")),
+				    #"Added Conditional Column" = Table.AddColumn(#"Filtered Rows1", "Custom", each if [CampusName] = "DC" then "D.C." else if [CampusName] <> "DC" then "Atlanta" else null),
+				    #"Inserted Week of Year1" = Table.AddColumn(#"Added Conditional Column", "Week of Year", each Date.WeekOfYear([MetricValueDateTime]), Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Week of Year1", each true),
+				    #"Added Conditional Column4" = Table.AddColumn(#"Filtered Rows", "ScheduleSortOrder", each if [ScheduleName] = "9:30am" then 1 else if [ScheduleName] = "11:30am" then 2 else if [ScheduleName] = "11:45am" then 2 else if [ScheduleName] = "5:00pm" then 3 else 4),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column4", "CampusSortOrder", each if [CampusName] = "515" then 1 else if [CampusName] = "Cumberland" then 2 else if [CampusName] = "Trilith" then 3 else if [CampusName] = "DC" then 4 else 5),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Conditional Column1", each true),
+				    #"Trimmed Text" = Table.TransformColumns(#"Filtered Rows2",{{"ScheduleName", Text.Trim, type text}}),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Trimmed Text", "ScheduleSort", each if [ScheduleName] = "8:00am" then 1 else if [ScheduleName] = "8:30am" then 2 else if [ScheduleName] = "9:00am" then 3 else if [ScheduleName] = "9:15am" then 4 else if [ScheduleName] = "9:30am" then 5 else if [ScheduleName] = "10:00am" then 6 else if [ScheduleName] = "10:30am" then 7 else if [ScheduleName] = "11:00am" then 8 else if [ScheduleName] = "11:30am" then 9 else if [ScheduleName] = "11:45am" then 10 else if [ScheduleName] = "12:00pm" then 11 else if [ScheduleName] = "12:30pm" then 12 else if [ScheduleName] = "1:30pm" then 13 else if [ScheduleName] = "2:00pm" then 14 else if [ScheduleName] = "2:30pm" then 15 else if [ScheduleName] = "3:00pm" then 16 else if [ScheduleName] = "3:30pm" then 17 else if [ScheduleName] = "4:00pm" then 18 else if [ScheduleName] = "5:00pm" then 19 else null),
+				    #"Filtered Rows3" = Table.SelectRows(#"Added Conditional Column2", each ([CityName] = "Atlanta"))
+				in
+				    #"Filtered Rows3"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

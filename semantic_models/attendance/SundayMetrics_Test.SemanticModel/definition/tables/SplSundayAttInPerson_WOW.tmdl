@@ -1,0 +1,278 @@
+table SplSundayAttInPerson_WOW
+	lineageTag: b71a1e45-cb09-4c12-ac0c-8453e9b6fad6
+
+	measure CountMeasure = Sum(SplSundayAttInPerson_WOW[Count])
+		lineageTag: d8d54911-eb49-47a3-bf36-ced7e45531dd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SplSunAtt = CALCULATE([CountMeasure],SplSundayAttInPerson_WOW[MetricValueDateTime]=MINX(VALUES('Calendar'[Date]),'Calendar'[Date]))
+		lineageTag: b99e64a2-976e-4703-b7f5-a77ab5feac69
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PrevYearEaster = ```
+			
+			VAR prevyear=( Year('Calendar'[MaxselectedDate])-1)
+			Return 
+			CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=prevyear,SplSundayAttInPerson_WOW[EventName]="Easter")
+			```
+		lineageTag: 9cc20b9a-b4fd-49b1-a754-302498d0247f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurrentYearEaster = ```
+			
+			VAR curyear=( Year('Calendar'[MaxselectedDate]))
+			Return 
+			CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Easter")
+			```
+		lineageTag: 924da9a3-f821-4b3c-9663-026a9375bf00
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CurrentYearChristmas = ```
+			
+			VAR curyear=( Year('Calendar'[MaxselectedDate]))
+			VAR prevyear=Year('Calendar'[MaxselectedDate])-1
+			Return 
+			if(ISBLANK(CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas")),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=prevyear,SplSundayAttInPerson_WOW[EventName]="Christmas"),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas"))
+			
+			```
+		formatString: 0
+		lineageTag: 7175ec3e-f0b6-49d7-b63b-507c3fa889d8
+
+	measure TestMeasure = Year('Calendar'[MaxselectedDate])-1
+		formatString: 0
+		lineageTag: 6552192c-4b7e-4250-8205-be7fde8f753f
+
+	measure PrevYearChristmas = ```
+			
+			VAR curyear=( Year('Calendar'[MaxselectedDate]))
+			Return 
+			if(ISBLANK(CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas")),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear-2,SplSundayAttInPerson_WOW[EventName]="Christmas"),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear-1,SplSundayAttInPerson_WOW[EventName]="Christmas"))
+			
+			```
+		lineageTag: 6762d221-352d-42fe-9534-137105e9b5ea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure YOYMeasureEaster = Divide([CurrentYearEaster]-[PrevYearEaster],[PrevYearEaster],0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 6ec820e1-7848-49f4-bcd7-4ea71ed3a90b
+
+	measure YOYMeasureChristmas = Divide([CurrentYearChristmas]-[PrevYearChristmas],[PrevYearChristmas],0)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 9f4a4d41-f31a-4d68-abcb-e7e0975027e6
+
+	measure EasterArrowsconditionsYOY = ```
+			SWITCH(
+			    TRUE(),
+			    SplSundayAttInPerson_WOW[YOYMeasureEaster]>=0,UNICHAR(9650),
+			    SplSundayAttInPerson_WOW[YOYMeasureEaster]<0,UNICHAR(9660),
+			    BLANK()
+			    )
+			
+			```
+		lineageTag: e3c6e4e1-04e5-47ed-adb0-ed84210e1f31
+
+	measure ChristmasArrowsconditionsYOY = ```
+			SWITCH(
+			    TRUE(),
+			    SplSundayAttInPerson_WOW[YOYMeasureChristmas]>=0,UNICHAR(9650),
+			    SplSundayAttInPerson_WOW[YOYMeasureChristmas]<0,UNICHAR(9660),
+			    BLANK()
+			    )
+			
+			```
+		lineageTag: f2083df3-e974-4501-883b-9b18bdd3eea8
+
+	measure EasterYear = YEAR(MINX(VALUES('Calendar'[selecteddate]),'Calendar'[selecteddate]))
+		formatString: 0
+		lineageTag: 690c8f15-a136-42bc-bf88-68b3d062cd66
+
+	measure ChristmasYear = ```
+			
+			VAR curyear=( Year('Calendar'[MaxselectedDate]))
+			
+			Return 
+			if(ISBLANK(CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas")),curyear-1,curyear)
+			```
+		formatString: 0
+		lineageTag: b4f0f057-2e70-42b0-b5de-324d6015afbd
+
+	measure SplSunCountNew = Sum(SplSundayAttInPerson_WOW[Count])
+		lineageTag: 67179272-a645-4ecb-99e8-06131e8fbcab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ATLSplSunRollingCharts = (CALCULATE([SplSunCountNew],SplSundayAttInPerson_WOW[CampusName]<>"DC"))
+		lineageTag: 026cfde5-d734-490e-aba6-996a2c5cd620
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 515SplSunRollingCharts = (CALCULATE([SplSunCountNew],SplSundayAttInPerson_WOW[CampusName]="515"))
+		lineageTag: d3463369-360e-414b-a4b7-90c991f2e704
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CBLSplSunRollingCharts = (CALCULATE([SplSunCountNew],SplSundayAttInPerson_WOW[CampusName]="Cumberland"))
+		lineageTag: 32707d68-32af-4249-8894-d10d7467f61d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure TrlSplSunRollingCharts = (CALCULATE([SplSunCountNew],SplSundayAttInPerson_WOW[CampusName]="Trilith"))
+		lineageTag: 6a677be1-622b-4317-9357-536e7130562e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DCSplSunRollingCharts = (CALCULATE([SplSunCountNew],SplSundayAttInPerson_WOW[CampusName]="DC"))
+		lineageTag: 5b88af99-c90b-422a-8fe2-a2695cc79458
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MetricValueDateTime
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 942f9026-6085-4ad2-b627-4901ba8a63a9
+		summarizeBy: none
+		sourceColumn: MetricValueDateTime
+
+		variation Variation
+			isDefault
+			relationship: 702ded04-6c59-4d00-a27c-47525598e398
+			defaultHierarchy: LocalDateTable_e7176be1-245f-438c-8244-bc1654e4b674.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CampusName
+		dataType: string
+		lineageTag: e4de7b48-e9cc-48ba-b6f0-51963a611401
+		summarizeBy: none
+		sourceColumn: CampusName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleName
+		dataType: string
+		lineageTag: 621de28a-e895-45d4-a87a-83eb1af48096
+		summarizeBy: none
+		sourceColumn: ScheduleName
+		sortByColumn: ScheduleSort
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Literal
+		dataType: string
+		lineageTag: 41869c50-ad92-467f-9b16-4056f1ca371d
+		summarizeBy: none
+		sourceColumn: Literal
+
+		annotation SummarizationSetBy = Automatic
+
+	column CityName
+		dataType: string
+		lineageTag: cf5ebe13-f384-4f1d-8a2f-955b3f021228
+		summarizeBy: none
+		sourceColumn: CityName
+
+		annotation SummarizationSetBy = Automatic
+
+	column EventName
+		dataType: string
+		lineageTag: 38674616-204f-40e1-a10b-fb15221ad6bf
+		summarizeBy: none
+		sourceColumn: EventName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Count
+		dataType: double
+		lineageTag: 8f580199-eef4-44d9-a8ac-e1f03cb2fbbc
+		summarizeBy: sum
+		sourceColumn: Count
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Custom
+		dataType: string
+		lineageTag: 901ee8c4-eda4-4abc-9ff6-9d77d126eed8
+		summarizeBy: none
+		sourceColumn: Custom
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week of Year'
+		dataType: int64
+		formatString: 0
+		lineageTag: b9a7356f-1087-4ce3-accd-1c79c6976458
+		summarizeBy: sum
+		sourceColumn: Week of Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleSortOrder
+		dataType: string
+		lineageTag: 198a66f1-c57c-4eb5-873a-8b1ac79a3c91
+		summarizeBy: none
+		sourceColumn: ScheduleSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusSortOrder
+		dataType: string
+		lineageTag: 5c0a57f9-91a4-4cc2-b4c7-de21686f2f99
+		summarizeBy: none
+		sourceColumn: CampusSortOrder
+
+		annotation SummarizationSetBy = Automatic
+
+	column FormattedDateSplSun = Year(SplSundayAttInPerson_WOW[MetricValueDateTime])
+		dataType: string
+		lineageTag: 5b9c25d0-ba81-42d1-8a06-72e760a47af5
+		summarizeBy: none
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScheduleSort
+		dataType: int64
+		formatString: 0
+		lineageTag: 66ec87b5-ad8a-4d27-9b5d-4b9dfe8e733d
+		summarizeBy: sum
+		sourceColumn: ScheduleSort
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SplSundayAttInPerson_WOW = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({AnalyticsFactMetricSplSundaybloomMetrics, AnalyticsFactMetricSplSundayDHMetrics, AnalyticsFactMetricSplSundayGatheringAttMetrics}),
+				    #"Grouped Rows" = Table.Group(Source, {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName","EventName"}, {{"Count", each List.Sum([Count]), type nullable number}}),
+				    #"Sorted Rows" = Table.Sort(#"Grouped Rows",{{"MetricValueDateTime", Order.Descending}, {"CampusName", Order.Ascending}, {"ScheduleName", Order.Ascending}, {"Literal", Order.Ascending}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Sorted Rows", each ([CampusName] <> "Online")),
+				    #"Added Conditional Column" = Table.AddColumn(#"Filtered Rows1", "Custom", each if [CampusName] = "DC" then "D.C." else if [CampusName] <> "DC" then "Atlanta" else null),
+				    #"Inserted Week of Year1" = Table.AddColumn(#"Added Conditional Column", "Week of Year", each Date.WeekOfYear([MetricValueDateTime]), Int64.Type),
+				    #"Filtered Rows" = Table.SelectRows(#"Inserted Week of Year1", each true),
+				    #"Added Conditional Column4" = Table.AddColumn(#"Filtered Rows", "ScheduleSortOrder", each if [ScheduleName] = "9:30am" then 3 else if [ScheduleName] = "11:30am" then 5 else if [ScheduleName] = "11:45am" then 6 else if [ScheduleName] = "5:00pm" then 9 else if [ScheduleName] = "8:30am" then 1 else if [ScheduleName] = "10:30am" then 4 else if [ScheduleName] = "1:00pm" then 7 else if [ScheduleName] = "9:00am" then 2 else if [ScheduleName] = "1:30pm" then 8 else 10),
+				    #"Added Conditional Column1" = Table.AddColumn(#"Added Conditional Column4", "CampusSortOrder", each if [CampusName] = "515" then 1 else if [CampusName] = "Cumberland" then 2 else if [CampusName] = "Trilith" then 3 else if [CampusName] = "DC" then 4 else 5),
+				    #"Filtered Rows2" = Table.SelectRows(#"Added Conditional Column1", each true),
+				    #"Trimmed Text" = Table.TransformColumns(#"Filtered Rows2",{{"ScheduleName", Text.Trim, type text}}),
+				    #"Added Conditional Column2" = Table.AddColumn(#"Trimmed Text", "ScheduleSort", each if [ScheduleName] = "8:00am" then 1 else if [ScheduleName] = "8:30am" then 2 else if [ScheduleName] = "9:00am" then 3 else if [ScheduleName] = "9:15am" then 4 else if [ScheduleName] = "9:30am" then 5 else if [ScheduleName] = "10:00am" then 6 else if [ScheduleName] = "10:30am" then 7 else if [ScheduleName] = "11:00am" then 8 else if [ScheduleName] = "11:30am" then 9 else if [ScheduleName] = "11:45am" then 10 else if [ScheduleName] = "12:00pm" then 11 else if [ScheduleName] = "12:30pm" then 12 else if [ScheduleName] = "1:15pm" then 15 else if [ScheduleName] = "1:30pm" then 16 else if [ScheduleName] = "2:00pm" then 17 else if [ScheduleName] = "2:30pm" then 18 else if [ScheduleName] = "3:00pm" then 19 else if [ScheduleName] = "3:30pm" then 20 else if [ScheduleName] = "4:00pm" then 21 else if [ScheduleName] = "5:00pm" then 22 else if [ScheduleName] = "1:00pm" then 14 else if [ScheduleName] = "12:45pm" then 13 else if [ScheduleName] = "7:00pm" then 23 else null),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Conditional Column2",{{"ScheduleSort", Int64.Type}}),
+				    #"Filtered Rows3" = Table.SelectRows(#"Changed Type", each ([CityName] = "Atlanta"))
+				in
+				    #"Filtered Rows3"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+
