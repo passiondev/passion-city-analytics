@@ -3,8 +3,8 @@
   "name": "5b733d52a73b505e7be0",
   "displayName": "5pm",
   "displayOption": "ActualSize",
-  "height": 2400,
-  "width": 1000,
+  "height": 1450,
+  "width": 1510,
   "objects": {
     "background": [
       {
@@ -57,12 +57,5 @@
         }
       }
     ]
-  },
-  "visualInteractions": [
-    {
-      "source": "f8dafbb90a6aea5068a7",
-      "target": "7c232846264ce0d00848",
-      "type": "NoFilter"
-    }
-  ]
+  }
 }

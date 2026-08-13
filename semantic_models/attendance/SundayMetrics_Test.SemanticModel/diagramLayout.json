@@ -5,13 +5,13 @@
       "ordinal": 0,
       "scrollPosition": {
         "x": 13450,
-        "y": 91062.5
+        "y": 141086.1920034
       },
       "nodes": [
         {
           "location": {
             "x": 4238.06400540068,
-            "y": 108882.37170923091
+            "y": 158902.16368132189
           },
           "nodeIndex": "AnalyticsFactMetricbloomMetrics",
           "size": {
@@ -23,7 +23,7 @@
         {
           "location": {
             "x": 4661.2640054006806,
-            "y": 108882.37170923091
+            "y": 158902.16368132189
           },
           "nodeIndex": "AnalyticsFactMetricDoorHolders",
           "size": {
@@ -35,7 +35,7 @@
         {
           "location": {
             "x": 5930.9640054006795,
-            "y": 108882.37170923091
+            "y": 158902.16368132189
           },
           "nodeIndex": "AnalyticsFactMetricPassionKids",
           "size": {
@@ -47,7 +47,7 @@
         {
           "location": {
             "x": 2121.96400540068,
-            "y": 108882.37170923091
+            "y": 158902.16368132189
           },
           "nodeIndex": "AnalyticsFactMetricGatheringAttendance",
           "size": {
@@ -59,7 +59,7 @@
         {
           "location": {
             "x": 9975.36400540068,
-            "y": 108882.37170923091
+            "y": 158902.16368132189
           },
           "nodeIndex": "AttendanceInPerson_WOW",
           "size": {
@@ -71,7 +71,7 @@
         {
           "location": {
             "x": 0,
-            "y": 108197.23358267682
+            "y": 158217.02555476781
           },
           "nodeIndex": "Calendar",
           "nodeLineageTag": "cf6ff02a-8d97-4ccc-9826-a34e259da2b3",
@@ -84,7 +84,7 @@
         {
           "location": {
             "x": 11758.96400540068,
-            "y": 108882.37170923091
+            "y": 158902.16368132189
           },
           "nodeIndex": "AttendanceInPerson_Online_WOW",
           "nodeLineageTag": "1ce7e8b5-a3d3-4e02-9563-277279b0dc17",
@@ -97,7 +97,7 @@
         {
           "location": {
             "x": 12042.96400540068,
-            "y": 108932.37170923091
+            "y": 158952.16368132189
           },
           "nodeIndex": "AnalyticsFactMetricMiddleSchool",
           "nodeLineageTag": "dd12f4e5-a769-45fa-8059-f3702883d248",
@@ -110,7 +110,7 @@
         {
           "location": {
             "x": 10205,
-            "y": 107781.21683445273
+            "y": 157801.00880654372
           },
           "nodeIndex": "AnalyticsFactMetricSplSundaybloomMetrics",
           "nodeLineageTag": "21aac922-8560-40af-8a0c-8cc836314ae7",
@@ -123,7 +123,7 @@
         {
           "location": {
             "x": 10205,
-            "y": 107635.49920158909
+            "y": 157655.29117368005
           },
           "nodeIndex": "AnalyticsFactMetricSplSundayDHMetrics",
           "nodeLineageTag": "a67316e9-53ac-4901-822a-384b4ef1b13c",
@@ -136,7 +136,7 @@
         {
           "location": {
             "x": 10205,
-            "y": 107214.49285003092
+            "y": 157234.2848221219
           },
           "nodeIndex": "AnalyticsFactMetricSplSundayGatheringAttMetrics",
           "nodeLineageTag": "5b4dbe6a-1bea-4609-a995-261faf88dfd3",
@@ -149,7 +149,7 @@
         {
           "location": {
             "x": 10489,
-            "y": 107214.49285003092
+            "y": 157234.2848221219
           },
           "nodeIndex": "AnalyticsFactMetricSplSundayPKMetrics",
           "nodeLineageTag": "42c9bd45-4f4a-47cc-95ee-37a73fe5b33f",
@@ -162,7 +162,7 @@
         {
           "location": {
             "x": 427.5,
-            "y": 108582.27137597109
+            "y": 158602.06334806207
           },
           "nodeIndex": "SplSundayAtt_Online_WOW",
           "nodeLineageTag": "c6a5ab54-8fe5-4035-a002-33ca5384622b",
@@ -175,7 +175,7 @@
         {
           "location": {
             "x": 287.64285714285688,
-            "y": 108200.63431023597
+            "y": 158220.42628232692
           },
           "nodeIndex": "SplSundayAttInPerson_WOW",
           "nodeLineageTag": "b71a1e45-cb09-4c12-ac0c-8453e9b6fad6",
@@ -188,7 +188,7 @@
         {
           "location": {
             "x": 12326.96400540068,
-            "y": 105946.04993031218
+            "y": 155965.84190240316
           },
           "nodeIndex": "AnalyticsFactMetricHighSchool",
           "nodeLineageTag": "550984b2-4be1-457b-8576-f4ddacd7ff1c",
@@ -201,7 +201,7 @@
         {
           "location": {
             "x": 12610.96400540068,
-            "y": 104294.72324671582
+            "y": 154314.5152188068
           },
           "nodeIndex": "ChartLegendLocationTotals",
           "nodeLineageTag": "6480aa0d-f22f-485d-a7c0-56bf224e1017",
@@ -214,7 +214,7 @@
         {
           "location": {
             "x": 12894.96400540068,
-            "y": 103400.72613531948
+            "y": 153420.51810741046
           },
           "nodeIndex": "SplSunRollingYearsCounts",
           "nodeLineageTag": "9eb4ea5b-a8bb-4d6b-9115-b1167eb0575d",
@@ -227,7 +227,7 @@
         {
           "location": {
             "x": 13178.96400540068,
-            "y": 102019.89735302402
+            "y": 152039.689325115
           },
           "nodeIndex": "5pmSundayAttInPerson",
           "nodeLineageTag": "a635e9c5-e9b0-4a7e-9cbc-0dca9423736f",
@@ -240,7 +240,7 @@
         {
           "location": {
             "x": 13462.96400540068,
-            "y": 102045.89735302402
+            "y": 152065.689325115
           },
           "nodeIndex": "AnalyticsFactMetric5pmbloom",
           "nodeLineageTag": "5b258cd8-b119-43c3-b4d3-63a851473878",
@@ -253,7 +253,7 @@
         {
           "location": {
             "x": 13746.96400540068,
-            "y": 102045.89735302402
+            "y": 152065.689325115
           },
           "nodeIndex": "AnalyticsFactMetric5pmDoorHolders",
           "nodeLineageTag": "7cc488cc-16a9-4767-9cab-d16dbb0e2836",
@@ -266,7 +266,7 @@
         {
           "location": {
             "x": 14030.96400540068,
-            "y": 102045.89735302402
+            "y": 152065.689325115
           },
           "nodeIndex": "AnalyticsFactMetric5pmGatheringAttendance",
           "nodeLineageTag": "50bf086b-ad8c-424a-bcc6-db0f42bf4310",
@@ -279,7 +279,7 @@
         {
           "location": {
             "x": 14314.96400540068,
-            "y": 102019.89735302402
+            "y": 152039.689325115
           },
           "nodeIndex": "AnalyticsFactMetric5pmPassionKids",
           "nodeLineageTag": "c1a5f3ca-010d-4507-9e94-d3cb7b90de84",
@@ -292,7 +292,7 @@
         {
           "location": {
             "x": 14598.96400540068,
-            "y": 97991.370007088815
+            "y": 148011.16197917977
           },
           "nodeIndex": "Calendar5pm",
           "size": {
@@ -304,7 +304,7 @@
         {
           "location": {
             "x": 14882.96400540068,
-            "y": 92349.400031309051
+            "y": 142369.1920034
           },
           "nodeIndex": "5pm52wksRollingChartLegend",
           "nodeLineageTag": "56b38ea1-b7ae-45e1-9979-3db25ab6b3d3",
@@ -317,7 +317,7 @@
         {
           "location": {
             "x": 15166.96400540068,
-            "y": 83703.239806858634
+            "y": 133723.0317789496
           },
           "nodeIndex": "Theme",
           "size": {
@@ -329,7 +329,7 @@
         {
           "location": {
             "x": 15450.96400540068,
-            "y": 79422.08022071149
+            "y": 129441.87219280246
           },
           "nodeIndex": "Campus Selector",
           "size": {
@@ -341,7 +341,7 @@
         {
           "location": {
             "x": 16068.96400540068,
-            "y": 72879.380578451746
+            "y": 122899.17255054272
           },
           "nodeIndex": "dim_person",
           "nodeLineageTag": "0ff9557d-0221-4066-9868-91c6b71fc6e1",
@@ -354,7 +354,7 @@
         {
           "location": {
             "x": 15784.96400540068,
-            "y": 72879.380578451746
+            "y": 122899.17255054272
           },
           "nodeIndex": "fact_checkin",
           "nodeLineageTag": "725b134f-6b68-4bab-b82e-93bcdcdb1d25",
@@ -367,7 +367,7 @@
         {
           "location": {
             "x": 16686.964005400681,
-            "y": 65465.391039655224
+            "y": 115485.18301174619
           },
           "nodeIndex": "AnalyticsGivingLastGiftByFamily",
           "nodeLineageTag": "337638dd-c1d1-4576-9acb-55cd8ee08b7d",
@@ -380,7 +380,7 @@
         {
           "location": {
             "x": 16402.964005400681,
-            "y": 65441.391039655224
+            "y": 115461.18301174619
           },
           "nodeIndex": "AnalyticsGivingSignals",
           "nodeLineageTag": "f6166592-9e03-4ef0-ba15-05f0cfc963c9",
@@ -393,7 +393,7 @@
         {
           "location": {
             "x": 16970.964005400681,
-            "y": 56354.726590293765
+            "y": 106374.51856238474
           },
           "nodeIndex": "v_gathering_views",
           "nodeLineageTag": "28bb888f-85e3-4393-9bc9-d7a8a44c2fe8",
@@ -406,7 +406,7 @@
         {
           "location": {
             "x": 17254.964005400681,
-            "y": 56306.726590293765
+            "y": 106326.51856238474
           },
           "nodeIndex": "v_sermon_clips",
           "nodeLineageTag": "f7987f4b-4a30-4b3a-9bda-ac172aa0fb18",
@@ -419,12 +419,38 @@
         {
           "location": {
             "x": 17538.964005400681,
-            "y": 45302.564756233165
+            "y": 95322.356728324143
           },
           "nodeIndex": "v_sunday_context",
           "nodeLineageTag": "8393641c-c602-4d36-8d6b-912a7430b5a0",
           "size": {
             "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 17822.964005400681,
+            "y": 82105.528781923174
+          },
+          "nodeIndex": "AnalyticsDimPersonHistorical",
+          "nodeLineageTag": "0c66837f-8ae0-4106-99bc-75dfc06a7e08",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 18106.964005400681,
+            "y": 66098.66037700708
+          },
+          "nodeIndex": "dim_five_gatherings",
+          "nodeLineageTag": "550aa0e7-d43b-4f43-b9da-dcbeb0081691",
+          "size": {
+            "height": 128,
             "width": 234
           },
           "zIndex": 0

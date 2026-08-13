@@ -1,33 +1,33 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "aadb2d7063d164969ea3",
+  "name": "5edf33bfed98988bdeeb",
   "position": {
-    "x": 0,
-    "y": 359,
-    "z": 6000,
-    "height": 496,
-    "width": 320,
-    "tabOrder": 4000
+    "x": 1344,
+    "y": 272,
+    "z": 3007,
+    "height": 96.000000000000014,
+    "width": 160,
+    "tabOrder": 1006
   },
   "visual": {
-    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "visualType": "ThemeToggleXYZ789",
     "query": {
       "queryState": {
-        "content": {
+        "themeField": {
           "projections": [
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Campus Selector"
+                      "Entity": "Theme"
                     }
                   },
-                  "Property": "HTML_Card_Overall"
+                  "Property": "Theme"
                 }
               },
-              "queryRef": "Campus Selector.HTML_Card_Overall",
-              "nativeQueryRef": "HTML_Card_Overall"
+              "queryRef": "Theme.Theme",
+              "nativeQueryRef": "Theme"
             }
           ]
         }
@@ -60,7 +60,7 @@
           }
         }
       ],
-      "visualTooltip": [
+      "dropShadow": [
         {
           "properties": {
             "show": {
@@ -69,17 +69,20 @@
                   "Value": "false"
                 }
               }
-            }
-          }
-        }
-      ],
-      "dropShadow": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Theme"
+                        }
+                      },
+                      "Property": "CardBackground"
+                    }
+                  }
                 }
               }
             }

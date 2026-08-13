@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "519920de527fbdec0e80",
+  "name": "b9cadf5b21db10e1a108",
   "position": {
-    "x": 0,
-    "y": 3628,
-    "z": 5000,
-    "height": 416,
-    "width": 1280,
-    "tabOrder": 18000
+    "x": 736,
+    "y": 416,
+    "z": 3002,
+    "height": 320,
+    "width": 752,
+    "tabOrder": 1001
   },
   "visual": {
     "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Campus Selector"
+                      "Entity": "5pm52wksRollingChartLegend"
                     }
                   },
-                  "Property": "HTML_SundayGuide"
+                  "Property": "HTML_Five_Rolling12"
                 }
               },
-              "queryRef": "Campus Selector.HTML_SundayGuide",
-              "nativeQueryRef": "HTML_SundayGuide"
+              "queryRef": "5pm52wksRollingChartLegend.HTML_Five_Rolling12",
+              "nativeQueryRef": "HTML_Five_Rolling12"
             }
           ]
         }
@@ -49,6 +49,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "isHidden": true
+  }
 }
