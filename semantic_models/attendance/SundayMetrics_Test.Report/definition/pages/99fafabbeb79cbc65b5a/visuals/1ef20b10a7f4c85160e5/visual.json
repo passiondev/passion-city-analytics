@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "1ef20b10a7f4c85160e5",
+  "position": {
+    "x": 0,
+    "y": 528,
+    "z": 2000,
+    "height": 496,
+    "width": 687.99999999999989,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SplSundayAtt_Online_WOW"
+                    }
+                  },
+                  "Property": "HTML_Easter_MainCard"
+                }
+              },
+              "queryRef": "SplSundayAtt_Online_WOW.HTML_Easter_MainCard",
+              "nativeQueryRef": "HTML_Easter_MainCard"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

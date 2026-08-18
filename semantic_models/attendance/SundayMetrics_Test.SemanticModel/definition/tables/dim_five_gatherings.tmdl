@@ -1,0 +1,43 @@
+table dim_five_gatherings
+	lineageTag: 6354f7f6-5962-433c-9673-d73f7ea7bb34
+
+	column gathering_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b99d3ab8-f054-48e1-9859-62f8ed8c637b
+		summarizeBy: none
+		sourceColumn: gathering_date
+
+		variation Variation
+			isDefault
+			relationship: 51693b2c-e97a-478e-88b7-12d43a799dc6
+			defaultHierarchy: LocalDateTable_3f2f93e7-809c-4e82-80e9-0d4388584c68.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column poster_url
+		dataType: string
+		lineageTag: fe52c2a0-7a62-49b8-8138-1b95bd316fb7
+		summarizeBy: none
+		sourceColumn: poster_url
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_five_gatherings = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    dim_five_gatherings_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="dim_five_gatherings",version=""]}[Data]
+				in
+				    dim_five_gatherings_
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

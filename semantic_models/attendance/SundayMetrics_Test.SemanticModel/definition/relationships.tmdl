@@ -276,3 +276,8 @@ relationship AutoDetected_d828188b-e781-4025-a848-4e5107e9a8c8
 	fromColumn: AnalyticsDimPersonHistorical.PersonId
 	toColumn: dim_person.PersonId
 
+relationship 51693b2c-e97a-478e-88b7-12d43a799dc6
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_five_gatherings.gathering_date
+	toColumn: LocalDateTable_3f2f93e7-809c-4e82-80e9-0d4388584c68.Date
+

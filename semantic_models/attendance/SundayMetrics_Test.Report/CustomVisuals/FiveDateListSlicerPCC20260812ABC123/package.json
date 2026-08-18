@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0.0",
+  "author": {
+    "name": "Sandeep Nela",
+    "email": "sandeep.nela@268generation.com"
+  },
+  "resources": [
+    {
+      "resourceId": "rId0",
+      "sourceType": 5,
+      "file": "resources/FiveDateListSlicerPCC20260812ABC123.pbiviz.json"
+    }
+  ],
+  "visual": {
+    "guid": "FiveDateListSlicerPCC20260812ABC123",
+    "name": "fiveDateListSlicer",
+    "displayName": "Five Date List Slicer",
+    "version": "1.0.0.0",
+    "description": "List-style date slicer for The FIVE page",
+    "supportUrl": "https://268generation.com",
+    "gitHubUrl": "",
+    "visualClassName": "Visual"
+  },
+  "metadata": {
+    "pbivizjson": {
+      "resourceId": "rId0"
+    }
+  }
+}

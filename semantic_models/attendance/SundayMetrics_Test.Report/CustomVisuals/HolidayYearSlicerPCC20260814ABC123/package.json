@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0.0",
+  "author": {
+    "name": "Sandeep Nela",
+    "email": "sandeep.nela@268generation.com"
+  },
+  "resources": [
+    {
+      "resourceId": "rId0",
+      "sourceType": 5,
+      "file": "resources/HolidayYearSlicerPCC20260814ABC123.pbiviz.json"
+    }
+  ],
+  "visual": {
+    "guid": "HolidayYearSlicerPCC20260814ABC123",
+    "name": "holidayYearSlicer",
+    "displayName": "Holiday Year Slicer",
+    "version": "1.0.0.0",
+    "description": "Year dropdown slicer for Holiday page",
+    "supportUrl": "https://268generation.com",
+    "gitHubUrl": "",
+    "visualClassName": "Visual"
+  },
+  "metadata": {
+    "pbivizjson": {
+      "resourceId": "rId0"
+    }
+  }
+}

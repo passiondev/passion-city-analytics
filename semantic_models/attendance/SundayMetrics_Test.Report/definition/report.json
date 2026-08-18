@@ -142,6 +142,28 @@
           "type": "CustomVisualMetadata"
         }
       ]
+    },
+    {
+      "name": "FiveDateListSlicerPCC20260812ABC123",
+      "type": "CustomVisual",
+      "items": [
+        {
+          "name": "FiveDateListSlicerPCC20260812ABC123.pbiviz.json",
+          "path": "FiveDateListSlicerPCC20260812ABC123.pbiviz.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
+    },
+    {
+      "name": "HolidayYearSlicerPCC20260814ABC123",
+      "type": "CustomVisual",
+      "items": [
+        {
+          "name": "HolidayYearSlicerPCC20260814ABC123.pbiviz.json",
+          "path": "HolidayYearSlicerPCC20260814ABC123.pbiviz.json",
+          "type": "CustomVisualMetadata"
+        }
+      ]
     }
   ],
   "settings": {
