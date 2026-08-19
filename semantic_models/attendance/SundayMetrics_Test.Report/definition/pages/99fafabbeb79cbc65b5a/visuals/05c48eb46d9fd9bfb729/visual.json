@@ -3,10 +3,10 @@
   "name": "05c48eb46d9fd9bfb729",
   "position": {
     "x": 16,
-    "y": 384,
-    "z": 1000,
+    "y": 384.00000000000006,
+    "z": 2000,
     "height": 224,
-    "width": 496,
+    "width": 672,
     "tabOrder": 4000
   },
   "visual": {
@@ -23,11 +23,11 @@
                       "Entity": "SplSundayAttInPerson_WOW"
                     }
                   },
-                  "Property": "HTML_Christmas"
+                  "Property": "HTML_Easter"
                 }
               },
               "queryRef": "SplSundayAttInPerson_WOW.HTML_Easter",
-              "nativeQueryRef": "HTML_Christmas"
+              "nativeQueryRef": "HTML_Easter"
             }
           ]
         }
@@ -49,5 +49,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "22dfe7e96bd218b55fe1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "SplSundayAttInPerson_WOW"
+              }
+            },
+            "Property": "HTML_Easter"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

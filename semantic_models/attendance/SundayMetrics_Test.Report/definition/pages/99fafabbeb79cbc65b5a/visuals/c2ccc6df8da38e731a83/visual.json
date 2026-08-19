@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "1a7095e9385beeac24d0",
+  "name": "c2ccc6df8da38e731a83",
   "position": {
-    "x": 671.44736842105272,
-    "y": 1341.75,
-    "z": 11000,
-    "height": 320,
-    "width": 608,
-    "tabOrder": 11000
+    "x": 0,
+    "y": 3168,
+    "z": 14006,
+    "height": 288,
+    "width": 1280,
+    "tabOrder": 12009
   },
   "visual": {
     "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
@@ -20,14 +20,14 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "SplSundayAttInPerson_WOW"
+                      "Entity": "5pm52wksRollingChartLegend"
                     }
                   },
-                  "Property": "HTML_Easter_RB_TRL"
+                  "Property": "HTML_Christmas_RB_Total"
                 }
               },
-              "queryRef": "SplSundayAttInPerson_WOW.HTML_Easter_RB_TRL",
-              "nativeQueryRef": "HTML_Easter_RB_TRL"
+              "queryRef": "5pm52wksRollingChartLegend.HTML_Christmas_RB_Total",
+              "nativeQueryRef": "HTML_Christmas_RB_Total"
             }
           ]
         }

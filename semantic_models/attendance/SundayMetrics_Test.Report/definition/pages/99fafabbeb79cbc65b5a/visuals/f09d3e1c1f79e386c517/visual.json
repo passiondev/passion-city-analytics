@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "1a7095e9385beeac24d0",
+  "name": "f09d3e1c1f79e386c517",
   "position": {
-    "x": 671.44736842105272,
-    "y": 1341.75,
-    "z": 11000,
-    "height": 320,
-    "width": 608,
-    "tabOrder": 11000
+    "x": 0,
+    "y": 1936,
+    "z": 1000,
+    "height": 224.00000000000003,
+    "width": 911.99999999999989,
+    "tabOrder": 12003
   },
   "visual": {
     "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
@@ -23,11 +23,11 @@
                       "Entity": "SplSundayAttInPerson_WOW"
                     }
                   },
-                  "Property": "HTML_Easter_RB_TRL"
+                  "Property": "HTML_Christmas"
                 }
               },
-              "queryRef": "SplSundayAttInPerson_WOW.HTML_Easter_RB_TRL",
-              "nativeQueryRef": "HTML_Easter_RB_TRL"
+              "queryRef": "SplSundayAttInPerson_WOW.HTML_Christmas",
+              "nativeQueryRef": "HTML_Christmas"
             }
           ]
         }

@@ -183,7 +183,7 @@ table SplSundayAtt_Online_WOW
 			
 			
 			// -------------------------------------------------------------
-			// 1. VALUES  (in-person attendance)
+			// 1. VALUES
 			// -------------------------------------------------------------
 			VAR _Total =
 			    COALESCE ( [CurrentYearEaster], 0 )
@@ -336,8 +336,8 @@ table SplSundayAtt_Online_WOW
 			VAR _PosterBg =
 			    IF (
 			        _IsDark,
-			        "linear-gradient(145deg,#222634,#191919)",
-			        "#F3F4F6"
+			        "#1E1E1E",
+			        "#FFFFFF"
 			    )
 			
 			VAR _PosterBorder =
@@ -350,7 +350,6 @@ table SplSundayAtt_Online_WOW
 			
 			// -------------------------------------------------------------
 			// POSTER LOADER THEME
-			// SAME VALUES USED IN HTML_CARD_FIVE
 			// -------------------------------------------------------------
 			VAR _LoaderBg =
 			    IF (
@@ -410,10 +409,8 @@ table SplSundayAtt_Online_WOW
 			
 			
 			// -------------------------------------------------------------
-			// 6. PER-CAMPUS DERIVED BITS
+			// 6. DERIVED YOY VALUES
 			// -------------------------------------------------------------
-			
-			// TOTAL
 			VAR _TotUp =
 			    _TotalYOY >= 0
 			
@@ -465,15 +462,13 @@ table SplSundayAtt_Online_WOW
 			                DIVIDE (
 			                    ABS ( _TotalYOY ),
 			                    _BarCap
-			                )
-			                    * 100,
+			                ) * 100,
 			                0
 			            )
 			        )
 			    )
 			
 			
-			// 515
 			VAR _F15Up =
 			    _515YOY >= 0
 			
@@ -525,15 +520,13 @@ table SplSundayAtt_Online_WOW
 			                DIVIDE (
 			                    ABS ( _515YOY ),
 			                    _BarCap
-			                )
-			                    * 100,
+			                ) * 100,
 			                0
 			            )
 			        )
 			    )
 			
 			
-			// CBL
 			VAR _CBUp =
 			    _CBLYOY >= 0
 			
@@ -585,15 +578,13 @@ table SplSundayAtt_Online_WOW
 			                DIVIDE (
 			                    ABS ( _CBLYOY ),
 			                    _BarCap
-			                )
-			                    * 100,
+			                ) * 100,
 			                0
 			            )
 			        )
 			    )
 			
 			
-			// TRL
 			VAR _TRUp =
 			    _TRLYOY >= 0
 			
@@ -645,15 +636,13 @@ table SplSundayAtt_Online_WOW
 			                DIVIDE (
 			                    ABS ( _TRLYOY ),
 			                    _BarCap
-			                )
-			                    * 100,
+			                ) * 100,
 			                0
 			            )
 			        )
 			    )
 			
 			
-			// ONLINE
 			VAR _OnUp =
 			    _OnlYOY >= 0
 			
@@ -705,8 +694,7 @@ table SplSundayAtt_Online_WOW
 			                DIVIDE (
 			                    ABS ( _OnlYOY ),
 			                    _BarCap
-			                )
-			                    * 100,
+			                ) * 100,
 			                0
 			            )
 			        )
@@ -729,9 +717,6 @@ table SplSundayAtt_Online_WOW
 			    font-family:Inter,sans-serif;
 			}
 			
-			
-			/* MAIN CARD */
-			
 			.easter-card{
 			    width:100%;
 			    background:" & _Bg & ";
@@ -740,9 +725,6 @@ table SplSundayAtt_Online_WOW
 			    padding:26px;
 			    contain:layout paint;
 			}
-			
-			
-			/* MAIN GRID */
 			
 			.easter-grid{
 			    display:grid;
@@ -780,19 +762,14 @@ table SplSundayAtt_Online_WOW
 			    top:0;
 			    left:0;
 			    right:0;
-			
 			    height:4px;
-			
-			    border-radius:
-			        18px 18px 0 0;
+			    border-radius:18px 18px 0 0;
 			}
 			
 			.easter-card .att-label{
 			    font-size:13px;
 			    font-weight:700;
-			
 			    color:" & _TxtSecondary & ";
-			
 			    margin-bottom:9px;
 			    margin-top:4px;
 			}
@@ -800,33 +777,21 @@ table SplSundayAtt_Online_WOW
 			.easter-card .campus-tag{
 			    font-size:13px;
 			    font-weight:700;
-			
 			    margin-bottom:9px;
 			    margin-top:4px;
 			}
 			
 			.easter-card .att-value{
 			    width:120px;
-			
 			    text-align:center;
-			
 			    font-size:24px;
 			    line-height:1;
 			    font-weight:900;
-			
 			    color:" & _TxtPrimary & ";
-			
-			    font-variant-numeric:
-			        tabular-nums;
-			
-			    font-feature-settings:
-			        'tnum';
-			
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
 			    white-space:nowrap;
-			
-			    transform:
-			        translateZ(0);
-			
+			    transform:translateZ(0);
 			    backface-visibility:hidden;
 			}
 			
@@ -836,45 +801,32 @@ table SplSundayAtt_Online_WOW
 			.easter-card .yoy{
 			    width:100%;
 			    align-self:center;
-			
-			    contain:
-			        layout paint;
+			    contain:layout paint;
 			}
 			
 			.easter-card .yoy-label{
 			    color:" & _YoyLabel & ";
-			
 			    font-size:9px;
 			    font-weight:700;
-			
 			    letter-spacing:1px;
-			
 			    margin-bottom:3px;
 			}
 			
 			.easter-card .yoy-number-row{
 			    display:flex;
 			    align-items:center;
-			
 			    gap:4px;
-			
 			    margin-bottom:6px;
-			
 			    height:14px;
 			}
 			
 			.easter-card .yoy-number{
 			    min-width:30px;
-			
 			    font-size:12px;
 			    font-weight:900;
 			    line-height:1;
-			
-			    font-variant-numeric:
-			        tabular-nums;
-			
-			    font-feature-settings:
-			        'tnum';
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
 			}
 			
 			.easter-card .positive{
@@ -888,58 +840,37 @@ table SplSundayAtt_Online_WOW
 			.easter-card .yoy-icon{
 			    width:12px;
 			    height:12px;
-			
 			    overflow:visible;
-			
 			    flex-shrink:0;
-			
-			    transform:
-			        translateZ(0);
+			    transform:translateZ(0);
 			}
 			
 			.easter-card .draw-arrow path{
 			    fill:none;
-			
 			    stroke-dashoffset:100;
-			
-			    will-change:
-			        stroke-dashoffset;
+			    will-change:stroke-dashoffset;
 			}
 			
 			
-			/* PROGRESS BARS */
+			/* PROGRESS */
 			
 			.easter-card .progress{
 			    width:100%;
 			    height:6px;
-			
 			    background:" & _TrackBg & ";
-			
-			    border:
-			        1px solid " & _TrackBorder & ";
-			
+			    border:1px solid " & _TrackBorder & ";
 			    border-radius:4px;
-			
 			    overflow:hidden;
-			
 			    contain:paint;
 			}
 			
 			.easter-card .progress-fill{
 			    width:100%;
 			    height:100%;
-			
 			    border-radius:4px;
-			
-			    transform:
-			        scaleX(0);
-			
-			    transform-origin:
-			        left center;
-			
-			    will-change:
-			        transform;
-			
+			    transform:scaleX(0);
+			    transform-origin:left center;
+			    will-change:transform;
 			    transition:
 			        transform
 			        1.35s
@@ -956,46 +887,43 @@ table SplSundayAtt_Online_WOW
 			
 			
 			/* -------------------------------------------------------------
-			   POSTER
+			   POSTER WRAPPER
 			   ------------------------------------------------------------- */
+			
+			/*
+			   IMPORTANT:
+			   This wrapper always fills the grid area.
+			   That prevents the zero-width vertical-line issue.
+			   It DOES NOT control the poster's aspect ratio.
+			*/
 			
 			.easter-card .poster{
 			    grid-column:3;
 			    grid-row:1 / 4;
 			
-			    width:auto;
+			    width:100%;
 			    height:100%;
-			
-			    justify-self:center;
-			
-			    background:" & _PosterBg & ";
-			
-			    border:
-			        1px solid " & _PosterBorder & ";
-			
-			    border-radius:20px;
 			
 			    display:flex;
 			    align-items:center;
 			    justify-content:center;
 			
+			    position:relative;
 			    overflow:hidden;
 			
-			    position:relative;
+			    background:transparent;
 			}
 			
 			
 			/* -------------------------------------------------------------
-			   POSTER SHIMMER LOADER
+			   LOADER
 			   ------------------------------------------------------------- */
 			
 			.easter-card .poster-loader{
 			    position:absolute;
-			
 			    inset:0;
 			
-			    border-radius:19px;
-			
+			    border-radius:20px;
 			    overflow:hidden;
 			
 			    background:" & _LoaderBg & ";
@@ -1011,7 +939,7 @@ table SplSundayAtt_Online_WOW
 			}
 			
 			
-			/* MOVING SHIMMER WAVE */
+			/* THEME-AWARE SHIMMER */
 			
 			.easter-card .poster-loader::after{
 			    content:'';
@@ -1042,8 +970,6 @@ table SplSundayAtt_Online_WOW
 			}
 			
 			
-			/* SHIMMER MOVEMENT */
-			
 			@keyframes easterPosterShimmer{
 			
 			    0%{
@@ -1057,18 +983,31 @@ table SplSundayAtt_Online_WOW
 			}
 			
 			
-			/* POSTER IMAGE */
+			/* -------------------------------------------------------------
+			   REAL POSTER
+			   ------------------------------------------------------------- */
+			
+			/*
+			   No aspect ratio.
+			   No width:100 + height:100 forcing.
+			   No cover.
+			   Natural proportions are preserved.
+			*/
 			
 			.easter-card .poster img{
+			
 			    width:auto;
-			    height:100%;
+			    height:auto;
 			
 			    max-width:100%;
+			    max-height:100%;
 			
 			    object-fit:contain;
-			    object-position:center;
 			
 			    display:block;
+			
+			    border:1px solid " & _PosterBorder & ";
+			    border-radius:20px;
 			
 			    position:relative;
 			
@@ -1083,7 +1022,7 @@ table SplSundayAtt_Online_WOW
 			}
 			
 			
-			/* ONLINE CARD */
+			/* ONLINE */
 			
 			.easter-card .online-card{
 			    grid-column:3;
@@ -1093,61 +1032,41 @@ table SplSundayAtt_Online_WOW
 			    height:96px;
 			
 			    background:" & _SubBg & ";
-			
-			    border:
-			        1px solid " & _SubBorder & ";
-			
+			    border:1px solid " & _SubBorder & ";
 			    border-radius:18px;
 			
 			    display:grid;
-			
-			    grid-template-columns:
-			        1fr 1.25fr;
+			    grid-template-columns:1fr 1.25fr;
 			
 			    gap:22px;
-			
 			    align-items:center;
 			
-			    padding:
-			        16px 20px;
+			    padding:16px 20px;
 			}
 			
 			.easter-card .online-left{
 			    display:flex;
 			    align-items:center;
-			
 			    gap:20px;
 			}
 			
 			.easter-card .online-label{
 			    font-size:14px;
 			    font-weight:700;
-			
 			    color:" & _TxtSecondary & ";
-			
 			    flex-shrink:0;
 			}
 			
 			.easter-card .online-value{
 			    width:100px;
-			
 			    font-size:23px;
 			    font-weight:900;
-			
 			    color:" & _TxtPrimary & ";
-			
 			    text-align:left;
-			
-			    font-variant-numeric:
-			        tabular-nums;
-			
-			    font-feature-settings:
-			        'tnum';
-			
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
 			    white-space:nowrap;
-			
-			    transform:
-			        translateZ(0);
+			    transform:translateZ(0);
 			}
 			
 			
@@ -1208,181 +1127,109 @@ table SplSundayAtt_Online_WOW
 			
 			function run(){
 			
-			
-			// -------------------------------------------------------------
-			// COUNT UP
-			// -------------------------------------------------------------
-			
-			document
-			.querySelectorAll(
-			    '.easter-card .count-up'
-			)
-			.forEach(function(el){
-			
-			    var target =
-			        Number(
-			            el.dataset.target
-			        );
-			
-			    var duration =
-			        1500;
-			
-			    var startTime =
-			        null;
-			
-			
-			    function ease(t){
-			
-			        return
-			            1 -
-			            Math.pow(
-			                1-t,
-			                3
-			            );
-			
-			    }
-			
-			
-			    function step(ts){
-			
-			        if(
-			            startTime === null
-			        ){
-			
-			            startTime = ts;
-			
-			        }
-			
-			
-			        var p =
-			            Math.min(
-			                (ts-startTime)
-			                /
-			                duration,
-			                1
-			            );
-			
-			
-			        el.textContent =
-			            Math
-			            .round(
-			                target
-			                *
-			                (
-			                    1 -
-			                    Math.pow(
-			                        1-p,
-			                        3
-			                    )
-			                )
-			            )
-			            .toLocaleString(
-			                'en-US'
-			            );
-			
-			
-			        if(
-			            p < 1
-			        ){
-			
-			            requestAnimationFrame(
-			                step
-			            );
-			
-			        }
-			
-			        else{
-			
-			            el.textContent =
-			                target
-			                .toLocaleString(
-			                    'en-US'
-			                );
-			
-			        }
-			
-			    }
-			
-			
-			    requestAnimationFrame(
-			        step
-			    );
-			
-			});
-			
-			
-			// -------------------------------------------------------------
-			// YOY BARS
-			// -------------------------------------------------------------
-			
-			var bars =
+			    // COUNT-UP
 			    document
-			    .querySelectorAll(
-			        '.easter-card .progress-fill'
-			    );
+			        .querySelectorAll('.easter-card .count-up')
+			        .forEach(function(el){
 			
+			            var target =
+			                Number(el.dataset.target);
 			
-			requestAnimationFrame(
-			    function(){
+			            var duration =
+			                1500;
 			
-			        requestAnimationFrame(
-			            function(){
+			            var startTime =
+			                null;
 			
-			                bars.forEach(
-			                    function(b){
+			            function step(ts){
 			
-			                        b.style.transform =
-			                            'scaleX('
-			                            +
-			                            (
-			                                Number(
-			                                    b.dataset.width
-			                                )
-			                                /
-			                                100
-			                            )
-			                            +
-			                            ')';
+			                if(startTime===null){
+			                    startTime=ts;
+			                }
 			
-			                    }
-			                );
+			                var p =
+			                    Math.min(
+			                        (ts-startTime)/duration,
+			                        1
+			                    );
+			
+			                var eased =
+			                    1-Math.pow(1-p,3);
+			
+			                el.textContent =
+			                    Math
+			                    .round(
+			                        target*eased
+			                    )
+			                    .toLocaleString('en-US');
+			
+			                if(p<1){
+			
+			                    requestAnimationFrame(step);
+			
+			                }else{
+			
+			                    el.textContent =
+			                        target.toLocaleString('en-US');
+			
+			                }
 			
 			            }
+			
+			            requestAnimationFrame(step);
+			
+			        });
+			
+			
+			    // PROGRESS BARS
+			    var bars =
+			        document.querySelectorAll(
+			            '.easter-card .progress-fill'
 			        );
 			
-			    }
-			);
+			    requestAnimationFrame(function(){
+			
+			        requestAnimationFrame(function(){
+			
+			            bars.forEach(function(b){
+			
+			                b.style.transform =
+			                    'scaleX('
+			                    +
+			                    (
+			                        Number(b.dataset.width)
+			                        /
+			                        100
+			                    )
+			                    +
+			                    ')';
+			
+			            });
+			
+			        });
+			
+			    });
 			
 			
-			// -------------------------------------------------------------
-			// ARROW DRAW ANIMATION
-			// -------------------------------------------------------------
+			    // ARROW DRAW
+			    document
+			        .querySelectorAll(
+			            '.easter-card .draw-arrow path'
+			        )
+			        .forEach(function(path,i){
 			
-			document
-			.querySelectorAll(
-			    '.easter-card .draw-arrow path'
-			)
-			.forEach(
-			    function(path,i){
+			            var len =
+			                path.getTotalLength();
 			
-			        var len =
-			            path.getTotalLength();
+			            path.style.strokeDasharray =
+			                len+' '+len;
 			
-			        path.style.strokeDasharray =
-			            len
-			            +
-			            ' '
-			            +
-			            len;
+			            path.style.strokeDashoffset =
+			                len;
 			
-			        path.style.strokeDashoffset =
-			            len;
+			            path.getBoundingClientRect();
 			
-			        path.getBoundingClientRect();
-			
-			
-			        setTimeout(
-			            function(){
+			            setTimeout(function(){
 			
 			                path.style.transition =
 			                    'stroke-dashoffset 900ms cubic-bezier(.4,0,.2,1)';
@@ -1390,36 +1237,21 @@ table SplSundayAtt_Online_WOW
 			                path.style.strokeDashoffset =
 			                    '0';
 			
-			            },
-			            220
-			            +
-			            (
-			                i * 80
-			            )
-			        );
+			            },220+(i*80));
 			
-			    }
-			);
+			        });
 			
 			}
 			
 			
-			// -------------------------------------------------------------
-			// RUN
-			// -------------------------------------------------------------
-			
-			if(
-			    document.readyState === 'loading'
-			){
+			if(document.readyState==='loading'){
 			
 			    document.addEventListener(
 			        'DOMContentLoaded',
 			        run
 			    );
 			
-			}
-			
-			else{
+			}else{
 			
 			    run();
 			
@@ -1441,7 +1273,7 @@ table SplSundayAtt_Online_WOW
 			
 			
 			// -------------------------------------------------------------
-			// TOTAL CARD
+			// TOTAL
 			// -------------------------------------------------------------
 			& "<div class='att-card total-card'>"
 			
@@ -1459,17 +1291,13 @@ table SplSundayAtt_Online_WOW
 			& "<div
 			     class='att-value count-up'
 			     data-target='"
-			     & FORMAT (
-			         _Total,
-			         "0"
-			       )
+			     & FORMAT ( _Total, "0" )
 			     &
 			     "'>
 			     0
 			   </div>"
 			
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -1516,10 +1344,7 @@ table SplSundayAtt_Online_WOW
 			     & _TotFill &
 			     "'
 			     data-width='"
-			     & FORMAT (
-			         _TotBar,
-			         "0"
-			       )
+			     & FORMAT ( _TotBar, "0" )
 			     &
 			     "'>
 			   </div>"
@@ -1527,7 +1352,6 @@ table SplSundayAtt_Online_WOW
 			& "</div>"
 			
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -1538,6 +1362,7 @@ table SplSundayAtt_Online_WOW
 			& "<div class='poster-loader'></div>"
 			
 			& IF (
+			
 			    FinalPoster <> BLANK(),
 			
 			    "<img
@@ -1561,7 +1386,6 @@ table SplSundayAtt_Online_WOW
 			            },1800);
 			        ""
 			        onerror=""
-			            var img=this;
 			            var loader=this.previousElementSibling;
 			
 			            loader.style.opacity='0';
@@ -1575,14 +1399,14 @@ table SplSundayAtt_Online_WOW
 			    />",
 			
 			    ""
+			
 			)
 			
 			& "</div>"
 			
 			
-			
 			// -------------------------------------------------------------
-			// 515 CARD
+			// 515
 			// -------------------------------------------------------------
 			& "<div class='att-card five15-card'>"
 			
@@ -1600,17 +1424,13 @@ table SplSundayAtt_Online_WOW
 			& "<div
 			     class='att-value count-up'
 			     data-target='"
-			     & FORMAT (
-			         _515,
-			         "0"
-			       )
+			     & FORMAT ( _515, "0" )
 			     &
 			     "'>
 			     0
 			   </div>"
 			
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -1657,10 +1477,7 @@ table SplSundayAtt_Online_WOW
 			     & _F15Fill &
 			     "'
 			     data-width='"
-			     & FORMAT (
-			         _F15Bar,
-			         "0"
-			       )
+			     & FORMAT ( _F15Bar, "0" )
 			     &
 			     "'>
 			   </div>"
@@ -1670,9 +1487,8 @@ table SplSundayAtt_Online_WOW
 			& "</div>"
 			
 			
-			
 			// -------------------------------------------------------------
-			// CBL CARD
+			// CBL
 			// -------------------------------------------------------------
 			& "<div class='att-card cbl-card'>"
 			
@@ -1690,17 +1506,13 @@ table SplSundayAtt_Online_WOW
 			& "<div
 			     class='att-value count-up'
 			     data-target='"
-			     & FORMAT (
-			         _CBL,
-			         "0"
-			       )
+			     & FORMAT ( _CBL, "0" )
 			     &
 			     "'>
 			     0
 			   </div>"
 			
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -1747,10 +1559,7 @@ table SplSundayAtt_Online_WOW
 			     & _CBFill &
 			     "'
 			     data-width='"
-			     & FORMAT (
-			         _CBBar,
-			         "0"
-			       )
+			     & FORMAT ( _CBBar, "0" )
 			     &
 			     "'>
 			   </div>"
@@ -1760,9 +1569,8 @@ table SplSundayAtt_Online_WOW
 			& "</div>"
 			
 			
-			
 			// -------------------------------------------------------------
-			// TRL CARD
+			// TRL
 			// -------------------------------------------------------------
 			& "<div class='att-card trl-card'>"
 			
@@ -1780,17 +1588,13 @@ table SplSundayAtt_Online_WOW
 			& "<div
 			     class='att-value count-up'
 			     data-target='"
-			     & FORMAT (
-			         _TRL,
-			         "0"
-			       )
+			     & FORMAT ( _TRL, "0" )
 			     &
 			     "'>
 			     0
 			   </div>"
 			
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -1837,10 +1641,7 @@ table SplSundayAtt_Online_WOW
 			     & _TRFill &
 			     "'
 			     data-width='"
-			     & FORMAT (
-			         _TRBar,
-			         "0"
-			       )
+			     & FORMAT ( _TRBar, "0" )
 			     &
 			     "'>
 			   </div>"
@@ -1848,7 +1649,6 @@ table SplSundayAtt_Online_WOW
 			& "</div>"
 			
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -1865,17 +1665,13 @@ table SplSundayAtt_Online_WOW
 			& "<div
 			     class='online-value count-up'
 			     data-target='"
-			     & FORMAT (
-			         _Online,
-			         "0"
-			       )
+			     & FORMAT ( _Online, "0" )
 			     &
 			     "'>
 			     0
 			   </div>"
 			
 			& "</div>"
-			
 			
 			& "<div class='yoy'>"
 			
@@ -1918,10 +1714,7 @@ table SplSundayAtt_Online_WOW
 			     & _OnFill &
 			     "'
 			     data-width='"
-			     & FORMAT (
-			         _OnBar,
-			         "0"
-			       )
+			     & FORMAT ( _OnBar, "0" )
 			     &
 			     "'>
 			   </div>"
@@ -1932,10 +1725,8 @@ table SplSundayAtt_Online_WOW
 			
 			& "</div>"
 			
-			
 			& "</div>"
 			& "</div>"
-			
 			
 			
 			// -------------------------------------------------------------
@@ -2700,6 +2491,1442 @@ table SplSundayAtt_Online_WOW
 			RETURN
 			    IF ( HasData, ChartHTML, EmptyHTML )
 		lineageTag: f6ccd2cc-13ca-4914-9610-c886ef386658
+
+	measure HTML_Christmas_InPerson_Chart = ```
+			
+			VAR IsDark = [SelectedTheme] = "Dark"
+			
+			VAR Bg =
+			    IF(IsDark, "#1E1E1E", "#FFFFFF")
+			
+			VAR BorderColor =
+			    IF(IsDark, "#2A2A2A", "#E5E7EB")
+			
+			VAR TxtPrimary =
+			    IF(IsDark, "#FFFFFF", "#111111")
+			
+			VAR TxtSecondary =
+			    IF(IsDark, "#9CA3AF", "#6B7280")
+			
+			VAR GridColor =
+			    IF(IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.07)")
+			
+			VAR TooltipBg =
+			    IF(IsDark, "#1A1A1A", "#FFFFFF")
+			
+			VAR TooltipBorder =
+			    IF(IsDark, "#2A2A2A", "#DDDDDD")
+			
+			VAR TooltipTitle =
+			    IF(IsDark, "#888888", "#999999")
+			
+			VAR TooltipBody =
+			    IF(IsDark, "#FFFFFF", "#111111")
+			
+			VAR ATLColor =
+			    IF(IsDark, "#FFFFFF", "#111111")
+			
+			--------------------------------------------------
+			-- ROLLING 5 YEARS
+			--------------------------------------------------
+			
+			VAR SelYr =
+			    [ChristmasYear]
+			
+			VAR StartYr =
+			    SelYr - 4
+			
+			VAR YearData =
+			    ADDCOLUMNS(
+			        FILTER(
+			            VALUES(
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ),
+			            VALUE(
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) >= StartYr
+			                &&
+			            VALUE(
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) <= SelYr
+			        ),
+			
+			        "Yr",
+			            VALUE(
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ),
+			
+			        "ATL",
+			            CALCULATE(
+			                SUM(
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			                'SplSundayAttInPerson_WOW'[EventName] = "Christmas",
+			                'SplSundayAttInPerson_WOW'[CampusName] <> "DC"
+			            ),
+			
+			        "C515",
+			            CALCULATE(
+			                SUM(
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			                'SplSundayAttInPerson_WOW'[EventName] = "Christmas",
+			                'SplSundayAttInPerson_WOW'[CampusName] = "515"
+			            ),
+			
+			        "CBL",
+			            CALCULATE(
+			                SUM(
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			                'SplSundayAttInPerson_WOW'[EventName] = "Christmas",
+			                'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
+			            ),
+			
+			        "TRL",
+			            CALCULATE(
+			                SUM(
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			                'SplSundayAttInPerson_WOW'[EventName] = "Christmas",
+			                'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			            )
+			    )
+			
+			--------------------------------------------------
+			-- BUILD JAVASCRIPT DATA
+			--------------------------------------------------
+			
+			VAR LabelsJS =
+			    CONCATENATEX(
+			        YearData,
+			        """" & FORMAT([Yr], "0") & """",
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			VAR ATLDataJS =
+			    CONCATENATEX(
+			        YearData,
+			        FORMAT(
+			            COALESCE([ATL], 0),
+			            "0"
+			        ),
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			VAR Data515JS =
+			    CONCATENATEX(
+			        YearData,
+			        FORMAT(
+			            COALESCE([C515], 0),
+			            "0"
+			        ),
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			VAR CBLDataJS =
+			    CONCATENATEX(
+			        YearData,
+			        FORMAT(
+			            COALESCE([CBL], 0),
+			            "0"
+			        ),
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			VAR TRLDataJS =
+			    CONCATENATEX(
+			        YearData,
+			        FORMAT(
+			            COALESCE([TRL], 0),
+			            "0"
+			        ),
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			--------------------------------------------------
+			-- RETURN
+			--------------------------------------------------
+			
+			RETURN
+			
+			"
+			<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			* {
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			}
+			
+			html,
+			body {
+			    width:100%;
+			    height:100%;
+			    margin:0;
+			    padding:0;
+			    overflow:hidden;
+			}
+			
+			.christmas-chart {
+			    width:100%;
+			    height:calc(100vh - 2px);
+			
+			    background:" & Bg & ";
+			
+			    border:1px solid " & BorderColor & ";
+			    border-radius:14px;
+			
+			    padding:20px;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    overflow:hidden;
+			
+			    font-family:Inter,sans-serif;
+			}
+			
+			.christmas-chart-header {
+			    flex:0 0 auto;
+			    margin-bottom:12px;
+			}
+			
+			.christmas-chart-title {
+			    font-size:15px;
+			    font-weight:900;
+			    line-height:1;
+			    color:" & TxtPrimary & ";
+			}
+			
+			.christmas-chart-subtitle {
+			    margin-top:4px;
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			}
+			
+			.christmas-legend {
+			    flex:0 0 auto;
+			
+			    display:flex;
+			    align-items:center;
+			    flex-wrap:wrap;
+			
+			    gap:16px;
+			
+			    margin-bottom:12px;
+			}
+			
+			.christmas-legend-item {
+			    display:flex;
+			    align-items:center;
+			    gap:6px;
+			
+			    font-size:10px;
+			    font-weight:600;
+			
+			    color:" & TxtSecondary & ";
+			}
+			
+			.christmas-legend-line {
+			    width:12px;
+			    height:3px;
+			    border-radius:4px;
+			    flex-shrink:0;
+			}
+			
+			.christmas-canvas-wrap {
+			    position:relative;
+			
+			    width:100%;
+			
+			    flex:1 1 auto;
+			
+			    min-height:0;
+			}
+			
+			#christmasTrendChart {
+			    width:100% !important;
+			    height:100% !important;
+			    display:block;
+			}
+			
+			</style>
+			
+			
+			<div class='christmas-chart'>
+			
+			    <div class='christmas-chart-header'>
+			
+			        <div class='christmas-chart-title'>
+			            Christmas In-Person
+			        </div>
+			
+			        <div class='christmas-chart-subtitle'>
+			            Rolling 5 Years
+			        </div>
+			
+			    </div>
+			
+			
+			    <div class='christmas-legend'>
+			
+			        <div class='christmas-legend-item'>
+			            <span
+			                class='christmas-legend-line'
+			                style='background:" & ATLColor & ";'>
+			            </span>
+			            ATL
+			        </div>
+			
+			        <div class='christmas-legend-item'>
+			            <span
+			                class='christmas-legend-line'
+			                style='background:#00B8E4;'>
+			            </span>
+			            515
+			        </div>
+			
+			        <div class='christmas-legend-item'>
+			            <span
+			                class='christmas-legend-line'
+			                style='background:#FF641C;'>
+			            </span>
+			            CBL
+			        </div>
+			
+			        <div class='christmas-legend-item'>
+			            <span
+			                class='christmas-legend-line'
+			                style='background:#931EE7;'>
+			            </span>
+			            TRL
+			        </div>
+			
+			    </div>
+			
+			
+			    <div class='christmas-canvas-wrap'>
+			
+			        <canvas id='christmasTrendChart'></canvas>
+			
+			    </div>
+			
+			</div>
+			
+			
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
+			
+			
+			<script>
+			
+			(function () {
+			
+			    function initChristmasChart() {
+			
+			        if (typeof Chart === 'undefined') {
+			
+			            setTimeout(
+			                initChristmasChart,
+			                100
+			            );
+			
+			            return;
+			        }
+			
+			        var canvas =
+			            document.getElementById(
+			                'christmasTrendChart'
+			            );
+			
+			        if (!canvas) {
+			            return;
+			        }
+			
+			        var labels = [
+			            " & LabelsJS & "
+			        ];
+			
+			        var atlData = [
+			            " & ATLDataJS & "
+			        ];
+			
+			        var campus515Data = [
+			            " & Data515JS & "
+			        ];
+			
+			        var cblData = [
+			            " & CBLDataJS & "
+			        ];
+			
+			        var trlData = [
+			            " & TRLDataJS & "
+			        ];
+			
+			        new Chart(
+			            canvas,
+			            {
+			
+			                type:'line',
+			
+			                data: {
+			
+			                    labels:labels,
+			
+			                    datasets:[
+			
+			                        {
+			                            label:'ATL',
+			                            data:atlData,
+			                            borderColor:'" & ATLColor & "',
+			                            borderWidth:2.3,
+			                            pointRadius:3,
+			                            pointHoverRadius:6,
+			                            pointBackgroundColor:'" & ATLColor & "',
+			                            pointBorderColor:'" & ATLColor & "',
+			                            tension:0.1,
+			                            fill:false
+			                        },
+			
+			                        {
+			                            label:'515',
+			                            data:campus515Data,
+			                            borderColor:'#00B8E4',
+			                            borderWidth:2,
+			                            pointRadius:3,
+			                            pointHoverRadius:6,
+			                            pointBackgroundColor:'#00B8E4',
+			                            pointBorderColor:'#00B8E4',
+			                            tension:0.1,
+			                            fill:false
+			                        },
+			
+			                        {
+			                            label:'CBL',
+			                            data:cblData,
+			                            borderColor:'#FF641C',
+			                            borderWidth:2,
+			                            pointRadius:3,
+			                            pointHoverRadius:6,
+			                            pointBackgroundColor:'#FF641C',
+			                            pointBorderColor:'#FF641C',
+			                            tension:0.1,
+			                            fill:false
+			                        },
+			
+			                        {
+			                            label:'TRL',
+			                            data:trlData,
+			                            borderColor:'#931EE7',
+			                            borderWidth:2,
+			                            pointRadius:3,
+			                            pointHoverRadius:6,
+			                            pointBackgroundColor:'#931EE7',
+			                            pointBorderColor:'#931EE7',
+			                            tension:0.1,
+			                            fill:false
+			                        }
+			
+			                    ]
+			
+			                },
+			
+			                options: {
+			
+			                    responsive:true,
+			                    maintainAspectRatio:false,
+			                    devicePixelRatio:2,
+			
+			                    interaction: {
+			                        mode:'index',
+			                        intersect:false
+			                    },
+			
+			                    plugins: {
+			
+			                        legend: {
+			                            display:false
+			                        },
+			
+			                        tooltip: {
+			
+			                            enabled:true,
+			
+			                            mode:'index',
+			
+			                            intersect:false,
+			
+			                            backgroundColor:
+			                                '" & TooltipBg & "',
+			
+			                            borderColor:
+			                                '" & TooltipBorder & "',
+			
+			                            borderWidth:1,
+			
+			                            titleColor:
+			                                '" & TooltipTitle & "',
+			
+			                            bodyColor:
+			                                '" & TooltipBody & "',
+			
+			                            padding:12,
+			
+			                            cornerRadius:8,
+			
+			                            displayColors:true,
+			
+			                            boxWidth:8,
+			
+			                            boxHeight:8,
+			
+			                            boxPadding:5,
+			
+			                            usePointStyle:true,
+			
+			                            titleFont: {
+			                                family:'Inter',
+			                                size:11,
+			                                weight:'600'
+			                            },
+			
+			                            bodyFont: {
+			                                family:'Inter',
+			                                size:12,
+			                                weight:'700'
+			                            },
+			
+			                            callbacks: {
+			
+			                                title:function(items) {
+			
+			                                    if (!items.length) {
+			                                        return '';
+			                                    }
+			
+			                                    return 'Christmas ' +
+			                                        items[0].label;
+			                                },
+			
+			                                label:function(context) {
+			
+			                                    var value =
+			                                        context.parsed.y;
+			
+			                                    return ' ' +
+			                                        context.dataset.label +
+			                                        ': ' +
+			                                        Math.round(value)
+			                                            .toLocaleString(
+			                                                'en-US'
+			                                            );
+			
+			                                }
+			
+			                            }
+			
+			                        }
+			
+			                    },
+			
+			                    scales: {
+			
+			                        x: {
+			
+			                            offset:false,
+			
+			                            grid: {
+			                                display:false
+			                            },
+			
+			                            border: {
+			                                display:false
+			                            },
+			
+			                            ticks: {
+			
+			                                color:
+			                                    '" & TxtSecondary & "',
+			
+			                                padding:10,
+			
+			                                autoSkip:false,
+			
+			                                maxRotation:0,
+			
+			                                font: {
+			                                    family:'Inter',
+			                                    size:10,
+			                                    weight:'500'
+			                                }
+			
+			                            }
+			
+			                        },
+			
+			                        y: {
+			
+			                            beginAtZero:true,
+			
+			                            grace:'8%',
+			
+			                            grid: {
+			                                color:
+			                                    '" & GridColor & "',
+			
+			                                drawTicks:false,
+			
+			                                lineWidth:1
+			                            },
+			
+			                            border: {
+			                                display:false
+			                            },
+			
+			                            ticks: {
+			
+			                                color:
+			                                    '" & TxtSecondary & "',
+			
+			                                padding:10,
+			
+			                                maxTicksLimit:5,
+			
+			                                font: {
+			                                    family:'Inter',
+			                                    size:10,
+			                                    weight:'500'
+			                                },
+			
+			                                callback:function(value) {
+			
+			                                    if (value >= 1000) {
+			
+			                                        var k =
+			                                            value / 1000;
+			
+			                                        return (
+			                                            Number.isInteger(k)
+			                                                ? k
+			                                                : k.toFixed(1)
+			                                        ) + 'K';
+			
+			                                    }
+			
+			                                    return value;
+			
+			                                }
+			
+			                            }
+			
+			                        }
+			
+			                    },
+			
+			                    layout: {
+			
+			                        padding: {
+			                            top:8,
+			                            right:8,
+			                            bottom:2,
+			                            left:2
+			                        }
+			
+			                    },
+			
+			                    animation: {
+			                        duration:850,
+			                        easing:'easeOutQuart'
+			                    }
+			
+			                }
+			
+			            }
+			        );
+			
+			    }
+			
+			    setTimeout(
+			        initChristmasChart,
+			        100
+			    );
+			
+			})();
+			
+			</script>
+			"
+			
+			```
+		lineageTag: c1c5bd21-8831-48bf-925b-bd4e22726616
+
+	measure HTML_Christmas_Online_Chart = ```
+			
+			VAR IsDark = [SelectedTheme] = "Dark"
+			
+			VAR Bg =
+			    IF(IsDark, "#1E1E1E", "#FFFFFF")
+			
+			VAR BorderColor =
+			    IF(IsDark, "#2A2A2A", "#E5E7EB")
+			
+			VAR TxtPrimary =
+			    IF(IsDark, "#FFFFFF", "#111111")
+			
+			VAR TxtSecondary =
+			    IF(IsDark, "#9CA3AF", "#6B7280")
+			
+			VAR GridColor =
+			    IF(IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.07)")
+			
+			VAR TooltipBg =
+			    IF(IsDark, "#1A1A1A", "#FFFFFF")
+			
+			VAR TooltipBorder =
+			    IF(IsDark, "#2A2A2A", "#DDDDDD")
+			
+			VAR TooltipTitle =
+			    IF(IsDark, "#888888", "#999999")
+			
+			VAR TooltipBody =
+			    IF(IsDark, "#FFFFFF", "#111111")
+			
+			VAR OnlineColor =
+			    IF(IsDark, "#FFFFFF", "#111111")
+			
+			--------------------------------------------------
+			-- ROLLING 5 YEARS
+			--------------------------------------------------
+			
+			VAR SelYr =
+			    [ChristmasYear]
+			
+			VAR StartYr =
+			    SelYr - 4
+			
+			VAR YearData =
+			    ADDCOLUMNS(
+			        FILTER(
+			            VALUES(
+			                'SplSundayAtt_Online_WOW'[FormattedDateSplSunOnl]
+			            ),
+			            VALUE(
+			                'SplSundayAtt_Online_WOW'[FormattedDateSplSunOnl]
+			            ) >= StartYr
+			                &&
+			            VALUE(
+			                'SplSundayAtt_Online_WOW'[FormattedDateSplSunOnl]
+			            ) <= SelYr
+			        ),
+			
+			        "Yr",
+			            VALUE(
+			                'SplSundayAtt_Online_WOW'[FormattedDateSplSunOnl]
+			            ),
+			
+			        "Onl",
+			            CALCULATE(
+			                SUM(
+			                    'SplSundayAtt_Online_WOW'[Count]
+			                ),
+			                'SplSundayAtt_Online_WOW'[EventName] = "Christmas"
+			            )
+			    )
+			
+			--------------------------------------------------
+			-- DATA AVAILABILITY
+			--------------------------------------------------
+			
+			-- Earliest / latest year that actually has Christmas online rows.
+			-- ALL() strips the year slicer so these stay fixed no matter
+			-- what the user picks.
+			VAR MinYrAvail =
+			    MINX(
+			        FILTER(
+			            ALL( 'SplSundayAtt_Online_WOW' ),
+			            'SplSundayAtt_Online_WOW'[EventName] = "Christmas"
+			        ),
+			        VALUE(
+			            'SplSundayAtt_Online_WOW'[FormattedDateSplSunOnl]
+			        )
+			    )
+			
+			VAR MaxYrAvail =
+			    MAXX(
+			        FILTER(
+			            ALL( 'SplSundayAtt_Online_WOW' ),
+			            'SplSundayAtt_Online_WOW'[EventName] = "Christmas"
+			        ),
+			        VALUE(
+			            'SplSundayAtt_Online_WOW'[FormattedDateSplSunOnl]
+			        )
+			    )
+			
+			VAR RowsFound =
+			    COUNTROWS( YearData )
+			
+			VAR TotalFound =
+			    SUMX( YearData, COALESCE( [Onl], 0 ) )
+			
+			-- Blank SelYr happens when the chosen year has no Christmas at
+			-- all, so [ChristmasYear] returns nothing. Treat that as "no data".
+			VAR HasData =
+			    NOT ISBLANK( SelYr )
+			        && COALESCE( RowsFound, 0 ) > 0
+			        && TotalFound > 0
+			
+			-- Message wording. If SelYr is blank we can't name the year,
+			-- so fall back to neutral phrasing.
+			VAR EmptyHeadline =
+			    IF(
+			        ISBLANK( SelYr ),
+			        "No data available",
+			        "No data available for " & FORMAT( SelYr, "0" )
+			    )
+			
+			VAR EmptySubline =
+			    "Christmas online attendance is available from "
+			        & FORMAT( MinYrAvail, "0" )
+			        & " to "
+			        & FORMAT( MaxYrAvail, "0" )
+			
+			--------------------------------------------------
+			-- BUILD JAVASCRIPT DATA
+			--------------------------------------------------
+			
+			VAR LabelsJS =
+			    CONCATENATEX(
+			        YearData,
+			        """" & FORMAT([Yr], "0") & """",
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			VAR OnlDataJS =
+			    CONCATENATEX(
+			        YearData,
+			        FORMAT(
+			            COALESCE([Onl], 0),
+			            "0"
+			        ),
+			        ",",
+			        [Yr],
+			        ASC
+			    )
+			
+			--------------------------------------------------
+			-- EMPTY STATE
+			--------------------------------------------------
+			
+			VAR EmptyHTML =
+			"
+			<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			* { box-sizing:border-box; margin:0; padding:0; }
+			
+			html, body {
+			    width:100%;
+			    height:100%;
+			    margin:0;
+			    padding:0;
+			    overflow:hidden;
+			}
+			
+			.christmas-chart {
+			    width:100%;
+			    height:calc(100vh - 2px);
+			
+			    background:" & Bg & ";
+			
+			    border:1px solid " & BorderColor & ";
+			    border-radius:14px;
+			
+			    padding:20px;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    overflow:hidden;
+			
+			    font-family:Inter,sans-serif;
+			}
+			
+			.christmas-chart-header {
+			    flex:0 0 auto;
+			    margin-bottom:12px;
+			}
+			
+			.christmas-chart-title {
+			    font-size:15px;
+			    font-weight:900;
+			    line-height:1;
+			    color:" & TxtPrimary & ";
+			}
+			
+			.christmas-chart-subtitle {
+			    margin-top:4px;
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			}
+			
+			.christmas-empty {
+			    flex:1 1 auto;
+			    min-height:0;
+			
+			    display:flex;
+			    flex-direction:column;
+			    align-items:center;
+			    justify-content:center;
+			
+			    gap:10px;
+			
+			    text-align:center;
+			
+			    padding:12px;
+			
+			    opacity:0;
+			    animation:emptyFade .5s ease-out .1s forwards;
+			}
+			
+			@keyframes emptyFade {
+			    from { opacity:0; transform:translateY(6px); }
+			    to   { opacity:1; transform:translateY(0); }
+			}
+			
+			.christmas-empty-icon {
+			    width:34px;
+			    height:34px;
+			    opacity:.45;
+			    color:" & TxtSecondary & ";
+			}
+			
+			.christmas-empty-title {
+			    font-size:13px;
+			    font-weight:800;
+			    color:" & TxtPrimary & ";
+			    line-height:1.2;
+			}
+			
+			.christmas-empty-sub {
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    line-height:1.4;
+			    max-width:260px;
+			}
+			
+			</style>
+			
+			
+			<div class='christmas-chart'>
+			
+			    <div class='christmas-chart-header'>
+			
+			        <div class='christmas-chart-title'>
+			            Christmas Online
+			        </div>
+			
+			        <div class='christmas-chart-subtitle'>
+			            Rolling 5 Years
+			        </div>
+			
+			    </div>
+			
+			
+			    <div class='christmas-empty'>
+			
+			        <svg
+			            class='christmas-empty-icon'
+			            viewBox='0 0 24 24'
+			            fill='none'
+			            stroke='currentColor'
+			            stroke-width='1.6'
+			            stroke-linecap='round'
+			            stroke-linejoin='round'>
+			
+			            <path d='M3 3v16a2 2 0 0 0 2 2h16' />
+			            <path d='M7 15l3-3 3 2 4-5' />
+			            <line x1='3' y1='3' x2='21' y2='21' opacity='.35' />
+			
+			        </svg>
+			
+			        <div class='christmas-empty-title'>
+			            " & EmptyHeadline & "
+			        </div>
+			
+			        <div class='christmas-empty-sub'>
+			            " & EmptySubline & "
+			        </div>
+			
+			    </div>
+			
+			</div>
+			"
+			
+			--------------------------------------------------
+			-- CHART
+			--------------------------------------------------
+			
+			VAR ChartHTML =
+			"
+			<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			* {
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			}
+			
+			html,
+			body {
+			    width:100%;
+			    height:100%;
+			    margin:0;
+			    padding:0;
+			    overflow:hidden;
+			}
+			
+			.christmas-chart {
+			    width:100%;
+			    height:calc(100vh - 2px);
+			
+			    background:" & Bg & ";
+			
+			    border:1px solid " & BorderColor & ";
+			    border-radius:14px;
+			
+			    padding:20px;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    overflow:hidden;
+			
+			    font-family:Inter,sans-serif;
+			}
+			
+			.christmas-chart-header {
+			    flex:0 0 auto;
+			    margin-bottom:12px;
+			}
+			
+			.christmas-chart-title {
+			    font-size:15px;
+			    font-weight:900;
+			    line-height:1;
+			    color:" & TxtPrimary & ";
+			}
+			
+			.christmas-chart-subtitle {
+			    margin-top:4px;
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			}
+			
+			.christmas-legend {
+			    flex:0 0 auto;
+			
+			    display:flex;
+			    align-items:center;
+			    flex-wrap:wrap;
+			
+			    gap:16px;
+			
+			    margin-bottom:12px;
+			}
+			
+			.christmas-legend-item {
+			    display:flex;
+			    align-items:center;
+			    gap:6px;
+			
+			    font-size:10px;
+			    font-weight:600;
+			
+			    color:" & TxtSecondary & ";
+			}
+			
+			.christmas-legend-line {
+			    width:12px;
+			    height:3px;
+			    border-radius:4px;
+			    flex-shrink:0;
+			}
+			
+			.christmas-canvas-wrap {
+			    position:relative;
+			
+			    width:100%;
+			
+			    flex:1 1 auto;
+			
+			    min-height:0;
+			}
+			
+			#christmasOnlineTrendChart {
+			    width:100% !important;
+			    height:100% !important;
+			    display:block;
+			}
+			
+			</style>
+			
+			
+			<div class='christmas-chart'>
+			
+			    <div class='christmas-chart-header'>
+			
+			        <div class='christmas-chart-title'>
+			            Christmas Online
+			        </div>
+			
+			        <div class='christmas-chart-subtitle'>
+			            Rolling 5 Years
+			        </div>
+			
+			    </div>
+			
+			
+			    <div class='christmas-legend'>
+			
+			        <div class='christmas-legend-item'>
+			            <span
+			                class='christmas-legend-line'
+			                style='background:" & OnlineColor & ";'>
+			            </span>
+			            Online
+			        </div>
+			
+			    </div>
+			
+			
+			    <div class='christmas-canvas-wrap'>
+			
+			        <canvas id='christmasOnlineTrendChart'></canvas>
+			
+			    </div>
+			
+			</div>
+			
+			
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
+			
+			
+			<script>
+			
+			(function () {
+			
+			    function initChristmasOnlineChart() {
+			
+			        if (typeof Chart === 'undefined') {
+			
+			            setTimeout(
+			                initChristmasOnlineChart,
+			                100
+			            );
+			
+			            return;
+			        }
+			
+			        var canvas =
+			            document.getElementById(
+			                'christmasOnlineTrendChart'
+			            );
+			
+			        if (!canvas) {
+			            return;
+			        }
+			
+			        var labels = [
+			            " & LabelsJS & "
+			        ];
+			
+			        var onlineData = [
+			            " & OnlDataJS & "
+			        ];
+			
+			        new Chart(
+			            canvas,
+			            {
+			
+			                type:'line',
+			
+			                data: {
+			
+			                    labels:labels,
+			
+			                    datasets:[
+			
+			                        {
+			                            label:'Online',
+			                            data:onlineData,
+			                            borderColor:'" & OnlineColor & "',
+			                            borderWidth:2.3,
+			                            pointRadius:3,
+			                            pointHoverRadius:6,
+			                            pointBackgroundColor:'" & OnlineColor & "',
+			                            pointBorderColor:'" & OnlineColor & "',
+			                            tension:0.1,
+			                            fill:false
+			                        }
+			
+			                    ]
+			
+			                },
+			
+			                options: {
+			
+			                    responsive:true,
+			                    maintainAspectRatio:false,
+			                    devicePixelRatio:2,
+			
+			                    interaction: {
+			                        mode:'index',
+			                        intersect:false
+			                    },
+			
+			                    plugins: {
+			
+			                        legend: {
+			                            display:false
+			                        },
+			
+			                        tooltip: {
+			
+			                            enabled:true,
+			
+			                            mode:'index',
+			
+			                            intersect:false,
+			
+			                            backgroundColor:
+			                                '" & TooltipBg & "',
+			
+			                            borderColor:
+			                                '" & TooltipBorder & "',
+			
+			                            borderWidth:1,
+			
+			                            titleColor:
+			                                '" & TooltipTitle & "',
+			
+			                            bodyColor:
+			                                '" & TooltipBody & "',
+			
+			                            padding:12,
+			
+			                            cornerRadius:8,
+			
+			                            displayColors:true,
+			
+			                            boxWidth:8,
+			
+			                            boxHeight:8,
+			
+			                            boxPadding:5,
+			
+			                            usePointStyle:true,
+			
+			                            titleFont: {
+			                                family:'Inter',
+			                                size:11,
+			                                weight:'600'
+			                            },
+			
+			                            bodyFont: {
+			                                family:'Inter',
+			                                size:12,
+			                                weight:'700'
+			                            },
+			
+			                            callbacks: {
+			
+			                                title:function(items) {
+			
+			                                    if (!items.length) {
+			                                        return '';
+			                                    }
+			
+			                                    return 'Christmas ' +
+			                                        items[0].label;
+			                                },
+			
+			                                label:function(context) {
+			
+			                                    var value =
+			                                        context.parsed.y;
+			
+			                                    return ' ' +
+			                                        context.dataset.label +
+			                                        ': ' +
+			                                        Math.round(value)
+			                                            .toLocaleString(
+			                                                'en-US'
+			                                            );
+			
+			                                }
+			
+			                            }
+			
+			                        }
+			
+			                    },
+			
+			                    scales: {
+			
+			                        x: {
+			
+			                            offset:false,
+			
+			                            grid: {
+			                                display:false
+			                            },
+			
+			                            border: {
+			                                display:false
+			                            },
+			
+			                            ticks: {
+			
+			                                color:
+			                                    '" & TxtSecondary & "',
+			
+			                                padding:10,
+			
+			                                autoSkip:false,
+			
+			                                maxRotation:0,
+			
+			                                font: {
+			                                    family:'Inter',
+			                                    size:10,
+			                                    weight:'500'
+			                                }
+			
+			                            }
+			
+			                        },
+			
+			                        y: {
+			
+			                            beginAtZero:true,
+			
+			                            grace:'8%',
+			
+			                            grid: {
+			                                color:
+			                                    '" & GridColor & "',
+			
+			                                drawTicks:false,
+			
+			                                lineWidth:1
+			                            },
+			
+			                            border: {
+			                                display:false
+			                            },
+			
+			                            ticks: {
+			
+			                                color:
+			                                    '" & TxtSecondary & "',
+			
+			                                padding:10,
+			
+			                                maxTicksLimit:5,
+			
+			                                font: {
+			                                    family:'Inter',
+			                                    size:10,
+			                                    weight:'500'
+			                                },
+			
+			                                callback:function(value) {
+			
+			                                    if (value >= 1000) {
+			
+			                                        var k =
+			                                            value / 1000;
+			
+			                                        return (
+			                                            Number.isInteger(k)
+			                                                ? k
+			                                                : k.toFixed(1)
+			                                        ) + 'K';
+			
+			                                    }
+			
+			                                    return value;
+			
+			                                }
+			
+			                            }
+			
+			                        }
+			
+			                    },
+			
+			                    layout: {
+			
+			                        padding: {
+			                            top:8,
+			                            right:8,
+			                            bottom:2,
+			                            left:2
+			                        }
+			
+			                    },
+			
+			                    animation: {
+			                        duration:850,
+			                        easing:'easeOutQuart'
+			                    }
+			
+			                }
+			
+			            }
+			        );
+			
+			    }
+			
+			    setTimeout(
+			        initChristmasOnlineChart,
+			        100
+			    );
+			
+			})();
+			
+			</script>
+			"
+			
+			--------------------------------------------------
+			-- RETURN
+			--------------------------------------------------
+			
+			RETURN
+			    IF ( HasData, ChartHTML, EmptyHTML )
+			
+			```
+		lineageTag: 54dd3f24-e094-4ce5-a550-37d085fc4a66
 
 	column MetricValueDateTime
 		dataType: dateTime

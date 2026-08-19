@@ -7,7 +7,7 @@ table 5pm52wksRollingChartLegend
 			<div class='pcc-banner'>
 			
 			  <video class='pcc-video' autoplay muted loop playsinline>
-			    <source src='https://passioncitychurch.com/wp-content/uploads/2026/02/GLOBAL-BANNER-WEB-LOOP-2026-UPDATE-V1.mp4' type='video/mp4'>
+			    <source src='https://www.passioncitychurch.com/hero.mp4' type='video/mp4'>
 			  </video>
 			
 			  <div class='pcc-overlay'></div>
@@ -848,6 +848,7092 @@ table 5pm52wksRollingChartLegend
 			
 			</div>"
 		lineageTag: 66dd8669-2fdf-41c6-9337-e6412935d1a0
+
+	measure HTML_Christmas_MainCard =
+			
+			
+			// -------------------------------------------------------------
+			// 1. VALUES
+			// -------------------------------------------------------------
+			VAR _Total =
+			    COALESCE ( [CurrentYearChristmas], 0 )
+			
+			VAR _515 =
+			    COALESCE (
+			        CALCULATE (
+			            [CurrentYearChristmas],
+			            KEEPFILTERS (
+			                SplSundayAttInPerson_WOW[CampusName] = "515"
+			            )
+			        ),
+			        0
+			    )
+			
+			VAR _CBL =
+			    COALESCE (
+			        CALCULATE (
+			            [CurrentYearChristmas],
+			            KEEPFILTERS (
+			                SplSundayAttInPerson_WOW[CampusName] = "Cumberland"
+			            )
+			        ),
+			        0
+			    )
+			
+			VAR _TRL =
+			    COALESCE (
+			        CALCULATE (
+			            [CurrentYearChristmas],
+			            KEEPFILTERS (
+			                SplSundayAttInPerson_WOW[CampusName] = "Trilith"
+			            )
+			        ),
+			        0
+			    )
+			
+			VAR _Online =
+			    COALESCE ( [CurrChristmasAttOnl], 0 )
+			
+			
+			// -------------------------------------------------------------
+			// 2. YOY
+			// -------------------------------------------------------------
+			VAR _TotalYOY =
+			    COALESCE ( [YOYMeasureChristmas], 0 )
+			
+			VAR _515YOY =
+			    COALESCE ( [Christmas_515_YOY], 0 )
+			
+			VAR _CBLYOY =
+			    COALESCE ( [Christmas_CBL_YOY], 0 )
+			
+			VAR _TRLYOY =
+			    COALESCE ( [Christmas_TRL_YOY], 0 )
+			
+			VAR _OnlYOY =
+			    COALESCE ( [Christmas_Online_YOY], 0 )
+			
+			
+			// -------------------------------------------------------------
+			// 3. POSTER
+			// -------------------------------------------------------------
+			VAR PosterURL =
+			    LOOKUPVALUE (
+			        'dim_holiday_posters'[poster_url],
+			        'dim_holiday_posters'[event_name], "Christmas",
+			        'dim_holiday_posters'[event_year], [ChristmasYear]
+			    )
+			
+			VAR DefaultPoster =
+			    "https://www.dropbox.com/scl/fi/sy8fqa8wtzrix6t198xxd/Christmas-_-General.jpeg?rlkey=fcvtfz9rz8ks0nmg0tqxl9pbv&st=ywtu0er6&raw=1"
+			
+			VAR FinalPoster =
+			    COALESCE (
+			        PosterURL,
+			        DefaultPoster
+			    )
+			
+			
+			// -------------------------------------------------------------
+			// 4. THEME
+			// -------------------------------------------------------------
+			VAR _IsDark =
+			    [SelectedTheme] = "Dark"
+			
+			VAR _Bg =
+			    IF (
+			        _IsDark,
+			        "#1E1E1E",
+			        "#FFFFFF"
+			    )
+			
+			VAR _CardBorder =
+			    IF (
+			        _IsDark,
+			        "#2A2A2A",
+			        "#E5E7EB"
+			    )
+			
+			VAR _SubBg =
+			    IF (
+			        _IsDark,
+			        "#252525",
+			        "#F9FAFB"
+			    )
+			
+			VAR _SubBorder =
+			    IF (
+			        _IsDark,
+			        "#353535",
+			        "#E5E7EB"
+			    )
+			
+			VAR _TxtPrimary =
+			    IF (
+			        _IsDark,
+			        "#FFFFFF",
+			        "#111111"
+			    )
+			
+			VAR _TxtSecondary =
+			    IF (
+			        _IsDark,
+			        "#AFAFAF",
+			        "#6B7280"
+			    )
+			
+			VAR _YoyLabel =
+			    IF (
+			        _IsDark,
+			        "#A0A0A0",
+			        "#6B7280"
+			    )
+			
+			VAR _TrackBg =
+			    IF (
+			        _IsDark,
+			        "#323232",
+			        "#E5E7EB"
+			    )
+			
+			VAR _TrackBorder =
+			    IF (
+			        _IsDark,
+			        "#474747",
+			        "#D1D5DB"
+			    )
+			
+			VAR _PosterBg =
+			    IF (
+			        _IsDark,
+			        "#1E1E1E",
+			        "#FFFFFF"
+			    )
+			
+			VAR _PosterBorder =
+			    IF (
+			        _IsDark,
+			        "#3A3A3A",
+			        "#E5E7EB"
+			    )
+			
+			
+			// -------------------------------------------------------------
+			// POSTER LOADER THEME
+			// -------------------------------------------------------------
+			VAR _LoaderBg =
+			    IF (
+			        _IsDark,
+			        "#252525",
+			        "#F3F4F6"
+			    )
+			
+			VAR _LoaderWave1 =
+			    IF (
+			        _IsDark,
+			        "rgba(255,255,255,0.10)",
+			        "rgba(192,192,192,0.35)"
+			    )
+			
+			VAR _LoaderWave2 =
+			    IF (
+			        _IsDark,
+			        "rgba(255,255,255,0.22)",
+			        "rgba(160,160,160,0.50)"
+			    )
+			
+			VAR _TotalBarCol =
+			    IF (
+			        _IsDark,
+			        "#555555",
+			        "#9CA3AF"
+			    )
+			
+			
+			// -------------------------------------------------------------
+			// 5. CONSTANTS
+			// -------------------------------------------------------------
+			VAR _BarCap = 0.25
+			VAR _MinBar = 8
+			
+			VAR _Green = "#62E68D"
+			VAR _Red = "#FF7E84"
+			
+			VAR _FillGreen = "#62E68D"
+			VAR _FillRed = "#FF8C91"
+			
+			VAR _PathUp =
+			    "M3 18 L9 12 L13 15 L21 6 M15 6 L21 6 L21 12"
+			
+			VAR _PathDown =
+			    "M3 6 L9 12 L13 9 L21 18 M15 18 L21 18 L21 12"
+			
+			
+			// -------------------------------------------------------------
+			// 6. DERIVED YOY VALUES
+			// -------------------------------------------------------------
+			VAR _TotUp =
+			    _TotalYOY >= 0
+			
+			VAR _TotCol =
+			    IF ( _TotUp, _Green, _Red )
+			
+			VAR _TotCls =
+			    IF ( _TotUp, "positive", "negative" )
+			
+			VAR _TotFill =
+			    IF ( _TotUp, "fill-positive", "fill-negative" )
+			
+			VAR _TotPath =
+			    IF ( _TotUp, _PathUp, _PathDown )
+			
+			VAR _TotTxt =
+			    IF ( _TotUp, "+", "" )
+			        & FORMAT ( _TotalYOY, "0%" )
+			
+			VAR _TotBar =
+			    MAX (
+			        _MinBar,
+			        MIN (
+			            100,
+			            ROUND (
+			                DIVIDE (
+			                    ABS ( _TotalYOY ),
+			                    _BarCap
+			                ) * 100,
+			                0
+			            )
+			        )
+			    )
+			
+			
+			VAR _F15Up =
+			    _515YOY >= 0
+			
+			VAR _F15Col =
+			    IF ( _F15Up, _Green, _Red )
+			
+			VAR _F15Cls =
+			    IF ( _F15Up, "positive", "negative" )
+			
+			VAR _F15Fill =
+			    IF ( _F15Up, "fill-positive", "fill-negative" )
+			
+			VAR _F15Path =
+			    IF ( _F15Up, _PathUp, _PathDown )
+			
+			VAR _F15Txt =
+			    IF ( _F15Up, "+", "" )
+			        & FORMAT ( _515YOY, "0%" )
+			
+			VAR _F15Bar =
+			    MAX (
+			        _MinBar,
+			        MIN (
+			            100,
+			            ROUND (
+			                DIVIDE (
+			                    ABS ( _515YOY ),
+			                    _BarCap
+			                ) * 100,
+			                0
+			            )
+			        )
+			    )
+			
+			
+			VAR _CBUp =
+			    _CBLYOY >= 0
+			
+			VAR _CBCol =
+			    IF ( _CBUp, _Green, _Red )
+			
+			VAR _CBCls =
+			    IF ( _CBUp, "positive", "negative" )
+			
+			VAR _CBFill =
+			    IF ( _CBUp, "fill-positive", "fill-negative" )
+			
+			VAR _CBPath =
+			    IF ( _CBUp, _PathUp, _PathDown )
+			
+			VAR _CBTxt =
+			    IF ( _CBUp, "+", "" )
+			        & FORMAT ( _CBLYOY, "0%" )
+			
+			VAR _CBBar =
+			    MAX (
+			        _MinBar,
+			        MIN (
+			            100,
+			            ROUND (
+			                DIVIDE (
+			                    ABS ( _CBLYOY ),
+			                    _BarCap
+			                ) * 100,
+			                0
+			            )
+			        )
+			    )
+			
+			
+			VAR _TRUp =
+			    _TRLYOY >= 0
+			
+			VAR _TRCol =
+			    IF ( _TRUp, _Green, _Red )
+			
+			VAR _TRCls =
+			    IF ( _TRUp, "positive", "negative" )
+			
+			VAR _TRFill =
+			    IF ( _TRUp, "fill-positive", "fill-negative" )
+			
+			VAR _TRPath =
+			    IF ( _TRUp, _PathUp, _PathDown )
+			
+			VAR _TRTxt =
+			    IF ( _TRUp, "+", "" )
+			        & FORMAT ( _TRLYOY, "0%" )
+			
+			VAR _TRBar =
+			    MAX (
+			        _MinBar,
+			        MIN (
+			            100,
+			            ROUND (
+			                DIVIDE (
+			                    ABS ( _TRLYOY ),
+			                    _BarCap
+			                ) * 100,
+			                0
+			            )
+			        )
+			    )
+			
+			
+			VAR _OnUp =
+			    _OnlYOY >= 0
+			
+			VAR _OnCol =
+			    IF ( _OnUp, _Green, _Red )
+			
+			VAR _OnCls =
+			    IF ( _OnUp, "positive", "negative" )
+			
+			VAR _OnFill =
+			    IF ( _OnUp, "fill-positive", "fill-negative" )
+			
+			VAR _OnPath =
+			    IF ( _OnUp, _PathUp, _PathDown )
+			
+			VAR _OnTxt =
+			    IF ( _OnUp, "+", "" )
+			        & FORMAT ( _OnlYOY, "0%" )
+			
+			VAR _OnBar =
+			    MAX (
+			        _MinBar,
+			        MIN (
+			            100,
+			            ROUND (
+			                DIVIDE (
+			                    ABS ( _OnlYOY ),
+			                    _BarCap
+			                ) * 100,
+			                0
+			            )
+			        )
+			    )
+			
+			
+			// -------------------------------------------------------------
+			// 7. CSS
+			// -------------------------------------------------------------
+			VAR _CSS =
+			"
+			<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			.christmas-card *{
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			    font-family:Inter,sans-serif;
+			}
+			
+			.christmas-card{
+			    width:100%;
+			    background:" & _Bg & ";
+			    border:1px solid " & _CardBorder & ";
+			    border-radius:26px;
+			    padding:26px;
+			    contain:layout paint;
+			}
+			
+			.christmas-grid{
+			    display:grid;
+			    grid-template-columns:
+			        minmax(0,1.56fr)
+			        minmax(0,1fr)
+			        minmax(0,3.1fr);
+			    grid-template-rows:repeat(4,96px);
+			    column-gap:16px;
+			    row-gap:12px;
+			    align-items:center;
+			}
+			
+			
+			/* ATTENDANCE CARDS */
+			
+			.christmas-card .att-card{
+			    width:100%;
+			    height:96px;
+			    background:" & _SubBg & ";
+			    border:1px solid " & _SubBorder & ";
+			    border-radius:18px;
+			    display:flex;
+			    flex-direction:column;
+			    align-items:center;
+			    justify-content:center;
+			    position:relative;
+			    overflow:hidden;
+			}
+			
+			.christmas-card .top-bar{
+			    position:absolute;
+			    top:0;
+			    left:0;
+			    right:0;
+			    height:4px;
+			    border-radius:18px 18px 0 0;
+			}
+			
+			.christmas-card .att-label{
+			    font-size:13px;
+			    font-weight:700;
+			    color:" & _TxtSecondary & ";
+			    margin-bottom:9px;
+			    margin-top:4px;
+			}
+			
+			.christmas-card .campus-tag{
+			    font-size:13px;
+			    font-weight:700;
+			    margin-bottom:9px;
+			    margin-top:4px;
+			}
+			
+			.christmas-card .att-value{
+			    width:120px;
+			    text-align:center;
+			    font-size:24px;
+			    line-height:1;
+			    font-weight:900;
+			    color:" & _TxtPrimary & ";
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
+			    white-space:nowrap;
+			    transform:translateZ(0);
+			    backface-visibility:hidden;
+			}
+			
+			
+			/* YOY */
+			
+			.christmas-card .yoy{
+			    width:100%;
+			    align-self:center;
+			    contain:layout paint;
+			}
+			
+			.christmas-card .yoy-label{
+			    color:" & _YoyLabel & ";
+			    font-size:9px;
+			    font-weight:700;
+			    letter-spacing:1px;
+			    margin-bottom:3px;
+			}
+			
+			.christmas-card .yoy-number-row{
+			    display:flex;
+			    align-items:center;
+			    gap:4px;
+			    margin-bottom:6px;
+			    height:14px;
+			}
+			
+			.christmas-card .yoy-number{
+			    min-width:30px;
+			    font-size:12px;
+			    font-weight:900;
+			    line-height:1;
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
+			}
+			
+			.christmas-card .positive{
+			    color:" & _Green & ";
+			}
+			
+			.christmas-card .negative{
+			    color:" & _Red & ";
+			}
+			
+			.christmas-card .yoy-icon{
+			    width:12px;
+			    height:12px;
+			    overflow:visible;
+			    flex-shrink:0;
+			    transform:translateZ(0);
+			}
+			
+			.christmas-card .draw-arrow path{
+			    fill:none;
+			    stroke-dashoffset:100;
+			    will-change:stroke-dashoffset;
+			}
+			
+			
+			/* PROGRESS */
+			
+			.christmas-card .progress{
+			    width:100%;
+			    height:6px;
+			    background:" & _TrackBg & ";
+			    border:1px solid " & _TrackBorder & ";
+			    border-radius:4px;
+			    overflow:hidden;
+			    contain:paint;
+			}
+			
+			.christmas-card .progress-fill{
+			    width:100%;
+			    height:100%;
+			    border-radius:4px;
+			    transform:scaleX(0);
+			    transform-origin:left center;
+			    will-change:transform;
+			    transition:
+			        transform
+			        1.35s
+			        cubic-bezier(.22,.8,.25,1);
+			}
+			
+			.christmas-card .fill-positive{
+			    background:" & _FillGreen & ";
+			}
+			
+			.christmas-card .fill-negative{
+			    background:" & _FillRed & ";
+			}
+			
+			
+			/* -------------------------------------------------------------
+			   POSTER WRAPPER
+			   ------------------------------------------------------------- */
+			
+			.christmas-card .poster{
+			    grid-column:3;
+			    grid-row:1 / 4;
+			
+			    width:100%;
+			    height:100%;
+			
+			    display:flex;
+			    align-items:center;
+			    justify-content:center;
+			
+			    position:relative;
+			    overflow:hidden;
+			
+			    background:transparent;
+			}
+			
+			
+			/* -------------------------------------------------------------
+			   POSTER LOADER
+			   ------------------------------------------------------------- */
+			
+			.christmas-card .poster-loader{
+			    position:absolute;
+			    inset:0;
+			
+			    border-radius:20px;
+			    overflow:hidden;
+			
+			    background:" & _LoaderBg & ";
+			
+			    z-index:5;
+			
+			    opacity:0;
+			
+			    transition:
+			        opacity
+			        .35s
+			        ease;
+			}
+			
+			
+			/* SHIMMER */
+			
+			.christmas-card .poster-loader::after{
+			    content:'';
+			
+			    position:absolute;
+			
+			    top:-150%;
+			    left:0;
+			
+			    width:100%;
+			    height:100%;
+			
+			    background:
+			        linear-gradient(
+			            180deg,
+			            transparent,
+			            " & _LoaderWave1 & ",
+			            " & _LoaderWave2 & ",
+			            " & _LoaderWave1 & ",
+			            transparent
+			        );
+			
+			    animation:
+			        christmasPosterShimmer
+			        1.8s
+			        ease-in-out
+			        infinite;
+			}
+			
+			
+			@keyframes christmasPosterShimmer{
+			
+			    0%{
+			        top:-150%;
+			    }
+			
+			    100%{
+			        top:150%;
+			    }
+			
+			}
+			
+			
+			/* -------------------------------------------------------------
+			   POSTER IMAGE
+			   TRUE ORIGINAL PROPORTIONS
+			   ------------------------------------------------------------- */
+			
+			.christmas-card .poster img{
+			    width:auto;
+			    height:auto;
+			
+			    max-width:100%;
+			    max-height:100%;
+			
+			    object-fit:contain;
+			    object-position:center;
+			
+			    display:block;
+			
+			    border:1px solid " & _PosterBorder & ";
+			    border-radius:20px;
+			
+			    position:relative;
+			    z-index:2;
+			
+			    opacity:0;
+			
+			    transition:
+			        opacity
+			        .40s
+			        ease;
+			}
+			
+			
+			/* ONLINE */
+			
+			.christmas-card .online-card{
+			    grid-column:3;
+			    grid-row:4;
+			
+			    width:100%;
+			    height:96px;
+			
+			    background:" & _SubBg & ";
+			    border:1px solid " & _SubBorder & ";
+			    border-radius:18px;
+			
+			    display:grid;
+			    grid-template-columns:1fr 1.25fr;
+			
+			    gap:22px;
+			    align-items:center;
+			
+			    padding:16px 20px;
+			}
+			
+			.christmas-card .online-left{
+			    display:flex;
+			    align-items:center;
+			    gap:20px;
+			}
+			
+			.christmas-card .online-label{
+			    font-size:14px;
+			    font-weight:700;
+			    color:" & _TxtSecondary & ";
+			    flex-shrink:0;
+			}
+			
+			.christmas-card .online-value{
+			    width:100px;
+			    font-size:23px;
+			    font-weight:900;
+			    color:" & _TxtPrimary & ";
+			    text-align:left;
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
+			    white-space:nowrap;
+			    transform:translateZ(0);
+			}
+			
+			
+			/* GRID POSITIONS */
+			
+			.christmas-card .total-card{
+			    grid-column:1;
+			    grid-row:1;
+			}
+			
+			.christmas-card .total-yoy{
+			    grid-column:2;
+			    grid-row:1;
+			}
+			
+			.christmas-card .five15-card{
+			    grid-column:1;
+			    grid-row:2;
+			}
+			
+			.christmas-card .five15-yoy{
+			    grid-column:2;
+			    grid-row:2;
+			}
+			
+			.christmas-card .cbl-card{
+			    grid-column:1;
+			    grid-row:3;
+			}
+			
+			.christmas-card .cbl-yoy{
+			    grid-column:2;
+			    grid-row:3;
+			}
+			
+			.christmas-card .trl-card{
+			    grid-column:1;
+			    grid-row:4;
+			}
+			
+			.christmas-card .trl-yoy{
+			    grid-column:2;
+			    grid-row:4;
+			}
+			
+			</style>
+			"
+			
+			
+			// -------------------------------------------------------------
+			// 8. JS
+			// -------------------------------------------------------------
+			VAR _JS =
+			"
+			<script>
+			
+			(function(){
+			
+			function run(){
+			
+			    // COUNT UP
+			    document
+			        .querySelectorAll('.christmas-card .count-up')
+			        .forEach(function(el){
+			
+			            var target =
+			                Number(el.dataset.target);
+			
+			            var duration =
+			                1500;
+			
+			            var startTime =
+			                null;
+			
+			            function step(ts){
+			
+			                if(startTime===null){
+			                    startTime=ts;
+			                }
+			
+			                var p =
+			                    Math.min(
+			                        (ts-startTime)/duration,
+			                        1
+			                    );
+			
+			                var eased =
+			                    1-Math.pow(1-p,3);
+			
+			                el.textContent =
+			                    Math
+			                    .round(
+			                        target*eased
+			                    )
+			                    .toLocaleString('en-US');
+			
+			                if(p<1){
+			
+			                    requestAnimationFrame(step);
+			
+			                }else{
+			
+			                    el.textContent =
+			                        target.toLocaleString('en-US');
+			
+			                }
+			
+			            }
+			
+			            requestAnimationFrame(step);
+			
+			        });
+			
+			
+			    // PROGRESS BARS
+			    var bars =
+			        document.querySelectorAll(
+			            '.christmas-card .progress-fill'
+			        );
+			
+			    requestAnimationFrame(function(){
+			
+			        requestAnimationFrame(function(){
+			
+			            bars.forEach(function(b){
+			
+			                b.style.transform =
+			                    'scaleX('
+			                    +
+			                    (
+			                        Number(b.dataset.width)
+			                        /
+			                        100
+			                    )
+			                    +
+			                    ')';
+			
+			            });
+			
+			        });
+			
+			    });
+			
+			
+			    // ARROW DRAW
+			    document
+			        .querySelectorAll(
+			            '.christmas-card .draw-arrow path'
+			        )
+			        .forEach(function(path,i){
+			
+			            var len =
+			                path.getTotalLength();
+			
+			            path.style.strokeDasharray =
+			                len+' '+len;
+			
+			            path.style.strokeDashoffset =
+			                len;
+			
+			            path.getBoundingClientRect();
+			
+			            setTimeout(function(){
+			
+			                path.style.transition =
+			                    'stroke-dashoffset 900ms cubic-bezier(.4,0,.2,1)';
+			
+			                path.style.strokeDashoffset =
+			                    '0';
+			
+			            },220+(i*80));
+			
+			        });
+			
+			
+			    // -------------------------------------------------------------
+			    // POSTER LOAD / REVEAL
+			    // -------------------------------------------------------------
+			    var posterBox =
+			        document.querySelector(
+			            '.christmas-card .poster'
+			        );
+			
+			    var posterLoader =
+			        document.querySelector(
+			            '.christmas-card .poster-loader'
+			        );
+			
+			    if(posterBox && posterLoader){
+			
+			        var posterUrl =
+			            posterBox.getAttribute(
+			                'data-poster-src'
+			            );
+			
+			        var LOADER_DELAY =
+			            200;
+			
+			        var loaderTimer =
+			            setTimeout(function(){
+			
+			                posterLoader.style.opacity =
+			                    '1';
+			
+			            },LOADER_DELAY);
+			
+			
+			        function hideLoader(){
+			
+			            clearTimeout(loaderTimer);
+			
+			            posterLoader.style.opacity =
+			                '0';
+			
+			            setTimeout(function(){
+			
+			                posterLoader.style.display =
+			                    'none';
+			
+			            },350);
+			
+			        }
+			
+			
+			        function revealPoster(loadedImg){
+			
+			            clearTimeout(loaderTimer);
+			
+			            loadedImg.alt =
+			                '';
+			
+			            posterBox.appendChild(
+			                loadedImg
+			            );
+			
+			            requestAnimationFrame(function(){
+			
+			                requestAnimationFrame(function(){
+			
+			                    hideLoader();
+			
+			                    loadedImg.style.opacity =
+			                        '1';
+			
+			                });
+			
+			            });
+			
+			        }
+			
+			
+			        if(posterUrl){
+			
+			            var preload =
+			                new Image();
+			
+			            preload.src =
+			                posterUrl;
+			
+			
+			            function whenReady(){
+			
+			                revealPoster(
+			                    preload
+			                );
+			
+			            }
+			
+			
+			            if(preload.decode){
+			
+			                preload
+			                    .decode()
+			                    .then(
+			                        whenReady
+			                    )
+			                    .catch(
+			                        hideLoader
+			                    );
+			
+			            }else{
+			
+			                preload.onload =
+			                    whenReady;
+			
+			                preload.onerror =
+			                    hideLoader;
+			
+			            }
+			
+			        }else{
+			
+			            hideLoader();
+			
+			        }
+			
+			    }
+			
+			}
+			
+			
+			if(document.readyState==='loading'){
+			
+			    document.addEventListener(
+			        'DOMContentLoaded',
+			        run
+			    );
+			
+			}else{
+			
+			    run();
+			
+			}
+			
+			})();
+			
+			</script>
+			"
+			
+			
+			// -------------------------------------------------------------
+			// 9. BODY
+			// -------------------------------------------------------------
+			VAR _Body =
+			
+			"<div class='christmas-card'>
+			<div class='christmas-grid'>"
+			
+			
+			// TOTAL
+			& "<div class='att-card total-card'>"
+			
+			& "<div
+			     class='top-bar'
+			     style='background:"
+			     & _TotalBarCol &
+			     ";'>
+			   </div>"
+			
+			& "<div class='att-label'>
+			     Total Attendance
+			   </div>"
+			
+			& "<div
+			     class='att-value count-up'
+			     data-target='"
+			     & FORMAT ( _Total, "0" )
+			     &
+			     "'>
+			     0
+			   </div>"
+			
+			& "</div>"
+			
+			
+			// TOTAL YOY
+			& "<div class='yoy total-yoy'>"
+			
+			& "<div class='yoy-label'>
+			     YOY
+			   </div>"
+			
+			& "<div class='yoy-number-row'>"
+			
+			& "<span class='yoy-number "
+			    & _TotCls &
+			    "'>"
+			    & _TotTxt &
+			    "</span>"
+			
+			& "<svg
+			     class='yoy-icon draw-arrow'
+			     viewBox='0 0 24 24'>"
+			
+			& "<path
+			     d='"
+			     & _TotPath &
+			     "'
+			     stroke='"
+			     & _TotCol &
+			     "'
+			     stroke-width='2.7'
+			     stroke-linecap='round'
+			     stroke-linejoin='round'
+			   />"
+			
+			& "</svg>"
+			
+			& "</div>"
+			
+			& "<div class='progress'>"
+			
+			& "<div
+			     class='progress-fill "
+			     & _TotFill &
+			     "'
+			     data-width='"
+			     & FORMAT ( _TotBar, "0" )
+			     &
+			     "'>
+			   </div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			// POSTER
+			& "<div
+			     class='poster'
+			     data-poster-src='"
+			     & FinalPoster &
+			     "'>"
+			
+			& "<div class='poster-loader'></div>"
+			
+			& "</div>"
+			
+			
+			// 515
+			& "<div class='att-card five15-card'>"
+			
+			& "<div
+			     class='top-bar'
+			     style='background:#00B8E4;'>
+			   </div>"
+			
+			& "<div
+			     class='campus-tag'
+			     style='color:#00B8E4;'>
+			     515
+			   </div>"
+			
+			& "<div
+			     class='att-value count-up'
+			     data-target='"
+			     & FORMAT ( _515, "0" )
+			     &
+			     "'>
+			     0
+			   </div>"
+			
+			& "</div>"
+			
+			
+			// 515 YOY
+			& "<div class='yoy five15-yoy'>"
+			
+			& "<div class='yoy-label'>
+			     YOY
+			   </div>"
+			
+			& "<div class='yoy-number-row'>"
+			
+			& "<span class='yoy-number "
+			    & _F15Cls &
+			    "'>"
+			    & _F15Txt &
+			    "</span>"
+			
+			& "<svg
+			     class='yoy-icon draw-arrow'
+			     viewBox='0 0 24 24'>"
+			
+			& "<path
+			     d='"
+			     & _F15Path &
+			     "'
+			     stroke='"
+			     & _F15Col &
+			     "'
+			     stroke-width='2.7'
+			     stroke-linecap='round'
+			     stroke-linejoin='round'
+			   />"
+			
+			& "</svg>"
+			
+			& "</div>"
+			
+			& "<div class='progress'>"
+			
+			& "<div
+			     class='progress-fill "
+			     & _F15Fill &
+			     "'
+			     data-width='"
+			     & FORMAT ( _F15Bar, "0" )
+			     &
+			     "'>
+			   </div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			// CBL
+			& "<div class='att-card cbl-card'>"
+			
+			& "<div
+			     class='top-bar'
+			     style='background:#FF641C;'>
+			   </div>"
+			
+			& "<div
+			     class='campus-tag'
+			     style='color:#FF641C;'>
+			     CBL
+			   </div>"
+			
+			& "<div
+			     class='att-value count-up'
+			     data-target='"
+			     & FORMAT ( _CBL, "0" )
+			     &
+			     "'>
+			     0
+			   </div>"
+			
+			& "</div>"
+			
+			
+			// CBL YOY
+			& "<div class='yoy cbl-yoy'>"
+			
+			& "<div class='yoy-label'>
+			     YOY
+			   </div>"
+			
+			& "<div class='yoy-number-row'>"
+			
+			& "<span class='yoy-number "
+			    & _CBCls &
+			    "'>"
+			    & _CBTxt &
+			    "</span>"
+			
+			& "<svg
+			     class='yoy-icon draw-arrow'
+			     viewBox='0 0 24 24'>"
+			
+			& "<path
+			     d='"
+			     & _CBPath &
+			     "'
+			     stroke='"
+			     & _CBCol &
+			     "'
+			     stroke-width='2.7'
+			     stroke-linecap='round'
+			     stroke-linejoin='round'
+			   />"
+			
+			& "</svg>"
+			
+			& "</div>"
+			
+			& "<div class='progress'>"
+			
+			& "<div
+			     class='progress-fill "
+			     & _CBFill &
+			     "'
+			     data-width='"
+			     & FORMAT ( _CBBar, "0" )
+			     &
+			     "'>
+			   </div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			// TRL
+			& "<div class='att-card trl-card'>"
+			
+			& "<div
+			     class='top-bar'
+			     style='background:#931EE7;'>
+			   </div>"
+			
+			& "<div
+			     class='campus-tag'
+			     style='color:#931EE7;'>
+			     TRL
+			   </div>"
+			
+			& "<div
+			     class='att-value count-up'
+			     data-target='"
+			     & FORMAT ( _TRL, "0" )
+			     &
+			     "'>
+			     0
+			   </div>"
+			
+			& "</div>"
+			
+			
+			// TRL YOY
+			& "<div class='yoy trl-yoy'>"
+			
+			& "<div class='yoy-label'>
+			     YOY
+			   </div>"
+			
+			& "<div class='yoy-number-row'>"
+			
+			& "<span class='yoy-number "
+			    & _TRCls &
+			    "'>"
+			    & _TRTxt &
+			    "</span>"
+			
+			& "<svg
+			     class='yoy-icon draw-arrow'
+			     viewBox='0 0 24 24'>"
+			
+			& "<path
+			     d='"
+			     & _TRPath &
+			     "'
+			     stroke='"
+			     & _TRCol &
+			     "'
+			     stroke-width='2.7'
+			     stroke-linecap='round'
+			     stroke-linejoin='round'
+			   />"
+			
+			& "</svg>"
+			
+			& "</div>"
+			
+			& "<div class='progress'>"
+			
+			& "<div
+			     class='progress-fill "
+			     & _TRFill &
+			     "'
+			     data-width='"
+			     & FORMAT ( _TRBar, "0" )
+			     &
+			     "'>
+			   </div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			// ONLINE
+			& "<div class='online-card'>"
+			
+			& "<div class='online-left'>"
+			
+			& "<div class='online-label'>
+			     Online
+			   </div>"
+			
+			& "<div
+			     class='online-value count-up'
+			     data-target='"
+			     & FORMAT ( _Online, "0" )
+			     &
+			     "'>
+			     0
+			   </div>"
+			
+			& "</div>"
+			
+			& "<div class='yoy'>"
+			
+			& "<div class='yoy-label'>
+			     YOY
+			   </div>"
+			
+			& "<div class='yoy-number-row'>"
+			
+			& "<span class='yoy-number "
+			    & _OnCls &
+			    "'>"
+			    & _OnTxt &
+			    "</span>"
+			
+			& "<svg
+			     class='yoy-icon draw-arrow'
+			     viewBox='0 0 24 24'>"
+			
+			& "<path
+			     d='"
+			     & _OnPath &
+			     "'
+			     stroke='"
+			     & _OnCol &
+			     "'
+			     stroke-width='2.7'
+			     stroke-linecap='round'
+			     stroke-linejoin='round'
+			   />"
+			
+			& "</svg>"
+			
+			& "</div>"
+			
+			& "<div class='progress'>"
+			
+			& "<div
+			     class='progress-fill "
+			     & _OnFill &
+			     "'
+			     data-width='"
+			     & FORMAT ( _OnBar, "0" )
+			     &
+			     "'>
+			   </div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			& "</div>"
+			
+			
+			// -------------------------------------------------------------
+			// 10. RETURN
+			// -------------------------------------------------------------
+			RETURN
+			    _CSS
+			        & _Body
+			        & _JS
+		lineageTag: 87d38c80-b467-4aa4-8cd9-8b3ca22d3fce
+
+	measure HTML_Christmas_RB_515 = ```
+			
+			VAR IsDark =
+			    [SelectedTheme] = "Dark"
+			VAR Bg =
+			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
+			VAR BorderColor =
+			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
+			VAR TxtPrimary =
+			    IF ( IsDark, "#FFFFFF", "#111111" )
+			VAR TxtSecondary =
+			    IF ( IsDark, "#9CA3AF", "#6B7280" )
+			VAR HeadBg =
+			    IF ( IsDark, "#252525", "#F9FAFB" )
+			VAR RowLine =
+			    IF ( IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.06)" )
+			VAR SectionLine =
+			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
+			VAR CityRowBg =
+			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
+			VAR SchedTxt =
+			    IF ( IsDark, "#8A8A8A", "#6B7280" )
+			VAR TrackBg =
+			    IF ( IsDark, "#323232", "#E5E7EB" )
+			VAR Green =
+			    "#62E68D"
+			VAR Red =
+			    "#FF7E84"
+			VAR BarCap =
+			    0.5
+			VAR Accent =
+			    "#00B8E4"
+			VAR SelYr =
+			    [ChristmasYear]
+			VAR PrevYr =
+			    SelYr - 1
+			VAR Src =
+			    FILTER (
+			        ALL ( 'SplSundayAttInPerson_WOW' ),
+			        'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			            &&
+			        'SplSundayAttInPerson_WOW'[CampusName] = "515"
+			            &&
+			        (
+			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                ||
+			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			        )
+			    )
+			VAR MinYrAvail =
+			    MINX (
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Christmas" ),
+			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
+			    )
+			VAR MaxYrAvail =
+			    MAXX (
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Christmas" ),
+			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
+			    )
+			VAR CurYearTotal =
+			    SUMX (
+			        FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
+			        'SplSundayAttInPerson_WOW'[Count]
+			    )
+			VAR HasData =
+			    NOT ISBLANK ( SelYr )
+			        &&
+			    COALESCE ( COUNTROWS ( Src ), 0 ) > 0
+			        &&
+			    COALESCE ( CurYearTotal, 0 ) > 0
+			VAR EmptyHeadline =
+			    IF ( ISBLANK ( SelYr ), "No data available", "No Christmas data for " & FORMAT ( SelYr, "0" ) )
+			VAR EmptySubline =
+			    "Available from " & FORMAT ( MinYrAvail, "0" ) & " to " & FORMAT ( MaxYrAvail, "0" )
+			
+			/* ================================================================
+			   RANK-BASED YOY MATCH LOGIC
+			   Christmas is a single day (Dec 24) with no Saturday/Sunday split
+			   like Easter has -- every service that year is just ranked by
+			   ScheduleSort, independently per year, and matched rank-to-rank
+			   (1st service <-> 1st service, 2nd <-> 2nd, etc.) instead of by
+			   ScheduleName, so a service time shifting year over year doesn't
+			   break YOY.
+			   ================================================================ */
+			
+			VAR CurSrcOnly =
+			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr )
+			VAR PrevSrcOnly =
+			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr )
+			
+			VAR CurSchedRaw =
+			    SUMMARIZE (
+			        CurSrcOnly,
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			    )
+			VAR PrevSchedRaw =
+			    SUMMARIZE (
+			        PrevSrcOnly,
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			    )
+			
+			VAR CurSchedKeyed =
+			    ADDCOLUMNS (
+			        CurSchedRaw,
+			        "MatchKey",
+			            "RANK" & RANKX ( CurSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
+			    )
+			VAR PrevSchedKeyed =
+			    ADDCOLUMNS (
+			        PrevSchedRaw,
+			        "MatchKey",
+			            "RANK" & RANKX ( PrevSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
+			    )
+			
+			VAR KeysDetail =
+			    SELECTCOLUMNS (
+			        CurSchedKeyed,
+			        "SortA", COALESCE ( 'SplSundayAttInPerson_WOW'[ScheduleSort] + 0, 0 ),
+			        "Label", 'SplSundayAttInPerson_WOW'[ScheduleName],
+			        "Lvl", "detail",
+			        "K", 'SplSundayAttInPerson_WOW'[ScheduleName],
+			        "MK", [MatchKey]
+			    )
+			VAR KeysTotal =
+			    ROW ( "SortA", 999999, "Label", "Total", "Lvl", "total", "K", "", "MK", "" )
+			VAR AllKeys =
+			    UNION ( KeysDetail, KeysTotal )
+			
+			VAR KeysWithMatch =
+			    ADDCOLUMNS (
+			        AllKeys,
+			        "PrevName",
+			            VAR mk = [MK]
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			                    BLANK (),
+			                    MAXX ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ), 'SplSundayAttInPerson_WOW'[ScheduleName] )
+			                ),
+			        "HasMatch",
+			            VAR mk = [MK]
+			            RETURN
+			                [Lvl] = "total"
+			                    || COUNTROWS ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ) ) > 0
+			    )
+			VAR RowData =
+			    ADDCOLUMNS (
+			        KeysWithMatch,
+			        "AdCur",
+			            VAR k = [K]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
+			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                    ),
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			        "AdPrev",
+			            VAR pn = [PrevName]
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ), 'SplSundayAttInPerson_WOW'[Count] ),
+			                    IF (
+			                        ISBLANK ( pn ),
+			                        0,
+			                        SUMX (
+			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ),
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                ),
+			        "BlCur",
+			            VAR k = [K]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
+			                            && 'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                    ),
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			        "BlPrev",
+			            VAR pn = [PrevName]
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ), 'SplSundayAttInPerson_WOW'[Count] ),
+			                    IF (
+			                        ISBLANK ( pn ),
+			                        0,
+			                        SUMX (
+			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ),
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                ),
+			        "DhCur",
+			            VAR k = [K]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
+			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                    ),
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			        "DhPrev",
+			            VAR pn = [PrevName]
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ), 'SplSundayAttInPerson_WOW'[Count] ),
+			                    IF (
+			                        ISBLANK ( pn ),
+			                        0,
+			                        SUMX (
+			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ),
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                )
+			    )
+			VAR RowsHTML =
+			    CONCATENATEX (
+			        RowData,
+			        VAR rowCls =
+			            IF ( [Lvl] = "total", "r-total", "r-sched" )
+			        VAR hasMatch = [HasMatch]
+			        VAR aCur =
+			            [AdCur]
+			        VAR aPrev =
+			            [AdPrev]
+			        VAR aState =
+			            IF (
+			                NOT hasMatch,
+			                "gone",
+			                SWITCH (
+			                    TRUE (),
+			                    COALESCE ( aCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( aPrev, 0 ) = 0, "empty",
+			                    COALESCE ( aPrev, 0 ) = 0, "new",
+			                    COALESCE ( aCur, 0 ) = 0, "gone",
+			                    "ok"
+			                )
+			            )
+			        VAR aYOY =
+			            IF (
+			                aState = "ok",
+			                DIVIDE ( aCur - aPrev, aPrev )
+			            )
+			        VAR aTxt =
+			            SWITCH (
+			                aState,
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			                IF (
+			                    aYOY >= 0,
+			                    "+" & FORMAT ( aYOY, "0.00%" ),
+			                    FORMAT ( aYOY, "0.00%" )
+			                )
+			            )
+			        VAR aCol =
+			            SWITCH (
+			                aState,
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			                IF ( aYOY >= 0, Green, Red )
+			            )
+			        VAR aBar =
+			            IF (
+			                aState = "ok",
+			                MIN ( 100, ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 ) ),
+			                0
+			            )
+			        VAR aShowBar =
+			            aState = "ok"
+			        VAR aF1 =
+			            IF ( COALESCE ( aCur, 0 ) = 0, "", FORMAT ( aCur, "#,0" ) )
+			        VAR aF2 =
+			            IF ( COALESCE ( aPrev, 0 ) = 0, "", FORMAT ( aPrev, "#,0" ) )
+			        VAR bCur =
+			            [BlCur]
+			        VAR bPrev =
+			            [BlPrev]
+			        VAR bState =
+			            IF (
+			                NOT hasMatch,
+			                "gone",
+			                SWITCH (
+			                    TRUE (),
+			                    COALESCE ( bCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( bPrev, 0 ) = 0, "empty",
+			                    COALESCE ( bPrev, 0 ) = 0, "new",
+			                    COALESCE ( bCur, 0 ) = 0, "gone",
+			                    "ok"
+			                )
+			            )
+			        VAR bYOY =
+			            IF (
+			                bState = "ok",
+			                DIVIDE ( bCur - bPrev, bPrev )
+			            )
+			        VAR bTxt =
+			            SWITCH (
+			                bState,
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			                IF (
+			                    bYOY >= 0,
+			                    "+" & FORMAT ( bYOY, "0.00%" ),
+			                    FORMAT ( bYOY, "0.00%" )
+			                )
+			            )
+			        VAR bCol =
+			            SWITCH (
+			                bState,
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			                IF ( bYOY >= 0, Green, Red )
+			            )
+			        VAR bBar =
+			            IF (
+			                bState = "ok",
+			                MIN ( 100, ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 ) ),
+			                0
+			            )
+			        VAR bShowBar =
+			            bState = "ok"
+			        VAR bF1 =
+			            IF ( COALESCE ( bCur, 0 ) = 0, "", FORMAT ( bCur, "#,0" ) )
+			        VAR bF2 =
+			            IF ( COALESCE ( bPrev, 0 ) = 0, "", FORMAT ( bPrev, "#,0" ) )
+			        VAR dCur =
+			            [DhCur]
+			        VAR dPrev =
+			            [DhPrev]
+			        VAR dState =
+			            IF (
+			                NOT hasMatch,
+			                "gone",
+			                SWITCH (
+			                    TRUE (),
+			                    COALESCE ( dCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( dPrev, 0 ) = 0, "empty",
+			                    COALESCE ( dPrev, 0 ) = 0, "new",
+			                    COALESCE ( dCur, 0 ) = 0, "gone",
+			                    "ok"
+			                )
+			            )
+			        VAR dYOY =
+			            IF (
+			                dState = "ok",
+			                DIVIDE ( dCur - dPrev, dPrev )
+			            )
+			        VAR dTxt =
+			            SWITCH (
+			                dState,
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			                IF (
+			                    dYOY >= 0,
+			                    "+" & FORMAT ( dYOY, "0.00%" ),
+			                    FORMAT ( dYOY, "0.00%" )
+			                )
+			            )
+			        VAR dCol =
+			            SWITCH (
+			                dState,
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			                IF ( dYOY >= 0, Green, Red )
+			            )
+			        VAR dBar =
+			            IF (
+			                dState = "ok",
+			                MIN ( 100, ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 ) ),
+			                0
+			            )
+			        VAR dShowBar =
+			            dState = "ok"
+			        VAR dF1 =
+			            IF ( COALESCE ( dCur, 0 ) = 0, "", FORMAT ( dCur, "#,0" ) )
+			        VAR dF2 =
+			            IF ( COALESCE ( dPrev, 0 ) = 0, "", FORMAT ( dPrev, "#,0" ) )
+			        VAR dispLabelSub =
+			            IF (
+			                [Lvl] = "total",
+			                "",
+			                IF (
+			                    hasMatch && NOT ISBLANK ( [PrevName] ) && [PrevName] <> [Label],
+			                    "was " & [PrevName],
+			                    ""
+			                )
+			            )
+			        RETURN
+			            "<tr class='" & rowCls & "'>"
+			                & "<td class='c-lbl'>"
+			                    & "<div class='c-lbl-main'>" & [Label] & "</div>"
+			                    & IF ( dispLabelSub <> "", "<div class='c-lbl-sub'>" & dispLabelSub & "</div>", "" )
+			                & "</td>"
+			                & "<td class='num'>" & aF1 & "</td>"
+			                & "<td class='num dim'>" & aF2 & "</td>"
+			                & "<td class='yc'>"
+			                    & "<div class='yv' style='color:" & aCol & "'>" & aTxt & "</div>"
+			                    & IF (
+			                        aShowBar,
+			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( aBar, "0" ) & "%;background:" & aCol & "'></div></div>",
+			                        ""
+			                    )
+			                & "</td>"
+			                & "<td class='num sec'>" & bF1 & "</td>"
+			                & "<td class='num dim'>" & bF2 & "</td>"
+			                & "<td class='yc'>"
+			                    & "<div class='yv' style='color:" & bCol & "'>" & bTxt & "</div>"
+			                    & IF (
+			                        bShowBar,
+			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( bBar, "0" ) & "%;background:" & bCol & "'></div></div>",
+			                        ""
+			                    )
+			                & "</td>"
+			                & "<td class='num sec'>" & dF1 & "</td>"
+			                & "<td class='num dim'>" & dF2 & "</td>"
+			                & "<td class='yc'>"
+			                    & "<div class='yv' style='color:" & dCol & "'>" & dTxt & "</div>"
+			                    & IF (
+			                        dShowBar,
+			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( dBar, "0" ) & "%;background:" & dCol & "'></div></div>",
+			                        ""
+			                    )
+			                & "</td>"
+			            & "</tr>",
+			        "",
+			        [SortA], ASC
+			    )
+			VAR HeadHTML =
+			    "<div class='rb-head'>"
+			        & "<span class='rb-name'>515</span>"
+			        & "<span class='rb-title'>Christmas " & FORMAT ( SelYr, "0" ) & "</span>"
+			        & "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
+			    & "</div>"
+			VAR TableHTML =
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			.rb *{
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			    font-family:Inter,sans-serif;
+			}
+			
+			.rb{
+			    width:100%;
+			    background:" & Bg & ";
+			    border:1px solid " & BorderColor & ";
+			    border-radius:18px;
+			    padding:16px 18px;
+			    overflow:hidden;
+			}
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			    gap:8px;
+			    margin-bottom:12px;
+			}
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			    color:" & Accent & ";
+			    letter-spacing:-.2px;
+			}
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			    color:" & TxtPrimary & ";
+			    letter-spacing:-.2px;
+			}
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    margin-left:auto;
+			}
+			
+			.rb table{
+			    width:100%;
+			    border-collapse:collapse;
+			    table-layout:fixed;
+			}
+			
+			.rb th{
+			    font-size:9px;
+			    font-weight:800;
+			    letter-spacing:.6px;
+			    text-transform:uppercase;
+			    color:" & TxtSecondary & ";
+			    background:" & HeadBg & ";
+			    padding:6px 5px;
+			    text-align:right;
+			    white-space:nowrap;
+			}
+			
+			.rb th.grp{
+			    text-align:left;
+			    color:" & TxtPrimary & ";
+			    font-size:10px;
+			    border-bottom:1px solid " & SectionLine & ";
+			}
+			
+			.rb th.c-lbl,
+			.rb td.c-lbl{
+			    text-align:left;
+			    width:10%;
+			    white-space:nowrap;
+			}
+			
+			.rb .c-lbl-main{
+			    line-height:1.2;
+			}
+			
+			.rb .c-lbl-sub{
+			    font-size:9px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    line-height:1.1;
+			    margin-top:1px;
+			}
+			
+			.rb td{
+			    font-size:11px;
+			    padding:5px 5px;
+			    text-align:right;
+			    border-bottom:1px solid " & RowLine & ";
+			    color:" & TxtPrimary & ";
+			    font-variant-numeric:tabular-nums;
+			    font-feature-settings:'tnum';
+			}
+			
+			.rb th:not(.c-lbl),
+			.rb td:not(.c-lbl){
+			    width:10%;
+			}
+			
+			.rb th.sec,
+			.rb td.sec{
+			    border-left:1px solid " & SectionLine & ";
+			}
+			
+			.rb td.dim{
+			    color:" & TxtSecondary & ";
+			}
+			
+			.rb td.yc{
+			    padding:4px 5px;
+			}
+			
+			.rb .yv{
+			    width:100%;
+			    font-size:10px;
+			    font-weight:800;
+			    text-align:right;
+			    line-height:1.1;
+			    font-variant-numeric:tabular-nums;
+			}
+			
+			.rb .yb{
+			    width:100%;
+			    height:3px;
+			    border-radius:2px;
+			    background:" & TrackBg & ";
+			    overflow:hidden;
+			    margin-top:3px;
+			}
+			
+			.rb .yf{
+			    height:100%;
+			    border-radius:2px;
+			    transform:scaleX(0);
+			    transform-origin:left center;
+			    transition:transform .9s cubic-bezier(.22,.8,.25,1);
+			}
+			
+			.rb tr.r-sched td{
+			    font-weight:500;
+			    color:" & SchedTxt & ";
+			}
+			
+			.rb tr.r-sched td.c-lbl{
+			    padding-left:6px;
+			    padding-right:2px;
+			    font-size:10px;
+			}
+			
+			.rb tr.r-campus td{
+			    font-weight:800;
+			}
+			
+			.rb tr.r-campus td.c-lbl{
+			    padding-left:6px;
+			}
+			
+			.rb tr.r-total td{
+			    background:" & CityRowBg & ";
+			    font-weight:900;
+			    border-top:2px solid " & SectionLine & ";
+			    border-bottom:none;
+			}
+			
+			.rb-empty{
+			    min-height:120px;
+			    display:flex;
+			    flex-direction:column;
+			    align-items:center;
+			    justify-content:center;
+			    gap:8px;
+			    text-align:center;
+			}
+			
+			.rb-empty-h{
+			    font-size:12px;
+			    font-weight:800;
+			    color:" & TxtPrimary & ";
+			}
+			
+			.rb-empty-s{
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    max-width:280px;
+			    line-height:1.4;
+			}
+			</style>"
+			
+			    & "<div class='rb'>"
+			    & HeadHTML
+			    & "<table>"
+			    & "<colgroup>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			        & "<col style='width:10%'>"
+			    & "</colgroup>"
+			    & "<thead>"
+			    & "<tr>"
+			        & "<th class='c-lbl grp'></th>"
+			        & "<th class='grp' colspan='3'>Adults</th>"
+			        & "<th class='grp sec' colspan='3'>bloom</th>"
+			        & "<th class='grp sec' colspan='3'>Door Holder</th>"
+			    & "</tr>"
+			    & "<tr>"
+			        & "<th class='c-lbl'>Gathering</th>"
+			        & "<th>Att</th>"
+			        & "<th>Prev</th>"
+			        & "<th>YOY%</th>"
+			        & "<th class='sec'>Att</th>"
+			        & "<th>Prev</th>"
+			        & "<th>YOY%</th>"
+			        & "<th class='sec'>Att</th>"
+			        & "<th>Prev</th>"
+			        & "<th>YOY%</th>"
+			    & "</tr>"
+			    & "</thead>"
+			    & "<tbody>"
+			        & RowsHTML
+			    & "</tbody>"
+			    & "</table>"
+			    & "</div>"
+			    & "<script>
+			    (function(){
+			        function run(){
+			            var f=document.querySelectorAll('.rb .yf');
+			            requestAnimationFrame(function(){
+			                requestAnimationFrame(function(){
+			                    f.forEach(function(el){
+			                        el.style.transform='scaleX(1)';
+			                    });
+			                });
+			            });
+			        }
+			        if(document.readyState==='loading'){
+			            document.addEventListener('DOMContentLoaded',run);
+			        }else{
+			            run();
+			        }
+			    })();
+			    </script>"
+			VAR EmptyHTML =
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
+			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
+			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
+			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
+			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 8px;text-align:right;white-space:nowrap;}
+			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
+			.rb th.c-lbl,.rb td.c-lbl{text-align:left;width:22%;}
+			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
+			.rb td{font-size:11px;padding:5px 8px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';}
+			.rb td.dim{color:" & TxtSecondary & ";}
+			.rb td.yc{width:9%;padding:4px 8px;}
+			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
+			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
+			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
+			.rb tr.r-sched td{font-weight:500;color:" & SchedTxt & ";}
+			.rb tr.r-sched td.c-lbl{padding-left:14px;font-size:10px;}
+			.rb tr.r-campus td{font-weight:800;}
+			.rb tr.r-campus td.c-lbl{padding-left:14px;}
+			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
+			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
+			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
+			</style>"
+			    & "<div class='rb'>"
+			    & HeadHTML
+			    & "<div class='rb-empty'>"
+			        & "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
+			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
+			    & "</div></div>"
+			RETURN
+			    IF (
+			        HasData,
+			        TableHTML,
+			        EmptyHTML
+			    )
+			
+			```
+		lineageTag: e3c80caa-b62e-4baf-8604-c3250b07ae00
+
+	measure HTML_Christmas_RB_CBL =
+			
+			
+			VAR IsDark =
+			    [SelectedTheme] = "Dark"
+			
+			VAR Bg =
+			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
+			
+			VAR BorderColor =
+			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
+			
+			VAR TxtPrimary =
+			    IF ( IsDark, "#FFFFFF", "#111111" )
+			
+			VAR TxtSecondary =
+			    IF ( IsDark, "#9CA3AF", "#6B7280" )
+			
+			VAR HeadBg =
+			    IF ( IsDark, "#252525", "#F9FAFB" )
+			
+			VAR RowLine =
+			    IF (
+			        IsDark,
+			        "rgba(255,255,255,0.06)",
+			        "rgba(0,0,0,0.06)"
+			    )
+			
+			VAR SectionLine =
+			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
+			
+			VAR CityRowBg =
+			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
+			
+			VAR SchedTxt =
+			    IF ( IsDark, "#8A8A8A", "#6B7280" )
+			
+			VAR TrackBg =
+			    IF ( IsDark, "#323232", "#E5E7EB" )
+			
+			VAR Green =
+			    "#62E68D"
+			
+			VAR Red =
+			    "#FF7E84"
+			
+			VAR BarCap =
+			    0.5
+			
+			VAR Accent =
+			    "#FF641C"
+			
+			VAR SelYr =
+			    [ChristmasYear]
+			
+			VAR PrevYr =
+			    SelYr - 1
+			
+			
+			// =============================================================
+			// CHRISTMAS CUMBERLAND SOURCE
+			// =============================================================
+			VAR Src =
+			    FILTER (
+			        ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			        'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			            &&
+			        'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
+			            &&
+			        (
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = SelYr
+			                ||
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = PrevYr
+			        )
+			    )
+			
+			
+			// =============================================================
+			// AVAILABLE YEAR RANGE — CUMBERLAND ONLY
+			// =============================================================
+			VAR MinYrAvail =
+			    MINX (
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			            'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
+			                &&
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[Count],
+			                0
+			            ) > 0
+			        ),
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        )
+			    )
+			
+			VAR MaxYrAvail =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			            'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
+			                &&
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[Count],
+			                0
+			            ) > 0
+			        ),
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        )
+			    )
+			
+			
+			// =============================================================
+			// CURRENT YEAR TOTAL / EMPTY STATE
+			// =============================================================
+			VAR CurYearTotal =
+			    SUMX (
+			        FILTER (
+			            Src,
+			
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = SelYr
+			        ),
+			
+			        'SplSundayAttInPerson_WOW'[Count]
+			    )
+			
+			VAR HasData =
+			    NOT ISBLANK ( SelYr )
+			        &&
+			    COALESCE (
+			        COUNTROWS ( Src ),
+			        0
+			    ) > 0
+			        &&
+			    COALESCE (
+			        CurYearTotal,
+			        0
+			    ) > 0
+			
+			VAR EmptyHeadline =
+			    IF (
+			        ISBLANK ( SelYr ),
+			
+			        "No data available",
+			
+			        "No Christmas data for "
+			            & FORMAT ( SelYr, "0" )
+			    )
+			
+			VAR EmptySubline =
+			    IF (
+			        NOT ISBLANK ( MinYrAvail )
+			            &&
+			        NOT ISBLANK ( MaxYrAvail ),
+			
+			        "Data available in select years from "
+			            & FORMAT ( MinYrAvail, "0" )
+			            & " to "
+			            & FORMAT ( MaxYrAvail, "0" ),
+			
+			        "No historical Christmas data available"
+			    )
+			
+			
+			// =============================================================
+			// CHRISTMAS YOY MATCHING
+			//
+			// Christmas is one day only.
+			// Services are ranked independently by ScheduleSort in each year.
+			// Current rank 1 -> Previous rank 1
+			// Current rank 2 -> Previous rank 2
+			// etc.
+			// =============================================================
+			VAR CurSrcOnly =
+			    FILTER (
+			        Src,
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        ) = SelYr
+			    )
+			
+			VAR PrevSrcOnly =
+			    FILTER (
+			        Src,
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        ) = PrevYr
+			    )
+			
+			
+			// =============================================================
+			// DISTINCT SERVICES
+			// =============================================================
+			VAR CurSchedRaw =
+			    SUMMARIZE (
+			        CurSrcOnly,
+			
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			    )
+			
+			VAR PrevSchedRaw =
+			    SUMMARIZE (
+			        PrevSrcOnly,
+			
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			    )
+			
+			
+			// =============================================================
+			// RANK SERVICES WITHIN EACH YEAR
+			// =============================================================
+			VAR CurSchedKeyed =
+			    ADDCOLUMNS (
+			        CurSchedRaw,
+			
+			        "MatchKey",
+			            RANKX (
+			                CurSchedRaw,
+			                'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                ,
+			                ASC,
+			                DENSE
+			            )
+			    )
+			
+			VAR PrevSchedKeyed =
+			    ADDCOLUMNS (
+			        PrevSchedRaw,
+			
+			        "MatchKey",
+			            RANKX (
+			                PrevSchedRaw,
+			                'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                ,
+			                ASC,
+			                DENSE
+			            )
+			    )
+			
+			
+			// =============================================================
+			// ROW KEYS
+			// =============================================================
+			VAR KeysDetail =
+			    SELECTCOLUMNS (
+			        CurSchedKeyed,
+			
+			        "SortA",
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[ScheduleSort] + 0,
+			                0
+			            ),
+			
+			        "Label",
+			            'SplSundayAttInPerson_WOW'[ScheduleName],
+			
+			        "Lvl",
+			            "detail",
+			
+			        "K",
+			            'SplSundayAttInPerson_WOW'[ScheduleName],
+			
+			        "MK",
+			            [MatchKey]
+			    )
+			
+			VAR KeysTotal =
+			    ROW (
+			        "SortA", 999999,
+			        "Label", "Total",
+			        "Lvl", "total",
+			        "K", "",
+			        "MK", 0
+			    )
+			
+			VAR AllKeys =
+			    UNION (
+			        KeysDetail,
+			        KeysTotal
+			    )
+			
+			
+			// =============================================================
+			// FIND PREVIOUS YEAR SERVICE AT SAME RANK
+			// =============================================================
+			VAR KeysWithMatch =
+			    ADDCOLUMNS (
+			        AllKeys,
+			
+			        "PrevName",
+			
+			            VAR mk =
+			                [MK]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    BLANK (),
+			
+			                    MAXX (
+			                        FILTER (
+			                            PrevSchedKeyed,
+			                            [MatchKey] = mk
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[ScheduleName]
+			                    )
+			                ),
+			
+			        "HasMatch",
+			
+			            VAR mk =
+			                [MK]
+			
+			            RETURN
+			                [Lvl] = "total"
+			                    ||
+			                COUNTROWS (
+			                    FILTER (
+			                        PrevSchedKeyed,
+			                        [MatchKey] = mk
+			                    )
+			                ) > 0
+			    )
+			
+			
+			// =============================================================
+			// ATTENDANCE BY MINISTRY
+			// =============================================================
+			VAR RowData =
+			    ADDCOLUMNS (
+			        KeysWithMatch,
+			
+			
+			        // ---------------------------------------------------------
+			        // ADULTS CURRENT
+			        // ---------------------------------------------------------
+			        "AdCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[ScheduleName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // ADULTS PREVIOUS
+			        // ---------------------------------------------------------
+			        "AdPrev",
+			
+			            VAR pn =
+			                [PrevName]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    SUMX (
+			                        FILTER (
+			                            PrevSrcOnly,
+			                            'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[Count]
+			                    ),
+			
+			                    IF (
+			                        ISBLANK ( pn ),
+			
+			                        0,
+			
+			                        SUMX (
+			                            FILTER (
+			                                PrevSrcOnly,
+			
+			                                'SplSundayAttInPerson_WOW'[ScheduleName] = pn
+			                                    &&
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            ),
+			
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // BLOOM CURRENT
+			        // ---------------------------------------------------------
+			        "BlCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[ScheduleName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // BLOOM PREVIOUS
+			        // ---------------------------------------------------------
+			        "BlPrev",
+			
+			            VAR pn =
+			                [PrevName]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    SUMX (
+			                        FILTER (
+			                            PrevSrcOnly,
+			                            'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[Count]
+			                    ),
+			
+			                    IF (
+			                        ISBLANK ( pn ),
+			
+			                        0,
+			
+			                        SUMX (
+			                            FILTER (
+			                                PrevSrcOnly,
+			
+			                                'SplSundayAttInPerson_WOW'[ScheduleName] = pn
+			                                    &&
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            ),
+			
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // DOOR HOLDER CURRENT
+			        // ---------------------------------------------------------
+			        "DhCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[ScheduleName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // DOOR HOLDER PREVIOUS
+			        // ---------------------------------------------------------
+			        "DhPrev",
+			
+			            VAR pn =
+			                [PrevName]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    SUMX (
+			                        FILTER (
+			                            PrevSrcOnly,
+			                            'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[Count]
+			                    ),
+			
+			                    IF (
+			                        ISBLANK ( pn ),
+			
+			                        0,
+			
+			                        SUMX (
+			                            FILTER (
+			                                PrevSrcOnly,
+			
+			                                'SplSundayAttInPerson_WOW'[ScheduleName] = pn
+			                                    &&
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            ),
+			
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                )
+			    )
+			
+			
+			// =============================================================
+			// BUILD ROW HTML
+			// =============================================================
+			VAR RowsHTML =
+			    CONCATENATEX (
+			        RowData,
+			
+			        VAR rowCls =
+			            IF (
+			                [Lvl] = "total",
+			                "r-total",
+			                "r-sched"
+			            )
+			
+			        VAR hasMatch =
+			            [HasMatch]
+			
+			
+			        // =========================================================
+			        // ADULTS
+			        // =========================================================
+			        VAR aCur =
+			            [AdCur]
+			
+			        VAR aPrev =
+			            [AdPrev]
+			
+			        VAR aState =
+			            IF (
+			                NOT hasMatch,
+			
+			                "gone",
+			
+			                SWITCH (
+			                    TRUE (),
+			
+			                    COALESCE ( aCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( aPrev, 0 ) = 0,
+			                        "empty",
+			
+			                    COALESCE ( aPrev, 0 ) = 0,
+			                        "new",
+			
+			                    COALESCE ( aCur, 0 ) = 0,
+			                        "gone",
+			
+			                    "ok"
+			                )
+			            )
+			
+			        VAR aYOY =
+			            IF (
+			                aState = "ok",
+			                DIVIDE (
+			                    aCur - aPrev,
+			                    aPrev
+			                )
+			            )
+			
+			        VAR aTxt =
+			            SWITCH (
+			                aState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    aYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            aYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        aYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR aCol =
+			            SWITCH (
+			                aState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    aYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR aBar =
+			            IF (
+			                aState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( aYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR aShowBar =
+			            aState = "ok"
+			
+			        VAR aF1 =
+			            IF (
+			                COALESCE ( aCur, 0 ) = 0,
+			                "",
+			                FORMAT ( aCur, "#,0" )
+			            )
+			
+			        VAR aF2 =
+			            IF (
+			                COALESCE ( aPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( aPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // BLOOM
+			        // =========================================================
+			        VAR bCur =
+			            [BlCur]
+			
+			        VAR bPrev =
+			            [BlPrev]
+			
+			        VAR bState =
+			            IF (
+			                NOT hasMatch,
+			
+			                "gone",
+			
+			                SWITCH (
+			                    TRUE (),
+			
+			                    COALESCE ( bCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( bPrev, 0 ) = 0,
+			                        "empty",
+			
+			                    COALESCE ( bPrev, 0 ) = 0,
+			                        "new",
+			
+			                    COALESCE ( bCur, 0 ) = 0,
+			                        "gone",
+			
+			                    "ok"
+			                )
+			            )
+			
+			        VAR bYOY =
+			            IF (
+			                bState = "ok",
+			
+			                DIVIDE (
+			                    bCur - bPrev,
+			                    bPrev
+			                )
+			            )
+			
+			        VAR bTxt =
+			            SWITCH (
+			                bState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    bYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            bYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        bYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR bCol =
+			            SWITCH (
+			                bState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    bYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR bBar =
+			            IF (
+			                bState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( bYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR bShowBar =
+			            bState = "ok"
+			
+			        VAR bF1 =
+			            IF (
+			                COALESCE ( bCur, 0 ) = 0,
+			                "",
+			                FORMAT ( bCur, "#,0" )
+			            )
+			
+			        VAR bF2 =
+			            IF (
+			                COALESCE ( bPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( bPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // DOOR HOLDER
+			        // =========================================================
+			        VAR dCur =
+			            [DhCur]
+			
+			        VAR dPrev =
+			            [DhPrev]
+			
+			        VAR dState =
+			            IF (
+			                NOT hasMatch,
+			
+			                "gone",
+			
+			                SWITCH (
+			                    TRUE (),
+			
+			                    COALESCE ( dCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( dPrev, 0 ) = 0,
+			                        "empty",
+			
+			                    COALESCE ( dPrev, 0 ) = 0,
+			                        "new",
+			
+			                    COALESCE ( dCur, 0 ) = 0,
+			                        "gone",
+			
+			                    "ok"
+			                )
+			            )
+			
+			        VAR dYOY =
+			            IF (
+			                dState = "ok",
+			
+			                DIVIDE (
+			                    dCur - dPrev,
+			                    dPrev
+			                )
+			            )
+			
+			        VAR dTxt =
+			            SWITCH (
+			                dState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    dYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            dYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        dYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR dCol =
+			            SWITCH (
+			                dState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    dYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR dBar =
+			            IF (
+			                dState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( dYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR dShowBar =
+			            dState = "ok"
+			
+			        VAR dF1 =
+			            IF (
+			                COALESCE ( dCur, 0 ) = 0,
+			                "",
+			                FORMAT ( dCur, "#,0" )
+			            )
+			
+			        VAR dF2 =
+			            IF (
+			                COALESCE ( dPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( dPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // PREVIOUS SERVICE LABEL
+			        // =========================================================
+			        VAR dispLabelSub =
+			            IF (
+			                [Lvl] = "total",
+			
+			                "",
+			
+			                IF (
+			                    hasMatch
+			                        &&
+			                    NOT ISBLANK ( [PrevName] )
+			                        &&
+			                    [PrevName] <> [Label],
+			
+			                    "was " & [PrevName],
+			
+			                    ""
+			                )
+			            )
+			
+			
+			        RETURN
+			
+			            "<tr class='" & rowCls & "'>"
+			
+			                & "<td class='c-lbl'>"
+			
+			                    & "<div class='c-lbl-main'>"
+			                    & [Label]
+			                    & "</div>"
+			
+			                    & IF (
+			                        dispLabelSub <> "",
+			
+			                        "<div class='c-lbl-sub'>"
+			                            & dispLabelSub
+			                            & "</div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // ADULTS
+			                & "<td class='num'>"
+			                    & aF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & aF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & aCol
+			                        & "'>"
+			                        & aTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        aShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( aBar, "0" )
+			                                & "%;background:"
+			                                & aCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // BLOOM
+			                & "<td class='num sec'>"
+			                    & bF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & bF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & bCol
+			                        & "'>"
+			                        & bTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        bShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( bBar, "0" )
+			                                & "%;background:"
+			                                & bCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // DOOR HOLDER
+			                & "<td class='num sec'>"
+			                    & dF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & dF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & dCol
+			                        & "'>"
+			                        & dTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        dShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( dBar, "0" )
+			                                & "%;background:"
+			                                & dCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			            & "</tr>",
+			
+			        "",
+			
+			        [SortA],
+			        ASC
+			    )
+			
+			
+			// =============================================================
+			// HEADER
+			// =============================================================
+			VAR HeadHTML =
+			    "<div class='rb-head'>"
+			
+			        & "<span class='rb-name'>Cumberland</span>"
+			
+			        & "<span class='rb-title'>Christmas "
+			        & FORMAT ( SelYr, "0" )
+			        & "</span>"
+			
+			        & "<span class='rb-sub'>vs "
+			        & FORMAT ( PrevYr, "0" )
+			        & "</span>"
+			
+			    & "</div>"
+			
+			
+			
+			
+			// =============================================================
+			// TABLE HTML
+			// =============================================================
+			VAR TableHTML =
+			
+			"<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			
+			.rb *{
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			    font-family:Inter,sans-serif;
+			}
+			
+			
+			.rb{
+			    width:100%;
+			    background:" & Bg & ";
+			    border:1px solid " & BorderColor & ";
+			    border-radius:18px;
+			    padding:16px 18px;
+			    overflow:hidden;
+			}
+			
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			    gap:8px;
+			    margin-bottom:12px;
+			}
+			
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			    color:" & Accent & ";
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			    color:" & TxtPrimary & ";
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    margin-left:auto;
+			}
+			
+			
+			.rb table{
+			    width:100%;
+			    border-collapse:collapse;
+			    table-layout:fixed;
+			}
+			
+			
+			.rb th{
+			    font-size:9px;
+			    font-weight:800;
+			    letter-spacing:.6px;
+			    text-transform:uppercase;
+			    color:" & TxtSecondary & ";
+			    background:" & HeadBg & ";
+			    padding:6px 5px;
+			    text-align:right;
+			    white-space:nowrap;
+			}
+			
+			
+			.rb th.grp{
+			    text-align:left;
+			    color:" & TxtPrimary & ";
+			    font-size:10px;
+			    border-bottom:1px solid " & SectionLine & ";
+			}
+			
+			
+			.rb th.c-lbl,
+			.rb td.c-lbl{
+			    text-align:left;
+			    width:10%;
+			    white-space:nowrap;
+			}
+			
+			
+			.rb .c-lbl-main{
+			    line-height:1.2;
+			}
+			
+			
+			.rb .c-lbl-sub{
+			    font-size:9px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    line-height:1.1;
+			    margin-top:1px;
+			}
+			
+			
+			.rb th:not(.c-lbl),
+			.rb td:not(.c-lbl){
+			    width:10%;
+			}
+			
+			
+			.rb th.sec,
+			.rb td.sec{
+			    border-left:1px solid " & SectionLine & ";
+			}
+			
+			
+			.rb td{
+			    font-size:11px;
+			    padding:5px 5px;
+			    text-align:right;
+			    border-bottom:1px solid " & RowLine & ";
+			    color:" & TxtPrimary & ";
+			
+			    font-variant-numeric:
+			        tabular-nums;
+			
+			    font-feature-settings:
+			        'tnum';
+			}
+			
+			
+			.rb td.dim{
+			    color:" & TxtSecondary & ";
+			}
+			
+			
+			.rb td.yc{
+			    padding:4px 5px;
+			}
+			
+			
+			.rb .yv{
+			    width:100%;
+			    font-size:10px;
+			    font-weight:800;
+			    text-align:right;
+			    line-height:1.1;
+			    font-variant-numeric:tabular-nums;
+			}
+			
+			
+			.rb .yb{
+			    width:100%;
+			    height:3px;
+			    border-radius:2px;
+			    background:" & TrackBg & ";
+			    overflow:hidden;
+			    margin-top:3px;
+			}
+			
+			
+			.rb .yf{
+			    height:100%;
+			    border-radius:2px;
+			
+			    transform:
+			        scaleX(0);
+			
+			    transform-origin:
+			        left center;
+			
+			    transition:
+			        transform
+			        .9s
+			        cubic-bezier(.22,.8,.25,1);
+			}
+			
+			
+			.rb tr.r-sched td{
+			    font-weight:500;
+			    color:" & SchedTxt & ";
+			}
+			
+			
+			.rb tr.r-sched td.c-lbl{
+			    padding-left:6px;
+			    padding-right:2px;
+			    font-size:10px;
+			}
+			
+			
+			.rb tr.r-total td{
+			    background:" & CityRowBg & ";
+			    font-weight:900;
+			    border-top:2px solid " & SectionLine & ";
+			    border-bottom:none;
+			}
+			
+			
+			.rb-empty{
+			    min-height:120px;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    align-items:center;
+			    justify-content:center;
+			
+			    gap:8px;
+			
+			    text-align:center;
+			}
+			
+			
+			.rb-empty-h{
+			    font-size:12px;
+			    font-weight:800;
+			    color:" & TxtPrimary & ";
+			}
+			
+			
+			.rb-empty-s{
+			    font-size:11px;
+			    font-weight:500;
+			    color:" & TxtSecondary & ";
+			    max-width:280px;
+			    line-height:1.4;
+			}
+			
+			</style>"
+			
+			
+			& "<div class='rb'>"
+			
+			& HeadHTML
+			
+			
+			& "<table>"
+			
+			
+			& "<colgroup>"
+			
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			
+			& "</colgroup>"
+			
+			
+			& "<thead>"
+			
+			
+			& "<tr>"
+			
+			    & "<th class='c-lbl grp'></th>"
+			
+			    & "<th
+			        class='grp'
+			        colspan='3'>
+			        Adults
+			       </th>"
+			
+			    & "<th
+			        class='grp sec'
+			        colspan='3'>
+			        bloom
+			       </th>"
+			
+			    & "<th
+			        class='grp sec'
+			        colspan='3'>
+			        Door Holder
+			       </th>"
+			
+			& "</tr>"
+			
+			
+			& "<tr>"
+			
+			    & "<th class='c-lbl'>
+			        Gathering
+			       </th>"
+			
+			    & "<th>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			    & "<th class='sec'>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			    & "<th class='sec'>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			& "</tr>"
+			
+			
+			& "</thead>"
+			
+			
+			& "<tbody>"
+			
+			    & RowsHTML
+			
+			& "</tbody>"
+			
+			
+			& "</table>"
+			
+			
+			& "</div>"
+			
+			
+			// =============================================================
+			// PROGRESS BAR ANIMATION
+			// =============================================================
+			& "<script>
+			
+			(function(){
+			
+			    function run(){
+			
+			        var f =
+			            document.querySelectorAll(
+			                '.rb .yf'
+			            );
+			
+			        requestAnimationFrame(function(){
+			
+			            requestAnimationFrame(function(){
+			
+			                f.forEach(function(el){
+			
+			                    el.style.transform =
+			                        'scaleX(1)';
+			
+			                });
+			
+			            });
+			
+			        });
+			
+			    }
+			
+			
+			    if(
+			        document.readyState === 'loading'
+			    ){
+			
+			        document.addEventListener(
+			            'DOMContentLoaded',
+			            run
+			        );
+			
+			    }else{
+			
+			        run();
+			
+			    }
+			
+			})();
+			
+			</script>"
+			
+			
+			
+			
+			// =============================================================
+			// EMPTY STATE
+			// =============================================================
+			VAR EmptyHTML =
+			
+			"<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			
+			.rb *{
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			    font-family:Inter,sans-serif;
+			}
+			
+			
+			.rb{
+			    width:100%;
+			    height:280px;
+			    min-height:280px;
+			
+			    background:" & Bg & ";
+			
+			    border:
+			        1px solid " & BorderColor & ";
+			
+			    border-radius:18px;
+			
+			    padding:
+			        16px 18px;
+			
+			    overflow:hidden;
+			
+			    display:flex;
+			    flex-direction:column;
+			}
+			
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			
+			    gap:8px;
+			
+			    margin-bottom:12px;
+			}
+			
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & Accent & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & TxtPrimary & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    margin-left:auto;
+			}
+			
+			
+			.rb-empty{
+			    flex:1 1 0;
+			
+			    min-height:0;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    align-items:center;
+			    justify-content:center;
+			
+			    gap:8px;
+			
+			    text-align:center;
+			}
+			
+			
+			.rb-empty-h{
+			    font-size:12px;
+			    font-weight:800;
+			
+			    color:" & TxtPrimary & ";
+			}
+			
+			
+			.rb-empty-s{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    max-width:280px;
+			
+			    line-height:1.4;
+			}
+			
+			</style>"
+			
+			
+			& "<div class='rb'>"
+			
+			& HeadHTML
+			
+			& "<div class='rb-empty'>"
+			
+			    & "<div class='rb-empty-h'>"
+			        & EmptyHeadline
+			        & "</div>"
+			
+			    & "<div class='rb-empty-s'>"
+			        & EmptySubline
+			        & "</div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			// =============================================================
+			// RETURN
+			// =============================================================
+			RETURN
+			
+			    IF (
+			        HasData,
+			        TableHTML,
+			        EmptyHTML
+			    )
+		lineageTag: ba476411-bff5-41a3-b90f-ee4a0b77407f
+
+	measure HTML_Christmas_RB_TRL =
+			
+			
+			VAR IsDark =
+			    [SelectedTheme] = "Dark"
+			
+			VAR Bg =
+			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
+			
+			VAR BorderColor =
+			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
+			
+			VAR TxtPrimary =
+			    IF ( IsDark, "#FFFFFF", "#111111" )
+			
+			VAR TxtSecondary =
+			    IF ( IsDark, "#9CA3AF", "#6B7280" )
+			
+			VAR HeadBg =
+			    IF ( IsDark, "#252525", "#F9FAFB" )
+			
+			VAR RowLine =
+			    IF (
+			        IsDark,
+			        "rgba(255,255,255,0.06)",
+			        "rgba(0,0,0,0.06)"
+			    )
+			
+			VAR SectionLine =
+			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
+			
+			VAR CityRowBg =
+			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
+			
+			VAR SchedTxt =
+			    IF ( IsDark, "#8A8A8A", "#6B7280" )
+			
+			VAR TrackBg =
+			    IF ( IsDark, "#323232", "#E5E7EB" )
+			
+			VAR Green =
+			    "#62E68D"
+			
+			VAR Red =
+			    "#FF7E84"
+			
+			VAR BarCap =
+			    0.5
+			
+			VAR Accent =
+			    "#931EE7"
+			
+			VAR SelYr =
+			    [ChristmasYear]
+			
+			VAR PrevYr =
+			    SelYr - 1
+			
+			
+			// =============================================================
+			// CHRISTMAS TRILITH SOURCE
+			// =============================================================
+			VAR Src =
+			    FILTER (
+			        ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			        'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			            &&
+			        'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			            &&
+			        (
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = SelYr
+			                ||
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = PrevYr
+			        )
+			    )
+			
+			
+			// =============================================================
+			// AVAILABLE YEAR RANGE — TRILITH ONLY
+			// =============================================================
+			VAR MinYrAvail =
+			    MINX (
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			            'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			                &&
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[Count],
+			                0
+			            ) > 0
+			        ),
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        )
+			    )
+			
+			VAR MaxYrAvail =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			            'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			                &&
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[Count],
+			                0
+			            ) > 0
+			        ),
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        )
+			    )
+			
+			
+			// =============================================================
+			// CURRENT YEAR TOTAL / EMPTY STATE
+			// =============================================================
+			VAR CurYearTotal =
+			    SUMX (
+			        FILTER (
+			            Src,
+			
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = SelYr
+			        ),
+			
+			        'SplSundayAttInPerson_WOW'[Count]
+			    )
+			
+			VAR HasData =
+			    NOT ISBLANK ( SelYr )
+			        &&
+			    COALESCE (
+			        COUNTROWS ( Src ),
+			        0
+			    ) > 0
+			        &&
+			    COALESCE (
+			        CurYearTotal,
+			        0
+			    ) > 0
+			
+			VAR EmptyHeadline =
+			    IF (
+			        ISBLANK ( SelYr ),
+			
+			        "No data available",
+			
+			        "No Christmas data for "
+			            & FORMAT ( SelYr, "0" )
+			    )
+			
+			VAR EmptySubline =
+			    IF (
+			        NOT ISBLANK ( MinYrAvail )
+			            &&
+			        NOT ISBLANK ( MaxYrAvail ),
+			
+			        "Data available in select years from "
+			            & FORMAT ( MinYrAvail, "0" )
+			            & " to "
+			            & FORMAT ( MaxYrAvail, "0" ),
+			
+			        "No historical Christmas data available"
+			    )
+			
+			
+			// =============================================================
+			// CHRISTMAS SERVICE MATCHING
+			// Match service rank by ScheduleSort
+			// =============================================================
+			VAR CurSrcOnly =
+			    FILTER (
+			        Src,
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        ) = SelYr
+			    )
+			
+			VAR PrevSrcOnly =
+			    FILTER (
+			        Src,
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        ) = PrevYr
+			    )
+			
+			
+			// =============================================================
+			// DISTINCT SERVICES
+			// =============================================================
+			VAR CurSchedRaw =
+			    SUMMARIZE (
+			        CurSrcOnly,
+			
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			    )
+			
+			VAR PrevSchedRaw =
+			    SUMMARIZE (
+			        PrevSrcOnly,
+			
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			    )
+			
+			
+			// =============================================================
+			// RANK SERVICES WITHIN EACH YEAR
+			// =============================================================
+			VAR CurSchedKeyed =
+			    ADDCOLUMNS (
+			        CurSchedRaw,
+			
+			        "MatchKey",
+			            RANKX (
+			                CurSchedRaw,
+			                'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                ,
+			                ASC,
+			                DENSE
+			            )
+			    )
+			
+			VAR PrevSchedKeyed =
+			    ADDCOLUMNS (
+			        PrevSchedRaw,
+			
+			        "MatchKey",
+			            RANKX (
+			                PrevSchedRaw,
+			                'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                ,
+			                ASC,
+			                DENSE
+			            )
+			    )
+			
+			
+			// =============================================================
+			// ROW KEYS
+			// =============================================================
+			VAR KeysDetail =
+			    SELECTCOLUMNS (
+			        CurSchedKeyed,
+			
+			        "SortA",
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[ScheduleSort] + 0,
+			                0
+			            ),
+			
+			        "Label",
+			            'SplSundayAttInPerson_WOW'[ScheduleName],
+			
+			        "Lvl",
+			            "detail",
+			
+			        "K",
+			            'SplSundayAttInPerson_WOW'[ScheduleName],
+			
+			        "MK",
+			            [MatchKey]
+			    )
+			
+			VAR KeysTotal =
+			    ROW (
+			        "SortA", 999999,
+			        "Label", "Total",
+			        "Lvl", "total",
+			        "K", "",
+			        "MK", 0
+			    )
+			
+			VAR AllKeys =
+			    UNION (
+			        KeysDetail,
+			        KeysTotal
+			    )
+			
+			
+			// =============================================================
+			// PREVIOUS SERVICE AT SAME RANK
+			// =============================================================
+			VAR KeysWithMatch =
+			    ADDCOLUMNS (
+			        AllKeys,
+			
+			        "PrevName",
+			
+			            VAR mk =
+			                [MK]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    BLANK (),
+			
+			                    MAXX (
+			                        FILTER (
+			                            PrevSchedKeyed,
+			                            [MatchKey] = mk
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[ScheduleName]
+			                    )
+			                ),
+			
+			        "HasMatch",
+			
+			            VAR mk =
+			                [MK]
+			
+			            RETURN
+			                [Lvl] = "total"
+			                    ||
+			                COUNTROWS (
+			                    FILTER (
+			                        PrevSchedKeyed,
+			                        [MatchKey] = mk
+			                    )
+			                ) > 0
+			    )
+			
+			
+			// =============================================================
+			// ATTENDANCE BY MINISTRY
+			// =============================================================
+			VAR RowData =
+			    ADDCOLUMNS (
+			        KeysWithMatch,
+			
+			
+			        // ADULTS CURRENT
+			        "AdCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[ScheduleName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ADULTS PREVIOUS
+			        "AdPrev",
+			
+			            VAR pn =
+			                [PrevName]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    SUMX (
+			                        FILTER (
+			                            PrevSrcOnly,
+			                            'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[Count]
+			                    ),
+			
+			                    IF (
+			                        ISBLANK ( pn ),
+			
+			                        0,
+			
+			                        SUMX (
+			                            FILTER (
+			                                PrevSrcOnly,
+			
+			                                'SplSundayAttInPerson_WOW'[ScheduleName] = pn
+			                                    &&
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            ),
+			
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                ),
+			
+			
+			        // BLOOM CURRENT
+			        "BlCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[ScheduleName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // BLOOM PREVIOUS
+			        "BlPrev",
+			
+			            VAR pn =
+			                [PrevName]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    SUMX (
+			                        FILTER (
+			                            PrevSrcOnly,
+			                            'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[Count]
+			                    ),
+			
+			                    IF (
+			                        ISBLANK ( pn ),
+			
+			                        0,
+			
+			                        SUMX (
+			                            FILTER (
+			                                PrevSrcOnly,
+			
+			                                'SplSundayAttInPerson_WOW'[ScheduleName] = pn
+			                                    &&
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            ),
+			
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                ),
+			
+			
+			        // DOOR HOLDER CURRENT
+			        "DhCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        CurSrcOnly,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[ScheduleName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // DOOR HOLDER PREVIOUS
+			        "DhPrev",
+			
+			            VAR pn =
+			                [PrevName]
+			
+			            RETURN
+			                IF (
+			                    [Lvl] = "total",
+			
+			                    SUMX (
+			                        FILTER (
+			                            PrevSrcOnly,
+			                            'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                        ),
+			
+			                        'SplSundayAttInPerson_WOW'[Count]
+			                    ),
+			
+			                    IF (
+			                        ISBLANK ( pn ),
+			
+			                        0,
+			
+			                        SUMX (
+			                            FILTER (
+			                                PrevSrcOnly,
+			
+			                                'SplSundayAttInPerson_WOW'[ScheduleName] = pn
+			                                    &&
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            ),
+			
+			                            'SplSundayAttInPerson_WOW'[Count]
+			                        )
+			                    )
+			                )
+			    )
+			
+			
+			// =============================================================
+			// ROW HTML
+			// =============================================================
+			VAR RowsHTML =
+			    CONCATENATEX (
+			        RowData,
+			
+			        VAR rowCls =
+			            IF (
+			                [Lvl] = "total",
+			                "r-total",
+			                "r-sched"
+			            )
+			
+			        VAR hasMatch =
+			            [HasMatch]
+			
+			
+			        // =========================================================
+			        // ADULTS
+			        // =========================================================
+			        VAR aCur =
+			            [AdCur]
+			
+			        VAR aPrev =
+			            [AdPrev]
+			
+			        VAR aState =
+			            IF (
+			                NOT hasMatch,
+			
+			                "gone",
+			
+			                SWITCH (
+			                    TRUE (),
+			
+			                    COALESCE ( aCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( aPrev, 0 ) = 0,
+			                        "empty",
+			
+			                    COALESCE ( aPrev, 0 ) = 0,
+			                        "new",
+			
+			                    COALESCE ( aCur, 0 ) = 0,
+			                        "gone",
+			
+			                    "ok"
+			                )
+			            )
+			
+			        VAR aYOY =
+			            IF (
+			                aState = "ok",
+			                DIVIDE (
+			                    aCur - aPrev,
+			                    aPrev
+			                )
+			            )
+			
+			        VAR aTxt =
+			            SWITCH (
+			                aState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    aYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            aYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        aYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR aCol =
+			            SWITCH (
+			                aState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    aYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR aBar =
+			            IF (
+			                aState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( aYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR aShowBar =
+			            aState = "ok"
+			
+			        VAR aF1 =
+			            IF (
+			                COALESCE ( aCur, 0 ) = 0,
+			                "",
+			                FORMAT ( aCur, "#,0" )
+			            )
+			
+			        VAR aF2 =
+			            IF (
+			                COALESCE ( aPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( aPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // BLOOM
+			        // =========================================================
+			        VAR bCur =
+			            [BlCur]
+			
+			        VAR bPrev =
+			            [BlPrev]
+			
+			        VAR bState =
+			            IF (
+			                NOT hasMatch,
+			
+			                "gone",
+			
+			                SWITCH (
+			                    TRUE (),
+			
+			                    COALESCE ( bCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( bPrev, 0 ) = 0,
+			                        "empty",
+			
+			                    COALESCE ( bPrev, 0 ) = 0,
+			                        "new",
+			
+			                    COALESCE ( bCur, 0 ) = 0,
+			                        "gone",
+			
+			                    "ok"
+			                )
+			            )
+			
+			        VAR bYOY =
+			            IF (
+			                bState = "ok",
+			
+			                DIVIDE (
+			                    bCur - bPrev,
+			                    bPrev
+			                )
+			            )
+			
+			        VAR bTxt =
+			            SWITCH (
+			                bState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    bYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            bYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        bYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR bCol =
+			            SWITCH (
+			                bState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    bYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR bBar =
+			            IF (
+			                bState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( bYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR bShowBar =
+			            bState = "ok"
+			
+			        VAR bF1 =
+			            IF (
+			                COALESCE ( bCur, 0 ) = 0,
+			                "",
+			                FORMAT ( bCur, "#,0" )
+			            )
+			
+			        VAR bF2 =
+			            IF (
+			                COALESCE ( bPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( bPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // DOOR HOLDER
+			        // =========================================================
+			        VAR dCur =
+			            [DhCur]
+			
+			        VAR dPrev =
+			            [DhPrev]
+			
+			        VAR dState =
+			            IF (
+			                NOT hasMatch,
+			
+			                "gone",
+			
+			                SWITCH (
+			                    TRUE (),
+			
+			                    COALESCE ( dCur, 0 ) = 0
+			                        &&
+			                    COALESCE ( dPrev, 0 ) = 0,
+			                        "empty",
+			
+			                    COALESCE ( dPrev, 0 ) = 0,
+			                        "new",
+			
+			                    COALESCE ( dCur, 0 ) = 0,
+			                        "gone",
+			
+			                    "ok"
+			                )
+			            )
+			
+			        VAR dYOY =
+			            IF (
+			                dState = "ok",
+			
+			                DIVIDE (
+			                    dCur - dPrev,
+			                    dPrev
+			                )
+			            )
+			
+			        VAR dTxt =
+			            SWITCH (
+			                dState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    dYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            dYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        dYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR dCol =
+			            SWITCH (
+			                dState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    dYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR dBar =
+			            IF (
+			                dState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( dYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR dShowBar =
+			            dState = "ok"
+			
+			        VAR dF1 =
+			            IF (
+			                COALESCE ( dCur, 0 ) = 0,
+			                "",
+			                FORMAT ( dCur, "#,0" )
+			            )
+			
+			        VAR dF2 =
+			            IF (
+			                COALESCE ( dPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( dPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // PREVIOUS SERVICE LABEL
+			        // =========================================================
+			        VAR dispLabelSub =
+			            IF (
+			                [Lvl] = "total",
+			
+			                "",
+			
+			                IF (
+			                    hasMatch
+			                        &&
+			                    NOT ISBLANK ( [PrevName] )
+			                        &&
+			                    [PrevName] <> [Label],
+			
+			                    "was " & [PrevName],
+			
+			                    ""
+			                )
+			            )
+			
+			
+			        RETURN
+			
+			            "<tr class='" & rowCls & "'>"
+			
+			                & "<td class='c-lbl'>"
+			
+			                    & "<div class='c-lbl-main'>"
+			                    & [Label]
+			                    & "</div>"
+			
+			                    & IF (
+			                        dispLabelSub <> "",
+			
+			                        "<div class='c-lbl-sub'>"
+			                            & dispLabelSub
+			                            & "</div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // ADULTS
+			                & "<td class='num'>"
+			                    & aF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & aF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & aCol
+			                        & "'>"
+			                        & aTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        aShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( aBar, "0" )
+			                                & "%;background:"
+			                                & aCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // BLOOM
+			                & "<td class='num sec'>"
+			                    & bF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & bF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & bCol
+			                        & "'>"
+			                        & bTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        bShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( bBar, "0" )
+			                                & "%;background:"
+			                                & bCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // DOOR HOLDER
+			                & "<td class='num sec'>"
+			                    & dF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & dF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & dCol
+			                        & "'>"
+			                        & dTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        dShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( dBar, "0" )
+			                                & "%;background:"
+			                                & dCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			            & "</tr>",
+			
+			        "",
+			
+			        [SortA],
+			        ASC
+			    )
+			
+			
+			// =============================================================
+			// HEADER
+			// =============================================================
+			VAR HeadHTML =
+			    "<div class='rb-head'>"
+			
+			        & "<span class='rb-name'>Trilith</span>"
+			
+			        & "<span class='rb-title'>Christmas "
+			        & FORMAT ( SelYr, "0" )
+			        & "</span>"
+			
+			        & "<span class='rb-sub'>vs "
+			        & FORMAT ( PrevYr, "0" )
+			        & "</span>"
+			
+			    & "</div>"
+			
+			
+			
+			// =============================================================
+			// TABLE HTML
+			// =============================================================
+			VAR TableHTML =
+			
+			"<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			
+			html,
+			body{
+			    width:100%;
+			    height:100%;
+			    margin:0;
+			    padding:0;
+			    overflow:hidden;
+			}
+			
+			
+			.rb *{
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			    font-family:Inter,sans-serif;
+			}
+			
+			
+			.rb{
+			    width:100%;
+			    height:280px;
+			    min-height:0;
+			
+			    background:" & Bg & ";
+			
+			    border:
+			        1px solid " & BorderColor & ";
+			
+			    border-radius:18px;
+			
+			    padding:
+			        16px 18px;
+			
+			    overflow:hidden;
+			
+			    display:flex;
+			    flex-direction:column;
+			}
+			
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			
+			    gap:8px;
+			
+			    margin-bottom:12px;
+			
+			    flex:0 0 auto;
+			}
+			
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & Accent & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & TxtPrimary & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    margin-left:auto;
+			}
+			
+			
+			.rb table{
+			    width:100%;
+			    height:100%;
+			
+			    flex:1 1 0;
+			
+			    min-height:0;
+			
+			    border-collapse:collapse;
+			
+			    table-layout:fixed;
+			}
+			
+			
+			.rb thead{
+			    height:auto;
+			}
+			
+			
+			.rb tbody{
+			    height:100%;
+			}
+			
+			
+			.rb tbody tr{
+			    height:1%;
+			}
+			
+			
+			.rb th{
+			    font-size:9px;
+			    font-weight:800;
+			
+			    letter-spacing:.6px;
+			
+			    text-transform:uppercase;
+			
+			    color:" & TxtSecondary & ";
+			
+			    background:" & HeadBg & ";
+			
+			    padding:6px 5px;
+			
+			    text-align:right;
+			
+			    vertical-align:middle;
+			
+			    white-space:nowrap;
+			}
+			
+			
+			.rb th.grp{
+			    text-align:left;
+			
+			    color:" & TxtPrimary & ";
+			
+			    font-size:10px;
+			
+			    border-bottom:
+			        1px solid " & SectionLine & ";
+			}
+			
+			
+			.rb th.c-lbl,
+			.rb td.c-lbl{
+			    text-align:left;
+			
+			    width:10%;
+			
+			    white-space:nowrap;
+			}
+			
+			
+			.rb .c-lbl-main{
+			    line-height:1.2;
+			}
+			
+			
+			.rb .c-lbl-sub{
+			    font-size:9px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    line-height:1.1;
+			
+			    margin-top:1px;
+			}
+			
+			
+			.rb th:not(.c-lbl),
+			.rb td:not(.c-lbl){
+			    width:10%;
+			}
+			
+			
+			.rb th.sec,
+			.rb td.sec{
+			    border-left:
+			        1px solid " & SectionLine & ";
+			}
+			
+			
+			.rb td{
+			    font-size:11px;
+			
+			    padding:2px 5px;
+			
+			    text-align:right;
+			
+			    vertical-align:middle;
+			
+			    border-bottom:
+			        1px solid " & RowLine & ";
+			
+			    color:" & TxtPrimary & ";
+			
+			    font-variant-numeric:
+			        tabular-nums;
+			
+			    font-feature-settings:
+			        'tnum';
+			}
+			
+			
+			.rb td.dim{
+			    color:" & TxtSecondary & ";
+			}
+			
+			
+			.rb td.yc{
+			    padding:2px 5px;
+			
+			    vertical-align:middle;
+			}
+			
+			
+			.rb .yv{
+			    width:100%;
+			
+			    font-size:10px;
+			    font-weight:800;
+			
+			    text-align:right;
+			
+			    line-height:1.1;
+			
+			    font-variant-numeric:
+			        tabular-nums;
+			}
+			
+			
+			.rb .yb{
+			    width:100%;
+			
+			    height:3px;
+			
+			    border-radius:2px;
+			
+			    background:" & TrackBg & ";
+			
+			    overflow:hidden;
+			
+			    margin-top:3px;
+			}
+			
+			
+			.rb .yf{
+			    height:100%;
+			
+			    border-radius:2px;
+			
+			    transform:
+			        scaleX(0);
+			
+			    transform-origin:
+			        left center;
+			
+			    transition:
+			        transform
+			        .9s
+			        cubic-bezier(.22,.8,.25,1);
+			}
+			
+			
+			.rb tr.r-sched td{
+			    font-weight:500;
+			
+			    color:" & SchedTxt & ";
+			}
+			
+			
+			.rb tr.r-sched td.c-lbl{
+			    padding-left:6px;
+			    padding-right:2px;
+			
+			    font-size:10px;
+			}
+			
+			
+			.rb tr.r-total td{
+			    background:" & CityRowBg & ";
+			
+			    font-weight:900;
+			
+			    border-top:
+			        2px solid " & SectionLine & ";
+			
+			    border-bottom:none;
+			}
+			
+			
+			.rb-empty{
+			    flex:1 1 0;
+			
+			    min-height:0;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    align-items:center;
+			    justify-content:center;
+			
+			    gap:8px;
+			
+			    text-align:center;
+			}
+			
+			
+			.rb-empty-h{
+			    font-size:12px;
+			    font-weight:800;
+			
+			    color:" & TxtPrimary & ";
+			}
+			
+			
+			.rb-empty-s{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    max-width:280px;
+			
+			    line-height:1.4;
+			}
+			
+			</style>"
+			
+			
+			& "<div class='rb'>"
+			
+			& HeadHTML
+			
+			
+			& "<table>"
+			
+			
+			& "<colgroup>"
+			
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			    & "<col style='width:10%'>"
+			
+			& "</colgroup>"
+			
+			
+			& "<thead>"
+			
+			
+			& "<tr>"
+			
+			    & "<th class='c-lbl grp'></th>"
+			
+			    & "<th
+			        class='grp'
+			        colspan='3'>
+			        Adults
+			       </th>"
+			
+			    & "<th
+			        class='grp sec'
+			        colspan='3'>
+			        bloom
+			       </th>"
+			
+			    & "<th
+			        class='grp sec'
+			        colspan='3'>
+			        Door Holder
+			       </th>"
+			
+			& "</tr>"
+			
+			
+			& "<tr>"
+			
+			    & "<th class='c-lbl'>
+			        Gathering
+			       </th>"
+			
+			    & "<th>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			    & "<th class='sec'>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			    & "<th class='sec'>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			& "</tr>"
+			
+			
+			& "</thead>"
+			
+			
+			& "<tbody>"
+			
+			    & RowsHTML
+			
+			& "</tbody>"
+			
+			
+			& "</table>"
+			
+			
+			& "</div>"
+			
+			
+			// =============================================================
+			// PROGRESS BAR ANIMATION
+			// =============================================================
+			& "<script>
+			
+			(function(){
+			
+			    function run(){
+			
+			        var f =
+			            document.querySelectorAll(
+			                '.rb .yf'
+			            );
+			
+			        requestAnimationFrame(function(){
+			
+			            requestAnimationFrame(function(){
+			
+			                f.forEach(function(el){
+			
+			                    el.style.transform =
+			                        'scaleX(1)';
+			
+			                });
+			
+			            });
+			
+			        });
+			
+			    }
+			
+			
+			    if(
+			        document.readyState === 'loading'
+			    ){
+			
+			        document.addEventListener(
+			            'DOMContentLoaded',
+			            run
+			        );
+			
+			    }else{
+			
+			        run();
+			
+			    }
+			
+			})();
+			
+			</script>"
+			
+			
+			
+			// =============================================================
+			// EMPTY STATE
+			// =============================================================
+			VAR EmptyHTML =
+			
+			"<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			
+			html,
+			body{
+			    width:100%;
+			    height:100%;
+			
+			    margin:0;
+			    padding:0;
+			
+			    overflow:hidden;
+			}
+			
+			
+			.rb *{
+			    box-sizing:border-box;
+			
+			    margin:0;
+			    padding:0;
+			
+			    font-family:Inter,sans-serif;
+			}
+			
+			
+			.rb{
+			    width:100%;
+			
+			    height:280px;
+			    min-height:280px;
+			
+			    background:" & Bg & ";
+			
+			    border:
+			        1px solid " & BorderColor & ";
+			
+			    border-radius:18px;
+			
+			    padding:
+			        16px 18px;
+			
+			    overflow:hidden;
+			
+			    display:flex;
+			    flex-direction:column;
+			}
+			
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			
+			    gap:8px;
+			
+			    margin-bottom:12px;
+			
+			    flex:0 0 auto;
+			}
+			
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & Accent & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & TxtPrimary & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    margin-left:auto;
+			}
+			
+			
+			.rb-empty{
+			    flex:1 1 0;
+			
+			    min-height:0;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    align-items:center;
+			    justify-content:center;
+			
+			    gap:8px;
+			
+			    text-align:center;
+			}
+			
+			
+			.rb-empty-h{
+			    font-size:12px;
+			    font-weight:800;
+			
+			    color:" & TxtPrimary & ";
+			}
+			
+			
+			.rb-empty-s{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    max-width:280px;
+			
+			    line-height:1.4;
+			}
+			
+			</style>"
+			
+			
+			& "<div class='rb'>"
+			
+			& HeadHTML
+			
+			& "<div class='rb-empty'>"
+			
+			    & "<div class='rb-empty-h'>"
+			        & EmptyHeadline
+			        & "</div>"
+			
+			    & "<div class='rb-empty-s'>"
+			        & EmptySubline
+			        & "</div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			
+			// =============================================================
+			// RETURN
+			// =============================================================
+			RETURN
+			
+			    IF (
+			        HasData,
+			        TableHTML,
+			        EmptyHTML
+			    )
+		lineageTag: 941576a6-7427-4ca0-88c3-c1a0e570c4f4
+
+	measure HTML_Christmas_RB_Total =
+			
+			
+			VAR IsDark =
+			    [SelectedTheme] = "Dark"
+			
+			VAR Bg =
+			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
+			
+			VAR BorderColor =
+			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
+			
+			VAR TxtPrimary =
+			    IF ( IsDark, "#FFFFFF", "#111111" )
+			
+			VAR TxtSecondary =
+			    IF ( IsDark, "#9CA3AF", "#6B7280" )
+			
+			VAR HeadBg =
+			    IF ( IsDark, "#252525", "#F9FAFB" )
+			
+			VAR RowLine =
+			    IF (
+			        IsDark,
+			        "rgba(255,255,255,0.06)",
+			        "rgba(0,0,0,0.06)"
+			    )
+			
+			VAR SectionLine =
+			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
+			
+			VAR CityRowBg =
+			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
+			
+			VAR SchedTxt =
+			    IF ( IsDark, "#8A8A8A", "#6B7280" )
+			
+			VAR TrackBg =
+			    IF ( IsDark, "#323232", "#E5E7EB" )
+			
+			VAR Green =
+			    "#62E68D"
+			
+			VAR Red =
+			    "#FF7E84"
+			
+			VAR BarCap =
+			    0.5
+			
+			VAR Accent =
+			    IF (
+			        IsDark,
+			        "#FFFFFF",
+			        "#111111"
+			    )
+			
+			VAR SelYr =
+			    [ChristmasYear]
+			
+			VAR PrevYr =
+			    SelYr - 1
+			
+			
+			// =============================================================
+			// ATLANTA SOURCE
+			// EXCLUDES DC
+			// =============================================================
+			VAR Src =
+			    FILTER (
+			        ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			        'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			            &&
+			        'SplSundayAttInPerson_WOW'[CampusName] <> "DC"
+			            &&
+			        (
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = SelYr
+			                ||
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = PrevYr
+			        )
+			    )
+			
+			
+			// =============================================================
+			// AVAILABLE CHRISTMAS YEARS
+			// ATLANTA / NON-DC ONLY
+			// =============================================================
+			VAR MinYrAvail =
+			    MINX (
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			            'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] <> "DC"
+			                &&
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[Count],
+			                0
+			            ) > 0
+			        ),
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        )
+			    )
+			
+			VAR MaxYrAvail =
+			    MAXX (
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			
+			            'SplSundayAttInPerson_WOW'[EventName] = "Christmas"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] <> "DC"
+			                &&
+			            COALESCE (
+			                'SplSundayAttInPerson_WOW'[Count],
+			                0
+			            ) > 0
+			        ),
+			
+			        VALUE (
+			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			        )
+			    )
+			
+			
+			// =============================================================
+			// CURRENT YEAR TOTAL / EMPTY STATE
+			// =============================================================
+			VAR CurYearTotal =
+			    SUMX (
+			        FILTER (
+			            Src,
+			
+			            VALUE (
+			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            ) = SelYr
+			        ),
+			
+			        'SplSundayAttInPerson_WOW'[Count]
+			    )
+			
+			VAR HasData =
+			    NOT ISBLANK ( SelYr )
+			        &&
+			    COALESCE (
+			        COUNTROWS ( Src ),
+			        0
+			    ) > 0
+			        &&
+			    COALESCE (
+			        CurYearTotal,
+			        0
+			    ) > 0
+			
+			VAR EmptyHeadline =
+			    IF (
+			        ISBLANK ( SelYr ),
+			
+			        "No data available",
+			
+			        "No Christmas data for "
+			            & FORMAT ( SelYr, "0" )
+			    )
+			
+			VAR EmptySubline =
+			    IF (
+			        NOT ISBLANK ( MinYrAvail )
+			            &&
+			        NOT ISBLANK ( MaxYrAvail ),
+			
+			        "Data available in select years from "
+			            & FORMAT ( MinYrAvail, "0" )
+			            & " to "
+			            & FORMAT ( MaxYrAvail, "0" ),
+			
+			        "No historical Christmas data available"
+			    )
+			
+			
+			// =============================================================
+			// CAMPUS KEYS
+			// =============================================================
+			VAR KeysDetail =
+			    SELECTCOLUMNS (
+			        SUMMARIZE (
+			            Src,
+			
+			            'SplSundayAttInPerson_WOW'[CampusName],
+			            'SplSundayAttInPerson_WOW'[CampusSortOrder]
+			        ),
+			
+			        "SortA",
+			            COALESCE (
+			                VALUE (
+			                    'SplSundayAttInPerson_WOW'[CampusSortOrder]
+			                ),
+			                0
+			            ),
+			
+			        "Label",
+			            'SplSundayAttInPerson_WOW'[CampusName],
+			
+			        "Lvl",
+			            "detail",
+			
+			        "K",
+			            'SplSundayAttInPerson_WOW'[CampusName]
+			    )
+			
+			VAR KeysTotal =
+			    ROW (
+			        "SortA", 999999,
+			        "Label", "Total",
+			        "Lvl", "total",
+			        "K", ""
+			    )
+			
+			VAR AllKeys =
+			    UNION (
+			        KeysDetail,
+			        KeysTotal
+			    )
+			
+			
+			// =============================================================
+			// ATTENDANCE VALUES BY CAMPUS / MINISTRY
+			// =============================================================
+			VAR RowData =
+			    ADDCOLUMNS (
+			        AllKeys,
+			
+			
+			        // ---------------------------------------------------------
+			        // ADULTS CURRENT
+			        // ---------------------------------------------------------
+			        "AdCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Src,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[CampusName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE (
+			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			                        ) = SelYr
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // ADULTS PREVIOUS
+			        // ---------------------------------------------------------
+			        "AdPrev",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Src,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[CampusName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE (
+			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			                        ) = PrevYr
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // BLOOM CURRENT
+			        // ---------------------------------------------------------
+			        "BlCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Src,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[CampusName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE (
+			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			                        ) = SelYr
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // BLOOM PREVIOUS
+			        // ---------------------------------------------------------
+			        "BlPrev",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Src,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[CampusName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE (
+			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			                        ) = PrevYr
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // DOOR HOLDER CURRENT
+			        // ---------------------------------------------------------
+			        "DhCur",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Src,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[CampusName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE (
+			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			                        ) = SelYr
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                ),
+			
+			
+			        // ---------------------------------------------------------
+			        // DOOR HOLDER PREVIOUS
+			        // ---------------------------------------------------------
+			        "DhPrev",
+			
+			            VAR k =
+			                [K]
+			
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Src,
+			
+			                        (
+			                            k = ""
+			                                ||
+			                            'SplSundayAttInPerson_WOW'[CampusName] = k
+			                        )
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE (
+			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			                        ) = PrevYr
+			                    ),
+			
+			                    'SplSundayAttInPerson_WOW'[Count]
+			                )
+			    )
+			
+			
+			// =============================================================
+			// ROW HTML
+			// =============================================================
+			VAR RowsHTML =
+			    CONCATENATEX (
+			        RowData,
+			
+			        VAR rowCls =
+			            IF (
+			                [Lvl] = "total",
+			                "r-total",
+			                "r-campus"
+			            )
+			
+			
+			        // =========================================================
+			        // ADULTS
+			        // =========================================================
+			        VAR aCur =
+			            [AdCur]
+			
+			        VAR aPrev =
+			            [AdPrev]
+			
+			        VAR aState =
+			            SWITCH (
+			                TRUE (),
+			
+			                COALESCE ( aCur, 0 ) = 0
+			                    &&
+			                COALESCE ( aPrev, 0 ) = 0,
+			                    "empty",
+			
+			                COALESCE ( aPrev, 0 ) = 0,
+			                    "new",
+			
+			                COALESCE ( aCur, 0 ) = 0,
+			                    "gone",
+			
+			                "ok"
+			            )
+			
+			        VAR aYOY =
+			            IF (
+			                aState = "ok",
+			
+			                DIVIDE (
+			                    aCur - aPrev,
+			                    aPrev
+			                )
+			            )
+			
+			        VAR aTxt =
+			            SWITCH (
+			                aState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    aYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            aYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        aYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR aCol =
+			            SWITCH (
+			                aState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    aYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR aBar =
+			            IF (
+			                aState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( aYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR aShowBar =
+			            aState = "ok"
+			
+			        VAR aF1 =
+			            IF (
+			                COALESCE ( aCur, 0 ) = 0,
+			                "",
+			                FORMAT ( aCur, "#,0" )
+			            )
+			
+			        VAR aF2 =
+			            IF (
+			                COALESCE ( aPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( aPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // BLOOM
+			        // =========================================================
+			        VAR bCur =
+			            [BlCur]
+			
+			        VAR bPrev =
+			            [BlPrev]
+			
+			        VAR bState =
+			            SWITCH (
+			                TRUE (),
+			
+			                COALESCE ( bCur, 0 ) = 0
+			                    &&
+			                COALESCE ( bPrev, 0 ) = 0,
+			                    "empty",
+			
+			                COALESCE ( bPrev, 0 ) = 0,
+			                    "new",
+			
+			                COALESCE ( bCur, 0 ) = 0,
+			                    "gone",
+			
+			                "ok"
+			            )
+			
+			        VAR bYOY =
+			            IF (
+			                bState = "ok",
+			
+			                DIVIDE (
+			                    bCur - bPrev,
+			                    bPrev
+			                )
+			            )
+			
+			        VAR bTxt =
+			            SWITCH (
+			                bState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    bYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            bYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        bYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR bCol =
+			            SWITCH (
+			                bState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    bYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR bBar =
+			            IF (
+			                bState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( bYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR bShowBar =
+			            bState = "ok"
+			
+			        VAR bF1 =
+			            IF (
+			                COALESCE ( bCur, 0 ) = 0,
+			                "",
+			                FORMAT ( bCur, "#,0" )
+			            )
+			
+			        VAR bF2 =
+			            IF (
+			                COALESCE ( bPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( bPrev, "#,0" )
+			            )
+			
+			
+			        // =========================================================
+			        // DOOR HOLDER
+			        // =========================================================
+			        VAR dCur =
+			            [DhCur]
+			
+			        VAR dPrev =
+			            [DhPrev]
+			
+			        VAR dState =
+			            SWITCH (
+			                TRUE (),
+			
+			                COALESCE ( dCur, 0 ) = 0
+			                    &&
+			                COALESCE ( dPrev, 0 ) = 0,
+			                    "empty",
+			
+			                COALESCE ( dPrev, 0 ) = 0,
+			                    "new",
+			
+			                COALESCE ( dCur, 0 ) = 0,
+			                    "gone",
+			
+			                "ok"
+			            )
+			
+			        VAR dYOY =
+			            IF (
+			                dState = "ok",
+			
+			                DIVIDE (
+			                    dCur - dPrev,
+			                    dPrev
+			                )
+			            )
+			
+			        VAR dTxt =
+			            SWITCH (
+			                dState,
+			
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			
+			                IF (
+			                    dYOY >= 0,
+			
+			                    "+"
+			                        & FORMAT (
+			                            dYOY,
+			                            "0.00%"
+			                        ),
+			
+			                    FORMAT (
+			                        dYOY,
+			                        "0.00%"
+			                    )
+			                )
+			            )
+			
+			        VAR dCol =
+			            SWITCH (
+			                dState,
+			
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			
+			                IF (
+			                    dYOY >= 0,
+			                    Green,
+			                    Red
+			                )
+			            )
+			
+			        VAR dBar =
+			            IF (
+			                dState = "ok",
+			
+			                MIN (
+			                    100,
+			
+			                    ROUND (
+			                        DIVIDE (
+			                            ABS ( dYOY ),
+			                            BarCap
+			                        ) * 100,
+			
+			                        0
+			                    )
+			                ),
+			
+			                0
+			            )
+			
+			        VAR dShowBar =
+			            dState = "ok"
+			
+			        VAR dF1 =
+			            IF (
+			                COALESCE ( dCur, 0 ) = 0,
+			                "",
+			                FORMAT ( dCur, "#,0" )
+			            )
+			
+			        VAR dF2 =
+			            IF (
+			                COALESCE ( dPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( dPrev, "#,0" )
+			            )
+			
+			
+			        RETURN
+			
+			            "<tr class='" & rowCls & "'>"
+			
+			                & "<td class='c-lbl'>"
+			                    & [Label]
+			                    & "</td>"
+			
+			
+			                // ADULTS
+			                & "<td class='num'>"
+			                    & aF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & aF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & aCol
+			                        & "'>"
+			                        & aTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        aShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( aBar, "0" )
+			                                & "%;background:"
+			                                & aCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // BLOOM
+			                & "<td class='num sec'>"
+			                    & bF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & bF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & bCol
+			                        & "'>"
+			                        & bTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        bShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( bBar, "0" )
+			                                & "%;background:"
+			                                & bCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			
+			                // DOOR HOLDER
+			                & "<td class='num sec'>"
+			                    & dF1
+			                    & "</td>"
+			
+			                & "<td class='num dim'>"
+			                    & dF2
+			                    & "</td>"
+			
+			                & "<td class='yc'>"
+			
+			                    & "<div class='yv' style='color:"
+			                        & dCol
+			                        & "'>"
+			                        & dTxt
+			                        & "</div>"
+			
+			                    & IF (
+			                        dShowBar,
+			
+			                        "<div class='yb'>
+			                            <div
+			                                class='yf'
+			                                style='width:"
+			                                & FORMAT ( dBar, "0" )
+			                                & "%;background:"
+			                                & dCol
+			                                & "'>
+			                            </div>
+			                         </div>",
+			
+			                        ""
+			                    )
+			
+			                & "</td>"
+			
+			            & "</tr>",
+			
+			        "",
+			
+			        [SortA],
+			        ASC
+			    )
+			
+			
+			// =============================================================
+			// HEADER
+			// =============================================================
+			VAR HeadHTML =
+			    "<div class='rb-head'>"
+			
+			        & "<span class='rb-name'>Atlanta</span>"
+			
+			        & "<span class='rb-title'>Christmas "
+			        & FORMAT ( SelYr, "0" )
+			        & "</span>"
+			
+			        & "<span class='rb-sub'>vs "
+			        & FORMAT ( PrevYr, "0" )
+			        & "</span>"
+			
+			    & "</div>"
+			
+			
+			
+			// =============================================================
+			// TABLE HTML
+			// =============================================================
+			VAR TableHTML =
+			
+			"<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			
+			.rb *{
+			    box-sizing:border-box;
+			    margin:0;
+			    padding:0;
+			    font-family:Inter,sans-serif;
+			}
+			
+			
+			.rb{
+			    width:100%;
+			
+			    background:" & Bg & ";
+			
+			    border:
+			        1px solid " & BorderColor & ";
+			
+			    border-radius:18px;
+			
+			    padding:
+			        16px 18px;
+			
+			    overflow:hidden;
+			}
+			
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			
+			    gap:8px;
+			
+			    margin-bottom:12px;
+			}
+			
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & Accent & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & TxtPrimary & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    margin-left:auto;
+			}
+			
+			
+			.rb table{
+			    width:100%;
+			
+			    border-collapse:collapse;
+			
+			    table-layout:fixed;
+			}
+			
+			
+			.rb th{
+			    font-size:9px;
+			    font-weight:800;
+			
+			    letter-spacing:.6px;
+			
+			    text-transform:uppercase;
+			
+			    color:" & TxtSecondary & ";
+			
+			    background:" & HeadBg & ";
+			
+			    padding:6px 8px;
+			
+			    text-align:right;
+			
+			    white-space:nowrap;
+			}
+			
+			
+			.rb th.grp{
+			    text-align:left;
+			
+			    color:" & TxtPrimary & ";
+			
+			    font-size:10px;
+			
+			    border-bottom:
+			        1px solid " & SectionLine & ";
+			}
+			
+			
+			.rb th.c-lbl,
+			.rb td.c-lbl{
+			    text-align:left;
+			
+			    width:22%;
+			}
+			
+			
+			.rb th.sec,
+			.rb td.sec{
+			    border-left:
+			        1px solid " & SectionLine & ";
+			}
+			
+			
+			.rb td{
+			    font-size:11px;
+			
+			    padding:
+			        5px 8px;
+			
+			    text-align:right;
+			
+			    border-bottom:
+			        1px solid " & RowLine & ";
+			
+			    color:" & TxtPrimary & ";
+			
+			    font-variant-numeric:
+			        tabular-nums;
+			
+			    font-feature-settings:
+			        'tnum';
+			}
+			
+			
+			.rb td.dim{
+			    color:" & TxtSecondary & ";
+			}
+			
+			
+			.rb td.yc{
+			    width:9%;
+			
+			    padding:
+			        4px 8px;
+			}
+			
+			
+			.rb .yv{
+			    font-size:10px;
+			    font-weight:800;
+			
+			    text-align:right;
+			
+			    line-height:1.1;
+			
+			    font-variant-numeric:
+			        tabular-nums;
+			}
+			
+			
+			.rb .yb{
+			    height:3px;
+			
+			    border-radius:2px;
+			
+			    background:" & TrackBg & ";
+			
+			    overflow:hidden;
+			
+			    margin-top:3px;
+			}
+			
+			
+			.rb .yf{
+			    height:100%;
+			
+			    border-radius:2px;
+			
+			    transform:
+			        scaleX(0);
+			
+			    transform-origin:
+			        left center;
+			
+			    transition:
+			        transform
+			        .9s
+			        cubic-bezier(.22,.8,.25,1);
+			}
+			
+			
+			.rb tr.r-campus td{
+			    font-weight:800;
+			}
+			
+			
+			.rb tr.r-campus td.c-lbl{
+			    padding-left:14px;
+			}
+			
+			
+			.rb tr.r-total td{
+			    background:" & CityRowBg & ";
+			
+			    font-weight:900;
+			
+			    border-top:
+			        2px solid " & SectionLine & ";
+			
+			    border-bottom:none;
+			}
+			
+			</style>"
+			
+			
+			& "<div class='rb'>"
+			
+			& HeadHTML
+			
+			
+			& "<table>"
+			
+			
+			& "<thead>"
+			
+			
+			& "<tr>"
+			
+			    & "<th class='c-lbl grp'></th>"
+			
+			    & "<th
+			        class='grp'
+			        colspan='3'>
+			        Adults
+			       </th>"
+			
+			    & "<th
+			        class='grp sec'
+			        colspan='3'>
+			        bloom
+			       </th>"
+			
+			    & "<th
+			        class='grp sec'
+			        colspan='3'>
+			        Door Holder
+			       </th>"
+			
+			& "</tr>"
+			
+			
+			& "<tr>"
+			
+			    & "<th class='c-lbl'>
+			        Campus
+			       </th>"
+			
+			    & "<th>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			    & "<th class='sec'>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			    & "<th class='sec'>Att</th>"
+			    & "<th>Prev</th>"
+			    & "<th>YOY%</th>"
+			
+			& "</tr>"
+			
+			
+			& "</thead>"
+			
+			
+			& "<tbody>"
+			
+			& RowsHTML
+			
+			& "</tbody>"
+			
+			
+			& "</table>"
+			
+			& "</div>"
+			
+			
+			// =============================================================
+			// BAR ANIMATION
+			// =============================================================
+			& "<script>
+			
+			(function(){
+			
+			    function run(){
+			
+			        var f =
+			            document.querySelectorAll(
+			                '.rb .yf'
+			            );
+			
+			        requestAnimationFrame(function(){
+			
+			            requestAnimationFrame(function(){
+			
+			                f.forEach(function(el){
+			
+			                    el.style.transform =
+			                        'scaleX(1)';
+			
+			                });
+			
+			            });
+			
+			        });
+			
+			    }
+			
+			
+			    if(
+			        document.readyState === 'loading'
+			    ){
+			
+			        document.addEventListener(
+			            'DOMContentLoaded',
+			            run
+			        );
+			
+			    }else{
+			
+			        run();
+			
+			    }
+			
+			})();
+			
+			</script>"
+			
+			
+			
+			// =============================================================
+			// EMPTY STATE
+			// =============================================================
+			VAR EmptyHTML =
+			
+			"<style>
+			
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			
+			
+			.rb *{
+			    box-sizing:border-box;
+			
+			    margin:0;
+			    padding:0;
+			
+			    font-family:Inter,sans-serif;
+			}
+			
+			
+			.rb{
+			    width:100%;
+			
+			    height:280px;
+			    min-height:280px;
+			
+			    background:" & Bg & ";
+			
+			    border:
+			        1px solid " & BorderColor & ";
+			
+			    border-radius:18px;
+			
+			    padding:
+			        16px 18px;
+			
+			    overflow:hidden;
+			
+			    display:flex;
+			    flex-direction:column;
+			}
+			
+			
+			.rb-head{
+			    display:flex;
+			    align-items:baseline;
+			
+			    gap:8px;
+			
+			    margin-bottom:12px;
+			}
+			
+			
+			.rb-name{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & Accent & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-title{
+			    font-size:16px;
+			    font-weight:900;
+			
+			    color:" & TxtPrimary & ";
+			
+			    letter-spacing:-.2px;
+			}
+			
+			
+			.rb-sub{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    margin-left:auto;
+			}
+			
+			
+			.rb-empty{
+			    flex:1 1 0;
+			
+			    min-height:0;
+			
+			    display:flex;
+			    flex-direction:column;
+			
+			    align-items:center;
+			    justify-content:center;
+			
+			    gap:8px;
+			
+			    text-align:center;
+			}
+			
+			
+			.rb-empty-h{
+			    font-size:12px;
+			    font-weight:800;
+			
+			    color:" & TxtPrimary & ";
+			}
+			
+			
+			.rb-empty-s{
+			    font-size:11px;
+			    font-weight:500;
+			
+			    color:" & TxtSecondary & ";
+			
+			    max-width:280px;
+			
+			    line-height:1.4;
+			}
+			
+			</style>"
+			
+			
+			& "<div class='rb'>"
+			
+			& HeadHTML
+			
+			& "<div class='rb-empty'>"
+			
+			    & "<div class='rb-empty-h'>"
+			        & EmptyHeadline
+			        & "</div>"
+			
+			    & "<div class='rb-empty-s'>"
+			        & EmptySubline
+			        & "</div>"
+			
+			& "</div>"
+			
+			& "</div>"
+			
+			
+			
+			// =============================================================
+			// RETURN
+			// =============================================================
+			RETURN
+			
+			    IF (
+			        HasData,
+			        TableHTML,
+			        EmptyHTML
+			    )
+		lineageTag: ad4f93cd-bb5e-4a88-bb2f-f600f8641047
 
 	column 5pm52wksRollingChartLegend
 		lineageTag: fdf84018-f27d-446e-bba5-251f2ce3f52d

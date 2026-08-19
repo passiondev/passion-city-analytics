@@ -131,22 +131,68 @@ table SplSundayAttInPerson_WOW
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure HTML_Christmas =
+	measure HTML_Easter = ```
 			
 			VAR IsDark = [SelectedTheme] = "Dark"
 			VAR Bg = IF(IsDark, "#111111", "#FFFFFF")
 			VAR TxtColor = IF(IsDark, "#FFFFFF", "#111111")
+			VAR YearColor = IF(IsDark, "#777777", "#6B7280")
+			VAR SelYr = [EasterYear]
 			
 			RETURN
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
-			* { box-sizing:border-box; margin:0; padding:0; }
-			.xmas-outer { background:" & Bg & "; display:flex; justify-content:center; align-items:center; width:100%; height:100%; min-height:200px; }
-			.xmas-word { font-family:'Inter',sans-serif; font-size:110px; font-weight:900; color:" & TxtColor & "; line-height:1; letter-spacing:4px; }
+			
+			* { 
+			    box-sizing:border-box; 
+			    margin:0; 
+			    padding:0; 
+			}
+			
+			.holiday-outer { 
+			    background:" & Bg & "; 
+			    display:flex; 
+			    justify-content:center; 
+			    align-items:center; 
+			    width:100%; 
+			    height:100%; 
+			    min-height:200px; 
+			}
+			
+			.holiday-title {
+			    display:flex;
+			    align-items:baseline;
+			    justify-content:center;
+			    gap:18px;
+			}
+			
+			.holiday-word { 
+			    font-family:'Inter',sans-serif; 
+			    font-size:110px; 
+			    font-weight:900; 
+			    color:" & TxtColor & "; 
+			    line-height:1; 
+			    letter-spacing:4px; 
+			}
+			
+			.holiday-year {
+			    font-family:'Inter',sans-serif;
+			    font-size:55px;
+			    font-weight:900;
+			    color:" & YearColor & ";
+			    line-height:1;
+			    letter-spacing:2px;
+			}
+			
 			</style>
-			<div class='xmas-outer'>
-			    <span class='xmas-word'>EASTER</span>
+			
+			<div class='holiday-outer'>
+			    <div class='holiday-title'>
+			        <span class='holiday-word'>EASTER</span>
+			        <span class='holiday-year'>" & FORMAT(SelYr, "0") & "</span>
+			    </div>
 			</div>"
+			```
 		lineageTag: 775ea975-55e8-4c00-9193-842f456738e8
 
 	measure HTML_Easter_InPerson_Chart =
@@ -2262,12 +2308,26 @@ table SplSundayAttInPerson_WOW
 			    )
 			VAR MinYrAvail =
 			    MINX (
-			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
+			                &&
+			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
+			        ),
 			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			VAR MaxYrAvail =
 			    MAXX (
-			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
+			                &&
+			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
+			        ),
 			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			VAR CurYearTotal =
@@ -2284,7 +2344,16 @@ table SplSundayAttInPerson_WOW
 			VAR EmptyHeadline =
 			    IF ( ISBLANK ( SelYr ), "No data available", "No Easter data for " & FORMAT ( SelYr, "0" ) )
 			VAR EmptySubline =
-			    "Available from " & FORMAT ( MinYrAvail, "0" ) & " to " & FORMAT ( MaxYrAvail, "0" )
+			    IF (
+			        NOT ISBLANK ( MinYrAvail )
+			            &&
+			        NOT ISBLANK ( MaxYrAvail ),
+			        "Data available in select years from "
+			            & FORMAT ( MinYrAvail, "0" )
+			            & " to "
+			            & FORMAT ( MaxYrAvail, "0" ),
+			        "No historical Easter data available"
+			    )
 			
 			/* ================================================================
 			   FIXED YOY MATCH LOGIC
@@ -2940,7 +3009,7 @@ table SplSundayAttInPerson_WOW
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
-			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb{width:100%;height:280px;min-height:280px;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;display:flex;flex-direction:column;}
 			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
 			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
 			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
@@ -2961,7 +3030,7 @@ table SplSundayAttInPerson_WOW
 			.rb tr.r-campus td{font-weight:800;}
 			.rb tr.r-campus td.c-lbl{padding-left:14px;}
 			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
-			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty{flex:1 1 0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
 			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
 			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
 			</style>"
@@ -3050,13 +3119,27 @@ table SplSundayAttInPerson_WOW
 			
 			VAR MinYrAvail =
 			    MINX (
-			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			                &&
+			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
+			        ),
 			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			
 			VAR MaxYrAvail =
 			    MAXX (
-			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        FILTER (
+			            ALL ( 'SplSundayAttInPerson_WOW' ),
+			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
+			                &&
+			            'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			                &&
+			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
+			        ),
 			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			
@@ -3077,7 +3160,16 @@ table SplSundayAttInPerson_WOW
 			    IF ( ISBLANK ( SelYr ), "No data available", "No Easter data for " & FORMAT ( SelYr, "0" ) )
 			
 			VAR EmptySubline =
-			    "Available from " & FORMAT ( MinYrAvail, "0" ) & " to " & FORMAT ( MaxYrAvail, "0" )
+			    IF (
+			        NOT ISBLANK ( MinYrAvail )
+			            &&
+			        NOT ISBLANK ( MaxYrAvail ),
+			        "Data available in select years from "
+			            & FORMAT ( MinYrAvail, "0" )
+			            & " to "
+			            & FORMAT ( MaxYrAvail, "0" ),
+			        "No historical Easter data available"
+			    )
 			
 			/* ================================================================
 			   FIXED YOY MATCH LOGIC
@@ -3879,8 +3971,8 @@ table SplSundayAttInPerson_WOW
 			
 			.rb{
 			    width:100%;
-			    height:100%;
-			    min-height:0;
+			    height:280px;
+			    min-height:280px;
 			    background:" & Bg & ";
 			    border:1px solid " & BorderColor & ";
 			    border-radius:18px;
@@ -3972,6 +4064,70 @@ table SplSundayAttInPerson_WOW
 			
 			```
 		lineageTag: 99c15a17-04c0-4a08-bb61-d40c0448fef6
+
+	measure HTML_Christmas = ```
+			
+			VAR IsDark = [SelectedTheme] = "Dark"
+			VAR Bg = IF(IsDark, "#111111", "#FFFFFF")
+			VAR TxtColor = IF(IsDark, "#FFFFFF", "#111111")
+			VAR YearColor = IF(IsDark, "#777777", "#6B7280")
+			VAR SelYr = [ChristmasYear]
+			
+			RETURN
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+			
+			* { 
+			    box-sizing:border-box; 
+			    margin:0; 
+			    padding:0; 
+			}
+			
+			.holiday-outer { 
+			    background:" & Bg & "; 
+			    display:flex; 
+			    justify-content:center; 
+			    align-items:center; 
+			    width:100%; 
+			    height:100%; 
+			    min-height:200px; 
+			}
+			
+			.holiday-title {
+			    display:flex;
+			    align-items:baseline;
+			    justify-content:center;
+			    gap:18px;
+			}
+			
+			.holiday-word { 
+			    font-family:'Inter',sans-serif; 
+			    font-size:110px; 
+			    font-weight:900; 
+			    color:" & TxtColor & "; 
+			    line-height:1; 
+			    letter-spacing:4px; 
+			}
+			
+			.holiday-year {
+			    font-family:'Inter',sans-serif;
+			    font-size:55px;
+			    font-weight:900;
+			    color:" & YearColor & ";
+			    line-height:1;
+			    letter-spacing:2px;
+			}
+			
+			</style>
+			
+			<div class='holiday-outer'>
+			    <div class='holiday-title'>
+			        <span class='holiday-word'>CHRISTMAS</span>
+			        <span class='holiday-year'>" & FORMAT(SelYr, "0") & "</span>
+			    </div>
+			</div>"
+			```
+		lineageTag: eaa00392-ee62-4155-ab50-c2453b22921e
 
 	column MetricValueDateTime
 		dataType: dateTime
