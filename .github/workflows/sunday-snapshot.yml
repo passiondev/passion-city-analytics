@@ -1,0 +1,55 @@
+name: Sunday Snapshot
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'   # Sunday 9:00 PM Eastern (EDT, UTC-4) = Monday 1:00 AM UTC
+  workflow_dispatch:        # allows manual trigger from the Actions tab
+
+jobs:
+  run-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth-oauthlib google-cloud-bigquery
+
+      - name: Restore YouTube auth
+        run: |
+          echo '${{ secrets.YOUTUBE_TOKEN_JSON }}' > ~/token_sunday_snapshot.json
+          echo '${{ secrets.YOUTUBE_CLIENT_SECRETS }}' > ~/client_secrets.json
+
+      - name: Restore BigQuery service account credentials
+        run: |
+          echo '${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}' > ~/gcp_credentials.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp_credentials.json" >> "$GITHUB_ENV"
+
+      - name: Run snapshot script
+        id: snapshot
+        continue-on-error: true
+        working-directory: semantic_models/attendance
+        run: python3 sunday_snapshot.py 2>&1 | tee run.log
+
+      - name: Check for auth failure
+        if: steps.snapshot.outcome == 'failure'
+        working-directory: semantic_models/attendance
+        run: |
+          if grep -qi "invalid_grant\|Token has been expired or revoked\|run_local_server" run.log; then
+            echo "::error::YouTube OAuth token has expired (Testing-mode consent, ~7-day lifetime). Re-authenticate locally to regenerate token_sunday_snapshot.json, then update the YOUTUBE_TOKEN_JSON secret."
+          else
+            echo "::error::Script failed for a non-auth reason — see run.log above for details."
+          fi
+          exit 1
+
+      - name: Upload run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: run-log
+          path: semantic_models/attendance/run.log
