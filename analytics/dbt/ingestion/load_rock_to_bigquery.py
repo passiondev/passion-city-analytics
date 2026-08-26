@@ -17,7 +17,7 @@ Usage:
     python load_rock_to_bigquery.py --list-tables
 
 Requires:
-    pip install pyodbc pandas google-cloud-bigquery db-dtypes
+    pip install "cloud-sql-python-connector[pytds]" pandas google-cloud-bigquery db-dtypes
 
 Environment variables expected (set these in your scheduler / secrets manager,
 never hardcode credentials):
@@ -34,7 +34,7 @@ import datetime
 import os
 
 import pandas as pd
-import pyodbc
+from google.cloud.sql.connector import Connector
 from google.cloud import bigquery
 
 CHUNK_SIZE = 50_000  # rows per fetch batch, tune to your memory/network
@@ -154,8 +154,6 @@ TABLE_CONFIGS = {
     # },
 }
 
-
-from google.cloud.sql.connector import Connector
 
 def get_sql_server_connection():
     connector = Connector()
