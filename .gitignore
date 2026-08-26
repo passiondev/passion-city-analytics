@@ -21,3 +21,6 @@ Thumbs.db
 
 # virtual environment
 .venv/
+
+# keys
+/rock-loader-key.json

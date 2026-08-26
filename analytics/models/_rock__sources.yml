@@ -1,0 +1,85 @@
+version: 2
+
+sources:
+  - name: rock
+    description: >
+      Raw data landed from Rock RMS (church management system), loaded via
+      a scheduled extract from Rock's underlying SQL Server database
+      (Cloud SQL for SQL Server, Web Edition — no CDC available, so this
+      is timestamp-based polling, not change-data-capture). Runs on a
+      schedule via Cloud Scheduler + Cloud Run Job. Bronze layer —
+      unmodified as ingested, no business logic applied.
+    database: "{{ target.project }}"
+    schema: bronze
+    tables:
+      - name: rock_people
+        description: >
+          Raw extract of Rock's `dbo.Person` table. One row per person
+          record in Rock (includes both active and inactive/deceased
+          records — filtering happens downstream in staging). Note: hard
+          deletes on the Rock side are not automatically reflected here;
+          see README for reconciliation notes.
+        loaded_at_field: _loaded_at
+        freshness:
+          warn_after: {count: 30, period: hour}
+          error_after: {count: 48, period: hour}
+        columns:
+          - name: Id
+            description: Rock's internal surrogate integer ID for the person record.
+            tests:
+              - unique
+              - not_null
+          - name: Guid
+            description: Rock's globally unique identifier for the person record, stable across environments/exports.
+          - name: RecordTypeValueId
+            description: >
+              Foreign key to Rock's DefinedValue table (DefinedType =
+              "Record Type"). Distinguishes person records from business/
+              group records that also live in the Person table.
+          - name: RecordStatusValueId
+            description: >
+              Foreign key to DefinedValue (DefinedType = "Record Status").
+              Indicates Active / Inactive / Pending.
+          - name: ConnectionStatusValueId
+            description: >
+              Foreign key to DefinedValue (DefinedType = "Connection
+              Status"). Indicates how connected the person is to the
+              organization (e.g. Member, Attendee, Visitor).
+          - name: IsDeceased
+            description: Boolean flag set when the person has been marked deceased in Rock.
+          - name: FirstName
+            description: Person's first name as entered in Rock.
+          - name: NickName
+            description: Preferred/display name, defaults to FirstName if not set separately.
+          - name: LastName
+            description: Person's last name as entered in Rock.
+          - name: BirthDay
+            description: Day-of-month component of birth date (nullable, Rock stores DOB as separate day/month/year fields).
+          - name: BirthMonth
+            description: Month component of birth date.
+          - name: BirthYear
+            description: Year component of birth date (nullable if age-restricted or unknown).
+          - name: Gender
+            description: Integer enum from Rock (0 = Unknown, 1 = Male, 2 = Female).
+          - name: MaritalStatusValueId
+            description: Foreign key to DefinedValue (DefinedType = "Marital Status").
+          - name: Email
+            description: Person's primary email address.
+          - name: IsEmailActive
+            description: Whether the email address is currently active/deliverable per Rock's bounce handling.
+          - name: EmailPreference
+            description: Integer enum for email communication preference (0 = Email Allowed, 1 = No Mass Emails, 2 = Do Not Email).
+          - name: GivingId
+            description: Identifier used by Rock to group individuals into a giving unit (often shared across a family).
+          - name: PrimaryFamilyId
+            description: Foreign key to the person's primary family group.
+          - name: PrimaryCampusId
+            description: Foreign key to the campus the person is primarily associated with.
+          - name: CreatedDateTime
+            description: Timestamp the record was created in Rock.
+          - name: ModifiedDateTime
+            description: Timestamp the record was last modified in Rock.
+          - name: _loaded_at
+            description: Ingestion metadata — timestamp this row was loaded into BigQuery bronze by the polling script.
+          - name: _source_system
+            description: Ingestion metadata — constant "rock_rms", useful once bronze holds multiple source systems.
