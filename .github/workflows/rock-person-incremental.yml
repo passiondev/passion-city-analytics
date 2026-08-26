@@ -35,9 +35,19 @@ jobs:
         run: |
           curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.1/cloud-sql-proxy.linux.amd64
           chmod +x cloud-sql-proxy
-          ./cloud-sql-proxy --port 1433 "${{ secrets.CLOUDSQL_INSTANCE_CONNECTION_NAME }}" &
-          # give the proxy a few seconds to establish before the script tries to connect
-          sleep 8
+          echo "----- verifying binary -----"
+          ./cloud-sql-proxy --version
+          ./cloud-sql-proxy --port 1433 "${{ secrets.CLOUDSQL_INSTANCE_CONNECTION_NAME }}" > proxy.log 2>&1 &
+          echo "Waiting for proxy to be ready..."
+          for i in $(seq 1 15); do
+            if grep -q "Listening on" proxy.log 2>/dev/null; then
+              echo "Proxy is ready"
+              break
+            fi
+            sleep 1
+          done
+          echo "----- proxy log -----"
+          cat proxy.log
 
       - name: Run loader
         env:
