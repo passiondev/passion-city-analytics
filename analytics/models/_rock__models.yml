@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: stg_rock__people
+    description: >
+      Conformed, business-ready view of Rock RMS people. Applies naming
+      conventions (snake_case, `_id`/`_key` suffixes), decodes Rock's raw
+      integer/status codes into readable values, and derives `is_active`
+      and `birth_date` per agreed business logic. One row per person.
+    columns:
+      - name: person_id
+        description: Natural/source-system identifier from Rock (`Person.Id`).
+        tests:
+          - unique
+          - not_null
+      - name: person_guid
+        description: Rock's stable GUID for the person, safe to use across environments/exports.
+      - name: primary_family_id
+        description: Foreign key to the person's primary family group in Rock.
+      - name: primary_campus_id
+        description: Foreign key to the person's primary campus.
+      - name: giving_id
+        description: Identifier grouping individuals into a shared giving unit (e.g. a household).
+      - name: first_name
+        description: Person's first name.
+      - name: display_name
+        description: Business logic — nickname if set, otherwise falls back to first name. Use this for UI/reporting display.
+      - name: last_name
+        description: Person's last name.
+      - name: full_name
+        description: "Business logic — concatenation of `display_name` and `last_name`, for reporting labels."
+      - name: birth_date
+        description: >
+          Business logic — reconstructed DATE from Rock's separate
+          birth_day/birth_month/birth_year fields. Null if any component
+          is missing (Rock allows partial birth dates).
+      - name: gender
+        description: "Business logic — decoded from Rock's gender_code (0=Unknown, 1=Male, 2=Female)."
+      - name: email
+        description: Person's primary email address.
+        tests:
+          - not_null:
+              config:
+                severity: warn
+      - name: is_email_active
+        description: Whether the email is currently deliverable per Rock's bounce handling.
+      - name: email_preference
+        description: "Business logic — decoded communication preference (Email Allowed / No Mass Emails / Do Not Email)."
+      - name: is_active
+        description: >
+          Business logic — true when record_status_value_id indicates
+          "Active" AND the person is not marked deceased. This is the
+          field downstream models should use to filter to the current
+          active population; do not filter on record_status_value_id
+          directly, since the definition of "active" may evolve.
+        tests:
+          - not_null
+      - name: is_deceased
+        description: Raw deceased flag from Rock.
+      - name: created_at
+        description: Timestamp the record was created in Rock.
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata — when this row was loaded into the bronze layer.
