@@ -23,4 +23,4 @@ Thumbs.db
 .venv/
 
 # keys
-/rock-loader-key.json
+analytics/dbt/ingestion/rock-loader-key.json
