@@ -156,13 +156,19 @@ TABLE_CONFIGS = {
 
 
 def get_sql_server_connection() -> pyodbc.Connection:
+    # Encrypt=no when connecting through the Cloud SQL Auth Proxy — the
+    # proxy already secures the tunnel to Cloud SQL itself, so a second
+    # TLS negotiation from the ODBC driver on top of that causes a
+    # handshake failure. Direct connections (e.g. from a laptop straight
+    # to Cloud SQL's public IP) still want Encrypt=yes.
+    encrypt = os.environ.get("ROCK_DB_ENCRYPT", "yes")
     conn_str = (
         "DRIVER={ODBC Driver 18 for SQL Server};"
         f"SERVER={os.environ['ROCK_DB_SERVER']};"
         f"DATABASE={os.environ['ROCK_DB_NAME']};"
         f"UID={os.environ['ROCK_DB_USER']};"
         f"PWD={os.environ['ROCK_DB_PASSWORD']};"
-        "Encrypt=yes;TrustServerCertificate=yes;"
+        f"Encrypt={encrypt};TrustServerCertificate=yes;"
     )
     return pyodbc.connect(conn_str)
 
