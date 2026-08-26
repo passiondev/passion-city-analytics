@@ -1,4 +1,17 @@
-- name: Install SQL Server ODBC driver
+name: Rock Person - Delete Reconciliation
+
+on:
+  schedule:
+    - cron: '0 11 * * *'   # 11:00 UTC = 7:00 AM Eastern, one hour after the incremental load
+  workflow_dispatch: {}
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install SQL Server ODBC driver
         run: |
           curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft-prod.gpg > /dev/null
           echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | sudo tee /etc/apt/sources.list.d/mssql-release.list
