@@ -57,4 +57,5 @@ jobs:
           ROCK_DB_PASSWORD: ${{ secrets.ROCK_DB_PASSWORD }}
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           BQ_BRONZE_DATASET: bronze
+          ROCK_DB_ENCRYPT: "no"
         run: python analytics/dbt/ingestion/load_rock_to_bigquery.py --table person --mode incremental
