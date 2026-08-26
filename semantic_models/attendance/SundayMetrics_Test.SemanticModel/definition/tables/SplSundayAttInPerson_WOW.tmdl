@@ -917,43 +917,24 @@ table SplSundayAttInPerson_WOW
 			        'SplSundayAttInPerson_WOW'[CampusName] <> "DC"
 			            &&
 			        (
-			            VALUE (
-			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			            ) = SelYr
+			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
 			                ||
-			            VALUE (
-			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			            ) = PrevYr
+			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
 			        )
 			    )
 			VAR MinYrAvail =
 			    MINX (
-			        FILTER (
-			            ALL ( 'SplSundayAttInPerson_WOW' ),
-			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			        ),
-			        VALUE (
-			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			        )
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			VAR MaxYrAvail =
 			    MAXX (
-			        FILTER (
-			            ALL ( 'SplSundayAttInPerson_WOW' ),
-			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			        ),
-			        VALUE (
-			            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			        )
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			VAR CurYearTotal =
 			    SUMX (
-			        FILTER (
-			            Src,
-			            VALUE (
-			                'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			            ) = SelYr
-			        ),
+			        FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
 			        'SplSundayAttInPerson_WOW'[Count]
 			    )
 			VAR HasData =
@@ -966,8 +947,7 @@ table SplSundayAttInPerson_WOW
 			    IF (
 			        ISBLANK ( SelYr ),
 			        "No data available",
-			        "No Easter data for "
-			            & FORMAT ( SelYr, "0" )
+			        "No Easter data for " & FORMAT ( SelYr, "0" )
 			    )
 			VAR EmptySubline =
 			    "Available from "
@@ -981,19 +961,10 @@ table SplSundayAttInPerson_WOW
 			            'SplSundayAttInPerson_WOW'[CampusName],
 			            'SplSundayAttInPerson_WOW'[CampusSortOrder]
 			        ),
-			        "SortA",
-			            COALESCE (
-			                VALUE (
-			                    'SplSundayAttInPerson_WOW'[CampusSortOrder]
-			                ),
-			                0
-			            ),
-			        "Label",
-			            'SplSundayAttInPerson_WOW'[CampusName],
-			        "Lvl",
-			            "detail",
-			        "K",
-			            'SplSundayAttInPerson_WOW'[CampusName]
+			        "SortA", COALESCE ( VALUE ( 'SplSundayAttInPerson_WOW'[CampusSortOrder] ), 0 ),
+			        "Label", 'SplSundayAttInPerson_WOW'[CampusName],
+			        "Lvl", "detail",
+			        "K", 'SplSundayAttInPerson_WOW'[CampusName]
 			    )
 			VAR KeysTotal =
 			    ROW (
@@ -1003,10 +974,7 @@ table SplSundayAttInPerson_WOW
 			        "K", ""
 			    )
 			VAR AllKeys =
-			    UNION (
-			        KeysDetail,
-			        KeysTotal
-			    )
+			    UNION ( KeysDetail, KeysTotal )
 			VAR RowData =
 			    ADDCOLUMNS (
 			        AllKeys,
@@ -1016,17 +984,11 @@ table SplSundayAttInPerson_WOW
 			                SUMX (
 			                    FILTER (
 			                        Src,
-			                        (
-			                            k = ""
-			                                ||
-			                            'SplSundayAttInPerson_WOW'[CampusName] = k
-			                        )
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[CampusName] = k )
 			                            &&
 			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
 			                            &&
-			                        VALUE (
-			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			                        ) = SelYr
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
 			                    ),
 			                    'SplSundayAttInPerson_WOW'[Count]
 			                ),
@@ -1036,17 +998,11 @@ table SplSundayAttInPerson_WOW
 			                SUMX (
 			                    FILTER (
 			                        Src,
-			                        (
-			                            k = ""
-			                                ||
-			                            'SplSundayAttInPerson_WOW'[CampusName] = k
-			                        )
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[CampusName] = k )
 			                            &&
 			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
 			                            &&
-			                        VALUE (
-			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			                        ) = PrevYr
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
 			                    ),
 			                    'SplSundayAttInPerson_WOW'[Count]
 			                ),
@@ -1056,17 +1012,11 @@ table SplSundayAttInPerson_WOW
 			                SUMX (
 			                    FILTER (
 			                        Src,
-			                        (
-			                            k = ""
-			                                ||
-			                            'SplSundayAttInPerson_WOW'[CampusName] = k
-			                        )
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[CampusName] = k )
 			                            &&
 			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
 			                            &&
-			                        VALUE (
-			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			                        ) = SelYr
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
 			                    ),
 			                    'SplSundayAttInPerson_WOW'[Count]
 			                ),
@@ -1076,17 +1026,11 @@ table SplSundayAttInPerson_WOW
 			                SUMX (
 			                    FILTER (
 			                        Src,
-			                        (
-			                            k = ""
-			                                ||
-			                            'SplSundayAttInPerson_WOW'[CampusName] = k
-			                        )
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[CampusName] = k )
 			                            &&
 			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
 			                            &&
-			                        VALUE (
-			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			                        ) = PrevYr
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
 			                    ),
 			                    'SplSundayAttInPerson_WOW'[Count]
 			                ),
@@ -1096,17 +1040,11 @@ table SplSundayAttInPerson_WOW
 			                SUMX (
 			                    FILTER (
 			                        Src,
-			                        (
-			                            k = ""
-			                                ||
-			                            'SplSundayAttInPerson_WOW'[CampusName] = k
-			                        )
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[CampusName] = k )
 			                            &&
 			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
 			                            &&
-			                        VALUE (
-			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			                        ) = SelYr
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
 			                    ),
 			                    'SplSundayAttInPerson_WOW'[Count]
 			                ),
@@ -1116,17 +1054,11 @@ table SplSundayAttInPerson_WOW
 			                SUMX (
 			                    FILTER (
 			                        Src,
-			                        (
-			                            k = ""
-			                                ||
-			                            'SplSundayAttInPerson_WOW'[CampusName] = k
-			                        )
+			                        ( k = "" || 'SplSundayAttInPerson_WOW'[CampusName] = k )
 			                            &&
 			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
 			                            &&
-			                        VALUE (
-			                            'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			                        ) = PrevYr
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
 			                    ),
 			                    'SplSundayAttInPerson_WOW'[Count]
 			                )
@@ -1136,6 +1068,8 @@ table SplSundayAttInPerson_WOW
 			        RowData,
 			        VAR rowCls =
 			            IF ( [Lvl] = "total", "r-total", "r-campus" )
+			        VAR LabelCell =
+			            "<div class='gt'>" & [Label] & "</div>"
 			        VAR aCur =
 			            [AdCur]
 			        VAR aPrev =
@@ -1333,10 +1267,10 @@ table SplSundayAttInPerson_WOW
 			            )
 			        RETURN
 			            "<tr class='" & rowCls & "'>"
-			                & "<td class='c-lbl'>" & [Label] & "</td>"
-			                & "<td class='num'>" & aF1 & "</td>"
-			                & "<td class='num dim'>" & aF2 & "</td>"
-			                & "<td class='yc'>"
+			                & "<td class='g'>" & LabelCell & "</td>"
+			                & "<td class='a'>" & aF1 & "</td>"
+			                & "<td class='p dim'>" & aF2 & "</td>"
+			                & "<td class='y'>"
 			                    & "<div class='yv' style='color:" & aCol & "'>"
 			                        & aTxt
 			                    & "</div>"
@@ -1350,9 +1284,9 @@ table SplSundayAttInPerson_WOW
 			                        ""
 			                    )
 			                & "</td>"
-			                & "<td class='num sec'>" & bF1 & "</td>"
-			                & "<td class='num dim'>" & bF2 & "</td>"
-			                & "<td class='yc'>"
+			                & "<td class='a sec'>" & bF1 & "</td>"
+			                & "<td class='p dim'>" & bF2 & "</td>"
+			                & "<td class='y'>"
 			                    & "<div class='yv' style='color:" & bCol & "'>"
 			                        & bTxt
 			                    & "</div>"
@@ -1366,9 +1300,9 @@ table SplSundayAttInPerson_WOW
 			                        ""
 			                    )
 			                & "</td>"
-			                & "<td class='num sec'>" & dF1 & "</td>"
-			                & "<td class='num dim'>" & dF2 & "</td>"
-			                & "<td class='yc'>"
+			                & "<td class='a sec'>" & dF1 & "</td>"
+			                & "<td class='p dim'>" & dF2 & "</td>"
+			                & "<td class='y'>"
 			                    & "<div class='yv' style='color:" & dCol & "'>"
 			                        & dTxt
 			                    & "</div>"
@@ -1389,12 +1323,8 @@ table SplSundayAttInPerson_WOW
 			VAR HeadHTML =
 			    "<div class='rb-head'>"
 			        & "<span class='rb-name'>Atlanta</span>"
-			        & "<span class='rb-title'>Easter "
-			        & FORMAT ( SelYr, "0" )
-			        & "</span>"
-			        & "<span class='rb-sub'>vs "
-			        & FORMAT ( PrevYr, "0" )
-			        & "</span>"
+			        & "<span class='rb-title'>Easter " & FORMAT ( SelYr, "0" ) & "</span>"
+			        & "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
 			    & "</div>"
 			VAR TableHTML =
 			"<style>
@@ -1406,20 +1336,21 @@ table SplSundayAttInPerson_WOW
 			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
 			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
 			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
-			.rb th{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 8px;text-align:right;white-space:nowrap;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 7px;text-align:right;white-space:nowrap;}
 			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
-			.rb th.c-lbl,.rb td.c-lbl{text-align:left;width:22%;}
+			.rb th.g,.rb td.g{text-align:left;width:12%;}
+			.rb th.a,.rb td.a{width:7.5%;}
+			.rb th.p,.rb td.p{width:7.5%;}
+			.rb th.y,.rb td.y{width:9%;}
 			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
-			.rb td{font-size:11px;padding:5px 8px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';}
+			.rb td{font-size:11px;padding:6px 7px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
 			.rb td.dim{color:" & TxtSecondary & ";}
-			.rb td.yc{width:9%;padding:4px 8px;}
+			.rb td.y{padding:5px 7px;}
 			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
 			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
 			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
-			.rb tr.r-sched td{font-weight:500;color:" & SchedTxt & ";}
-			.rb tr.r-sched td.c-lbl{padding-left:14px;font-size:10px;}
-			.rb tr.r-campus td{font-weight:800;}
-			.rb tr.r-campus td.c-lbl{padding-left:14px;}
+			.rb .gt{font-size:11px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
 			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
 			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
 			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
@@ -1428,15 +1359,15 @@ table SplSundayAttInPerson_WOW
 			    & "<div class='rb'>"
 			    & HeadHTML
 			    & "<table><thead><tr>"
-			        & "<th class='c-lbl grp'></th>"
+			        & "<th class='grp'></th>"
 			        & "<th class='grp' colspan='3'>Adults</th>"
 			        & "<th class='grp sec' colspan='3'>bloom</th>"
 			        & "<th class='grp sec' colspan='3'>Door Holder</th>"
 			    & "</tr><tr>"
-			        & "<th class='c-lbl'>Campus</th>"
-			        & "<th>Att</th><th>Prev</th><th>YOY%</th>"
-			        & "<th class='sec'>Att</th><th>Prev</th><th>YOY%</th>"
-			        & "<th class='sec'>Att</th><th>Prev</th><th>YOY%</th>"
+			        & "<th class='g'>Campus</th>"
+			        & "<th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='a sec'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='a sec'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
 			    & "</tr></thead><tbody>"
 			    & RowsHTML
 			    & "</tbody></table></div>"
@@ -1451,20 +1382,21 @@ table SplSundayAttInPerson_WOW
 			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
 			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
 			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
-			.rb th{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 8px;text-align:right;white-space:nowrap;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 7px;text-align:right;white-space:nowrap;}
 			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
-			.rb th.c-lbl,.rb td.c-lbl{text-align:left;width:22%;}
+			.rb th.g,.rb td.g{text-align:left;width:12%;}
+			.rb th.a,.rb td.a{width:7.5%;}
+			.rb th.p,.rb td.p{width:7.5%;}
+			.rb th.y,.rb td.y{width:9%;}
 			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
-			.rb td{font-size:11px;padding:5px 8px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';}
+			.rb td{font-size:11px;padding:6px 7px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
 			.rb td.dim{color:" & TxtSecondary & ";}
-			.rb td.yc{width:9%;padding:4px 8px;}
+			.rb td.y{padding:5px 7px;}
 			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
 			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
 			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
-			.rb tr.r-sched td{font-weight:500;color:" & SchedTxt & ";}
-			.rb tr.r-sched td.c-lbl{padding-left:14px;font-size:10px;}
-			.rb tr.r-campus td{font-weight:800;}
-			.rb tr.r-campus td.c-lbl{padding-left:14px;}
+			.rb .gt{font-size:11px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
 			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
 			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
 			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
@@ -1473,22 +1405,14 @@ table SplSundayAttInPerson_WOW
 			    & "<div class='rb'>"
 			    & HeadHTML
 			    & "<div class='rb-empty'>"
-			        & "<div class='rb-empty-h'>"
-			        & EmptyHeadline
-			        & "</div>"
-			        & "<div class='rb-empty-s'>"
-			        & EmptySubline
-			        & "</div>"
+			        & "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
+			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
 			    & "</div></div>"
 			RETURN
-			    IF (
-			        HasData,
-			        TableHTML,
-			        EmptyHTML
-			    )
+			    IF ( HasData, TableHTML, EmptyHTML )
 		lineageTag: f17816ae-5230-4c24-9d7f-f4fd624aa41d
 
-	measure HTML_Easter_RB_515 = ```
+	measure HTML_Easter_RB_515 =
 			
 			VAR IsDark =
 			    [SelectedTheme] = "Dark"
@@ -1537,6 +1461,36 @@ table SplSundayAttInPerson_WOW
 			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
 			        )
 			    )
+			VAR Base =
+			    SUMMARIZE (
+			        Src,
+			        'SplSundayAttInPerson_WOW'[Literal],
+			        'SplSundayAttInPerson_WOW'[FormattedDateSplSun],
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			        "V", SUM ( 'SplSundayAttInPerson_WOW'[Count] )
+			    )
+			VAR Ranked =
+			    ADDCOLUMNS (
+			        Base,
+			        "Rnk",
+			            VAR thisLit = 'SplSundayAttInPerson_WOW'[Literal]
+			            VAR thisYr = 'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            VAR thisSort = 'SplSundayAttInPerson_WOW'[ScheduleSort]
+			            RETURN
+			                COUNTROWS (
+			                    FILTER (
+			                        Base,
+			                        'SplSundayAttInPerson_WOW'[Literal] = thisLit
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[FormattedDateSplSun] = thisYr
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort] <= thisSort
+			                    )
+			                )
+			    )
+			VAR MaxRank =
+			    COALESCE ( MAXX ( Ranked, [Rnk] ), 0 )
 			VAR MinYrAvail =
 			    MINX (
 			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
@@ -1549,209 +1503,288 @@ table SplSundayAttInPerson_WOW
 			    )
 			VAR CurYearTotal =
 			    SUMX (
-			        FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
-			        'SplSundayAttInPerson_WOW'[Count]
+			        FILTER ( Ranked, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
+			        [V]
 			    )
 			VAR HasData =
 			    NOT ISBLANK ( SelYr )
 			        &&
-			    COALESCE ( COUNTROWS ( Src ), 0 ) > 0
+			    MaxRank > 0
 			        &&
 			    COALESCE ( CurYearTotal, 0 ) > 0
 			VAR EmptyHeadline =
-			    IF ( ISBLANK ( SelYr ), "No data available", "No Easter data for " & FORMAT ( SelYr, "0" ) )
+			    IF (
+			        ISBLANK ( SelYr ),
+			        "No data available",
+			        "No Easter data for " & FORMAT ( SelYr, "0" )
+			    )
 			VAR EmptySubline =
-			    "Available from " & FORMAT ( MinYrAvail, "0" ) & " to " & FORMAT ( MaxYrAvail, "0" )
-			
-			/* ================================================================
-			   FIXED YOY MATCH LOGIC
-			   Saturday (ScheduleSort = 22) always matches Saturday.
-			   Sunday services are ranked by ScheduleSort within EACH year
-			   independently, then matched rank-to-rank (1st Sunday <-> 1st
-			   Sunday, 2nd <-> 2nd, etc.) instead of matching by ScheduleName,
-			   so a service time shifting year over year no longer breaks YOY.
-			   ================================================================ */
-			
-			VAR CurSrcOnly =
-			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr )
-			VAR PrevSrcOnly =
-			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr )
-			
-			VAR CurSchedRaw =
-			    SUMMARIZE (
-			        CurSrcOnly,
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort]
-			    )
-			VAR PrevSchedRaw =
-			    SUMMARIZE (
-			        PrevSrcOnly,
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort]
-			    )
-			
-			VAR CurSunOnly =
-			    FILTER ( CurSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort] <> 22 )
-			VAR PrevSunOnly =
-			    FILTER ( PrevSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort] <> 22 )
-			
-			VAR CurSchedKeyed =
-			    ADDCOLUMNS (
-			        CurSchedRaw,
-			        "MatchKey",
-			            IF (
-			                'SplSundayAttInPerson_WOW'[ScheduleSort] = 22,
-			                "SAT",
-			                "SUN" & RANKX ( CurSunOnly, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
-			            )
-			    )
-			VAR PrevSchedKeyed =
-			    ADDCOLUMNS (
-			        PrevSchedRaw,
-			        "MatchKey",
-			            IF (
-			                'SplSundayAttInPerson_WOW'[ScheduleSort] = 22,
-			                "SAT",
-			                "SUN" & RANKX ( PrevSunOnly, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
-			            )
-			    )
-			
-			VAR KeysDetail =
-			    SELECTCOLUMNS (
-			        CurSchedKeyed,
-			        "SortA", COALESCE ( 'SplSundayAttInPerson_WOW'[ScheduleSort] + 0, 0 ),
-			        "Label", 'SplSundayAttInPerson_WOW'[ScheduleName],
-			        "Lvl", "detail",
-			        "K", 'SplSundayAttInPerson_WOW'[ScheduleName],
-			        "MK", [MatchKey]
-			    )
-			VAR KeysTotal =
-			    ROW ( "SortA", 999999, "Label", "Total", "Lvl", "total", "K", "", "MK", "" )
-			VAR AllKeys =
-			    UNION ( KeysDetail, KeysTotal )
-			
-			VAR KeysWithMatch =
-			    ADDCOLUMNS (
-			        AllKeys,
-			        "PrevName",
-			            VAR mk = [MK]
-			            RETURN
-			                IF (
-			                    [Lvl] = "total",
-			                    BLANK (),
-			                    MAXX ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ), 'SplSundayAttInPerson_WOW'[ScheduleName] )
-			                ),
-			        "HasMatch",
-			            VAR mk = [MK]
-			            RETURN
-			                [Lvl] = "total"
-			                    || COUNTROWS ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ) ) > 0
+			    "Available from "
+			        & FORMAT ( MinYrAvail, "0" )
+			        & " to "
+			        & FORMAT ( MaxYrAvail, "0" )
+			VAR RankKeys =
+			    UNION (
+			        SELECTCOLUMNS ( GENERATESERIES ( 1, MAX ( MaxRank, 1 ) ), "Rnk", [Value] ),
+			        ROW ( "Rnk", 0 )
 			    )
 			VAR RowData =
 			    ADDCOLUMNS (
-			        KeysWithMatch,
+			        RankKeys,
 			        "AdCur",
-			            VAR k = [K]
+			            VAR r = [Rnk]
 			            RETURN
 			                SUMX (
 			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
 			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
+			                    [V]
 			                ),
 			        "AdPrev",
-			            VAR pn = [PrevName]
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "AdName",
+			            VAR r = [Rnk]
 			            RETURN
 			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "AdWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
 			                    )
 			                ),
 			        "BlCur",
-			            VAR k = [K]
+			            VAR r = [Rnk]
 			            RETURN
 			                SUMX (
 			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
 			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
+			                    [V]
 			                ),
 			        "BlPrev",
-			            VAR pn = [PrevName]
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "BlName",
+			            VAR r = [Rnk]
 			            RETURN
 			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "BlWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
 			                    )
 			                ),
 			        "DhCur",
-			            VAR k = [K]
+			            VAR r = [Rnk]
 			            RETURN
 			                SUMX (
 			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
 			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
+			                    [V]
 			                ),
 			        "DhPrev",
-			            VAR pn = [PrevName]
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "DhName",
+			            VAR r = [Rnk]
 			            RETURN
 			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "DhWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
 			                    )
 			                )
 			    )
 			VAR RowsHTML =
 			    CONCATENATEX (
 			        RowData,
+			        VAR r = [Rnk]
 			        VAR rowCls =
-			            IF ( [Lvl] = "total", "r-total", "r-sched" )
-			        VAR hasMatch = [HasMatch]
+			            IF ( r = 0, "r-total", "r-gath" )
 			        VAR aCur =
 			            [AdCur]
 			        VAR aPrev =
 			            [AdPrev]
 			        VAR aState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( aCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( aPrev, 0 ) = 0, "empty",
-			                    COALESCE ( aPrev, 0 ) = 0, "new",
-			                    COALESCE ( aCur, 0 ) = 0, "gone",
-			                    "ok"
-			                )
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( aCur, 0 ) = 0
+			                    &&
+			                COALESCE ( aPrev, 0 ) = 0, "empty",
+			                COALESCE ( aPrev, 0 ) = 0, "new",
+			                COALESCE ( aCur, 0 ) = 0, "gone",
+			                "ok"
 			            )
 			        VAR aYOY =
 			            IF (
@@ -1781,32 +1814,50 @@ table SplSundayAttInPerson_WOW
 			        VAR aBar =
 			            IF (
 			                aState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 ) ),
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 )
+			                ),
 			                0
 			            )
 			        VAR aShowBar =
 			            aState = "ok"
 			        VAR aF1 =
-			            IF ( COALESCE ( aCur, 0 ) = 0, "", FORMAT ( aCur, "#,0" ) )
+			            IF (
+			                COALESCE ( aCur, 0 ) = 0,
+			                "",
+			                FORMAT ( aCur, "#,0" )
+			            )
 			        VAR aF2 =
-			            IF ( COALESCE ( aPrev, 0 ) = 0, "", FORMAT ( aPrev, "#,0" ) )
+			            IF (
+			                COALESCE ( aPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( aPrev, "#,0" )
+			            )
+			        VAR aNm =
+			            [AdName]
+			        VAR aWs =
+			            [AdWas]
+			        VAR aCell =
+			            IF (
+			                r = 0,
+			                "<div class='gt'>Total</div>",
+			                "<div class='gt'>" & IF ( aNm = "", "--", aNm ) & "</div>"
+			                    & IF ( aWs = "", "", "<div class='gw'>was " & aWs & "</div>" )
+			            )
 			        VAR bCur =
 			            [BlCur]
 			        VAR bPrev =
 			            [BlPrev]
 			        VAR bState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( bCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( bPrev, 0 ) = 0, "empty",
-			                    COALESCE ( bPrev, 0 ) = 0, "new",
-			                    COALESCE ( bCur, 0 ) = 0, "gone",
-			                    "ok"
-			                )
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( bCur, 0 ) = 0
+			                    &&
+			                COALESCE ( bPrev, 0 ) = 0, "empty",
+			                COALESCE ( bPrev, 0 ) = 0, "new",
+			                COALESCE ( bCur, 0 ) = 0, "gone",
+			                "ok"
 			            )
 			        VAR bYOY =
 			            IF (
@@ -1836,32 +1887,50 @@ table SplSundayAttInPerson_WOW
 			        VAR bBar =
 			            IF (
 			                bState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 ) ),
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 )
+			                ),
 			                0
 			            )
 			        VAR bShowBar =
 			            bState = "ok"
 			        VAR bF1 =
-			            IF ( COALESCE ( bCur, 0 ) = 0, "", FORMAT ( bCur, "#,0" ) )
+			            IF (
+			                COALESCE ( bCur, 0 ) = 0,
+			                "",
+			                FORMAT ( bCur, "#,0" )
+			            )
 			        VAR bF2 =
-			            IF ( COALESCE ( bPrev, 0 ) = 0, "", FORMAT ( bPrev, "#,0" ) )
+			            IF (
+			                COALESCE ( bPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( bPrev, "#,0" )
+			            )
+			        VAR bNm =
+			            [BlName]
+			        VAR bWs =
+			            [BlWas]
+			        VAR bCell =
+			            IF (
+			                r = 0,
+			                "",
+			                "<div class='gt'>" & IF ( bNm = "", "--", bNm ) & "</div>"
+			                    & IF ( bWs = "", "", "<div class='gw'>was " & bWs & "</div>" )
+			            )
 			        VAR dCur =
 			            [DhCur]
 			        VAR dPrev =
 			            [DhPrev]
 			        VAR dState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( dCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( dPrev, 0 ) = 0, "empty",
-			                    COALESCE ( dPrev, 0 ) = 0, "new",
-			                    COALESCE ( dCur, 0 ) = 0, "gone",
-			                    "ok"
-			                )
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( dCur, 0 ) = 0
+			                    &&
+			                COALESCE ( dPrev, 0 ) = 0, "empty",
+			                COALESCE ( dPrev, 0 ) = 0, "new",
+			                COALESCE ( dCur, 0 ) = 0, "gone",
+			                "ok"
 			            )
 			        VAR dYOY =
 			            IF (
@@ -1891,64 +1960,93 @@ table SplSundayAttInPerson_WOW
 			        VAR dBar =
 			            IF (
 			                dState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 ) ),
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 )
+			                ),
 			                0
 			            )
 			        VAR dShowBar =
 			            dState = "ok"
 			        VAR dF1 =
-			            IF ( COALESCE ( dCur, 0 ) = 0, "", FORMAT ( dCur, "#,0" ) )
-			        VAR dF2 =
-			            IF ( COALESCE ( dPrev, 0 ) = 0, "", FORMAT ( dPrev, "#,0" ) )
-			        VAR dispLabelSub =
 			            IF (
-			                [Lvl] = "total",
+			                COALESCE ( dCur, 0 ) = 0,
 			                "",
-			                IF (
-			                    hasMatch && NOT ISBLANK ( [PrevName] ) && [PrevName] <> [Label],
-			                    "was " & [PrevName],
-			                    ""
-			                )
+			                FORMAT ( dCur, "#,0" )
+			            )
+			        VAR dF2 =
+			            IF (
+			                COALESCE ( dPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( dPrev, "#,0" )
+			            )
+			        VAR dNm =
+			            [DhName]
+			        VAR dWs =
+			            [DhWas]
+			        VAR dCell =
+			            IF (
+			                r = 0,
+			                "",
+			                "<div class='gt'>" & IF ( dNm = "", "--", dNm ) & "</div>"
+			                    & IF ( dWs = "", "", "<div class='gw'>was " & dWs & "</div>" )
 			            )
 			        RETURN
 			            "<tr class='" & rowCls & "'>"
-			                & "<td class='c-lbl'>"
-			                    & "<div class='c-lbl-main'>" & [Label] & "</div>"
-			                    & IF ( dispLabelSub <> "", "<div class='c-lbl-sub'>" & dispLabelSub & "</div>", "" )
-			                & "</td>"
-			                & "<td class='num'>" & aF1 & "</td>"
-			                & "<td class='num dim'>" & aF2 & "</td>"
-			                & "<td class='yc'>"
-			                    & "<div class='yv' style='color:" & aCol & "'>" & aTxt & "</div>"
+			                & "<td class='g'>" & aCell & "</td>"
+			                & "<td class='a'>" & aF1 & "</td>"
+			                & "<td class='p dim'>" & aF2 & "</td>"
+			                & "<td class='y'>"
+			                    & "<div class='yv' style='color:" & aCol & "'>"
+			                        & aTxt
+			                    & "</div>"
 			                    & IF (
 			                        aShowBar,
-			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( aBar, "0" ) & "%;background:" & aCol & "'></div></div>",
+			                        "<div class='yb'><div class='yf' style='width:"
+			                            & FORMAT ( aBar, "0" )
+			                            & "%;background:"
+			                            & aCol
+			                            & "'></div></div>",
 			                        ""
 			                    )
 			                & "</td>"
-			                & "<td class='num sec'>" & bF1 & "</td>"
-			                & "<td class='num dim'>" & bF2 & "</td>"
-			                & "<td class='yc'>"
-			                    & "<div class='yv' style='color:" & bCol & "'>" & bTxt & "</div>"
+			                & "<td class='g sec'>" & bCell & "</td>"
+			                & "<td class='a'>" & bF1 & "</td>"
+			                & "<td class='p dim'>" & bF2 & "</td>"
+			                & "<td class='y'>"
+			                    & "<div class='yv' style='color:" & bCol & "'>"
+			                        & bTxt
+			                    & "</div>"
 			                    & IF (
 			                        bShowBar,
-			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( bBar, "0" ) & "%;background:" & bCol & "'></div></div>",
+			                        "<div class='yb'><div class='yf' style='width:"
+			                            & FORMAT ( bBar, "0" )
+			                            & "%;background:"
+			                            & bCol
+			                            & "'></div></div>",
 			                        ""
 			                    )
 			                & "</td>"
-			                & "<td class='num sec'>" & dF1 & "</td>"
-			                & "<td class='num dim'>" & dF2 & "</td>"
-			                & "<td class='yc'>"
-			                    & "<div class='yv' style='color:" & dCol & "'>" & dTxt & "</div>"
+			                & "<td class='g sec'>" & dCell & "</td>"
+			                & "<td class='a'>" & dF1 & "</td>"
+			                & "<td class='p dim'>" & dF2 & "</td>"
+			                & "<td class='y'>"
+			                    & "<div class='yv' style='color:" & dCol & "'>"
+			                        & dTxt
+			                    & "</div>"
 			                    & IF (
 			                        dShowBar,
-			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( dBar, "0" ) & "%;background:" & dCol & "'></div></div>",
+			                        "<div class='yb'><div class='yf' style='width:"
+			                            & FORMAT ( dBar, "0" )
+			                            & "%;background:"
+			                            & dCol
+			                            & "'></div></div>",
 			                        ""
 			                    )
 			                & "</td>"
 			            & "</tr>",
 			        "",
-			        [SortA], ASC
+			        IF ( [Rnk] = 0, 999999, [Rnk] ), ASC
 			    )
 			VAR HeadHTML =
 			    "<div class='rb-head'>"
@@ -1959,259 +2057,47 @@ table SplSundayAttInPerson_WOW
 			VAR TableHTML =
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-			
-			.rb *{
-			    box-sizing:border-box;
-			    margin:0;
-			    padding:0;
-			    font-family:Inter,sans-serif;
-			}
-			
-			.rb{
-			    width:100%;
-			    background:" & Bg & ";
-			    border:1px solid " & BorderColor & ";
-			    border-radius:18px;
-			    padding:16px 18px;
-			    overflow:hidden;
-			}
-			
-			.rb-head{
-			    display:flex;
-			    align-items:baseline;
-			    gap:8px;
-			    margin-bottom:12px;
-			}
-			
-			.rb-name{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & Accent & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-title{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & TxtPrimary & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-sub{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    margin-left:auto;
-			}
-			
-			.rb table{
-			    width:100%;
-			    border-collapse:collapse;
-			    table-layout:fixed;
-			}
-			
-			.rb th{
-			    font-size:9px;
-			    font-weight:800;
-			    letter-spacing:.6px;
-			    text-transform:uppercase;
-			    color:" & TxtSecondary & ";
-			    background:" & HeadBg & ";
-			    padding:6px 5px;
-			    text-align:right;
-			    white-space:nowrap;
-			}
-			
-			.rb th.grp{
-			    text-align:left;
-			    color:" & TxtPrimary & ";
-			    font-size:10px;
-			    border-bottom:1px solid " & SectionLine & ";
-			}
-			
-			.rb th.c-lbl,
-			.rb td.c-lbl{
-			    text-align:left;
-			    width:10%;
-			    white-space:nowrap;
-			}
-			
-			.rb .c-lbl-main{
-			    line-height:1.2;
-			}
-			
-			.rb .c-lbl-sub{
-			    font-size:9px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    line-height:1.1;
-			    margin-top:1px;
-			}
-			
-			.rb td{
-			    font-size:11px;
-			    padding:5px 5px;
-			    text-align:right;
-			    border-bottom:1px solid " & RowLine & ";
-			    color:" & TxtPrimary & ";
-			    font-variant-numeric:tabular-nums;
-			    font-feature-settings:'tnum';
-			}
-			
-			.rb th:not(.c-lbl),
-			.rb td:not(.c-lbl){
-			    width:10%;
-			}
-			
-			.rb th.sec,
-			.rb td.sec{
-			    border-left:1px solid " & SectionLine & ";
-			}
-			
-			.rb td.dim{
-			    color:" & TxtSecondary & ";
-			}
-			
-			.rb td.yc{
-			    padding:4px 5px;
-			}
-			
-			.rb .yv{
-			    width:100%;
-			    font-size:10px;
-			    font-weight:800;
-			    text-align:right;
-			    line-height:1.1;
-			    font-variant-numeric:tabular-nums;
-			}
-			
-			.rb .yb{
-			    width:100%;
-			    height:3px;
-			    border-radius:2px;
-			    background:" & TrackBg & ";
-			    overflow:hidden;
-			    margin-top:3px;
-			}
-			
-			.rb .yf{
-			    height:100%;
-			    border-radius:2px;
-			    transform:scaleX(0);
-			    transform-origin:left center;
-			    transition:transform .9s cubic-bezier(.22,.8,.25,1);
-			}
-			
-			.rb tr.r-sched td{
-			    font-weight:500;
-			    color:" & SchedTxt & ";
-			}
-			
-			.rb tr.r-sched td.c-lbl{
-			    padding-left:6px;
-			    padding-right:2px;
-			    font-size:10px;
-			}
-			
-			.rb tr.r-campus td{
-			    font-weight:800;
-			}
-			
-			.rb tr.r-campus td.c-lbl{
-			    padding-left:6px;
-			}
-			
-			.rb tr.r-total td{
-			    background:" & CityRowBg & ";
-			    font-weight:900;
-			    border-top:2px solid " & SectionLine & ";
-			    border-bottom:none;
-			}
-			
-			.rb-empty{
-			    min-height:120px;
-			    display:flex;
-			    flex-direction:column;
-			    align-items:center;
-			    justify-content:center;
-			    gap:8px;
-			    text-align:center;
-			}
-			
-			.rb-empty-h{
-			    font-size:12px;
-			    font-weight:800;
-			    color:" & TxtPrimary & ";
-			}
-			
-			.rb-empty-s{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    max-width:280px;
-			    line-height:1.4;
-			}
+			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
+			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
+			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
+			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
+			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 6px;text-align:right;white-space:nowrap;}
+			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
+			.rb th.g,.rb td.g{text-align:left;width:11%;}
+			.rb th.a,.rb td.a{width:6.5%;}
+			.rb th.p,.rb td.p{width:6.5%;}
+			.rb th.y,.rb td.y{width:9.3%;}
+			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
+			.rb td{font-size:11px;padding:6px 6px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
+			.rb td.dim{color:" & TxtSecondary & ";}
+			.rb td.y{padding:5px 6px;}
+			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
+			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
+			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
+			.rb .gt{font-size:10px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
+			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
+			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
+			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
 			</style>"
-			
 			    & "<div class='rb'>"
 			    & HeadHTML
-			    & "<table>"
-			    & "<colgroup>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			    & "</colgroup>"
-			    & "<thead>"
-			    & "<tr>"
-			        & "<th class='c-lbl grp'></th>"
-			        & "<th class='grp' colspan='3'>Adults</th>"
-			        & "<th class='grp sec' colspan='3'>bloom</th>"
-			        & "<th class='grp sec' colspan='3'>Door Holder</th>"
-			    & "</tr>"
-			    & "<tr>"
-			        & "<th class='c-lbl'>Gathering</th>"
-			        & "<th>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			        & "<th class='sec'>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			        & "<th class='sec'>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			    & "</tr>"
-			    & "</thead>"
-			    & "<tbody>"
-			        & RowsHTML
-			    & "</tbody>"
-			    & "</table>"
-			    & "</div>"
-			    & "<script>
-			    (function(){
-			        function run(){
-			            var f=document.querySelectorAll('.rb .yf');
-			            requestAnimationFrame(function(){
-			                requestAnimationFrame(function(){
-			                    f.forEach(function(el){
-			                        el.style.transform='scaleX(1)';
-			                    });
-			                });
-			            });
-			        }
-			        if(document.readyState==='loading'){
-			            document.addEventListener('DOMContentLoaded',run);
-			        }else{
-			            run();
-			        }
-			    })();
-			    </script>"
+			    & "<table><thead><tr>"
+			        & "<th class='grp' colspan='4'>Adults</th>"
+			        & "<th class='grp sec' colspan='4'>bloom</th>"
+			        & "<th class='grp sec' colspan='4'>Door Holder</th>"
+			    & "</tr><tr>"
+			        & "<th class='g'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			    & "</tr></thead><tbody>"
+			    & RowsHTML
+			    & "</tbody></table></div>"
+			    & "<script>(function(){function run(){var f=document.querySelectorAll('.rb .yf');requestAnimationFrame(function(){requestAnimationFrame(function(){f.forEach(function(el){el.style.transform='scaleX(1)';});});});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}})();</script>"
 			VAR EmptyHTML =
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -2222,20 +2108,21 @@ table SplSundayAttInPerson_WOW
 			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
 			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
 			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
-			.rb th{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 8px;text-align:right;white-space:nowrap;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 6px;text-align:right;white-space:nowrap;}
 			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
-			.rb th.c-lbl,.rb td.c-lbl{text-align:left;width:22%;}
+			.rb th.g,.rb td.g{text-align:left;width:11%;}
+			.rb th.a,.rb td.a{width:6.5%;}
+			.rb th.p,.rb td.p{width:6.5%;}
+			.rb th.y,.rb td.y{width:9.3%;}
 			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
-			.rb td{font-size:11px;padding:5px 8px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';}
+			.rb td{font-size:11px;padding:6px 6px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
 			.rb td.dim{color:" & TxtSecondary & ";}
-			.rb td.yc{width:9%;padding:4px 8px;}
+			.rb td.y{padding:5px 6px;}
 			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
 			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
 			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
-			.rb tr.r-sched td{font-weight:500;color:" & SchedTxt & ";}
-			.rb tr.r-sched td.c-lbl{padding-left:14px;font-size:10px;}
-			.rb tr.r-campus td{font-weight:800;}
-			.rb tr.r-campus td.c-lbl{padding-left:14px;}
+			.rb .gt{font-size:10px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
 			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
 			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
 			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
@@ -2248,16 +2135,10 @@ table SplSundayAttInPerson_WOW
 			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
 			    & "</div></div>"
 			RETURN
-			    IF (
-			        HasData,
-			        TableHTML,
-			        EmptyHTML
-			    )
-			
-			```
+			    IF ( HasData, TableHTML, EmptyHTML )
 		lineageTag: 720f6577-d3e2-43b0-a9f8-160425b1a6ce
 
-	measure HTML_Easter_RB_CBL = ```
+	measure HTML_Easter_RB_CBL =
 			
 			VAR IsDark =
 			    [SelectedTheme] = "Dark"
@@ -2306,245 +2187,330 @@ table SplSundayAttInPerson_WOW
 			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
 			        )
 			    )
+			VAR Base =
+			    SUMMARIZE (
+			        Src,
+			        'SplSundayAttInPerson_WOW'[Literal],
+			        'SplSundayAttInPerson_WOW'[FormattedDateSplSun],
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			        "V", SUM ( 'SplSundayAttInPerson_WOW'[Count] )
+			    )
+			VAR Ranked =
+			    ADDCOLUMNS (
+			        Base,
+			        "Rnk",
+			            VAR thisLit = 'SplSundayAttInPerson_WOW'[Literal]
+			            VAR thisYr = 'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            VAR thisSort = 'SplSundayAttInPerson_WOW'[ScheduleSort]
+			            RETURN
+			                COUNTROWS (
+			                    FILTER (
+			                        Base,
+			                        'SplSundayAttInPerson_WOW'[Literal] = thisLit
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[FormattedDateSplSun] = thisYr
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort] <= thisSort
+			                    )
+			                )
+			    )
+			VAR MaxRank =
+			    COALESCE ( MAXX ( Ranked, [Rnk] ), 0 )
 			VAR MinYrAvail =
 			    MINX (
-			        FILTER (
-			            ALL ( 'SplSundayAttInPerson_WOW' ),
-			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			                &&
-			            'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
-			                &&
-			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
-			        ),
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
 			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			VAR MaxYrAvail =
 			    MAXX (
-			        FILTER (
-			            ALL ( 'SplSundayAttInPerson_WOW' ),
-			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			                &&
-			            'SplSundayAttInPerson_WOW'[CampusName] = "Cumberland"
-			                &&
-			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
-			        ),
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
 			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
 			    )
 			VAR CurYearTotal =
 			    SUMX (
-			        FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
-			        'SplSundayAttInPerson_WOW'[Count]
+			        FILTER ( Ranked, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
+			        [V]
 			    )
 			VAR HasData =
 			    NOT ISBLANK ( SelYr )
 			        &&
-			    COALESCE ( COUNTROWS ( Src ), 0 ) > 0
+			    MaxRank > 0
 			        &&
 			    COALESCE ( CurYearTotal, 0 ) > 0
 			VAR EmptyHeadline =
-			    IF ( ISBLANK ( SelYr ), "No data available", "No Easter data for " & FORMAT ( SelYr, "0" ) )
-			VAR EmptySubline =
 			    IF (
-			        NOT ISBLANK ( MinYrAvail )
-			            &&
-			        NOT ISBLANK ( MaxYrAvail ),
-			        "Data available in select years from "
-			            & FORMAT ( MinYrAvail, "0" )
-			            & " to "
-			            & FORMAT ( MaxYrAvail, "0" ),
-			        "No historical Easter data available"
+			        ISBLANK ( SelYr ),
+			        "No data available",
+			        "No Easter data for " & FORMAT ( SelYr, "0" )
 			    )
-			
-			/* ================================================================
-			   FIXED YOY MATCH LOGIC
-			   Saturday (ScheduleSort = 22) always matches Saturday.
-			   Sunday services are ranked by ScheduleSort within EACH year
-			   independently, then matched rank-to-rank (1st Sunday <-> 1st
-			   Sunday, 2nd <-> 2nd, etc.) instead of matching by ScheduleName,
-			   so a service time shifting year over year no longer breaks YOY.
-			   ================================================================ */
-			
-			VAR CurSrcOnly =
-			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr )
-			VAR PrevSrcOnly =
-			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr )
-			
-			VAR CurSchedRaw =
-			    SUMMARIZE (
-			        CurSrcOnly,
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort]
+			VAR EmptySubline =
+			    "Available from "
+			        & FORMAT ( MinYrAvail, "0" )
+			        & " to "
+			        & FORMAT ( MaxYrAvail, "0" )
+			VAR RankKeys =
+			    UNION (
+			        SELECTCOLUMNS ( GENERATESERIES ( 1, MAX ( MaxRank, 1 ) ), "Rnk", [Value] ),
+			        ROW ( "Rnk", 0 )
 			    )
-			VAR PrevSchedRaw =
-			    SUMMARIZE (
-			        PrevSrcOnly,
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort]
-			    )
-			
-			VAR CurSunOnly =
-			    FILTER ( CurSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort] <> 22 )
-			VAR PrevSunOnly =
-			    FILTER ( PrevSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort] <> 22 )
-			
-			VAR CurSchedKeyed =
-			    ADDCOLUMNS (
-			        CurSchedRaw,
-			        "MatchKey",
-			            IF (
-			                'SplSundayAttInPerson_WOW'[ScheduleSort] = 22,
-			                "SAT",
-			                "SUN" & RANKX ( CurSunOnly, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
-			            )
-			    )
-			VAR PrevSchedKeyed =
-			    ADDCOLUMNS (
-			        PrevSchedRaw,
-			        "MatchKey",
-			            IF (
-			                'SplSundayAttInPerson_WOW'[ScheduleSort] = 22,
-			                "SAT",
-			                "SUN" & RANKX ( PrevSunOnly, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
-			            )
-			    )
-			
-			VAR KeysDetail =
-			    SELECTCOLUMNS (
-			        CurSchedKeyed,
-			        "SortA", COALESCE ( 'SplSundayAttInPerson_WOW'[ScheduleSort] + 0, 0 ),
-			        "Label", 'SplSundayAttInPerson_WOW'[ScheduleName],
-			        "Lvl", "detail",
-			        "K", 'SplSundayAttInPerson_WOW'[ScheduleName],
-			        "MK", [MatchKey]
-			    )
-			VAR KeysTotal =
-			    ROW ( "SortA", 999999, "Label", "Total", "Lvl", "total", "K", "", "MK", "" )
-			VAR AllKeys =
-			    UNION ( KeysDetail, KeysTotal )
-			
-			VAR KeysWithMatch =
-			    ADDCOLUMNS (
-			        AllKeys,
-			        "PrevName",
-			            VAR mk = [MK]
-			            RETURN
-			                IF (
-			                    [Lvl] = "total",
-			                    BLANK (),
-			                    MAXX ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ), 'SplSundayAttInPerson_WOW'[ScheduleName] )
-			                ),
-			        "HasMatch",
-			            VAR mk = [MK]
-			            RETURN
-			                [Lvl] = "total"
-			                    || COUNTROWS ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ) ) > 0
-			    )
-			
 			VAR RowData =
 			    ADDCOLUMNS (
-			        KeysWithMatch,
+			        RankKeys,
 			        "AdCur",
-			            VAR k = [K]
+			            VAR r = [Rnk]
 			            RETURN
 			                SUMX (
 			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
 			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
+			                    [V]
 			                ),
 			        "AdPrev",
-			            VAR pn = [PrevName]
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "AdName",
+			            VAR r = [Rnk]
 			            RETURN
 			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "AdWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
 			                    )
 			                ),
 			        "BlCur",
-			            VAR k = [K]
+			            VAR r = [Rnk]
 			            RETURN
 			                SUMX (
 			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
 			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
+			                    [V]
 			                ),
 			        "BlPrev",
-			            VAR pn = [PrevName]
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "BlName",
+			            VAR r = [Rnk]
 			            RETURN
 			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "BlWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
 			                    )
 			                ),
 			        "DhCur",
-			            VAR k = [K]
+			            VAR r = [Rnk]
 			            RETURN
 			                SUMX (
 			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
 			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
+			                    [V]
 			                ),
 			        "DhPrev",
-			            VAR pn = [PrevName]
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "DhName",
+			            VAR r = [Rnk]
 			            RETURN
 			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "DhWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
 			                    )
 			                )
 			    )
 			VAR RowsHTML =
 			    CONCATENATEX (
 			        RowData,
+			        VAR r = [Rnk]
 			        VAR rowCls =
-			            IF ( [Lvl] = "total", "r-total", "r-sched" )
-			        VAR hasMatch = [HasMatch]
+			            IF ( r = 0, "r-total", "r-gath" )
 			        VAR aCur =
 			            [AdCur]
 			        VAR aPrev =
 			            [AdPrev]
 			        VAR aState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( aCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( aPrev, 0 ) = 0, "empty",
-			                    COALESCE ( aPrev, 0 ) = 0, "new",
-			                    COALESCE ( aCur, 0 ) = 0, "gone",
-			                    "ok"
-			                )
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( aCur, 0 ) = 0
+			                    &&
+			                COALESCE ( aPrev, 0 ) = 0, "empty",
+			                COALESCE ( aPrev, 0 ) = 0, "new",
+			                COALESCE ( aCur, 0 ) = 0, "gone",
+			                "ok"
 			            )
 			        VAR aYOY =
 			            IF (
@@ -2574,32 +2540,50 @@ table SplSundayAttInPerson_WOW
 			        VAR aBar =
 			            IF (
 			                aState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 ) ),
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 )
+			                ),
 			                0
 			            )
 			        VAR aShowBar =
 			            aState = "ok"
 			        VAR aF1 =
-			            IF ( COALESCE ( aCur, 0 ) = 0, "", FORMAT ( aCur, "#,0" ) )
+			            IF (
+			                COALESCE ( aCur, 0 ) = 0,
+			                "",
+			                FORMAT ( aCur, "#,0" )
+			            )
 			        VAR aF2 =
-			            IF ( COALESCE ( aPrev, 0 ) = 0, "", FORMAT ( aPrev, "#,0" ) )
+			            IF (
+			                COALESCE ( aPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( aPrev, "#,0" )
+			            )
+			        VAR aNm =
+			            [AdName]
+			        VAR aWs =
+			            [AdWas]
+			        VAR aCell =
+			            IF (
+			                r = 0,
+			                "<div class='gt'>Total</div>",
+			                "<div class='gt'>" & IF ( aNm = "", "--", aNm ) & "</div>"
+			                    & IF ( aWs = "", "", "<div class='gw'>was " & aWs & "</div>" )
+			            )
 			        VAR bCur =
 			            [BlCur]
 			        VAR bPrev =
 			            [BlPrev]
 			        VAR bState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( bCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( bPrev, 0 ) = 0, "empty",
-			                    COALESCE ( bPrev, 0 ) = 0, "new",
-			                    COALESCE ( bCur, 0 ) = 0, "gone",
-			                    "ok"
-			                )
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( bCur, 0 ) = 0
+			                    &&
+			                COALESCE ( bPrev, 0 ) = 0, "empty",
+			                COALESCE ( bPrev, 0 ) = 0, "new",
+			                COALESCE ( bCur, 0 ) = 0, "gone",
+			                "ok"
 			            )
 			        VAR bYOY =
 			            IF (
@@ -2629,32 +2613,50 @@ table SplSundayAttInPerson_WOW
 			        VAR bBar =
 			            IF (
 			                bState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 ) ),
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 )
+			                ),
 			                0
 			            )
 			        VAR bShowBar =
 			            bState = "ok"
 			        VAR bF1 =
-			            IF ( COALESCE ( bCur, 0 ) = 0, "", FORMAT ( bCur, "#,0" ) )
+			            IF (
+			                COALESCE ( bCur, 0 ) = 0,
+			                "",
+			                FORMAT ( bCur, "#,0" )
+			            )
 			        VAR bF2 =
-			            IF ( COALESCE ( bPrev, 0 ) = 0, "", FORMAT ( bPrev, "#,0" ) )
+			            IF (
+			                COALESCE ( bPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( bPrev, "#,0" )
+			            )
+			        VAR bNm =
+			            [BlName]
+			        VAR bWs =
+			            [BlWas]
+			        VAR bCell =
+			            IF (
+			                r = 0,
+			                "",
+			                "<div class='gt'>" & IF ( bNm = "", "--", bNm ) & "</div>"
+			                    & IF ( bWs = "", "", "<div class='gw'>was " & bWs & "</div>" )
+			            )
 			        VAR dCur =
 			            [DhCur]
 			        VAR dPrev =
 			            [DhPrev]
 			        VAR dState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( dCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( dPrev, 0 ) = 0, "empty",
-			                    COALESCE ( dPrev, 0 ) = 0, "new",
-			                    COALESCE ( dCur, 0 ) = 0, "gone",
-			                    "ok"
-			                )
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( dCur, 0 ) = 0
+			                    &&
+			                COALESCE ( dPrev, 0 ) = 0, "empty",
+			                COALESCE ( dPrev, 0 ) = 0, "new",
+			                COALESCE ( dCur, 0 ) = 0, "gone",
+			                "ok"
 			            )
 			        VAR dYOY =
 			            IF (
@@ -2684,903 +2686,43 @@ table SplSundayAttInPerson_WOW
 			        VAR dBar =
 			            IF (
 			                dState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 ) ),
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 )
+			                ),
 			                0
 			            )
 			        VAR dShowBar =
 			            dState = "ok"
 			        VAR dF1 =
-			            IF ( COALESCE ( dCur, 0 ) = 0, "", FORMAT ( dCur, "#,0" ) )
-			        VAR dF2 =
-			            IF ( COALESCE ( dPrev, 0 ) = 0, "", FORMAT ( dPrev, "#,0" ) )
-			        VAR dispLabelSub =
 			            IF (
-			                [Lvl] = "total",
+			                COALESCE ( dCur, 0 ) = 0,
 			                "",
-			                IF (
-			                    hasMatch && NOT ISBLANK ( [PrevName] ) && [PrevName] <> [Label],
-			                    "was " & [PrevName],
-			                    ""
-			                )
+			                FORMAT ( dCur, "#,0" )
+			            )
+			        VAR dF2 =
+			            IF (
+			                COALESCE ( dPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( dPrev, "#,0" )
+			            )
+			        VAR dNm =
+			            [DhName]
+			        VAR dWs =
+			            [DhWas]
+			        VAR dCell =
+			            IF (
+			                r = 0,
+			                "",
+			                "<div class='gt'>" & IF ( dNm = "", "--", dNm ) & "</div>"
+			                    & IF ( dWs = "", "", "<div class='gw'>was " & dWs & "</div>" )
 			            )
 			        RETURN
 			            "<tr class='" & rowCls & "'>"
-			                & "<td class='c-lbl'>"
-			                    & "<div class='c-lbl-main'>" & [Label] & "</div>"
-			                    & IF ( dispLabelSub <> "", "<div class='c-lbl-sub'>" & dispLabelSub & "</div>", "" )
-			                & "</td>"
-			                & "<td class='num'>" & aF1 & "</td>"
-			                & "<td class='num dim'>" & aF2 & "</td>"
-			                & "<td class='yc'>"
-			                    & "<div class='yv' style='color:" & aCol & "'>" & aTxt & "</div>"
-			                    & IF (
-			                        aShowBar,
-			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( aBar, "0" ) & "%;background:" & aCol & "'></div></div>",
-			                        ""
-			                    )
-			                & "</td>"
-			                & "<td class='num sec'>" & bF1 & "</td>"
-			                & "<td class='num dim'>" & bF2 & "</td>"
-			                & "<td class='yc'>"
-			                    & "<div class='yv' style='color:" & bCol & "'>" & bTxt & "</div>"
-			                    & IF (
-			                        bShowBar,
-			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( bBar, "0" ) & "%;background:" & bCol & "'></div></div>",
-			                        ""
-			                    )
-			                & "</td>"
-			                & "<td class='num sec'>" & dF1 & "</td>"
-			                & "<td class='num dim'>" & dF2 & "</td>"
-			                & "<td class='yc'>"
-			                    & "<div class='yv' style='color:" & dCol & "'>" & dTxt & "</div>"
-			                    & IF (
-			                        dShowBar,
-			                        "<div class='yb'><div class='yf' style='width:" & FORMAT ( dBar, "0" ) & "%;background:" & dCol & "'></div></div>",
-			                        ""
-			                    )
-			                & "</td>"
-			            & "</tr>",
-			        "",
-			        [SortA], ASC
-			    )
-			VAR HeadHTML =
-			    "<div class='rb-head'>"
-			        & "<span class='rb-name'>Cumberland</span>"
-			        & "<span class='rb-title'>Easter " & FORMAT ( SelYr, "0" ) & "</span>"
-			        & "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
-			    & "</div>"
-			VAR TableHTML =
-			"<style>
-			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-			
-			.rb *{
-			    box-sizing:border-box;
-			    margin:0;
-			    padding:0;
-			    font-family:Inter,sans-serif;
-			}
-			
-			.rb{
-			    width:100%;
-			    background:" & Bg & ";
-			    border:1px solid " & BorderColor & ";
-			    border-radius:18px;
-			    padding:16px 18px;
-			    overflow:hidden;
-			}
-			
-			.rb-head{
-			    display:flex;
-			    align-items:baseline;
-			    gap:8px;
-			    margin-bottom:12px;
-			}
-			
-			.rb-name{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & Accent & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-title{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & TxtPrimary & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-sub{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    margin-left:auto;
-			}
-			
-			.rb table{
-			    width:100%;
-			    border-collapse:collapse;
-			    table-layout:fixed;
-			}
-			
-			.rb th{
-			    font-size:9px;
-			    font-weight:800;
-			    letter-spacing:.6px;
-			    text-transform:uppercase;
-			    color:" & TxtSecondary & ";
-			    background:" & HeadBg & ";
-			    padding:6px 5px;
-			    text-align:right;
-			    white-space:nowrap;
-			}
-			
-			.rb th.grp{
-			    text-align:left;
-			    color:" & TxtPrimary & ";
-			    font-size:10px;
-			    border-bottom:1px solid " & SectionLine & ";
-			}
-			
-			.rb th.c-lbl,
-			.rb td.c-lbl{
-			    text-align:left;
-			    width:10%;
-			    white-space:nowrap;
-			}
-			
-			.rb .c-lbl-main{
-			    line-height:1.2;
-			}
-			
-			.rb .c-lbl-sub{
-			    font-size:9px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    line-height:1.1;
-			    margin-top:1px;
-			}
-			
-			.rb th:not(.c-lbl),
-			.rb td:not(.c-lbl){
-			    width:10%;
-			}
-			
-			.rb th.sec,
-			.rb td.sec{
-			    border-left:1px solid " & SectionLine & ";
-			}
-			
-			.rb td{
-			    font-size:11px;
-			    padding:5px 5px;
-			    text-align:right;
-			    border-bottom:1px solid " & RowLine & ";
-			    color:" & TxtPrimary & ";
-			    font-variant-numeric:tabular-nums;
-			    font-feature-settings:'tnum';
-			}
-			
-			.rb td.dim{
-			    color:" & TxtSecondary & ";
-			}
-			
-			.rb td.yc{
-			    padding:4px 5px;
-			}
-			
-			.rb .yv{
-			    width:100%;
-			    font-size:10px;
-			    font-weight:800;
-			    text-align:right;
-			    line-height:1.1;
-			    font-variant-numeric:tabular-nums;
-			}
-			
-			.rb .yb{
-			    width:100%;
-			    height:3px;
-			    border-radius:2px;
-			    background:" & TrackBg & ";
-			    overflow:hidden;
-			    margin-top:3px;
-			}
-			
-			.rb .yf{
-			    height:100%;
-			    border-radius:2px;
-			    transform:scaleX(0);
-			    transform-origin:left center;
-			    transition:transform .9s cubic-bezier(.22,.8,.25,1);
-			}
-			
-			.rb tr.r-sched td{
-			    font-weight:500;
-			    color:" & SchedTxt & ";
-			}
-			
-			.rb tr.r-sched td.c-lbl{
-			    padding-left:6px;
-			    padding-right:2px;
-			    font-size:10px;
-			}
-			
-			.rb tr.r-campus td{
-			    font-weight:800;
-			}
-			
-			.rb tr.r-campus td.c-lbl{
-			    padding-left:6px;
-			}
-			
-			.rb tr.r-total td{
-			    background:" & CityRowBg & ";
-			    font-weight:900;
-			    border-top:2px solid " & SectionLine & ";
-			    border-bottom:none;
-			}
-			
-			.rb-empty{
-			    min-height:120px;
-			    display:flex;
-			    flex-direction:column;
-			    align-items:center;
-			    justify-content:center;
-			    gap:8px;
-			    text-align:center;
-			}
-			
-			.rb-empty-h{
-			    font-size:12px;
-			    font-weight:800;
-			    color:" & TxtPrimary & ";
-			}
-			
-			.rb-empty-s{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    max-width:280px;
-			    line-height:1.4;
-			}
-			</style>"
-			
-			    & "<div class='rb'>"
-			    & HeadHTML
-			    & "<table>"
-			    & "<colgroup>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			    & "</colgroup>"
-			    & "<thead>"
-			    & "<tr>"
-			        & "<th class='c-lbl grp'></th>"
-			        & "<th class='grp' colspan='3'>Adults</th>"
-			        & "<th class='grp sec' colspan='3'>bloom</th>"
-			        & "<th class='grp sec' colspan='3'>Door Holder</th>"
-			    & "</tr>"
-			    & "<tr>"
-			        & "<th class='c-lbl'>Gathering</th>"
-			        & "<th>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			        & "<th class='sec'>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			        & "<th class='sec'>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			    & "</tr>"
-			    & "</thead>"
-			    & "<tbody>"
-			        & RowsHTML
-			    & "</tbody>"
-			    & "</table>"
-			    & "</div>"
-			    & "<script>
-			    (function(){
-			        function run(){
-			            var f=document.querySelectorAll('.rb .yf');
-			            requestAnimationFrame(function(){
-			                requestAnimationFrame(function(){
-			                    f.forEach(function(el){
-			                        el.style.transform='scaleX(1)';
-			                    });
-			                });
-			            });
-			        }
-			        if(document.readyState==='loading'){
-			            document.addEventListener('DOMContentLoaded',run);
-			        }else{
-			            run();
-			        }
-			    })();
-			    </script>"
-			VAR EmptyHTML =
-			"<style>
-			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
-			.rb{width:100%;height:280px;min-height:280px;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;display:flex;flex-direction:column;}
-			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
-			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
-			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
-			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
-			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
-			.rb th{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 8px;text-align:right;white-space:nowrap;}
-			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
-			.rb th.c-lbl,.rb td.c-lbl{text-align:left;width:22%;}
-			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
-			.rb td{font-size:11px;padding:5px 8px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';}
-			.rb td.dim{color:" & TxtSecondary & ";}
-			.rb td.yc{width:9%;padding:4px 8px;}
-			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
-			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
-			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
-			.rb tr.r-sched td{font-weight:500;color:" & SchedTxt & ";}
-			.rb tr.r-sched td.c-lbl{padding-left:14px;font-size:10px;}
-			.rb tr.r-campus td{font-weight:800;}
-			.rb tr.r-campus td.c-lbl{padding-left:14px;}
-			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
-			.rb-empty{flex:1 1 0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
-			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
-			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
-			</style>"
-			    & "<div class='rb'>"
-			    & HeadHTML
-			    & "<div class='rb-empty'>"
-			        & "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
-			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
-			    & "</div></div>"
-			RETURN
-			    IF (
-			        HasData,
-			        TableHTML,
-			        EmptyHTML
-			    )
-			
-			```
-		lineageTag: 7a2033fe-29a9-4721-88b9-1bf4e3728ab5
-
-	measure HTML_Easter_RB_TRL = ```
-			
-			VAR IsDark =
-			    [SelectedTheme] = "Dark"
-			
-			VAR Bg =
-			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
-			
-			VAR BorderColor =
-			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
-			
-			VAR TxtPrimary =
-			    IF ( IsDark, "#FFFFFF", "#111111" )
-			
-			VAR TxtSecondary =
-			    IF ( IsDark, "#9CA3AF", "#6B7280" )
-			
-			VAR HeadBg =
-			    IF ( IsDark, "#252525", "#F9FAFB" )
-			
-			VAR RowLine =
-			    IF ( IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.06)" )
-			
-			VAR SectionLine =
-			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
-			
-			VAR CityRowBg =
-			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
-			
-			VAR SchedTxt =
-			    IF ( IsDark, "#8A8A8A", "#6B7280" )
-			
-			VAR TrackBg =
-			    IF ( IsDark, "#323232", "#E5E7EB" )
-			
-			VAR Green =
-			    "#62E68D"
-			
-			VAR Red =
-			    "#FF7E84"
-			
-			VAR BarCap =
-			    0.5
-			
-			VAR Accent =
-			    "#931EE7"
-			
-			VAR SelYr =
-			    [EasterYear]
-			
-			VAR PrevYr =
-			    SelYr - 1
-			
-			VAR Src =
-			    FILTER (
-			        ALL ( 'SplSundayAttInPerson_WOW' ),
-			        'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			            &&
-			        'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
-			            &&
-			        (
-			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                ||
-			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			        )
-			    )
-			
-			VAR MinYrAvail =
-			    MINX (
-			        FILTER (
-			            ALL ( 'SplSundayAttInPerson_WOW' ),
-			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			                &&
-			            'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
-			                &&
-			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
-			        ),
-			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
-			    )
-			
-			VAR MaxYrAvail =
-			    MAXX (
-			        FILTER (
-			            ALL ( 'SplSundayAttInPerson_WOW' ),
-			            'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			                &&
-			            'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
-			                &&
-			            COALESCE ( 'SplSundayAttInPerson_WOW'[Count], 0 ) > 0
-			        ),
-			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
-			    )
-			
-			VAR CurYearTotal =
-			    SUMX (
-			        FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
-			        'SplSundayAttInPerson_WOW'[Count]
-			    )
-			
-			VAR HasData =
-			    NOT ISBLANK ( SelYr )
-			        &&
-			    COALESCE ( COUNTROWS ( Src ), 0 ) > 0
-			        &&
-			    COALESCE ( CurYearTotal, 0 ) > 0
-			
-			VAR EmptyHeadline =
-			    IF ( ISBLANK ( SelYr ), "No data available", "No Easter data for " & FORMAT ( SelYr, "0" ) )
-			
-			VAR EmptySubline =
-			    IF (
-			        NOT ISBLANK ( MinYrAvail )
-			            &&
-			        NOT ISBLANK ( MaxYrAvail ),
-			        "Data available in select years from "
-			            & FORMAT ( MinYrAvail, "0" )
-			            & " to "
-			            & FORMAT ( MaxYrAvail, "0" ),
-			        "No historical Easter data available"
-			    )
-			
-			/* ================================================================
-			   FIXED YOY MATCH LOGIC
-			   Saturday (ScheduleSort = 22) always matches Saturday.
-			   Sunday services are ranked by ScheduleSort within EACH year
-			   independently, then matched rank-to-rank (1st Sunday <-> 1st
-			   Sunday, 2nd <-> 2nd, etc.) instead of matching by ScheduleName,
-			   so a service time shifting year over year no longer breaks YOY.
-			   ================================================================ */
-			
-			VAR CurSrcOnly =
-			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr )
-			VAR PrevSrcOnly =
-			    FILTER ( Src, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr )
-			
-			VAR CurSchedRaw =
-			    SUMMARIZE (
-			        CurSrcOnly,
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort]
-			    )
-			VAR PrevSchedRaw =
-			    SUMMARIZE (
-			        PrevSrcOnly,
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort]
-			    )
-			
-			VAR CurSunOnly =
-			    FILTER ( CurSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort] <> 22 )
-			VAR PrevSunOnly =
-			    FILTER ( PrevSchedRaw, 'SplSundayAttInPerson_WOW'[ScheduleSort] <> 22 )
-			
-			VAR CurSchedKeyed =
-			    ADDCOLUMNS (
-			        CurSchedRaw,
-			        "MatchKey",
-			            IF (
-			                'SplSundayAttInPerson_WOW'[ScheduleSort] = 22,
-			                "SAT",
-			                "SUN" & RANKX ( CurSunOnly, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
-			            )
-			    )
-			VAR PrevSchedKeyed =
-			    ADDCOLUMNS (
-			        PrevSchedRaw,
-			        "MatchKey",
-			            IF (
-			                'SplSundayAttInPerson_WOW'[ScheduleSort] = 22,
-			                "SAT",
-			                "SUN" & RANKX ( PrevSunOnly, 'SplSundayAttInPerson_WOW'[ScheduleSort], , ASC, DENSE )
-			            )
-			    )
-			
-			VAR KeysDetail =
-			    SELECTCOLUMNS (
-			        CurSchedKeyed,
-			        "SortA", COALESCE ( 'SplSundayAttInPerson_WOW'[ScheduleSort] + 0, 0 ),
-			        "Label", 'SplSundayAttInPerson_WOW'[ScheduleName],
-			        "Lvl", "detail",
-			        "K", 'SplSundayAttInPerson_WOW'[ScheduleName],
-			        "MK", [MatchKey]
-			    )
-			
-			VAR KeysTotal =
-			    ROW ( "SortA", 999999, "Label", "Total", "Lvl", "total", "K", "", "MK", "" )
-			
-			VAR AllKeys =
-			    UNION ( KeysDetail, KeysTotal )
-			
-			VAR KeysWithMatch =
-			    ADDCOLUMNS (
-			        AllKeys,
-			        "PrevName",
-			            VAR mk = [MK]
-			            RETURN
-			                IF (
-			                    [Lvl] = "total",
-			                    BLANK (),
-			                    MAXX ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ), 'SplSundayAttInPerson_WOW'[ScheduleName] )
-			                ),
-			        "HasMatch",
-			            VAR mk = [MK]
-			            RETURN
-			                [Lvl] = "total"
-			                    || COUNTROWS ( FILTER ( PrevSchedKeyed, [MatchKey] = mk ) ) > 0
-			    )
-			
-			VAR RowData =
-			    ADDCOLUMNS (
-			        KeysWithMatch,
-			
-			        "AdCur",
-			            VAR k = [K]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Adults"
-			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
-			                ),
-			
-			        "AdPrev",
-			            VAR pn = [PrevName]
-			            RETURN
-			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Adults" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
-			                    )
-			                ),
-			
-			        "BlCur",
-			            VAR k = [K]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "bloom"
-			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
-			                ),
-			
-			        "BlPrev",
-			            VAR pn = [PrevName]
-			            RETURN
-			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "bloom" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
-			                    )
-			                ),
-			
-			        "DhCur",
-			            VAR k = [K]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        CurSrcOnly,
-			                        ( k = "" || 'SplSundayAttInPerson_WOW'[ScheduleName] = k )
-			                            && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
-			                    ),
-			                    'SplSundayAttInPerson_WOW'[Count]
-			                ),
-			
-			        "DhPrev",
-			            VAR pn = [PrevName]
-			            RETURN
-			                IF (
-			                    [Lvl] = "total",
-			                    SUMX ( FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ), 'SplSundayAttInPerson_WOW'[Count] ),
-			                    IF (
-			                        ISBLANK ( pn ),
-			                        0,
-			                        SUMX (
-			                            FILTER ( PrevSrcOnly, 'SplSundayAttInPerson_WOW'[ScheduleName] = pn && 'SplSundayAttInPerson_WOW'[Literal] = "Door Holder" ),
-			                            'SplSundayAttInPerson_WOW'[Count]
-			                        )
-			                    )
-			                )
-			    )
-			
-			VAR RowsHTML =
-			    CONCATENATEX (
-			        RowData,
-			
-			        VAR rowCls =
-			            IF ( [Lvl] = "total", "r-total", "r-sched" )
-			
-			        VAR hasMatch = [HasMatch]
-			
-			        VAR aCur =
-			            [AdCur]
-			
-			        VAR aPrev =
-			            [AdPrev]
-			
-			        VAR aState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( aCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( aPrev, 0 ) = 0, "empty",
-			
-			                    COALESCE ( aPrev, 0 ) = 0, "new",
-			
-			                    COALESCE ( aCur, 0 ) = 0, "gone",
-			
-			                    "ok"
-			                )
-			            )
-			
-			        VAR aYOY =
-			            IF (
-			                aState = "ok",
-			                DIVIDE ( aCur - aPrev, aPrev )
-			            )
-			
-			        VAR aTxt =
-			            SWITCH (
-			                aState,
-			                "empty", "",
-			                "new", "NEW",
-			                "gone", "N/A",
-			                IF (
-			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
-			                )
-			            )
-			
-			        VAR aCol =
-			            SWITCH (
-			                aState,
-			                "empty", TxtSecondary,
-			                "new", "#00B8E4",
-			                "gone", TxtSecondary,
-			                IF ( aYOY >= 0, Green, Red )
-			            )
-			
-			        VAR aBar =
-			            IF (
-			                aState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 ) ),
-			                0
-			            )
-			
-			        VAR aShowBar =
-			            aState = "ok"
-			
-			        VAR aF1 =
-			            IF ( COALESCE ( aCur, 0 ) = 0, "", FORMAT ( aCur, "#,0" ) )
-			
-			        VAR aF2 =
-			            IF ( COALESCE ( aPrev, 0 ) = 0, "", FORMAT ( aPrev, "#,0" ) )
-			
-			        VAR bCur =
-			            [BlCur]
-			
-			        VAR bPrev =
-			            [BlPrev]
-			
-			        VAR bState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( bCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( bPrev, 0 ) = 0, "empty",
-			
-			                    COALESCE ( bPrev, 0 ) = 0, "new",
-			
-			                    COALESCE ( bCur, 0 ) = 0, "gone",
-			
-			                    "ok"
-			                )
-			            )
-			
-			        VAR bYOY =
-			            IF (
-			                bState = "ok",
-			                DIVIDE ( bCur - bPrev, bPrev )
-			            )
-			
-			        VAR bTxt =
-			            SWITCH (
-			                bState,
-			                "empty", "",
-			                "new", "NEW",
-			                "gone", "N/A",
-			                IF (
-			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
-			                )
-			            )
-			
-			        VAR bCol =
-			            SWITCH (
-			                bState,
-			                "empty", TxtSecondary,
-			                "new", "#00B8E4",
-			                "gone", TxtSecondary,
-			                IF ( bYOY >= 0, Green, Red )
-			            )
-			
-			        VAR bBar =
-			            IF (
-			                bState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 ) ),
-			                0
-			            )
-			
-			        VAR bShowBar =
-			            bState = "ok"
-			
-			        VAR bF1 =
-			            IF ( COALESCE ( bCur, 0 ) = 0, "", FORMAT ( bCur, "#,0" ) )
-			
-			        VAR bF2 =
-			            IF ( COALESCE ( bPrev, 0 ) = 0, "", FORMAT ( bPrev, "#,0" ) )
-			
-			        VAR dCur =
-			            [DhCur]
-			
-			        VAR dPrev =
-			            [DhPrev]
-			
-			        VAR dState =
-			            IF (
-			                NOT hasMatch,
-			                "gone",
-			                SWITCH (
-			                    TRUE (),
-			                    COALESCE ( dCur, 0 ) = 0
-			                        &&
-			                    COALESCE ( dPrev, 0 ) = 0, "empty",
-			
-			                    COALESCE ( dPrev, 0 ) = 0, "new",
-			
-			                    COALESCE ( dCur, 0 ) = 0, "gone",
-			
-			                    "ok"
-			                )
-			            )
-			
-			        VAR dYOY =
-			            IF (
-			                dState = "ok",
-			                DIVIDE ( dCur - dPrev, dPrev )
-			            )
-			
-			        VAR dTxt =
-			            SWITCH (
-			                dState,
-			                "empty", "",
-			                "new", "NEW",
-			                "gone", "N/A",
-			                IF (
-			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
-			                )
-			            )
-			
-			        VAR dCol =
-			            SWITCH (
-			                dState,
-			                "empty", TxtSecondary,
-			                "new", "#00B8E4",
-			                "gone", TxtSecondary,
-			                IF ( dYOY >= 0, Green, Red )
-			            )
-			
-			        VAR dBar =
-			            IF (
-			                dState = "ok",
-			                MIN ( 100, ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 ) ),
-			                0
-			            )
-			
-			        VAR dShowBar =
-			            dState = "ok"
-			
-			        VAR dF1 =
-			            IF ( COALESCE ( dCur, 0 ) = 0, "", FORMAT ( dCur, "#,0" ) )
-			
-			        VAR dF2 =
-			            IF ( COALESCE ( dPrev, 0 ) = 0, "", FORMAT ( dPrev, "#,0" ) )
-			
-			        VAR dispLabelSub =
-			            IF (
-			                [Lvl] = "total",
-			                "",
-			                IF (
-			                    hasMatch && NOT ISBLANK ( [PrevName] ) && [PrevName] <> [Label],
-			                    "was " & [PrevName],
-			                    ""
-			                )
-			            )
-			
-			        RETURN
-			            "<tr class='" & rowCls & "'>"
-			                & "<td class='c-lbl'>"
-			                    & "<div class='c-lbl-main'>" & [Label] & "</div>"
-			                    & IF ( dispLabelSub <> "", "<div class='c-lbl-sub'>" & dispLabelSub & "</div>", "" )
-			                & "</td>"
-			
-			                & "<td class='num'>" & aF1 & "</td>"
-			                & "<td class='num dim'>" & aF2 & "</td>"
-			                & "<td class='yc'>"
+			                & "<td class='g'>" & aCell & "</td>"
+			                & "<td class='a'>" & aF1 & "</td>"
+			                & "<td class='p dim'>" & aF2 & "</td>"
+			                & "<td class='y'>"
 			                    & "<div class='yv' style='color:" & aCol & "'>"
 			                        & aTxt
 			                    & "</div>"
@@ -3594,10 +2736,10 @@ table SplSundayAttInPerson_WOW
 			                        ""
 			                    )
 			                & "</td>"
-			
-			                & "<td class='num sec'>" & bF1 & "</td>"
-			                & "<td class='num dim'>" & bF2 & "</td>"
-			                & "<td class='yc'>"
+			                & "<td class='g sec'>" & bCell & "</td>"
+			                & "<td class='a'>" & bF1 & "</td>"
+			                & "<td class='p dim'>" & bF2 & "</td>"
+			                & "<td class='y'>"
 			                    & "<div class='yv' style='color:" & bCol & "'>"
 			                        & bTxt
 			                    & "</div>"
@@ -3611,10 +2753,10 @@ table SplSundayAttInPerson_WOW
 			                        ""
 			                    )
 			                & "</td>"
-			
-			                & "<td class='num sec'>" & dF1 & "</td>"
-			                & "<td class='num dim'>" & dF2 & "</td>"
-			                & "<td class='yc'>"
+			                & "<td class='g sec'>" & dCell & "</td>"
+			                & "<td class='a'>" & dF1 & "</td>"
+			                & "<td class='p dim'>" & dF2 & "</td>"
+			                & "<td class='y'>"
 			                    & "<div class='yv' style='color:" & dCol & "'>"
 			                        & dTxt
 			                    & "</div>"
@@ -3628,441 +2770,824 @@ table SplSundayAttInPerson_WOW
 			                        ""
 			                    )
 			                & "</td>"
-			
 			            & "</tr>",
-			
 			        "",
-			        [SortA], ASC
+			        IF ( [Rnk] = 0, 999999, [Rnk] ), ASC
 			    )
-			
 			VAR HeadHTML =
 			    "<div class='rb-head'>"
-			        & "<span class='rb-name'>Trilith</span>"
-			        & "<span class='rb-title'>Easter "
-			        & FORMAT ( SelYr, "0" )
-			        & "</span>"
-			        & "<span class='rb-sub'>vs "
-			        & FORMAT ( PrevYr, "0" )
-			        & "</span>"
+			        & "<span class='rb-name'>Cumberland</span>"
+			        & "<span class='rb-title'>Easter " & FORMAT ( SelYr, "0" ) & "</span>"
+			        & "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
 			    & "</div>"
-			
 			VAR TableHTML =
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-			
-			html,
-			body{
-			    width:100%;
-			    height:100%;
-			    margin:0;
-			    padding:0;
-			    overflow:hidden;
-			}
-			
-			.rb *{
-			    box-sizing:border-box;
-			    margin:0;
-			    padding:0;
-			    font-family:Inter,sans-serif;
-			}
-			
-			.rb{
-			    width:100%;
-			    height:280px;
-			    min-height:0;
-			    background:" & Bg & ";
-			    border:1px solid " & BorderColor & ";
-			    border-radius:18px;
-			    padding:16px 18px;
-			    overflow:hidden;
-			    display:flex;
-			    flex-direction:column;
-			}
-			
-			.rb-head{
-			    display:flex;
-			    align-items:baseline;
-			    gap:8px;
-			    margin-bottom:12px;
-			    flex:0 0 auto;
-			}
-			
-			.rb-name{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & Accent & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-title{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & TxtPrimary & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-sub{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    margin-left:auto;
-			}
-			
-			.rb table{
-			    width:100%;
-			    height:100%;
-			    flex:1 1 0;
-			    min-height:0;
-			    border-collapse:collapse;
-			    table-layout:fixed;
-			}
-			
-			.rb thead{
-			    height:auto;
-			}
-			
-			.rb tbody{
-			    height:100%;
-			}
-			
-			.rb tbody tr{
-			    height:1%;
-			}
-			
-			.rb th{
-			    font-size:9px;
-			    font-weight:800;
-			    letter-spacing:.6px;
-			    text-transform:uppercase;
-			    color:" & TxtSecondary & ";
-			    background:" & HeadBg & ";
-			    padding:6px 5px;
-			    text-align:right;
-			    vertical-align:middle;
-			    white-space:nowrap;
-			}
-			
-			.rb th.grp{
-			    text-align:left;
-			    color:" & TxtPrimary & ";
-			    font-size:10px;
-			    border-bottom:1px solid " & SectionLine & ";
-			}
-			
-			.rb th.c-lbl,
-			.rb td.c-lbl{
-			    text-align:left;
-			    width:10%;
-			    white-space:nowrap;
-			}
-			
-			.rb .c-lbl-main{
-			    line-height:1.2;
-			}
-			
-			.rb .c-lbl-sub{
-			    font-size:9px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    line-height:1.1;
-			    margin-top:1px;
-			}
-			
-			.rb th:not(.c-lbl),
-			.rb td:not(.c-lbl){
-			    width:10%;
-			}
-			
-			.rb th.sec,
-			.rb td.sec{
-			    border-left:1px solid " & SectionLine & ";
-			}
-			
-			.rb td{
-			    font-size:11px;
-			    padding:2px 5px;
-			    text-align:right;
-			    vertical-align:middle;
-			    border-bottom:1px solid " & RowLine & ";
-			    color:" & TxtPrimary & ";
-			    font-variant-numeric:tabular-nums;
-			    font-feature-settings:'tnum';
-			}
-			
-			.rb td.dim{
-			    color:" & TxtSecondary & ";
-			}
-			
-			.rb td.yc{
-			    padding:2px 5px;
-			    vertical-align:middle;
-			}
-			
-			.rb .yv{
-			    width:100%;
-			    font-size:10px;
-			    font-weight:800;
-			    text-align:right;
-			    line-height:1.1;
-			    font-variant-numeric:tabular-nums;
-			}
-			
-			.rb .yb{
-			    width:100%;
-			    height:3px;
-			    border-radius:2px;
-			    background:" & TrackBg & ";
-			    overflow:hidden;
-			    margin-top:3px;
-			}
-			
-			.rb .yf{
-			    height:100%;
-			    border-radius:2px;
-			    transform:scaleX(0);
-			    transform-origin:left center;
-			    transition:transform .9s cubic-bezier(.22,.8,.25,1);
-			}
-			
-			.rb tr.r-sched td{
-			    font-weight:500;
-			    color:" & SchedTxt & ";
-			}
-			
-			.rb tr.r-sched td.c-lbl{
-			    padding-left:6px;
-			    padding-right:2px;
-			    font-size:10px;
-			}
-			
-			.rb tr.r-campus td{
-			    font-weight:800;
-			}
-			
-			.rb tr.r-campus td.c-lbl{
-			    padding-left:6px;
-			}
-			
-			.rb tr.r-total td{
-			    background:" & CityRowBg & ";
-			    font-weight:900;
-			    border-top:2px solid " & SectionLine & ";
-			    border-bottom:none;
-			}
-			
-			.rb-empty{
-			    flex:1 1 0;
-			    min-height:0;
-			    display:flex;
-			    flex-direction:column;
-			    align-items:center;
-			    justify-content:center;
-			    gap:8px;
-			    text-align:center;
-			}
-			
-			.rb-empty-h{
-			    font-size:12px;
-			    font-weight:800;
-			    color:" & TxtPrimary & ";
-			}
-			
-			.rb-empty-s{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    max-width:280px;
-			    line-height:1.4;
-			}
+			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
+			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
+			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
+			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
+			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 6px;text-align:right;white-space:nowrap;}
+			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
+			.rb th.g,.rb td.g{text-align:left;width:11%;}
+			.rb th.a,.rb td.a{width:6.5%;}
+			.rb th.p,.rb td.p{width:6.5%;}
+			.rb th.y,.rb td.y{width:9.3%;}
+			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
+			.rb td{font-size:11px;padding:6px 6px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
+			.rb td.dim{color:" & TxtSecondary & ";}
+			.rb td.y{padding:5px 6px;}
+			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
+			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
+			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
+			.rb .gt{font-size:10px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
+			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
+			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
+			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
 			</style>"
-			
 			    & "<div class='rb'>"
-			
 			    & HeadHTML
-			
-			    & "<table>"
-			
-			    & "<colgroup>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			        & "<col style='width:10%'>"
-			    & "</colgroup>"
-			
-			    & "<thead>"
-			
-			    & "<tr>"
-			        & "<th class='c-lbl grp'></th>"
-			        & "<th class='grp' colspan='3'>Adults</th>"
-			        & "<th class='grp sec' colspan='3'>bloom</th>"
-			        & "<th class='grp sec' colspan='3'>Door Holder</th>"
-			    & "</tr>"
-			
-			    & "<tr>"
-			        & "<th class='c-lbl'>Gathering</th>"
-			        & "<th>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			        & "<th class='sec'>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			        & "<th class='sec'>Att</th>"
-			        & "<th>Prev</th>"
-			        & "<th>YOY%</th>"
-			    & "</tr>"
-			
-			    & "</thead>"
-			
-			    & "<tbody>"
-			        & RowsHTML
-			    & "</tbody>"
-			
-			    & "</table>"
-			
-			    & "</div>"
-			
-			    & "<script>
-			    (function(){
-			        function run(){
-			            var f=document.querySelectorAll('.rb .yf');
-			
-			            requestAnimationFrame(function(){
-			                requestAnimationFrame(function(){
-			                    f.forEach(function(el){
-			                        el.style.transform='scaleX(1)';
-			                    });
-			                });
-			            });
-			        }
-			
-			        if(document.readyState==='loading'){
-			            document.addEventListener('DOMContentLoaded',run);
-			        }else{
-			            run();
-			        }
-			    })();
-			    </script>"
-			
+			    & "<table><thead><tr>"
+			        & "<th class='grp' colspan='4'>Adults</th>"
+			        & "<th class='grp sec' colspan='4'>bloom</th>"
+			        & "<th class='grp sec' colspan='4'>Door Holder</th>"
+			    & "</tr><tr>"
+			        & "<th class='g'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			    & "</tr></thead><tbody>"
+			    & RowsHTML
+			    & "</tbody></table></div>"
+			    & "<script>(function(){function run(){var f=document.querySelectorAll('.rb .yf');requestAnimationFrame(function(){requestAnimationFrame(function(){f.forEach(function(el){el.style.transform='scaleX(1)';});});});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}})();</script>"
 			VAR EmptyHTML =
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-			
-			html,
-			body{
-			    width:100%;
-			    height:100%;
-			    margin:0;
-			    padding:0;
-			    overflow:hidden;
-			}
-			
-			.rb *{
-			    box-sizing:border-box;
-			    margin:0;
-			    padding:0;
-			    font-family:Inter,sans-serif;
-			}
-			
-			.rb{
-			    width:100%;
-			    height:280px;
-			    min-height:280px;
-			    background:" & Bg & ";
-			    border:1px solid " & BorderColor & ";
-			    border-radius:18px;
-			    padding:16px 18px;
-			    overflow:hidden;
-			    display:flex;
-			    flex-direction:column;
-			}
-			
-			.rb-head{
-			    display:flex;
-			    align-items:baseline;
-			    gap:8px;
-			    margin-bottom:12px;
-			    flex:0 0 auto;
-			}
-			
-			.rb-name{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & Accent & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-title{
-			    font-size:16px;
-			    font-weight:900;
-			    color:" & TxtPrimary & ";
-			    letter-spacing:-.2px;
-			}
-			
-			.rb-sub{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    margin-left:auto;
-			}
-			
-			.rb-empty{
-			    flex:1 1 0;
-			    min-height:0;
-			    display:flex;
-			    flex-direction:column;
-			    align-items:center;
-			    justify-content:center;
-			    gap:8px;
-			    text-align:center;
-			}
-			
-			.rb-empty-h{
-			    font-size:12px;
-			    font-weight:800;
-			    color:" & TxtPrimary & ";
-			}
-			
-			.rb-empty-s{
-			    font-size:11px;
-			    font-weight:500;
-			    color:" & TxtSecondary & ";
-			    max-width:280px;
-			    line-height:1.4;
-			}
+			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
+			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
+			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
+			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
+			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 6px;text-align:right;white-space:nowrap;}
+			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
+			.rb th.g,.rb td.g{text-align:left;width:11%;}
+			.rb th.a,.rb td.a{width:6.5%;}
+			.rb th.p,.rb td.p{width:6.5%;}
+			.rb th.y,.rb td.y{width:9.3%;}
+			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
+			.rb td{font-size:11px;padding:6px 6px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
+			.rb td.dim{color:" & TxtSecondary & ";}
+			.rb td.y{padding:5px 6px;}
+			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
+			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
+			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
+			.rb .gt{font-size:10px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
+			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
+			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
+			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
 			</style>"
-			
 			    & "<div class='rb'>"
-			
 			    & HeadHTML
-			
 			    & "<div class='rb-empty'>"
-			
-			        & "<div class='rb-empty-h'>"
-			            & EmptyHeadline
-			        & "</div>"
-			
-			        & "<div class='rb-empty-s'>"
-			            & EmptySubline
-			        & "</div>"
-			
-			    & "</div>"
-			
-			    & "</div>"
-			
+			        & "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
+			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
+			    & "</div></div>"
 			RETURN
-			    IF (
-			        HasData,
-			        TableHTML,
-			        EmptyHTML
-			    )
+			    IF ( HasData, TableHTML, EmptyHTML )
+		lineageTag: 7a2033fe-29a9-4721-88b9-1bf4e3728ab5
+
+	measure HTML_Easter_RB_TRL =
 			
-			```
+			VAR IsDark =
+			    [SelectedTheme] = "Dark"
+			VAR Bg =
+			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
+			VAR BorderColor =
+			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
+			VAR TxtPrimary =
+			    IF ( IsDark, "#FFFFFF", "#111111" )
+			VAR TxtSecondary =
+			    IF ( IsDark, "#9CA3AF", "#6B7280" )
+			VAR HeadBg =
+			    IF ( IsDark, "#252525", "#F9FAFB" )
+			VAR RowLine =
+			    IF ( IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.06)" )
+			VAR SectionLine =
+			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
+			VAR CityRowBg =
+			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
+			VAR SchedTxt =
+			    IF ( IsDark, "#8A8A8A", "#6B7280" )
+			VAR TrackBg =
+			    IF ( IsDark, "#323232", "#E5E7EB" )
+			VAR Green =
+			    "#62E68D"
+			VAR Red =
+			    "#FF7E84"
+			VAR BarCap =
+			    0.5
+			VAR Accent =
+			    "#931EE7"
+			VAR SelYr =
+			    [EasterYear]
+			VAR PrevYr =
+			    SelYr - 1
+			VAR Src =
+			    FILTER (
+			        ALL ( 'SplSundayAttInPerson_WOW' ),
+			        'SplSundayAttInPerson_WOW'[EventName] = "Easter"
+			            &&
+			        'SplSundayAttInPerson_WOW'[CampusName] = "Trilith"
+			            &&
+			        (
+			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                ||
+			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			        )
+			    )
+			VAR Base =
+			    SUMMARIZE (
+			        Src,
+			        'SplSundayAttInPerson_WOW'[Literal],
+			        'SplSundayAttInPerson_WOW'[FormattedDateSplSun],
+			        'SplSundayAttInPerson_WOW'[ScheduleName],
+			        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			        "V", SUM ( 'SplSundayAttInPerson_WOW'[Count] )
+			    )
+			VAR Ranked =
+			    ADDCOLUMNS (
+			        Base,
+			        "Rnk",
+			            VAR thisLit = 'SplSundayAttInPerson_WOW'[Literal]
+			            VAR thisYr = 'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			            VAR thisSort = 'SplSundayAttInPerson_WOW'[ScheduleSort]
+			            RETURN
+			                COUNTROWS (
+			                    FILTER (
+			                        Base,
+			                        'SplSundayAttInPerson_WOW'[Literal] = thisLit
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[FormattedDateSplSun] = thisYr
+			                            &&
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort] <= thisSort
+			                    )
+			                )
+			    )
+			VAR MaxRank =
+			    COALESCE ( MAXX ( Ranked, [Rnk] ), 0 )
+			VAR MinYrAvail =
+			    MINX (
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
+			    )
+			VAR MaxYrAvail =
+			    MAXX (
+			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
+			    )
+			VAR CurYearTotal =
+			    SUMX (
+			        FILTER ( Ranked, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
+			        [V]
+			    )
+			VAR HasData =
+			    NOT ISBLANK ( SelYr )
+			        &&
+			    MaxRank > 0
+			        &&
+			    COALESCE ( CurYearTotal, 0 ) > 0
+			VAR EmptyHeadline =
+			    IF (
+			        ISBLANK ( SelYr ),
+			        "No data available",
+			        "No Easter data for " & FORMAT ( SelYr, "0" )
+			    )
+			VAR EmptySubline =
+			    "Available from "
+			        & FORMAT ( MinYrAvail, "0" )
+			        & " to "
+			        & FORMAT ( MaxYrAvail, "0" )
+			VAR RankKeys =
+			    UNION (
+			        SELECTCOLUMNS ( GENERATESERIES ( 1, MAX ( MaxRank, 1 ) ), "Rnk", [Value] ),
+			        ROW ( "Rnk", 0 )
+			    )
+			VAR RowData =
+			    ADDCOLUMNS (
+			        RankKeys,
+			        "AdCur",
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "AdPrev",
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "AdName",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "AdWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "BlCur",
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "BlPrev",
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "BlName",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "BlWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "DhCur",
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "DhPrev",
+			            VAR r = [Rnk]
+			            RETURN
+			                SUMX (
+			                    FILTER (
+			                        Ranked,
+			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                            &&
+			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                            &&
+			                        ( r = 0 || [Rnk] = r )
+			                    ),
+			                    [V]
+			                ),
+			        "DhName",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                ),
+			        "DhWas",
+			            VAR r = [Rnk]
+			            RETURN
+			                IF (
+			                    r = 0,
+			                    "",
+			                    CONCATENATEX (
+			                        SUMMARIZE (
+			                            FILTER (
+			                                Ranked,
+			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			                                    &&
+			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			                                    &&
+			                                [Rnk] = r
+			                            ),
+			                            'SplSundayAttInPerson_WOW'[ScheduleName],
+			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
+			                        ),
+			                        'SplSundayAttInPerson_WOW'[ScheduleName],
+			                        " / ",
+			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
+			                        ASC
+			                    )
+			                )
+			    )
+			VAR RowsHTML =
+			    CONCATENATEX (
+			        RowData,
+			        VAR r = [Rnk]
+			        VAR rowCls =
+			            IF ( r = 0, "r-total", "r-gath" )
+			        VAR aCur =
+			            [AdCur]
+			        VAR aPrev =
+			            [AdPrev]
+			        VAR aState =
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( aCur, 0 ) = 0
+			                    &&
+			                COALESCE ( aPrev, 0 ) = 0, "empty",
+			                COALESCE ( aPrev, 0 ) = 0, "new",
+			                COALESCE ( aCur, 0 ) = 0, "gone",
+			                "ok"
+			            )
+			        VAR aYOY =
+			            IF (
+			                aState = "ok",
+			                DIVIDE ( aCur - aPrev, aPrev )
+			            )
+			        VAR aTxt =
+			            SWITCH (
+			                aState,
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			                IF (
+			                    aYOY >= 0,
+			                    "+" & FORMAT ( aYOY, "0.00%" ),
+			                    FORMAT ( aYOY, "0.00%" )
+			                )
+			            )
+			        VAR aCol =
+			            SWITCH (
+			                aState,
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			                IF ( aYOY >= 0, Green, Red )
+			            )
+			        VAR aBar =
+			            IF (
+			                aState = "ok",
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 )
+			                ),
+			                0
+			            )
+			        VAR aShowBar =
+			            aState = "ok"
+			        VAR aF1 =
+			            IF (
+			                COALESCE ( aCur, 0 ) = 0,
+			                "",
+			                FORMAT ( aCur, "#,0" )
+			            )
+			        VAR aF2 =
+			            IF (
+			                COALESCE ( aPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( aPrev, "#,0" )
+			            )
+			        VAR aNm =
+			            [AdName]
+			        VAR aWs =
+			            [AdWas]
+			        VAR aCell =
+			            IF (
+			                r = 0,
+			                "<div class='gt'>Total</div>",
+			                "<div class='gt'>" & IF ( aNm = "", "--", aNm ) & "</div>"
+			                    & IF ( aWs = "", "", "<div class='gw'>was " & aWs & "</div>" )
+			            )
+			        VAR bCur =
+			            [BlCur]
+			        VAR bPrev =
+			            [BlPrev]
+			        VAR bState =
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( bCur, 0 ) = 0
+			                    &&
+			                COALESCE ( bPrev, 0 ) = 0, "empty",
+			                COALESCE ( bPrev, 0 ) = 0, "new",
+			                COALESCE ( bCur, 0 ) = 0, "gone",
+			                "ok"
+			            )
+			        VAR bYOY =
+			            IF (
+			                bState = "ok",
+			                DIVIDE ( bCur - bPrev, bPrev )
+			            )
+			        VAR bTxt =
+			            SWITCH (
+			                bState,
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			                IF (
+			                    bYOY >= 0,
+			                    "+" & FORMAT ( bYOY, "0.00%" ),
+			                    FORMAT ( bYOY, "0.00%" )
+			                )
+			            )
+			        VAR bCol =
+			            SWITCH (
+			                bState,
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			                IF ( bYOY >= 0, Green, Red )
+			            )
+			        VAR bBar =
+			            IF (
+			                bState = "ok",
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 )
+			                ),
+			                0
+			            )
+			        VAR bShowBar =
+			            bState = "ok"
+			        VAR bF1 =
+			            IF (
+			                COALESCE ( bCur, 0 ) = 0,
+			                "",
+			                FORMAT ( bCur, "#,0" )
+			            )
+			        VAR bF2 =
+			            IF (
+			                COALESCE ( bPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( bPrev, "#,0" )
+			            )
+			        VAR bNm =
+			            [BlName]
+			        VAR bWs =
+			            [BlWas]
+			        VAR bCell =
+			            IF (
+			                r = 0,
+			                "",
+			                "<div class='gt'>" & IF ( bNm = "", "--", bNm ) & "</div>"
+			                    & IF ( bWs = "", "", "<div class='gw'>was " & bWs & "</div>" )
+			            )
+			        VAR dCur =
+			            [DhCur]
+			        VAR dPrev =
+			            [DhPrev]
+			        VAR dState =
+			            SWITCH (
+			                TRUE (),
+			                COALESCE ( dCur, 0 ) = 0
+			                    &&
+			                COALESCE ( dPrev, 0 ) = 0, "empty",
+			                COALESCE ( dPrev, 0 ) = 0, "new",
+			                COALESCE ( dCur, 0 ) = 0, "gone",
+			                "ok"
+			            )
+			        VAR dYOY =
+			            IF (
+			                dState = "ok",
+			                DIVIDE ( dCur - dPrev, dPrev )
+			            )
+			        VAR dTxt =
+			            SWITCH (
+			                dState,
+			                "empty", "",
+			                "new", "NEW",
+			                "gone", "N/A",
+			                IF (
+			                    dYOY >= 0,
+			                    "+" & FORMAT ( dYOY, "0.00%" ),
+			                    FORMAT ( dYOY, "0.00%" )
+			                )
+			            )
+			        VAR dCol =
+			            SWITCH (
+			                dState,
+			                "empty", TxtSecondary,
+			                "new", "#00B8E4",
+			                "gone", TxtSecondary,
+			                IF ( dYOY >= 0, Green, Red )
+			            )
+			        VAR dBar =
+			            IF (
+			                dState = "ok",
+			                MIN (
+			                    100,
+			                    ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 )
+			                ),
+			                0
+			            )
+			        VAR dShowBar =
+			            dState = "ok"
+			        VAR dF1 =
+			            IF (
+			                COALESCE ( dCur, 0 ) = 0,
+			                "",
+			                FORMAT ( dCur, "#,0" )
+			            )
+			        VAR dF2 =
+			            IF (
+			                COALESCE ( dPrev, 0 ) = 0,
+			                "",
+			                FORMAT ( dPrev, "#,0" )
+			            )
+			        VAR dNm =
+			            [DhName]
+			        VAR dWs =
+			            [DhWas]
+			        VAR dCell =
+			            IF (
+			                r = 0,
+			                "",
+			                "<div class='gt'>" & IF ( dNm = "", "--", dNm ) & "</div>"
+			                    & IF ( dWs = "", "", "<div class='gw'>was " & dWs & "</div>" )
+			            )
+			        RETURN
+			            "<tr class='" & rowCls & "'>"
+			                & "<td class='g'>" & aCell & "</td>"
+			                & "<td class='a'>" & aF1 & "</td>"
+			                & "<td class='p dim'>" & aF2 & "</td>"
+			                & "<td class='y'>"
+			                    & "<div class='yv' style='color:" & aCol & "'>"
+			                        & aTxt
+			                    & "</div>"
+			                    & IF (
+			                        aShowBar,
+			                        "<div class='yb'><div class='yf' style='width:"
+			                            & FORMAT ( aBar, "0" )
+			                            & "%;background:"
+			                            & aCol
+			                            & "'></div></div>",
+			                        ""
+			                    )
+			                & "</td>"
+			                & "<td class='g sec'>" & bCell & "</td>"
+			                & "<td class='a'>" & bF1 & "</td>"
+			                & "<td class='p dim'>" & bF2 & "</td>"
+			                & "<td class='y'>"
+			                    & "<div class='yv' style='color:" & bCol & "'>"
+			                        & bTxt
+			                    & "</div>"
+			                    & IF (
+			                        bShowBar,
+			                        "<div class='yb'><div class='yf' style='width:"
+			                            & FORMAT ( bBar, "0" )
+			                            & "%;background:"
+			                            & bCol
+			                            & "'></div></div>",
+			                        ""
+			                    )
+			                & "</td>"
+			                & "<td class='g sec'>" & dCell & "</td>"
+			                & "<td class='a'>" & dF1 & "</td>"
+			                & "<td class='p dim'>" & dF2 & "</td>"
+			                & "<td class='y'>"
+			                    & "<div class='yv' style='color:" & dCol & "'>"
+			                        & dTxt
+			                    & "</div>"
+			                    & IF (
+			                        dShowBar,
+			                        "<div class='yb'><div class='yf' style='width:"
+			                            & FORMAT ( dBar, "0" )
+			                            & "%;background:"
+			                            & dCol
+			                            & "'></div></div>",
+			                        ""
+			                    )
+			                & "</td>"
+			            & "</tr>",
+			        "",
+			        IF ( [Rnk] = 0, 999999, [Rnk] ), ASC
+			    )
+			VAR HeadHTML =
+			    "<div class='rb-head'>"
+			        & "<span class='rb-name'>Trilith</span>"
+			        & "<span class='rb-title'>Easter " & FORMAT ( SelYr, "0" ) & "</span>"
+			        & "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
+			    & "</div>"
+			VAR TableHTML =
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
+			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
+			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
+			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
+			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 6px;text-align:right;white-space:nowrap;}
+			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
+			.rb th.g,.rb td.g{text-align:left;width:11%;}
+			.rb th.a,.rb td.a{width:6.5%;}
+			.rb th.p,.rb td.p{width:6.5%;}
+			.rb th.y,.rb td.y{width:9.3%;}
+			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
+			.rb td{font-size:11px;padding:6px 6px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
+			.rb td.dim{color:" & TxtSecondary & ";}
+			.rb td.y{padding:5px 6px;}
+			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
+			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
+			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
+			.rb .gt{font-size:10px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
+			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
+			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
+			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
+			</style>"
+			    & "<div class='rb'>"
+			    & HeadHTML
+			    & "<table><thead><tr>"
+			        & "<th class='grp' colspan='4'>Adults</th>"
+			        & "<th class='grp sec' colspan='4'>bloom</th>"
+			        & "<th class='grp sec' colspan='4'>Door Holder</th>"
+			    & "</tr><tr>"
+			        & "<th class='g'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			    & "</tr></thead><tbody>"
+			    & RowsHTML
+			    & "</tbody></table></div>"
+			    & "<script>(function(){function run(){var f=document.querySelectorAll('.rb .yf');requestAnimationFrame(function(){requestAnimationFrame(function(){f.forEach(function(el){el.style.transform='scaleX(1)';});});});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}})();</script>"
+			VAR EmptyHTML =
+			"<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+			.rb *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif;}
+			.rb{width:100%;background:" & Bg & ";border:1px solid " & BorderColor & ";border-radius:18px;padding:16px 18px;overflow:hidden;}
+			.rb-head{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+			.rb-name{font-size:16px;font-weight:900;color:" & Accent & ";letter-spacing:-.2px;}
+			.rb-title{font-size:16px;font-weight:900;color:" & TxtPrimary & ";letter-spacing:-.2px;}
+			.rb-sub{font-size:11px;font-weight:500;color:" & TxtSecondary & ";margin-left:auto;}
+			.rb table{width:100%;border-collapse:collapse;table-layout:fixed;}
+			.rb th{font-size:9px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:" & TxtSecondary & ";background:" & HeadBg & ";padding:6px 6px;text-align:right;white-space:nowrap;}
+			.rb th.grp{text-align:left;color:" & TxtPrimary & ";font-size:10px;border-bottom:1px solid " & SectionLine & ";}
+			.rb th.g,.rb td.g{text-align:left;width:11%;}
+			.rb th.a,.rb td.a{width:6.5%;}
+			.rb th.p,.rb td.p{width:6.5%;}
+			.rb th.y,.rb td.y{width:9.3%;}
+			.rb th.sec,.rb td.sec{border-left:1px solid " & SectionLine & ";}
+			.rb td{font-size:11px;padding:6px 6px;text-align:right;border-bottom:1px solid " & RowLine & ";color:" & TxtPrimary & ";font-variant-numeric:tabular-nums;font-feature-settings:'tnum';vertical-align:top;}
+			.rb td.dim{color:" & TxtSecondary & ";}
+			.rb td.y{padding:5px 6px;}
+			.rb .yv{font-size:10px;font-weight:800;text-align:right;line-height:1.1;font-variant-numeric:tabular-nums;}
+			.rb .yb{height:3px;border-radius:2px;background:" & TrackBg & ";overflow:hidden;margin-top:3px;}
+			.rb .yf{height:100%;border-radius:2px;transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.22,.8,.25,1);}
+			.rb .gt{font-size:10px;font-weight:800;color:" & TxtPrimary & ";line-height:1.25;}
+			.rb .gw{font-size:9px;font-weight:500;color:" & SchedTxt & ";line-height:1.3;margin-top:1px;}
+			.rb tr.r-total td{background:" & CityRowBg & ";font-weight:900;border-top:2px solid " & SectionLine & ";border-bottom:none;}
+			.rb-empty{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
+			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
+			</style>"
+			    & "<div class='rb'>"
+			    & HeadHTML
+			    & "<div class='rb-empty'>"
+			        & "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
+			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
+			    & "</div></div>"
+			RETURN
+			    IF ( HasData, TableHTML, EmptyHTML )
 		lineageTag: 99c15a17-04c0-4a08-bb61-d40c0448fef6
 
 	measure HTML_Christmas = ```

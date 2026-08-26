@@ -1759,6 +1759,7 @@ table 'Campus Selector'
 			VAR _soft = IF(_isDark, "#9f9f9f", "#777777")
 			VAR _line = IF(_isDark, "rgba(255,255,255,0.16)", "rgba(0,0,0,0.12)")
 			VAR _headBg = IF(_isDark, "rgba(255,255,255,0.05)", "rgba(0,0,0,0.04)")
+			VAR _placeholderBg = IF(_isDark, "#1A1A1A", "#F3F4F6")
 			
 			VAR _calDate =
 			    MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
@@ -1770,15 +1771,33 @@ table 'Campus Selector'
 			        _calDate
 			    )
 			
-			VAR _SelectedDate =
-			    MAXX(
-			        FILTER(
-			            ALL(AttendanceInPerson_WOW),
-			            AttendanceInPerson_WOW[MetricValueDateTime] <= _rawDate
-			                && AttendanceInPerson_WOW[ScheduleName] IN {"9:30am", "11:45am", "5:00pm"}
-			        ),
-			        AttendanceInPerson_WOW[MetricValueDateTime]
+			-- Require an EXACT match for the selected date. If no in-person data
+			-- exists for that specific Sunday, _SelectedDate is blank, and the
+			-- measure short-circuits to a "No data" card below instead of
+			-- silently falling back to the nearest earlier Sunday with data.
+			VAR _ExactMatch =
+			    CALCULATETABLE(
+			        VALUES(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        AttendanceInPerson_WOW[MetricValueDateTime] = _rawDate,
+			        AttendanceInPerson_WOW[ScheduleName] IN {"9:30am", "11:45am", "5:00pm"}
 			    )
+			
+			VAR _SelectedDate =
+			    IF(COUNTROWS(_ExactMatch) > 0, _rawDate, BLANK())
+			
+			VAR _NoDataHtml =
+			"
+			<style>
+			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+			.rst-nd { background:" & _cardBg & "; border:1px solid " & _line & "; border-radius:14px; overflow:hidden; font-family:Inter,sans-serif; width:100%; box-sizing:border-box; padding:40px 20px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; min-height:200px; }
+			.rst-nd-icon { font-size:28px; opacity:0.3; }
+			.rst-nd-text { font-size:12px; font-weight:600; color:" & _muted & "; opacity:0.6; letter-spacing:0.04em; text-transform:uppercase; }
+			</style>
+			<div class='rst-nd'>
+			<div class='rst-nd-icon'>📋</div>
+			<div class='rst-nd-text'>No data for this week</div>
+			</div>
+			"
 			
 			VAR _PrevDate =
 			    MAXX(
@@ -1934,7 +1953,8 @@ table 'Campus Selector'
 			        FORMAT(COALESCE([YoY], 0), "0"),
 			        "|"
 			    )
-			RETURN
+			
+			VAR _FullHtml =
 			"
 			<style>
 			html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
@@ -2102,6 +2122,9 @@ table 'Campus Selector'
 			})();
 			</script>
 			"
+			
+			RETURN
+			IF(ISBLANK(_SelectedDate), _NoDataHtml, _FullHtml)
 		lineageTag: 218993e8-a5e7-4dcc-9d2a-ceb656b31196
 
 	measure HTML_CheckInMapData =
@@ -3067,20 +3090,32 @@ table 'Campus Selector'
 		formatString: 0
 		lineageTag: d0f63745-dffe-4704-a107-f780eb7319f1
 
-	measure OnlineAttendance =
+	measure OnlineAttendance = ```
 			
 			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
 			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
 			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
 			VAR _Sun = FORMAT(_SelectedDate, "YYYY-MM-DD")
+			VAR _NewData = 
+			    SUMX(
+			        FILTER(
+			            v_gathering_views,
+			            v_gathering_views[sunday_date] = _Sun
+			        ),
+			        ROUND(v_gathering_views[total_views] * 1.94, 0)
+			    )
+			VAR _OldData =
+			    CALCULATE(
+			        SUM('AttendanceInPerson_Online_WOW'[Count]),
+			        'AttendanceInPerson_Online_WOW'[CampusName] = "Online",
+			        'AttendanceInPerson_Online_WOW'[EventName] = "Sunday Gathering",
+			        DATEVALUE('AttendanceInPerson_Online_WOW'[MetricValueDateTime]) = _SelectedDate
+			    )
 			RETURN
-			SUMX(
-			    FILTER(
-			        v_gathering_views,
-			        v_gathering_views[sunday_date] = _Sun
-			    ),
-			    ROUND(v_gathering_views[total_views] * 1.94, 0)
-			)
+			IF(_NewData > 0, _NewData, _OldData)
+			
+			
+			```
 		lineageTag: 28260510-2b85-4459-bc7a-2afe9b4c5ae6
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -3154,20 +3189,31 @@ table 'Campus Selector'
 			)
 		lineageTag: 1659faa9-8341-485d-974a-296993aa80c9
 
-	measure PrevWeekOnlineAttendance =
+	measure PrevWeekOnlineAttendance = ```
 			
 			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
 			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
 			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
-			VAR _Sun = FORMAT(_SelectedDate - 7, "YYYY-MM-DD")
+			VAR _PrevDate = _SelectedDate - 7
+			VAR _Sun = FORMAT(_PrevDate, "YYYY-MM-DD")
+			VAR _NewData = 
+			    SUMX(
+			        FILTER(
+			            v_gathering_views,
+			            v_gathering_views[sunday_date] = _Sun
+			        ),
+			        ROUND(v_gathering_views[total_views] * 1.94, 0)
+			    )
+			VAR _OldData =
+			    CALCULATE(
+			        SUM('AttendanceInPerson_Online_WOW'[Count]),
+			        'AttendanceInPerson_Online_WOW'[CampusName] = "Online",
+			        'AttendanceInPerson_Online_WOW'[EventName] = "Sunday Gathering",
+			        DATEVALUE('AttendanceInPerson_Online_WOW'[MetricValueDateTime]) = _PrevDate
+			    )
 			RETURN
-			SUMX(
-			    FILTER(
-			        v_gathering_views,
-			        v_gathering_views[sunday_date] = _Sun
-			    ),
-			    ROUND(v_gathering_views[total_views] * 1.94, 0)
-			)
+			IF(_NewData > 0, _NewData, _OldData)
+			```
 		lineageTag: 13b12436-7eba-4c53-b86f-4bbce7886928
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -3180,6 +3226,10 @@ table 'Campus Selector'
 			VAR _AttFmt = FORMAT(_CurAtt, "#,0")
 			VAR _PrevFmt = FORMAT(_PrevAtt, "#,0")
 			VAR _Thumb = [SermonThumbnailUrl]
+			VAR _FallbackThumb = "https://passioncitychurch.com/wp-content/uploads/2026/02/mainimageAPPROVED-scaled.jpg"
+			VAR _HasRealThumb = NOT ISBLANK([SermonVideoId])
+			VAR _ThumbToShow = IF(_HasRealThumb, _Thumb, _FallbackThumb)
+			VAR _BadgeHtml = IF(_HasRealThumb, "<div class='play-chip'>SERMON</div>", "")
 			VAR _IsDark = [SelectedTheme] = "Dark"
 			VAR _Bg = [CardBackground]
 			VAR _Txt = [CardTextColor]
@@ -3188,7 +3238,7 @@ table 'Campus Selector'
 			VAR _WoWColor = IF(_WoW >= 0, IF(_IsDark, "#4ADE80", "#166634"), IF(_IsDark, "#F87171", "#991B1B"))
 			VAR _WoWArrow = IF(_WoW >= 0, "▲", "▼")
 			VAR _WoWPct = FORMAT(ABS(_WoW), "0.0%")
-			VAR _NoData = ISBLANK([SermonVideoId]) || _CurAtt = 0
+			VAR _NoData = _CurAtt = 0
 			VAR _PlaceholderBg = IF(_IsDark, "#1A1A1A", "#F3F4F6")
 			RETURN
 			IF(
@@ -3228,8 +3278,8 @@ table 'Campus Selector'
 			</style>
 			<div class='online-card'>
 			<div class='thumb-wrap'>
-			<img src='" & _Thumb & "' />
-			<div class='play-chip'>SERMON</div>
+			<img src='" & _ThumbToShow & "' />
+			" & _BadgeHtml & "
 			</div>
 			<div class='stat-row'>
 			<div>
