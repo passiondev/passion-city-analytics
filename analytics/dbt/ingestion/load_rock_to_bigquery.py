@@ -34,7 +34,7 @@ import datetime
 import os
 
 import pandas as pd
-from google.cloud.sql.connector import Connector
+import pyodbc
 from google.cloud import bigquery
 
 CHUNK_SIZE = 50_000  # rows per fetch batch, tune to your memory/network
@@ -155,16 +155,16 @@ TABLE_CONFIGS = {
 }
 
 
-def get_sql_server_connection():
-    connector = Connector()
-    conn = connector.connect(
-        os.environ["CLOUDSQL_INSTANCE_CONNECTION_NAME"],  # "project:region:instance"
-        "pytds",
-        user=os.environ["ROCK_DB_USER"],
-        password=os.environ["ROCK_DB_PASSWORD"],
-        db=os.environ["ROCK_DB_NAME"],
+def get_sql_server_connection() -> pyodbc.Connection:
+    conn_str = (
+        "DRIVER={ODBC Driver 18 for SQL Server};"
+        f"SERVER={os.environ['ROCK_DB_SERVER']};"
+        f"DATABASE={os.environ['ROCK_DB_NAME']};"
+        f"UID={os.environ['ROCK_DB_USER']};"
+        f"PWD={os.environ['ROCK_DB_PASSWORD']};"
+        "Encrypt=yes;TrustServerCertificate=yes;"
     )
-    return conn
+    return pyodbc.connect(conn_str)
 
 
 def build_query(config: dict, mode: str) -> str:
