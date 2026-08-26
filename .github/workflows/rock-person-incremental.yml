@@ -31,13 +31,20 @@ jobs:
         with:
           credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
-      - name: Start Cloud SQL Auth Proxy
+      - name: Start proxy and run loader
+        env:
+          ROCK_DB_SERVER: 127.0.0.1,1433
+          ROCK_DB_NAME: ${{ secrets.ROCK_DB_NAME }}
+          ROCK_DB_USER: ${{ secrets.ROCK_DB_USER }}
+          ROCK_DB_PASSWORD: ${{ secrets.ROCK_DB_PASSWORD }}
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          BQ_BRONZE_DATASET: bronze
         run: |
           curl -o cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.14.1/cloud-sql-proxy.linux.amd64
           chmod +x cloud-sql-proxy
-          echo "----- verifying binary -----"
-          ./cloud-sql-proxy --version
           ./cloud-sql-proxy --port 1433 "${{ secrets.CLOUDSQL_INSTANCE_CONNECTION_NAME }}" > proxy.log 2>&1 &
+          PROXY_PID=$!
+
           echo "Waiting for proxy to be ready..."
           for i in $(seq 1 15); do
             if grep -q "Listening on" proxy.log 2>/dev/null; then
@@ -46,16 +53,10 @@ jobs:
             fi
             sleep 1
           done
-          echo "----- proxy log -----"
           cat proxy.log
 
-      - name: Run loader
-        env:
-          ROCK_DB_SERVER: 127.0.0.1,1433
-          ROCK_DB_NAME: ${{ secrets.ROCK_DB_NAME }}
-          ROCK_DB_USER: ${{ secrets.ROCK_DB_USER }}
-          ROCK_DB_PASSWORD: ${{ secrets.ROCK_DB_PASSWORD }}
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-          BQ_BRONZE_DATASET: bronze
-          ROCK_DB_ENCRYPT: "no"
-        run: python analytics/dbt/ingestion/load_rock_to_bigquery.py --table person --mode incremental
+          python analytics/dbt/ingestion/load_rock_to_bigquery.py --table person --mode incremental
+          LOADER_EXIT=$?
+
+          kill $PROXY_PID 2>/dev/null || true
+          exit $LOADER_EXIT
