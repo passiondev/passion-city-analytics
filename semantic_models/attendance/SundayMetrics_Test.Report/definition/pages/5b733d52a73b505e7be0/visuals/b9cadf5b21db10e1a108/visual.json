@@ -5,8 +5,8 @@
     "x": 736,
     "y": 416,
     "z": 5000,
-    "height": 320,
-    "width": 752,
+    "height": 340,
+    "width": 544,
     "tabOrder": 2000
   },
   "visual": {
@@ -35,6 +35,19 @@
     },
     "visualContainerObjects": {
       "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lockAspect": [
         {
           "properties": {
             "show": {

@@ -367,6 +367,11 @@ table 5pm52wksRollingChartLegend
 			VAR TxtPrimary = IF(IsDark, "#FFFFFF", "#111111")
 			VAR TxtSecondary = IF(IsDark, "#9CA3AF", "#6B7280")
 			VAR TitleColor = IF(IsDark, "#FFFFFF", "#111111")
+			VAR GridColor = IF(IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.07)")
+			VAR TooltipBg = IF(IsDark, "#1A1A1A", "#FFFFFF")
+			VAR TooltipBorder = IF(IsDark, "#2A2A2A", "#DDDDDD")
+			VAR TooltipTitle = IF(IsDark, "#888888", "#999999")
+			VAR TooltipBody = IF(IsDark, "#FFFFFF", "#111111")
 			
 			VAR Today = TODAY()
 			VAR StartDate = DATE(YEAR(Today)-1, MONTH(Today), DAY(Today))
@@ -388,71 +393,167 @@ table 5pm52wksRollingChartLegend
 			VAR FilteredData =
 			    FILTER(GatheringData, [Att] > 0)
 			
-			VAR MaxAtt = MAXX(FilteredData, [Att])
-			VAR PointCount = COUNTROWS(FilteredData)
-			
-			VAR XStep = DIVIDE(480, MAX(PointCount - 1, 1))
-			VAR YRange = 124
-			
-			VAR Points =
-			    ADDCOLUMNS(
-			        ADDCOLUMNS(
-			            FilteredData,
-			            "RowNum", RANKX(FilteredData, '5pmSundayAttInPerson'[MetricValueDateTime], , ASC)
-			        ),
-			        "X", 30 + ([RowNum] - 1) * XStep,
-			        "Y", 132 - DIVIDE([Att], MaxAtt, 0) * YRange
-			    )
-			
-			VAR PathD =
+			VAR LabelsJS =
 			    CONCATENATEX(
-			        Points,
-			        IF([RowNum] = 1, "M", "L") &
-			        FORMAT([X], "0") & "," &
-			        FORMAT([Y], "0"),
-			        " ",
+			        FilteredData,
+			        "'" & [Lbl] & "'",
+			        ",",
 			        '5pmSundayAttInPerson'[MetricValueDateTime], ASC
 			    )
 			
-			VAR LastX = MAXX(Points, [X])
-			VAR AreaPath = PathD & " L" & FORMAT(LastX, "0") & ",140 L30,140 Z"
-			
-			VAR DotsAndLabels =
+			VAR DataJS =
 			    CONCATENATEX(
-			        Points,
-			        "<circle cx='" & FORMAT([X], "0") & "' cy='" & FORMAT([Y], "0") & "' r='" &
-			            IF([RowNum] = MAXX(Points, [RowNum]), "5", "4") &
-			        "' fill='#00B8E4'/>" &
-			        "<text x='" & FORMAT([X], "0") & "' y='" & FORMAT([Y] - 10, "0") &
-			        "' text-anchor='middle' font-size='11' font-weight='700' fill='" & TxtPrimary & "'>" &
-			        FORMAT([Att], "#,0") & "</text>" &
-			        "<text x='" & FORMAT([X], "0") & "' y='158' text-anchor='middle' font-size='10' fill='" & TxtSecondary & "'>" &
-			        [Lbl] & "</text>",
-			        "",
+			        FilteredData,
+			        FORMAT(COALESCE([Att], 0), "0"),
+			        ",",
 			        '5pmSundayAttInPerson'[MetricValueDateTime], ASC
 			    )
 			
 			RETURN
-			"<style>
+			"
+			<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-			.five-chart * { box-sizing:border-box; margin:0; padding:0; font-family:Inter,sans-serif; }
-			.five-chart { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:14px; padding:20px; width:100%; }
-			.five-chart-title { font-size:13px; font-weight:700; color:" & TitleColor & "; margin-bottom:16px; }
+			* { box-sizing:border-box; margin:0; padding:0; }
+			html,body { width:100%; height:100%; margin:0; padding:0; overflow:hidden; }
+			.five-chart {
+			    width:100%;
+			    height:calc(100vh - 2px);
+			    background:" & Bg & ";
+			    border:1px solid " & BorderColor & ";
+			    border-radius:14px;
+			    padding:20px;
+			    display:flex;
+			    flex-direction:column;
+			    overflow:hidden;
+			    font-family:Inter,sans-serif;
+			}
+			.five-chart-title { flex:0 0 auto; font-size:13px; font-weight:700; color:" & TitleColor & "; margin-bottom:16px; }
+			.five-canvas-wrap { position:relative; width:100%; flex:1 1 auto; min-height:0; }
+			#fiveRollingChart { width:100% !important; height:100% !important; display:block; }
 			</style>
 			<div class='five-chart'>
 			<div class='five-chart-title'>Rolling 12 Months</div>
-			<svg viewBox='0 0 540 165' style='width:100%;overflow:visible;'>
-			    <defs>
-			        <linearGradient id='rg12' x1='0' y1='0' x2='0' y2='1'>
-			            <stop offset='0%' stop-color='#00B8E4' stop-opacity='0.3'/>
-			            <stop offset='100%' stop-color='#00B8E4' stop-opacity='0.02'/>
-			        </linearGradient>
-			    </defs>
-			    <path d='" & AreaPath & "' fill='url(#rg12)'/>
-			    <path d='" & PathD & "' fill='none' stroke='#00B8E4' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
-			    " & DotsAndLabels & "
-			</svg>
-			</div>"
+			<div class='five-canvas-wrap'>
+			<canvas id='fiveRollingChart'></canvas>
+			</div>
+			</div>
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js'></script>
+			<script>
+			(function () {
+			    function initFiveChart() {
+			        if (typeof Chart === 'undefined' || typeof ChartDataLabels === 'undefined') {
+			            setTimeout(initFiveChart, 100);
+			            return;
+			        }
+			        var canvas = document.getElementById('fiveRollingChart');
+			        if (!canvas) { return; }
+			
+			        Chart.register(ChartDataLabels);
+			
+			        var labels = [" & LabelsJS & "];
+			        var data = [" & DataJS & "];
+			
+			        new Chart(canvas, {
+			            type:'line',
+			            data: {
+			                labels:labels,
+			                datasets:[{
+			                    label:'515',
+			                    data:data,
+			                    borderColor:'#00B8E4',
+			                    borderWidth:2.5,
+			                    pointRadius:4,
+			                    pointHoverRadius:6,
+			                    pointBackgroundColor:'#00B8E4',
+			                    pointBorderColor:'#00B8E4',
+			                    tension:0.15,
+			                    fill:true,
+			                    backgroundColor:function(context) {
+			                        var chart = context.chart;
+			                        var ctx = chart.ctx;
+			                        var chartArea = chart.chartArea;
+			                        if (!chartArea) { return null; }
+			                        var gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+			                        gradient.addColorStop(0, 'rgba(0,184,228,0.3)');
+			                        gradient.addColorStop(1, 'rgba(0,184,228,0.02)');
+			                        return gradient;
+			                    },
+			                    datalabels: {
+			                        align:'top',
+			                        anchor:'end',
+			                        color:'" & TxtPrimary & "',
+			                        font:{ family:'Inter', size:11, weight:'700' },
+			                        formatter:function(value) {
+			                            return Math.round(value).toLocaleString('en-US');
+			                        }
+			                    }
+			                }]
+			            },
+			            options: {
+			                responsive:true,
+			                maintainAspectRatio:false,
+			                devicePixelRatio:2,
+			                interaction: { mode:'index', intersect:false },
+			                plugins: {
+			                    legend: { display:false },
+			                    tooltip: {
+			                        enabled:true,
+			                        mode:'index',
+			                        intersect:false,
+			                        backgroundColor:'" & TooltipBg & "',
+			                        borderColor:'" & TooltipBorder & "',
+			                        borderWidth:1,
+			                        titleColor:'" & TooltipTitle & "',
+			                        bodyColor:'" & TooltipBody & "',
+			                        padding:12,
+			                        cornerRadius:8,
+			                        displayColors:false,
+			                        titleFont:{ family:'Inter', size:11, weight:'600' },
+			                        bodyFont:{ family:'Inter', size:12, weight:'700' },
+			                        callbacks: {
+			                            label:function(context) {
+			                                return ' ' + Math.round(context.parsed.y).toLocaleString('en-US');
+			                            }
+			                        }
+			                    }
+			                },
+			                scales: {
+			                    x: {
+			                        offset:false,
+			                        grid:{ display:false },
+			                        border:{ display:false },
+			                        ticks: {
+			                            color:'" & TxtSecondary & "',
+			                            padding:10,
+			                            autoSkip:false,
+			                            maxRotation:0,
+			                            font:{ family:'Inter', size:10, weight:'500' }
+			                        }
+			                    },
+			                    y: {
+			                        beginAtZero:true,
+			                        grace:'20%',
+			                        grid: {
+			                            color:'" & GridColor & "',
+			                            drawTicks:false,
+			                            lineWidth:1
+			                        },
+			                        border:{ display:false },
+			                        ticks: { display:false }
+			                    }
+			                },
+			                layout: {
+			                    padding: { top:24, right:8, bottom:2, left:2 }
+			                },
+			                animation: { duration:850, easing:'easeOutQuart' }
+			            }
+			        });
+			    }
+			    setTimeout(initFiveChart, 100);
+			})();
+			</script>
+			"
 		lineageTag: 6f5ae830-35bd-45a2-ae88-94d0aee5c34d
 
 	measure HTML_Five_RollingYears =
@@ -463,6 +564,11 @@ table 5pm52wksRollingChartLegend
 			VAR TxtPrimary = IF(IsDark, "#FFFFFF", "#111111")
 			VAR TxtSecondary = IF(IsDark, "#9CA3AF", "#6B7280")
 			VAR TitleColor = IF(IsDark, "#FFFFFF", "#111111")
+			VAR GridColor = IF(IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.07)")
+			VAR TooltipBg = IF(IsDark, "#1A1A1A", "#FFFFFF")
+			VAR TooltipBorder = IF(IsDark, "#2A2A2A", "#DDDDDD")
+			VAR TooltipTitle = IF(IsDark, "#888888", "#999999")
+			VAR TooltipBody = IF(IsDark, "#FFFFFF", "#111111")
 			
 			VAR CurrentYear = YEAR(TODAY())
 			VAR StartYear = CurrentYear - 6
@@ -493,69 +599,167 @@ table 5pm52wksRollingChartLegend
 			        "Total", SUMX(FILTER(YearlyData, [Yr] = EARLIER([Yr])), [Att])
 			    )
 			
-			VAR MaxTotal = MAXX(YearSummary, [Total])
-			VAR PointCount = COUNTROWS(YearSummary)
-			VAR XStep = DIVIDE(480, MAX(PointCount - 1, 1))
-			VAR YRange = 120
-			
-			VAR Points =
-			    ADDCOLUMNS(
-			        ADDCOLUMNS(
-			            YearSummary,
-			            "RowNum", RANKX(YearSummary, [Yr], , ASC)
-			        ),
-			        "X", 30 + ([RowNum] - 1) * XStep,
-			        "Y", 128 - DIVIDE([Total], MaxTotal, 0) * YRange
-			    )
-			
-			VAR PathD =
+			VAR LabelsJS =
 			    CONCATENATEX(
-			        Points,
-			        IF([RowNum] = 1, "M", "L") &
-			        FORMAT([X], "0") & "," & FORMAT([Y], "0"),
-			        " ",
+			        YearSummary,
+			        "'" & FORMAT([Yr], "0") & "'",
+			        ",",
 			        [Yr], ASC
 			    )
 			
-			VAR LastX = MAXX(Points, [X])
-			VAR AreaPath = PathD & " L" & FORMAT(LastX, "0") & ",140 L30,140 Z"
-			
-			VAR DotsAndLabels =
+			VAR DataJS =
 			    CONCATENATEX(
-			        Points,
-			        "<circle cx='" & FORMAT([X], "0") & "' cy='" & FORMAT([Y], "0") &
-			        "' r='" & IF([RowNum] = MAXX(Points, [RowNum]), "5", "4") &
-			        "' fill='#00B8E4'/>" &
-			        "<text x='" & FORMAT([X], "0") & "' y='" & FORMAT([Y] - 12, "0") &
-			        "' text-anchor='middle' font-size='11' font-weight='700' fill='" & TxtPrimary & "'>" &
-			        FORMAT([Total], "#,0") & "</text>" &
-			        "<text x='" & FORMAT([X], "0") & "' y='158' text-anchor='middle' font-size='10' fill='" & TxtSecondary & "'>" &
-			        FORMAT([Yr], "0") & "</text>",
-			        "",
+			        YearSummary,
+			        FORMAT(COALESCE([Total], 0), "0"),
+			        ",",
 			        [Yr], ASC
 			    )
 			
 			RETURN
-			"<style>
+			"
+			<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-			.five-ryears * { box-sizing:border-box; margin:0; padding:0; font-family:Inter,sans-serif; }
-			.five-ryears { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:14px; padding:20px; width:100%; }
-			.five-ryears-title { font-size:13px; font-weight:700; color:" & TitleColor & "; margin-bottom:16px; }
+			* { box-sizing:border-box; margin:0; padding:0; }
+			html,body { width:100%; height:100%; margin:0; padding:0; overflow:hidden; }
+			.five-ryears {
+			    width:100%;
+			    height:calc(100vh - 2px);
+			    background:" & Bg & ";
+			    border:1px solid " & BorderColor & ";
+			    border-radius:14px;
+			    padding:20px;
+			    display:flex;
+			    flex-direction:column;
+			    overflow:hidden;
+			    font-family:Inter,sans-serif;
+			}
+			.five-ryears-title { flex:0 0 auto; font-size:13px; font-weight:700; color:" & TitleColor & "; margin-bottom:16px; }
+			.five-ryears-canvas-wrap { position:relative; width:100%; flex:1 1 auto; min-height:0; }
+			#fiveRollingYearsChart { width:100% !important; height:100% !important; display:block; }
 			</style>
 			<div class='five-ryears'>
 			<div class='five-ryears-title'>Rolling 7 Years</div>
-			<svg viewBox='0 0 540 165' style='width:100%;height:240px;overflow:visible;'>
-			    <defs>
-			        <linearGradient id='rgy' x1='0' y1='0' x2='0' y2='1'>
-			            <stop offset='0%' stop-color='#00B8E4' stop-opacity='0.3'/>
-			            <stop offset='100%' stop-color='#00B8E4' stop-opacity='0.02'/>
-			        </linearGradient>
-			    </defs>
-			    <path d='" & AreaPath & "' fill='url(#rgy)'/>
-			    <path d='" & PathD & "' fill='none' stroke='#00B8E4' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/>
-			    " & DotsAndLabels & "
-			</svg>
-			</div>"
+			<div class='five-ryears-canvas-wrap'>
+			<canvas id='fiveRollingYearsChart'></canvas>
+			</div>
+			</div>
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'></script>
+			<script src='https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js'></script>
+			<script>
+			(function () {
+			    function initRollingYearsChart() {
+			        if (typeof Chart === 'undefined' || typeof ChartDataLabels === 'undefined') {
+			            setTimeout(initRollingYearsChart, 100);
+			            return;
+			        }
+			        var canvas = document.getElementById('fiveRollingYearsChart');
+			        if (!canvas) { return; }
+			
+			        Chart.register(ChartDataLabels);
+			
+			        var labels = [" & LabelsJS & "];
+			        var data = [" & DataJS & "];
+			
+			        new Chart(canvas, {
+			            type:'line',
+			            data: {
+			                labels:labels,
+			                datasets:[{
+			                    label:'515',
+			                    data:data,
+			                    borderColor:'#00B8E4',
+			                    borderWidth:2.5,
+			                    pointRadius:4,
+			                    pointHoverRadius:6,
+			                    pointBackgroundColor:'#00B8E4',
+			                    pointBorderColor:'#00B8E4',
+			                    tension:0.15,
+			                    fill:true,
+			                    backgroundColor:function(context) {
+			                        var chart = context.chart;
+			                        var ctx = chart.ctx;
+			                        var chartArea = chart.chartArea;
+			                        if (!chartArea) { return null; }
+			                        var gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+			                        gradient.addColorStop(0, 'rgba(0,184,228,0.3)');
+			                        gradient.addColorStop(1, 'rgba(0,184,228,0.02)');
+			                        return gradient;
+			                    },
+			                    datalabels: {
+			                        align:'top',
+			                        anchor:'end',
+			                        color:'" & TxtPrimary & "',
+			                        font:{ family:'Inter', size:11, weight:'700' },
+			                        formatter:function(value) {
+			                            return Math.round(value).toLocaleString('en-US');
+			                        }
+			                    }
+			                }]
+			            },
+			            options: {
+			                responsive:true,
+			                maintainAspectRatio:false,
+			                devicePixelRatio:2,
+			                interaction: { mode:'index', intersect:false },
+			                plugins: {
+			                    legend: { display:false },
+			                    tooltip: {
+			                        enabled:true,
+			                        mode:'index',
+			                        intersect:false,
+			                        backgroundColor:'" & TooltipBg & "',
+			                        borderColor:'" & TooltipBorder & "',
+			                        borderWidth:1,
+			                        titleColor:'" & TooltipTitle & "',
+			                        bodyColor:'" & TooltipBody & "',
+			                        padding:12,
+			                        cornerRadius:8,
+			                        displayColors:false,
+			                        titleFont:{ family:'Inter', size:11, weight:'600' },
+			                        bodyFont:{ family:'Inter', size:12, weight:'700' },
+			                        callbacks: {
+			                            label:function(context) {
+			                                return ' ' + Math.round(context.parsed.y).toLocaleString('en-US');
+			                            }
+			                        }
+			                    }
+			                },
+			                scales: {
+			                    x: {
+			                        offset:false,
+			                        grid:{ display:false },
+			                        border:{ display:false },
+			                        ticks: {
+			                            color:'" & TxtSecondary & "',
+			                            padding:10,
+			                            autoSkip:false,
+			                            maxRotation:0,
+			                            font:{ family:'Inter', size:10, weight:'500' }
+			                        }
+			                    },
+			                    y: {
+			                        beginAtZero:true,
+			                        grace:'20%',
+			                        grid: {
+			                            color:'" & GridColor & "',
+			                            drawTicks:false,
+			                            lineWidth:1
+			                        },
+			                        border:{ display:false },
+			                        ticks: { display:false }
+			                    }
+			                },
+			                layout: {
+			                    padding: { top:24, right:8, bottom:2, left:2 }
+			                },
+			                animation: { duration:850, easing:'easeOutQuart' }
+			            }
+			        });
+			    }
+			    setTimeout(initRollingYearsChart, 100);
+			})();
+			</script>
+			"
 		lineageTag: 5101a82e-7258-4674-a682-fbcba3e5cd05
 
 	measure HTML_Five_CurrVsPrev =
@@ -626,16 +830,15 @@ table 5pm52wksRollingChartLegend
 			        '5pmSundayAttInPerson'[Literal] = "bloom"
 			    ), 0)
 			
-			-- Scale bars relative to max value
+			-- Scale bars relative to max value — now as PERCENT of chart height, not fixed px
 			VAR MaxVal = MAXX({CurAdults, PrevAdults, CurDH, PrevDH, CurBloom, PrevBloom}, [Value])
-			VAR ChartH = 180
 			
-			VAR CurAdultsH = FORMAT(DIVIDE(CurAdults, MaxVal, 0) * ChartH, "0")
-			VAR PrevAdultsH = FORMAT(DIVIDE(PrevAdults, MaxVal, 0) * ChartH, "0")
-			VAR CurDHH = FORMAT(DIVIDE(CurDH, MaxVal, 0) * ChartH, "0")
-			VAR PrevDHH = FORMAT(DIVIDE(PrevDH, MaxVal, 0) * ChartH, "0")
-			VAR CurBloomH = FORMAT(DIVIDE(CurBloom, MaxVal, 0) * ChartH, "0")
-			VAR PrevBloomH = FORMAT(DIVIDE(PrevBloom, MaxVal, 0) * ChartH, "0")
+			VAR CurAdultsH = FORMAT(DIVIDE(CurAdults, MaxVal, 0) * 100, "0")
+			VAR PrevAdultsH = FORMAT(DIVIDE(PrevAdults, MaxVal, 0) * 100, "0")
+			VAR CurDHH = FORMAT(DIVIDE(CurDH, MaxVal, 0) * 100, "0")
+			VAR PrevDHH = FORMAT(DIVIDE(PrevDH, MaxVal, 0) * 100, "0")
+			VAR CurBloomH = FORMAT(DIVIDE(CurBloom, MaxVal, 0) * 100, "0")
+			VAR PrevBloomH = FORMAT(DIVIDE(PrevBloom, MaxVal, 0) * 100, "0")
 			
 			VAR CurAdultsFmt = FORMAT(CurAdults, "#,0")
 			VAR PrevAdultsFmt = FORMAT(PrevAdults, "#,0")
@@ -650,22 +853,24 @@ table 5pm52wksRollingChartLegend
 			RETURN
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+			* { box-sizing:border-box; margin:0; padding:0; }
+			html,body { width:100%; height:100%; margin:0; padding:0; overflow:hidden; }
 			.fwc * { box-sizing:border-box; margin:0; padding:0; font-family:Inter,sans-serif; }
-			.fwc { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:14px; padding:20px; width:100%; }
-			.fwc-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+			.fwc { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:14px; padding:20px; width:100%; height:calc(100vh - 2px); display:flex; flex-direction:column; overflow:hidden; }
+			.fwc-header { flex:0 0 auto; display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
 			.fwc-title { font-size:13px; font-weight:700; color:" & TxtPrimary & "; }
 			.fwc-legend { display:flex; align-items:center; gap:12px; }
 			.fwc-leg-item { display:flex; align-items:center; gap:5px; }
 			.fwc-leg-dot { width:8px; height:8px; border-radius:50%; }
 			.fwc-leg-txt { font-size:10px; color:" & TxtSecondary & "; font-weight:500; }
-			.fwc-chart { display:flex; gap:0; align-items:flex-end; padding-top:44px; }
-			.fwc-group { display:flex; flex-direction:column; align-items:center; flex:1; }
-			.fwc-bars { display:flex; gap:6px; align-items:flex-end; height:" & FORMAT(ChartH, "0") & "px; justify-content:center; }
-			.fwc-bar-wrap { display:flex; flex-direction:column; align-items:center; gap:4px; justify-content:flex-end; }
-			.fwc-val { font-size:10px; font-weight:700; color:" & TxtPrimary & "; }
-			.fwc-bar { width:28px; border-radius:4px 4px 0 0; }
-			.fwc-divider { width:1px; background:" & BorderColor & "; height:" & FORMAT(ChartH + 32, "0") & "px; margin:0 8px; }
-			.fwc-group-label { font-size:11px; font-weight:600; color:" & TxtSecondary & "; margin-top:8px; padding-top:8px; border-top:1px solid " & BorderColor & "; width:100%; text-align:center; }
+			.fwc-chart { display:flex; gap:0; align-items:stretch; padding-top:44px; flex:1 1 auto; min-height:0; }
+			.fwc-group { display:flex; flex-direction:column; align-items:center; flex:1; min-height:0; }
+			.fwc-bars { display:flex; gap:6px; align-items:flex-end; flex:1 1 auto; min-height:0; justify-content:center; }
+			.fwc-bar-wrap { display:flex; flex-direction:column; align-items:center; gap:4px; justify-content:flex-end; height:100%; }
+			.fwc-val { font-size:10px; font-weight:700; color:" & TxtPrimary & "; flex:0 0 auto; }
+			.fwc-bar { width:28px; border-radius:4px 4px 0 0; flex:0 0 auto; }
+			.fwc-divider { width:1px; background:" & BorderColor & "; align-self:stretch; margin:0 8px; }
+			.fwc-group-label { flex:0 0 auto; font-size:11px; font-weight:600; color:" & TxtSecondary & "; margin-top:8px; padding-top:8px; border-top:1px solid " & BorderColor & "; width:100%; text-align:center; }
 			</style>
 			<div class='fwc'>
 			    <div class='fwc-header'>
@@ -686,11 +891,11 @@ table 5pm52wksRollingChartLegend
 			            <div class='fwc-bars'>
 			                <div class='fwc-bar-wrap'>
 			                    <div class='fwc-val'>" & PrevAdultsFmt & "</div>
-			                    <div class='fwc-bar' style='height:" & PrevAdultsH & "px;background:" & PrevBarColor & ";'></div>
+			                    <div class='fwc-bar' style='height:" & PrevAdultsH & "%;background:" & PrevBarColor & ";'></div>
 			                </div>
 			                <div class='fwc-bar-wrap'>
 			                    <div class='fwc-val'>" & CurAdultsFmt & "</div>
-			                    <div class='fwc-bar' style='height:" & CurAdultsH & "px;background:#00B8E4;'></div>
+			                    <div class='fwc-bar' style='height:" & CurAdultsH & "%;background:#00B8E4;'></div>
 			                </div>
 			            </div>
 			            <div class='fwc-group-label'>Adults</div>
@@ -700,11 +905,11 @@ table 5pm52wksRollingChartLegend
 			            <div class='fwc-bars'>
 			                <div class='fwc-bar-wrap'>
 			                    <div class='fwc-val'>" & PrevDHFmt & "</div>
-			                    <div class='fwc-bar' style='height:" & PrevDHH & "px;background:" & PrevBarColor & ";'></div>
+			                    <div class='fwc-bar' style='height:" & PrevDHH & "%;background:" & PrevBarColor & ";'></div>
 			                </div>
 			                <div class='fwc-bar-wrap'>
 			                    <div class='fwc-val'>" & CurDHFmt & "</div>
-			                    <div class='fwc-bar' style='height:" & CurDHH & "px;background:#00B8E4;'></div>
+			                    <div class='fwc-bar' style='height:" & CurDHH & "%;background:#00B8E4;'></div>
 			                </div>
 			            </div>
 			            <div class='fwc-group-label'>Door Holder</div>
@@ -714,11 +919,11 @@ table 5pm52wksRollingChartLegend
 			            <div class='fwc-bars'>
 			                <div class='fwc-bar-wrap'>
 			                    <div class='fwc-val'>" & PrevBloomFmt & "</div>
-			                    <div class='fwc-bar' style='height:" & PrevBloomH & "px;background:" & PrevBarColor & ";'></div>
+			                    <div class='fwc-bar' style='height:" & PrevBloomH & "%;background:" & PrevBarColor & ";'></div>
 			                </div>
 			                <div class='fwc-bar-wrap'>
 			                    <div class='fwc-val'>" & CurBloomFmt & "</div>
-			                    <div class='fwc-bar' style='height:" & CurBloomH & "px;background:#00B8E4;'></div>
+			                    <div class='fwc-bar' style='height:" & CurBloomH & "%;background:#00B8E4;'></div>
 			                </div>
 			            </div>
 			            <div class='fwc-group-label'>Bloom</div>
@@ -797,11 +1002,23 @@ table 5pm52wksRollingChartLegend
 			RETURN
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+			* { box-sizing:border-box; margin:0; padding:0; }
+			html,body { width:100%; height:100%; margin:0; padding:0; overflow:hidden; }
 			.ftbl * { box-sizing:border-box; margin:0; padding:0; font-family:Inter,sans-serif; }
-			.ftbl { background:" & Bg & "; border:1px solid " & BorderColor & "; border-radius:14px; padding:20px; width:100%; }
-			.ftbl-title { font-size:13px; font-weight:700; color:" & TxtPrimary & "; margin-bottom:16px; }
-			.section { margin-bottom:6px; }
-			.section:last-child { margin-bottom:0; }
+			.ftbl {
+			    background:" & Bg & ";
+			    border:1px solid " & BorderColor & ";
+			    border-radius:14px;
+			    padding:20px;
+			    width:100%;
+			    height:calc(100vh - 2px);
+			    display:flex;
+			    flex-direction:column;
+			    overflow:hidden;
+			}
+			.ftbl-title { flex:0 0 auto; font-size:13px; font-weight:700; color:" & TxtPrimary & "; margin-bottom:16px; }
+			.sections-wrap { flex:1 1 auto; min-height:0; display:flex; flex-direction:column; justify-content:space-between; gap:6px; }
+			.section { flex:0 0 auto; }
 			.sec-header { display:flex; align-items:center; padding:5px 14px; background:" & SectionHeaderBg & "; border-radius:5px 8px 0 0; border-bottom:2px solid #00B8E4; }
 			.sec-title { font-size:12px; font-weight:700; color:" & TxtPrimary & "; }
 			.sec-body { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; background:" & SectionBodyBg & "; border-radius:0 0 8px 8px; overflow:hidden; }
@@ -815,6 +1032,7 @@ table 5pm52wksRollingChartLegend
 			</style>
 			<div class='ftbl'>
 			<div class='ftbl-title'>Detailed Breakdown · 515</div>
+			<div class='sections-wrap'>
 			
 			<div class='section'>
 			    <div class='sec-header'><div class='sec-title'>Adults</div></div>
@@ -846,6 +1064,7 @@ table 5pm52wksRollingChartLegend
 			    </div>
 			</div>
 			
+			</div>
 			</div>"
 		lineageTag: 66dd8669-2fdf-41c6-9337-e6412935d1a0
 
@@ -2722,8 +2941,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -2795,8 +3014,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -3448,8 +3667,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -3521,8 +3740,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -3594,8 +3813,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
+			                    "+" & FORMAT ( dYOY, "0.0%" ),
+			                    FORMAT ( dYOY, "0.0%" )
 			                )
 			            )
 			        VAR dCol =
@@ -4174,8 +4393,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -4247,8 +4466,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -4320,8 +4539,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
+			                    "+" & FORMAT ( dYOY, "0.0%" ),
+			                    FORMAT ( dYOY, "0.0%" )
 			                )
 			            )
 			        VAR dCol =
@@ -4737,8 +4956,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -4802,8 +5021,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -4867,8 +5086,8 @@ table 5pm52wksRollingChartLegend
 			                "gone", "N/A",
 			                IF (
 			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
+			                    "+" & FORMAT ( dYOY, "0.0%" ),
+			                    FORMAT ( dYOY, "0.0%" )
 			                )
 			            )
 			        VAR dCol =

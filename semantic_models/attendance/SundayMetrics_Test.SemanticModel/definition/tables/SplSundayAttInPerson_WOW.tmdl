@@ -1097,8 +1097,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -1162,8 +1162,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -1227,8 +1227,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
+			                    "+" & FORMAT ( dYOY, "0.0%" ),
+			                    FORMAT ( dYOY, "0.0%" )
 			                )
 			            )
 			        VAR dCol =
@@ -1415,645 +1415,645 @@ table SplSundayAttInPerson_WOW
 	measure HTML_Easter_RB_515 =
 			
 			VAR IsDark =
-			    [SelectedTheme] = "Dark"
+			[SelectedTheme] = "Dark"
 			VAR Bg =
-			    IF ( IsDark, "#1E1E1E", "#FFFFFF" )
+			IF ( IsDark, "#1E1E1E", "#FFFFFF" )
 			VAR BorderColor =
-			    IF ( IsDark, "#2A2A2A", "#E5E7EB" )
+			IF ( IsDark, "#2A2A2A", "#E5E7EB" )
 			VAR TxtPrimary =
-			    IF ( IsDark, "#FFFFFF", "#111111" )
+			IF ( IsDark, "#FFFFFF", "#111111" )
 			VAR TxtSecondary =
-			    IF ( IsDark, "#9CA3AF", "#6B7280" )
+			IF ( IsDark, "#9CA3AF", "#6B7280" )
 			VAR HeadBg =
-			    IF ( IsDark, "#252525", "#F9FAFB" )
+			IF ( IsDark, "#252525", "#F9FAFB" )
 			VAR RowLine =
-			    IF ( IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.06)" )
+			IF ( IsDark, "rgba(255,255,255,0.06)", "rgba(0,0,0,0.06)" )
 			VAR SectionLine =
-			    IF ( IsDark, "#3A3A3A", "#D1D5DB" )
+			IF ( IsDark, "#3A3A3A", "#D1D5DB" )
 			VAR CityRowBg =
-			    IF ( IsDark, "#2A2A2A", "#F3F4F6" )
+			IF ( IsDark, "#2A2A2A", "#F3F4F6" )
 			VAR SchedTxt =
-			    IF ( IsDark, "#8A8A8A", "#6B7280" )
+			IF ( IsDark, "#8A8A8A", "#6B7280" )
 			VAR TrackBg =
-			    IF ( IsDark, "#323232", "#E5E7EB" )
+			IF ( IsDark, "#323232", "#E5E7EB" )
 			VAR Green =
-			    "#62E68D"
+			"#62E68D"
 			VAR Red =
-			    "#FF7E84"
+			"#FF7E84"
 			VAR BarCap =
-			    0.5
+			0.5
 			VAR Accent =
-			    "#00B8E4"
+			"#00B8E4"
 			VAR SelYr =
-			    [EasterYear]
+			[EasterYear]
 			VAR PrevYr =
-			    SelYr - 1
+			SelYr - 1
 			VAR Src =
-			    FILTER (
-			        ALL ( 'SplSundayAttInPerson_WOW' ),
-			        'SplSundayAttInPerson_WOW'[EventName] = "Easter"
-			            &&
-			        'SplSundayAttInPerson_WOW'[CampusName] = "515"
-			            &&
-			        (
-			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                ||
-			            VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			        )
-			    )
+			FILTER (
+			ALL ( 'SplSundayAttInPerson_WOW' ),
+			'SplSundayAttInPerson_WOW'[EventName] = "Easter"
+			&&
+			'SplSundayAttInPerson_WOW'[CampusName] = "515"
+			&&
+			(
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			||
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			)
+			)
 			VAR Base =
-			    SUMMARIZE (
-			        Src,
-			        'SplSundayAttInPerson_WOW'[Literal],
-			        'SplSundayAttInPerson_WOW'[FormattedDateSplSun],
-			        'SplSundayAttInPerson_WOW'[ScheduleName],
-			        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			        "V", SUM ( 'SplSundayAttInPerson_WOW'[Count] )
-			    )
+			SUMMARIZE (
+			Src,
+			'SplSundayAttInPerson_WOW'[Literal],
+			'SplSundayAttInPerson_WOW'[FormattedDateSplSun],
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			"V", SUM ( 'SplSundayAttInPerson_WOW'[Count] )
+			)
 			VAR Ranked =
-			    ADDCOLUMNS (
-			        Base,
-			        "Rnk",
-			            VAR thisLit = 'SplSundayAttInPerson_WOW'[Literal]
-			            VAR thisYr = 'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
-			            VAR thisSort = 'SplSundayAttInPerson_WOW'[ScheduleSort]
-			            RETURN
-			                COUNTROWS (
-			                    FILTER (
-			                        Base,
-			                        'SplSundayAttInPerson_WOW'[Literal] = thisLit
-			                            &&
-			                        'SplSundayAttInPerson_WOW'[FormattedDateSplSun] = thisYr
-			                            &&
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort] <= thisSort
-			                    )
-			                )
-			    )
+			ADDCOLUMNS (
+			Base,
+			"Rnk",
+			VAR thisLit = 'SplSundayAttInPerson_WOW'[Literal]
+			VAR thisYr = 'SplSundayAttInPerson_WOW'[FormattedDateSplSun]
+			VAR thisSort = 'SplSundayAttInPerson_WOW'[ScheduleSort]
+			RETURN
+			COUNTROWS (
+			FILTER (
+			Base,
+			'SplSundayAttInPerson_WOW'[Literal] = thisLit
+			&&
+			'SplSundayAttInPerson_WOW'[FormattedDateSplSun] = thisYr
+			&&
+			'SplSundayAttInPerson_WOW'[ScheduleSort] <= thisSort
+			)
+			)
+			)
 			VAR MaxRank =
-			    COALESCE ( MAXX ( Ranked, [Rnk] ), 0 )
+			COALESCE ( MAXX ( Ranked, [Rnk] ), 0 )
 			VAR MinYrAvail =
-			    MINX (
-			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
-			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
-			    )
+			MINX (
+			FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
+			)
 			VAR MaxYrAvail =
-			    MAXX (
-			        FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
-			        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
-			    )
+			MAXX (
+			FILTER ( ALL ( 'SplSundayAttInPerson_WOW' ), 'SplSundayAttInPerson_WOW'[EventName] = "Easter" ),
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] )
+			)
 			VAR CurYearTotal =
-			    SUMX (
-			        FILTER ( Ranked, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
-			        [V]
-			    )
+			SUMX (
+			FILTER ( Ranked, VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr ),
+			[V]
+			)
 			VAR HasData =
-			    NOT ISBLANK ( SelYr )
-			        &&
-			    MaxRank > 0
-			        &&
-			    COALESCE ( CurYearTotal, 0 ) > 0
+			NOT ISBLANK ( SelYr )
+			&&
+			MaxRank > 0
+			&&
+			COALESCE ( CurYearTotal, 0 ) > 0
 			VAR EmptyHeadline =
-			    IF (
-			        ISBLANK ( SelYr ),
-			        "No data available",
-			        "No Easter data for " & FORMAT ( SelYr, "0" )
-			    )
+			IF (
+			ISBLANK ( SelYr ),
+			"No data available",
+			"No Easter data for " & FORMAT ( SelYr, "0" )
+			)
 			VAR EmptySubline =
-			    "Available from "
-			        & FORMAT ( MinYrAvail, "0" )
-			        & " to "
-			        & FORMAT ( MaxYrAvail, "0" )
+			"Available from "
+			& FORMAT ( MinYrAvail, "0" )
+			& " to "
+			& FORMAT ( MaxYrAvail, "0" )
 			VAR RankKeys =
-			    UNION (
-			        SELECTCOLUMNS ( GENERATESERIES ( 1, MAX ( MaxRank, 1 ) ), "Rnk", [Value] ),
-			        ROW ( "Rnk", 0 )
-			    )
+			UNION (
+			SELECTCOLUMNS ( GENERATESERIES ( 1, MAX ( MaxRank, 1 ) ), "Rnk", [Value] ),
+			ROW ( "Rnk", 0 )
+			)
 			VAR RowData =
-			    ADDCOLUMNS (
-			        RankKeys,
-			        "AdCur",
-			            VAR r = [Rnk]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        Ranked,
-			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
-			                            &&
-			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                            &&
-			                        ( r = 0 || [Rnk] = r )
-			                    ),
-			                    [V]
-			                ),
-			        "AdPrev",
-			            VAR r = [Rnk]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        Ranked,
-			                        'SplSundayAttInPerson_WOW'[Literal] = "Adults"
-			                            &&
-			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			                            &&
-			                        ( r = 0 || [Rnk] = r )
-			                    ),
-			                    [V]
-			                ),
-			        "AdName",
-			            VAR r = [Rnk]
-			            RETURN
-			                IF (
-			                    r = 0,
-			                    "",
-			                    CONCATENATEX (
-			                        SUMMARIZE (
-			                            FILTER (
-			                                Ranked,
-			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
-			                                    &&
-			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                                    &&
-			                                [Rnk] = r
-			                            ),
-			                            'SplSundayAttInPerson_WOW'[ScheduleName],
-			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
-			                        ),
-			                        'SplSundayAttInPerson_WOW'[ScheduleName],
-			                        " / ",
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			                        ASC
-			                    )
-			                ),
-			        "AdWas",
-			            VAR r = [Rnk]
-			            RETURN
-			                IF (
-			                    r = 0,
-			                    "",
-			                    CONCATENATEX (
-			                        SUMMARIZE (
-			                            FILTER (
-			                                Ranked,
-			                                'SplSundayAttInPerson_WOW'[Literal] = "Adults"
-			                                    &&
-			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			                                    &&
-			                                [Rnk] = r
-			                            ),
-			                            'SplSundayAttInPerson_WOW'[ScheduleName],
-			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
-			                        ),
-			                        'SplSundayAttInPerson_WOW'[ScheduleName],
-			                        " / ",
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			                        ASC
-			                    )
-			                ),
-			        "BlCur",
-			            VAR r = [Rnk]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        Ranked,
-			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
-			                            &&
-			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                            &&
-			                        ( r = 0 || [Rnk] = r )
-			                    ),
-			                    [V]
-			                ),
-			        "BlPrev",
-			            VAR r = [Rnk]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        Ranked,
-			                        'SplSundayAttInPerson_WOW'[Literal] = "bloom"
-			                            &&
-			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			                            &&
-			                        ( r = 0 || [Rnk] = r )
-			                    ),
-			                    [V]
-			                ),
-			        "BlName",
-			            VAR r = [Rnk]
-			            RETURN
-			                IF (
-			                    r = 0,
-			                    "",
-			                    CONCATENATEX (
-			                        SUMMARIZE (
-			                            FILTER (
-			                                Ranked,
-			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
-			                                    &&
-			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                                    &&
-			                                [Rnk] = r
-			                            ),
-			                            'SplSundayAttInPerson_WOW'[ScheduleName],
-			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
-			                        ),
-			                        'SplSundayAttInPerson_WOW'[ScheduleName],
-			                        " / ",
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			                        ASC
-			                    )
-			                ),
-			        "BlWas",
-			            VAR r = [Rnk]
-			            RETURN
-			                IF (
-			                    r = 0,
-			                    "",
-			                    CONCATENATEX (
-			                        SUMMARIZE (
-			                            FILTER (
-			                                Ranked,
-			                                'SplSundayAttInPerson_WOW'[Literal] = "bloom"
-			                                    &&
-			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			                                    &&
-			                                [Rnk] = r
-			                            ),
-			                            'SplSundayAttInPerson_WOW'[ScheduleName],
-			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
-			                        ),
-			                        'SplSundayAttInPerson_WOW'[ScheduleName],
-			                        " / ",
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			                        ASC
-			                    )
-			                ),
-			        "DhCur",
-			            VAR r = [Rnk]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        Ranked,
-			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
-			                            &&
-			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                            &&
-			                        ( r = 0 || [Rnk] = r )
-			                    ),
-			                    [V]
-			                ),
-			        "DhPrev",
-			            VAR r = [Rnk]
-			            RETURN
-			                SUMX (
-			                    FILTER (
-			                        Ranked,
-			                        'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
-			                            &&
-			                        VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			                            &&
-			                        ( r = 0 || [Rnk] = r )
-			                    ),
-			                    [V]
-			                ),
-			        "DhName",
-			            VAR r = [Rnk]
-			            RETURN
-			                IF (
-			                    r = 0,
-			                    "",
-			                    CONCATENATEX (
-			                        SUMMARIZE (
-			                            FILTER (
-			                                Ranked,
-			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
-			                                    &&
-			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
-			                                    &&
-			                                [Rnk] = r
-			                            ),
-			                            'SplSundayAttInPerson_WOW'[ScheduleName],
-			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
-			                        ),
-			                        'SplSundayAttInPerson_WOW'[ScheduleName],
-			                        " / ",
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			                        ASC
-			                    )
-			                ),
-			        "DhWas",
-			            VAR r = [Rnk]
-			            RETURN
-			                IF (
-			                    r = 0,
-			                    "",
-			                    CONCATENATEX (
-			                        SUMMARIZE (
-			                            FILTER (
-			                                Ranked,
-			                                'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
-			                                    &&
-			                                VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
-			                                    &&
-			                                [Rnk] = r
-			                            ),
-			                            'SplSundayAttInPerson_WOW'[ScheduleName],
-			                            'SplSundayAttInPerson_WOW'[ScheduleSort]
-			                        ),
-			                        'SplSundayAttInPerson_WOW'[ScheduleName],
-			                        " / ",
-			                        'SplSundayAttInPerson_WOW'[ScheduleSort],
-			                        ASC
-			                    )
-			                )
-			    )
+			ADDCOLUMNS (
+			RankKeys,
+			"AdCur",
+			VAR r = [Rnk]
+			RETURN
+			SUMX (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			&&
+			( r = 0 || [Rnk] = r )
+			),
+			[V]
+			),
+			"AdPrev",
+			VAR r = [Rnk]
+			RETURN
+			SUMX (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			&&
+			( r = 0 || [Rnk] = r )
+			),
+			[V]
+			),
+			"AdName",
+			VAR r = [Rnk]
+			RETURN
+			IF (
+			r = 0,
+			"",
+			CONCATENATEX (
+			SUMMARIZE (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			&&
+			[Rnk] = r
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort]
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			" / ",
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			ASC
+			)
+			),
+			"AdWas",
+			VAR r = [Rnk]
+			RETURN
+			IF (
+			r = 0,
+			"",
+			CONCATENATEX (
+			SUMMARIZE (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Adults"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			&&
+			[Rnk] = r
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort]
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			" / ",
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			ASC
+			)
+			),
+			"BlCur",
+			VAR r = [Rnk]
+			RETURN
+			SUMX (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			&&
+			( r = 0 || [Rnk] = r )
+			),
+			[V]
+			),
+			"BlPrev",
+			VAR r = [Rnk]
+			RETURN
+			SUMX (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			&&
+			( r = 0 || [Rnk] = r )
+			),
+			[V]
+			),
+			"BlName",
+			VAR r = [Rnk]
+			RETURN
+			IF (
+			r = 0,
+			"",
+			CONCATENATEX (
+			SUMMARIZE (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			&&
+			[Rnk] = r
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort]
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			" / ",
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			ASC
+			)
+			),
+			"BlWas",
+			VAR r = [Rnk]
+			RETURN
+			IF (
+			r = 0,
+			"",
+			CONCATENATEX (
+			SUMMARIZE (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "bloom"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			&&
+			[Rnk] = r
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort]
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			" / ",
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			ASC
+			)
+			),
+			"DhCur",
+			VAR r = [Rnk]
+			RETURN
+			SUMX (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			&&
+			( r = 0 || [Rnk] = r )
+			),
+			[V]
+			),
+			"DhPrev",
+			VAR r = [Rnk]
+			RETURN
+			SUMX (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			&&
+			( r = 0 || [Rnk] = r )
+			),
+			[V]
+			),
+			"DhName",
+			VAR r = [Rnk]
+			RETURN
+			IF (
+			r = 0,
+			"",
+			CONCATENATEX (
+			SUMMARIZE (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = SelYr
+			&&
+			[Rnk] = r
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort]
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			" / ",
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			ASC
+			)
+			),
+			"DhWas",
+			VAR r = [Rnk]
+			RETURN
+			IF (
+			r = 0,
+			"",
+			CONCATENATEX (
+			SUMMARIZE (
+			FILTER (
+			Ranked,
+			'SplSundayAttInPerson_WOW'[Literal] = "Door Holder"
+			&&
+			VALUE ( 'SplSundayAttInPerson_WOW'[FormattedDateSplSun] ) = PrevYr
+			&&
+			[Rnk] = r
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			'SplSundayAttInPerson_WOW'[ScheduleSort]
+			),
+			'SplSundayAttInPerson_WOW'[ScheduleName],
+			" / ",
+			'SplSundayAttInPerson_WOW'[ScheduleSort],
+			ASC
+			)
+			)
+			)
 			VAR RowsHTML =
-			    CONCATENATEX (
-			        RowData,
-			        VAR r = [Rnk]
-			        VAR rowCls =
-			            IF ( r = 0, "r-total", "r-gath" )
-			        VAR aCur =
-			            [AdCur]
-			        VAR aPrev =
-			            [AdPrev]
-			        VAR aState =
-			            SWITCH (
-			                TRUE (),
-			                COALESCE ( aCur, 0 ) = 0
-			                    &&
-			                COALESCE ( aPrev, 0 ) = 0, "empty",
-			                COALESCE ( aPrev, 0 ) = 0, "new",
-			                COALESCE ( aCur, 0 ) = 0, "gone",
-			                "ok"
-			            )
-			        VAR aYOY =
-			            IF (
-			                aState = "ok",
-			                DIVIDE ( aCur - aPrev, aPrev )
-			            )
-			        VAR aTxt =
-			            SWITCH (
-			                aState,
-			                "empty", "",
-			                "new", "NEW",
-			                "gone", "N/A",
-			                IF (
-			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
-			                )
-			            )
-			        VAR aCol =
-			            SWITCH (
-			                aState,
-			                "empty", TxtSecondary,
-			                "new", "#00B8E4",
-			                "gone", TxtSecondary,
-			                IF ( aYOY >= 0, Green, Red )
-			            )
-			        VAR aBar =
-			            IF (
-			                aState = "ok",
-			                MIN (
-			                    100,
-			                    ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 )
-			                ),
-			                0
-			            )
-			        VAR aShowBar =
-			            aState = "ok"
-			        VAR aF1 =
-			            IF (
-			                COALESCE ( aCur, 0 ) = 0,
-			                "",
-			                FORMAT ( aCur, "#,0" )
-			            )
-			        VAR aF2 =
-			            IF (
-			                COALESCE ( aPrev, 0 ) = 0,
-			                "",
-			                FORMAT ( aPrev, "#,0" )
-			            )
-			        VAR aNm =
-			            [AdName]
-			        VAR aWs =
-			            [AdWas]
-			        VAR aCell =
-			            IF (
-			                r = 0,
-			                "<div class='gt'>Total</div>",
-			                "<div class='gt'>" & IF ( aNm = "", "--", aNm ) & "</div>"
-			                    & IF ( aWs = "", "", "<div class='gw'>was " & aWs & "</div>" )
-			            )
-			        VAR bCur =
-			            [BlCur]
-			        VAR bPrev =
-			            [BlPrev]
-			        VAR bState =
-			            SWITCH (
-			                TRUE (),
-			                COALESCE ( bCur, 0 ) = 0
-			                    &&
-			                COALESCE ( bPrev, 0 ) = 0, "empty",
-			                COALESCE ( bPrev, 0 ) = 0, "new",
-			                COALESCE ( bCur, 0 ) = 0, "gone",
-			                "ok"
-			            )
-			        VAR bYOY =
-			            IF (
-			                bState = "ok",
-			                DIVIDE ( bCur - bPrev, bPrev )
-			            )
-			        VAR bTxt =
-			            SWITCH (
-			                bState,
-			                "empty", "",
-			                "new", "NEW",
-			                "gone", "N/A",
-			                IF (
-			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
-			                )
-			            )
-			        VAR bCol =
-			            SWITCH (
-			                bState,
-			                "empty", TxtSecondary,
-			                "new", "#00B8E4",
-			                "gone", TxtSecondary,
-			                IF ( bYOY >= 0, Green, Red )
-			            )
-			        VAR bBar =
-			            IF (
-			                bState = "ok",
-			                MIN (
-			                    100,
-			                    ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 )
-			                ),
-			                0
-			            )
-			        VAR bShowBar =
-			            bState = "ok"
-			        VAR bF1 =
-			            IF (
-			                COALESCE ( bCur, 0 ) = 0,
-			                "",
-			                FORMAT ( bCur, "#,0" )
-			            )
-			        VAR bF2 =
-			            IF (
-			                COALESCE ( bPrev, 0 ) = 0,
-			                "",
-			                FORMAT ( bPrev, "#,0" )
-			            )
-			        VAR bNm =
-			            [BlName]
-			        VAR bWs =
-			            [BlWas]
-			        VAR bCell =
-			            IF (
-			                r = 0,
-			                "",
-			                "<div class='gt'>" & IF ( bNm = "", "--", bNm ) & "</div>"
-			                    & IF ( bWs = "", "", "<div class='gw'>was " & bWs & "</div>" )
-			            )
-			        VAR dCur =
-			            [DhCur]
-			        VAR dPrev =
-			            [DhPrev]
-			        VAR dState =
-			            SWITCH (
-			                TRUE (),
-			                COALESCE ( dCur, 0 ) = 0
-			                    &&
-			                COALESCE ( dPrev, 0 ) = 0, "empty",
-			                COALESCE ( dPrev, 0 ) = 0, "new",
-			                COALESCE ( dCur, 0 ) = 0, "gone",
-			                "ok"
-			            )
-			        VAR dYOY =
-			            IF (
-			                dState = "ok",
-			                DIVIDE ( dCur - dPrev, dPrev )
-			            )
-			        VAR dTxt =
-			            SWITCH (
-			                dState,
-			                "empty", "",
-			                "new", "NEW",
-			                "gone", "N/A",
-			                IF (
-			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
-			                )
-			            )
-			        VAR dCol =
-			            SWITCH (
-			                dState,
-			                "empty", TxtSecondary,
-			                "new", "#00B8E4",
-			                "gone", TxtSecondary,
-			                IF ( dYOY >= 0, Green, Red )
-			            )
-			        VAR dBar =
-			            IF (
-			                dState = "ok",
-			                MIN (
-			                    100,
-			                    ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 )
-			                ),
-			                0
-			            )
-			        VAR dShowBar =
-			            dState = "ok"
-			        VAR dF1 =
-			            IF (
-			                COALESCE ( dCur, 0 ) = 0,
-			                "",
-			                FORMAT ( dCur, "#,0" )
-			            )
-			        VAR dF2 =
-			            IF (
-			                COALESCE ( dPrev, 0 ) = 0,
-			                "",
-			                FORMAT ( dPrev, "#,0" )
-			            )
-			        VAR dNm =
-			            [DhName]
-			        VAR dWs =
-			            [DhWas]
-			        VAR dCell =
-			            IF (
-			                r = 0,
-			                "",
-			                "<div class='gt'>" & IF ( dNm = "", "--", dNm ) & "</div>"
-			                    & IF ( dWs = "", "", "<div class='gw'>was " & dWs & "</div>" )
-			            )
-			        RETURN
-			            "<tr class='" & rowCls & "'>"
-			                & "<td class='g'>" & aCell & "</td>"
-			                & "<td class='a'>" & aF1 & "</td>"
-			                & "<td class='p dim'>" & aF2 & "</td>"
-			                & "<td class='y'>"
-			                    & "<div class='yv' style='color:" & aCol & "'>"
-			                        & aTxt
-			                    & "</div>"
-			                    & IF (
-			                        aShowBar,
-			                        "<div class='yb'><div class='yf' style='width:"
-			                            & FORMAT ( aBar, "0" )
-			                            & "%;background:"
-			                            & aCol
-			                            & "'></div></div>",
-			                        ""
-			                    )
-			                & "</td>"
-			                & "<td class='g sec'>" & bCell & "</td>"
-			                & "<td class='a'>" & bF1 & "</td>"
-			                & "<td class='p dim'>" & bF2 & "</td>"
-			                & "<td class='y'>"
-			                    & "<div class='yv' style='color:" & bCol & "'>"
-			                        & bTxt
-			                    & "</div>"
-			                    & IF (
-			                        bShowBar,
-			                        "<div class='yb'><div class='yf' style='width:"
-			                            & FORMAT ( bBar, "0" )
-			                            & "%;background:"
-			                            & bCol
-			                            & "'></div></div>",
-			                        ""
-			                    )
-			                & "</td>"
-			                & "<td class='g sec'>" & dCell & "</td>"
-			                & "<td class='a'>" & dF1 & "</td>"
-			                & "<td class='p dim'>" & dF2 & "</td>"
-			                & "<td class='y'>"
-			                    & "<div class='yv' style='color:" & dCol & "'>"
-			                        & dTxt
-			                    & "</div>"
-			                    & IF (
-			                        dShowBar,
-			                        "<div class='yb'><div class='yf' style='width:"
-			                            & FORMAT ( dBar, "0" )
-			                            & "%;background:"
-			                            & dCol
-			                            & "'></div></div>",
-			                        ""
-			                    )
-			                & "</td>"
-			            & "</tr>",
-			        "",
-			        IF ( [Rnk] = 0, 999999, [Rnk] ), ASC
-			    )
+			CONCATENATEX (
+			RowData,
+			VAR r = [Rnk]
+			VAR rowCls =
+			IF ( r = 0, "r-total", "r-gath" )
+			VAR aCur =
+			[AdCur]
+			VAR aPrev =
+			[AdPrev]
+			VAR aState =
+			SWITCH (
+			TRUE (),
+			COALESCE ( aCur, 0 ) = 0
+			&&
+			COALESCE ( aPrev, 0 ) = 0, "empty",
+			COALESCE ( aPrev, 0 ) = 0, "new",
+			COALESCE ( aCur, 0 ) = 0, "gone",
+			"ok"
+			)
+			VAR aYOY =
+			IF (
+			aState = "ok",
+			DIVIDE ( aCur - aPrev, aPrev )
+			)
+			VAR aTxt =
+			SWITCH (
+			aState,
+			"empty", "",
+			"new", "NEW",
+			"gone", "N/A",
+			IF (
+			aYOY >= 0,
+			"+" & FORMAT ( aYOY, "0.0%" ),
+			FORMAT ( aYOY, "0.0%" )
+			)
+			)
+			VAR aCol =
+			SWITCH (
+			aState,
+			"empty", TxtSecondary,
+			"new", "#00B8E4",
+			"gone", TxtSecondary,
+			IF ( aYOY >= 0, Green, Red )
+			)
+			VAR aBar =
+			IF (
+			aState = "ok",
+			MIN (
+			100,
+			ROUND ( DIVIDE ( ABS ( aYOY ), BarCap ) * 100, 0 )
+			),
+			0
+			)
+			VAR aShowBar =
+			aState = "ok"
+			VAR aF1 =
+			IF (
+			COALESCE ( aCur, 0 ) = 0,
+			"",
+			FORMAT ( aCur, "#,0" )
+			)
+			VAR aF2 =
+			IF (
+			COALESCE ( aPrev, 0 ) = 0,
+			"",
+			FORMAT ( aPrev, "#,0" )
+			)
+			VAR aNm =
+			[AdName]
+			VAR aWs =
+			[AdWas]
+			VAR aCell =
+			IF (
+			r = 0,
+			"<div class='gt'>Total</div>",
+			"<div class='gt'>" & IF ( aNm = "", "--", aNm ) & "</div>"
+			& IF ( aWs = "", "", "<div class='gw'>was " & aWs & "</div>" )
+			)
+			VAR bCur =
+			[BlCur]
+			VAR bPrev =
+			[BlPrev]
+			VAR bState =
+			SWITCH (
+			TRUE (),
+			COALESCE ( bCur, 0 ) = 0
+			&&
+			COALESCE ( bPrev, 0 ) = 0, "empty",
+			COALESCE ( bPrev, 0 ) = 0, "new",
+			COALESCE ( bCur, 0 ) = 0, "gone",
+			"ok"
+			)
+			VAR bYOY =
+			IF (
+			bState = "ok",
+			DIVIDE ( bCur - bPrev, bPrev )
+			)
+			VAR bTxt =
+			SWITCH (
+			bState,
+			"empty", "",
+			"new", "NEW",
+			"gone", "N/A",
+			IF (
+			bYOY >= 0,
+			"+" & FORMAT ( bYOY, "0.0%" ),
+			FORMAT ( bYOY, "0.0%" )
+			)
+			)
+			VAR bCol =
+			SWITCH (
+			bState,
+			"empty", TxtSecondary,
+			"new", "#00B8E4",
+			"gone", TxtSecondary,
+			IF ( bYOY >= 0, Green, Red )
+			)
+			VAR bBar =
+			IF (
+			bState = "ok",
+			MIN (
+			100,
+			ROUND ( DIVIDE ( ABS ( bYOY ), BarCap ) * 100, 0 )
+			),
+			0
+			)
+			VAR bShowBar =
+			bState = "ok"
+			VAR bF1 =
+			IF (
+			COALESCE ( bCur, 0 ) = 0,
+			"",
+			FORMAT ( bCur, "#,0" )
+			)
+			VAR bF2 =
+			IF (
+			COALESCE ( bPrev, 0 ) = 0,
+			"",
+			FORMAT ( bPrev, "#,0" )
+			)
+			VAR bNm =
+			[BlName]
+			VAR bWs =
+			[BlWas]
+			VAR bCell =
+			IF (
+			r = 0,
+			"",
+			"<div class='gt'>" & IF ( bNm = "", "--", bNm ) & "</div>"
+			& IF ( bWs = "", "", "<div class='gw'>was " & bWs & "</div>" )
+			)
+			VAR dCur =
+			[DhCur]
+			VAR dPrev =
+			[DhPrev]
+			VAR dState =
+			SWITCH (
+			TRUE (),
+			COALESCE ( dCur, 0 ) = 0
+			&&
+			COALESCE ( dPrev, 0 ) = 0, "empty",
+			COALESCE ( dPrev, 0 ) = 0, "new",
+			COALESCE ( dCur, 0 ) = 0, "gone",
+			"ok"
+			)
+			VAR dYOY =
+			IF (
+			dState = "ok",
+			DIVIDE ( dCur - dPrev, dPrev )
+			)
+			VAR dTxt =
+			SWITCH (
+			dState,
+			"empty", "",
+			"new", "NEW",
+			"gone", "N/A",
+			IF (
+			dYOY >= 0,
+			"+" & FORMAT ( dYOY, "0.0%" ),
+			FORMAT ( dYOY, "0.0%" )
+			)
+			)
+			VAR dCol =
+			SWITCH (
+			dState,
+			"empty", TxtSecondary,
+			"new", "#00B8E4",
+			"gone", TxtSecondary,
+			IF ( dYOY >= 0, Green, Red )
+			)
+			VAR dBar =
+			IF (
+			dState = "ok",
+			MIN (
+			100,
+			ROUND ( DIVIDE ( ABS ( dYOY ), BarCap ) * 100, 0 )
+			),
+			0
+			)
+			VAR dShowBar =
+			dState = "ok"
+			VAR dF1 =
+			IF (
+			COALESCE ( dCur, 0 ) = 0,
+			"",
+			FORMAT ( dCur, "#,0" )
+			)
+			VAR dF2 =
+			IF (
+			COALESCE ( dPrev, 0 ) = 0,
+			"",
+			FORMAT ( dPrev, "#,0" )
+			)
+			VAR dNm =
+			[DhName]
+			VAR dWs =
+			[DhWas]
+			VAR dCell =
+			IF (
+			r = 0,
+			"",
+			"<div class='gt'>" & IF ( dNm = "", "--", dNm ) & "</div>"
+			& IF ( dWs = "", "", "<div class='gw'>was " & dWs & "</div>" )
+			)
+			RETURN
+			"<tr class='" & rowCls & "'>"
+			& "<td class='g'>" & aCell & "</td>"
+			& "<td class='a'>" & aF1 & "</td>"
+			& "<td class='p dim'>" & aF2 & "</td>"
+			& "<td class='y'>"
+			& "<div class='yv' style='color:" & aCol & "'>"
+			& aTxt
+			& "</div>"
+			& IF (
+			aShowBar,
+			"<div class='yb'><div class='yf' style='width:"
+			& FORMAT ( aBar, "0" )
+			& "%;background:"
+			& aCol
+			& "'></div></div>",
+			""
+			)
+			& "</td>"
+			& "<td class='g sec'>" & bCell & "</td>"
+			& "<td class='a'>" & bF1 & "</td>"
+			& "<td class='p dim'>" & bF2 & "</td>"
+			& "<td class='y'>"
+			& "<div class='yv' style='color:" & bCol & "'>"
+			& bTxt
+			& "</div>"
+			& IF (
+			bShowBar,
+			"<div class='yb'><div class='yf' style='width:"
+			& FORMAT ( bBar, "0" )
+			& "%;background:"
+			& bCol
+			& "'></div></div>",
+			""
+			)
+			& "</td>"
+			& "<td class='g sec'>" & dCell & "</td>"
+			& "<td class='a'>" & dF1 & "</td>"
+			& "<td class='p dim'>" & dF2 & "</td>"
+			& "<td class='y'>"
+			& "<div class='yv' style='color:" & dCol & "'>"
+			& dTxt
+			& "</div>"
+			& IF (
+			dShowBar,
+			"<div class='yb'><div class='yf' style='width:"
+			& FORMAT ( dBar, "0" )
+			& "%;background:"
+			& dCol
+			& "'></div></div>",
+			""
+			)
+			& "</td>"
+			& "</tr>",
+			"",
+			IF ( [Rnk] = 0, 999999, [Rnk] ), ASC
+			)
 			VAR HeadHTML =
-			    "<div class='rb-head'>"
-			        & "<span class='rb-name'>515</span>"
-			        & "<span class='rb-title'>Easter " & FORMAT ( SelYr, "0" ) & "</span>"
-			        & "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
-			    & "</div>"
+			"<div class='rb-head'>"
+			& "<span class='rb-name'>515</span>"
+			& "<span class='rb-title'>Easter " & FORMAT ( SelYr, "0" ) & "</span>"
+			& "<span class='rb-sub'>vs " & FORMAT ( PrevYr, "0" ) & "</span>"
+			& "</div>"
 			VAR TableHTML =
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -2084,20 +2084,20 @@ table SplSundayAttInPerson_WOW
 			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
 			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
 			</style>"
-			    & "<div class='rb'>"
-			    & HeadHTML
-			    & "<table><thead><tr>"
-			        & "<th class='grp' colspan='4'>Adults</th>"
-			        & "<th class='grp sec' colspan='4'>bloom</th>"
-			        & "<th class='grp sec' colspan='4'>Door Holder</th>"
-			    & "</tr><tr>"
-			        & "<th class='g'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
-			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
-			        & "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
-			    & "</tr></thead><tbody>"
-			    & RowsHTML
-			    & "</tbody></table></div>"
-			    & "<script>(function(){function run(){var f=document.querySelectorAll('.rb .yf');requestAnimationFrame(function(){requestAnimationFrame(function(){f.forEach(function(el){el.style.transform='scaleX(1)';});});});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}})();</script>"
+			& "<div class='rb'>"
+			& HeadHTML
+			& "<table><thead><tr>"
+			& "<th class='grp' colspan='4'>Adults</th>"
+			& "<th class='grp sec' colspan='4'>bloom</th>"
+			& "<th class='grp sec' colspan='4'>Door Holder</th>"
+			& "</tr><tr>"
+			& "<th class='g'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			& "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			& "<th class='g sec'>Gathering</th><th class='a'>Att</th><th class='p'>Prev</th><th class='y'>YOY%</th>"
+			& "</tr></thead><tbody>"
+			& RowsHTML
+			& "</tbody></table></div>"
+			& "<script>(function(){function run(){var f=document.querySelectorAll('.rb .yf');requestAnimationFrame(function(){requestAnimationFrame(function(){f.forEach(function(el){el.style.transform='scaleX(1)';});});});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}})();</script>"
 			VAR EmptyHTML =
 			"<style>
 			@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -2128,14 +2128,14 @@ table SplSundayAttInPerson_WOW
 			.rb-empty-h{font-size:12px;font-weight:800;color:" & TxtPrimary & ";}
 			.rb-empty-s{font-size:11px;font-weight:500;color:" & TxtSecondary & ";max-width:280px;line-height:1.4;}
 			</style>"
-			    & "<div class='rb'>"
-			    & HeadHTML
-			    & "<div class='rb-empty'>"
-			        & "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
-			        & "<div class='rb-empty-s'>" & EmptySubline & "</div>"
-			    & "</div></div>"
+			& "<div class='rb'>"
+			& HeadHTML
+			& "<div class='rb-empty'>"
+			& "<div class='rb-empty-h'>" & EmptyHeadline & "</div>"
+			& "<div class='rb-empty-s'>" & EmptySubline & "</div>"
+			& "</div></div>"
 			RETURN
-			    IF ( HasData, TableHTML, EmptyHTML )
+			IF ( HasData, TableHTML, EmptyHTML )
 		lineageTag: 720f6577-d3e2-43b0-a9f8-160425b1a6ce
 
 	measure HTML_Easter_RB_CBL =
@@ -2525,8 +2525,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -2598,8 +2598,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -2671,8 +2671,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
+			                    "+" & FORMAT ( dYOY, "0.0%" ),
+			                    FORMAT ( dYOY, "0.0%" )
 			                )
 			            )
 			        VAR dCol =
@@ -3251,8 +3251,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    aYOY >= 0,
-			                    "+" & FORMAT ( aYOY, "0.00%" ),
-			                    FORMAT ( aYOY, "0.00%" )
+			                    "+" & FORMAT ( aYOY, "0.0%" ),
+			                    FORMAT ( aYOY, "0.0%" )
 			                )
 			            )
 			        VAR aCol =
@@ -3324,8 +3324,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    bYOY >= 0,
-			                    "+" & FORMAT ( bYOY, "0.00%" ),
-			                    FORMAT ( bYOY, "0.00%" )
+			                    "+" & FORMAT ( bYOY, "0.0%" ),
+			                    FORMAT ( bYOY, "0.0%" )
 			                )
 			            )
 			        VAR bCol =
@@ -3397,8 +3397,8 @@ table SplSundayAttInPerson_WOW
 			                "gone", "N/A",
 			                IF (
 			                    dYOY >= 0,
-			                    "+" & FORMAT ( dYOY, "0.00%" ),
-			                    FORMAT ( dYOY, "0.00%" )
+			                    "+" & FORMAT ( dYOY, "0.0%" ),
+			                    FORMAT ( dYOY, "0.0%" )
 			                )
 			            )
 			        VAR dCol =
