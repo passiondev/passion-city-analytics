@@ -4,12 +4,10 @@
   "position": {
     "x": 736,
     "y": 416,
-
     "z": 5000,
     "height": 340,
     "width": 544,
     "tabOrder": 2000
-
   },
   "visual": {
     "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
@@ -48,7 +46,6 @@
             }
           }
         }
-
       ],
       "lockAspect": [
         {
@@ -62,7 +59,6 @@
             }
           }
         }
-
       ]
     },
     "drillFilterOtherVisuals": true
