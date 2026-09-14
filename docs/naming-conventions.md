@@ -7,34 +7,42 @@
 
 ---
 
-## 1. Table Naming
+## 1. Dataset & Table Naming
 
-All tables are prefixed by their medallion layer to make lineage and trust level immediately visible.
+### Datasets (medallion layer)
 
-| Prefix | Layer | Purpose |
+Each medallion layer is a **separate BigQuery dataset**, not a prefix within a shared dataset. This gives each layer its own IAM boundary, cost visibility, and retention/lifecycle rules — raw/bronze can stay locked down to pipeline service accounts while gold is opened up to analysts and BI tools.
+
+| Dataset | Layer | Purpose |
 |---|---|---|
-| `bronze_` | Raw / landing | Unmodified source data, as ingested |
-| `silver_` | Cleansed / conformed | Deduplicated, typed, business-rule-applied data |
-| `gold_` | Curated / presentation | Aggregated, modeled data for reporting & BI |
+| `bronze` | Raw / landing | Unmodified source data, as ingested |
+| `silver` | Cleansed / conformed | Deduplicated, typed, business-rule-applied data |
+| `gold` | Curated / presentation | Aggregated, modeled data for reporting & BI |
+
+At scale, layers may be further split by domain/source for tighter IAM (e.g., `bronze_salesforce`, `gold_finance`, `gold_marketing`). Adopt this only if a specific team-ownership or access-control need justifies the added dataset count.
+
+### Tables
+
+Since the layer is already encoded in the dataset name, **table names do not repeat the layer prefix**.
 
 **Pattern:**
 ```
-<layer>_<source_or_domain>_<entity>[_<qualifier>]
+<source_or_domain>_<entity>[_<qualifier>]
 ```
 
 **Examples:**
-- `bronze_salesforce_accounts`
-- `silver_crm_customers`
-- `gold_finance_monthly_revenue`
+- `bronze.salesforce_accounts`
+- `silver.crm_customers`
+- `gold.finance_monthly_revenue`
 
 **Rules:**
 - All lowercase, words separated by underscores (`snake_case`).
 - No abbreviations unless they're already standard across the org (e.g., `crm`, `erp`).
-- Domain/source name comes before entity name (`silver_crm_customers`, not `silver_customers_crm`).
+- Domain/source name comes before entity name (`crm_customers`, not `customers_crm`).
 - Avoid pluralization inconsistency — pick one convention (recommend plural for entity tables: `customers`, `orders`) and apply it everywhere.
-- Fact tables in Gold should be prefixed with `fct_` after the layer prefix; dimension tables with `dim_`.
-  - `gold_fct_orders`
-  - `gold_dim_customer`
+- Fact tables in Gold should be prefixed with `fct_`; dimension tables with `dim_`.
+  - `gold.fct_orders`
+  - `gold.dim_customer`
 
 ---
 
@@ -94,7 +102,7 @@ Metrics (measures used in Gold-layer reporting models) follow a consistent struc
 
 **Rules:**
 - Primary keys of dimension tables are always `<entity>_key` (surrogate), with the source system's natural identifier preserved as `<entity>_id`.
-- Foreign keys in fact tables match the referenced dimension's key name exactly (`customer_key` in `gold_fct_orders` matches `customer_key` in `gold_dim_customer`).
+- Foreign keys in fact tables match the referenced dimension's key name exactly (`customer_key` in `gold.fct_orders` matches `customer_key` in `gold.dim_customer`).
 - Never overload a single `id` column across unrelated entities — always qualify with the entity name.
 
 ---
