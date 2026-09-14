@@ -4,10 +4,12 @@
   "position": {
     "x": 48,
     "y": 304,
+
     "z": 4000,
     "height": 368,
     "width": 240,
     "tabOrder": 9000
+
   },
   "visual": {
     "visualType": "FiveDateListSlicerPCC20260812ABC123",
@@ -104,7 +106,9 @@
                               "DateSpan": {
                                 "Expression": {
                                   "Literal": {
+
                                     "Value": "datetime'2026-08-22T20:00:00'"
+
                                   }
                                 },
                                 "TimeUnit": 5
@@ -129,7 +133,9 @@
                               "DateSpan": {
                                 "Expression": {
                                   "Literal": {
+
                                     "Value": "datetime'2026-08-23T20:00:00'"
+
                                   }
                                 },
                                 "TimeUnit": 5
