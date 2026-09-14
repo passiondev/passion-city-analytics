@@ -22,19 +22,21 @@ jobs:
 
       - name: Restore YouTube auth
         run: |
-          echo '${{ secrets.YOUTUBE_TOKEN_JSON }}' > ~/token_sunday_snapshot.json
-          echo '${{ secrets.YOUTUBE_CLIENT_SECRETS }}' > ~/client_secrets.json
+          printf '%s' '${{ secrets.YOUTUBE_TOKEN_JSON }}' > ~/token_sunday_snapshot.json
+          printf '%s' '${{ secrets.YOUTUBE_CLIENT_SECRETS }}' > ~/client_secrets.json
 
       - name: Restore BigQuery service account credentials
         run: |
-          echo '${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}' > ~/gcp_credentials.json
+          printf '%s' '${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}' > ~/gcp_credentials.json
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp_credentials.json" >> "$GITHUB_ENV"
 
       - name: Run snapshot script
         id: snapshot
         continue-on-error: true
         working-directory: semantic_models/attendance
-        run: python3 sunday_snapshot.py 2>&1 | tee run.log
+        run: |
+          set -o pipefail
+          python3 sunday_snapshot.py 2>&1 | tee run.log
 
       - name: Check for auth failure
         if: steps.snapshot.outcome == 'failure'
