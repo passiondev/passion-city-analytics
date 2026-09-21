@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "fe2aca59ac6896a15564",
   "position": {
     "x": 16,
@@ -104,7 +104,7 @@
                               "DateSpan": {
                                 "Expression": {
                                   "Literal": {
-                                    "Value": "datetime'2026-08-22T20:00:00'"
+                                    "Value": "datetime'2026-09-20T00:00:00'"
                                   }
                                 },
                                 "TimeUnit": 5
@@ -129,7 +129,7 @@
                               "DateSpan": {
                                 "Expression": {
                                   "Literal": {
-                                    "Value": "datetime'2026-08-23T20:00:00'"
+                                    "Value": "datetime'2026-09-21T00:00:00'"
                                   }
                                 },
                                 "TimeUnit": 5
