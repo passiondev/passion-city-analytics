@@ -63,7 +63,7 @@ queryGroup 'Query Errors - 6/25/2026 10:37:39 PM'
 
 	annotation PBI_QueryGroupOrder = 10
 
-annotation PBI_QueryOrder = ["AnalyticsFactMetricbloomMetrics","AnalyticsFactMetricDoorHolders","AnalyticsFactMetricPassionKids","AnalyticsFactMetricMiddleSchool","AnalyticsFactMetricHighSchool","AnalyticsFactMetricGatheringAttendance","AttendanceInPerson_WOW","AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_WOW","Errors in AttendanceInPerson_WOW (2)","Errors in AttendanceInPerson_WOW (3)","Errors in AttendanceInPerson_WOW (4)","AnalyticsFactMetricSplSundaybloomMetrics","AnalyticsFactMetricSplSundayDHMetrics","AnalyticsFactMetricSplSundayGatheringAttMetrics","AnalyticsFactMetricSplSundayPKMetrics","SplSundayAttInPerson_WOW","SplSundayAtt_Online_WOW","Errors in AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_Online_WOW (2)","Errors in AttendanceInPerson_Online_WOW (3)","AnalyticsFactMetric5pmbloom","AnalyticsFactMetric5pmDoorHolders","AnalyticsFactMetric5pmGatheringAttendance","AnalyticsFactMetric5pmPassionKids","5pmSundayAttInPerson","Errors in AttendanceInPerson_Online_WOW (4)","Errors in AttendanceInPerson_Online_WOW (5)","Errors in AttendanceInPerson_Online_WOW (6)","fact_checkin","dim_person","AnalyticsGivingLastGiftByFamily","AnalyticsGivingSignals","v_gathering_views","v_sermon_clips","Errors in AttendanceInPerson_Online_WOW (7)","v_sunday_context","AnalyticsDimPersonHistorical"]
+annotation PBI_QueryOrder = ["AnalyticsFactMetricbloomMetrics","AnalyticsFactMetricDoorHolders","AnalyticsFactMetricPassionKids","AnalyticsFactMetricMiddleSchool","AnalyticsFactMetricHighSchool","AnalyticsFactMetricGatheringAttendance","AttendanceInPerson_WOW","AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_WOW","Errors in AttendanceInPerson_WOW (2)","Errors in AttendanceInPerson_WOW (3)","Errors in AttendanceInPerson_WOW (4)","AnalyticsFactMetricSplSundaybloomMetrics","AnalyticsFactMetricSplSundayDHMetrics","AnalyticsFactMetricSplSundayGatheringAttMetrics","AnalyticsFactMetricSplSundayPKMetrics","SplSundayAttInPerson_WOW","SplSundayAtt_Online_WOW","Errors in AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_Online_WOW (2)","Errors in AttendanceInPerson_Online_WOW (3)","AnalyticsFactMetric5pmbloom","AnalyticsFactMetric5pmDoorHolders","AnalyticsFactMetric5pmGatheringAttendance","AnalyticsFactMetric5pmPassionKids","5pmSundayAttInPerson","Errors in AttendanceInPerson_Online_WOW (4)","Errors in AttendanceInPerson_Online_WOW (5)","Errors in AttendanceInPerson_Online_WOW (6)","fact_checkin","dim_person","AnalyticsGivingLastGiftByFamily","AnalyticsGivingSignals","v_gathering_views","v_sermon_clips","Errors in AttendanceInPerson_Online_WOW (7)","v_sunday_context","AnalyticsDimPersonHistorical","dim_five_gatherings","dim_holiday_posters"]
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
@@ -157,6 +157,9 @@ ref table LocalDateTable_72280db6-bca4-424a-b523-3dd5312bf506
 ref table AnalyticsDimPersonHistorical
 ref table LocalDateTable_03583179-c7b6-4a51-a680-e7940489ddcd
 ref table LocalDateTable_371be6d4-4227-49c0-a049-203494890822
+ref table dim_five_gatherings
+ref table LocalDateTable_3f2f93e7-809c-4e82-80e9-0d4388584c68
+ref table dim_holiday_posters
 
 ref cultureInfo en-US
 

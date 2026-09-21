@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "0ef8a24dc6443167d10f",
+  "position": {
+    "x": 687.99999999999989,
+    "y": 2080,
+    "z": 14001,
+    "height": 416,
+    "width": 592,
+    "tabOrder": 12004
+  },
+  "visual": {
+    "visualType": "htmlContent443BE3AD55E043BF878BED274D3A6855",
+    "query": {
+      "queryState": {
+        "content": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "SplSundayAtt_Online_WOW"
+                    }
+                  },
+                  "Property": "HTML_Christmas_InPerson_Chart"
+                }
+              },
+              "queryRef": "SplSundayAtt_Online_WOW.HTML_Christmas_InPerson_Chart",
+              "nativeQueryRef": "HTML_Christmas_InPerson_Chart"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
