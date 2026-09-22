@@ -36,6 +36,21 @@ table Theme
 			)
 		lineageTag: 87ff5703-533d-4652-abcf-16c52ff78247
 
+	measure NeoBackground = ```
+			IF( [SelectedTheme] = "Dark", "#26292F", "#E4E7EC" )
+			
+			```
+		lineageTag: 4fdb9abe-d5c1-499f-8dd4-c15f76077f77
+
+	measure NeoShadow = ```
+			IF( [SelectedTheme] = "Dark", "#15171B", "#C2C8D2" )
+			
+			```
+		lineageTag: 3c0c467f-867b-4423-a12e-14c5e5957adb
+
+	measure NeoText = IF( [SelectedTheme] = "Dark", "#9AA1B0", "#5B6270" )
+		lineageTag: 4084263f-2734-486b-8c76-f584832aa74d
+
 	column Theme
 		lineageTag: 8a40d685-0349-4ee4-af98-ab0752df891f
 		summarizeBy: none
