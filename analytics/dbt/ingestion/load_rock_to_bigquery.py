@@ -275,7 +275,11 @@ def reconcile_deletes(config: dict, project_id: str, dataset: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--table", choices=sorted(TABLE_CONFIGS.keys()), help="Which configured table to load")
+    parser.add_argument(
+    "--table",
+    choices=sorted(TABLE_CONFIGS.keys()) + ["all"],
+    help="Which configured table to load, or 'all' to load every configured table",
+)
     parser.add_argument("--mode", choices=["full", "incremental"], default="full")
     parser.add_argument(
         "--reconcile-deletes",
@@ -296,20 +300,24 @@ def main():
         return
 
     if not args.table:
-        parser.error("--table is required (or use --list-tables to see options)")
+        parser.error("--table is required (use 'all' for every configured table, or --list-tables to see options)")
 
-    config = TABLE_CONFIGS[args.table]
+    tables_to_run = list(TABLE_CONFIGS.keys()) if args.table == "all" else [args.table]
 
-    df = extract(config, args.mode)
-    if df.empty:
-        print("No rows extracted; exiting.")
-    else:
-        load_to_bigquery(df, config, args.mode)
+    for table_key in tables_to_run:
+        print(f"--- {table_key} ---")
+        config = TABLE_CONFIGS[table_key]
 
-    if args.reconcile_deletes:
-        project_id = os.environ["GCP_PROJECT_ID"]
-        dataset = os.environ.get("BQ_BRONZE_DATASET", "bronze")
-        reconcile_deletes(config, project_id, dataset)
+        df = extract(config, args.mode)
+        if df.empty:
+            print("No rows extracted; skipping.")
+        else:
+            load_to_bigquery(df, config, args.mode)
+
+        if args.reconcile_deletes:
+            project_id = os.environ["GCP_PROJECT_ID"]
+            dataset = os.environ.get("BQ_BRONZE_DATASET", "bronze")
+            reconcile_deletes(config, project_id, dataset)
 
 
 if __name__ == "__main__":
