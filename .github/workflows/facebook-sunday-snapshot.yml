@@ -1,0 +1,55 @@
+name: Facebook Sunday Snapshot
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'   # Sunday 9:00 PM Eastern during EDT = Monday 1:00 AM UTC
+  workflow_dispatch:        # allows manual trigger from Actions tab
+
+jobs:
+  run-facebook-snapshot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests google-cloud-bigquery
+
+      - name: Restore BigQuery service account credentials
+        run: |
+          printf '%s' '${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}' > ~/gcp_credentials.json
+          echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp_credentials.json" >> "$GITHUB_ENV"
+
+      - name: Run Facebook snapshot
+        id: snapshot
+        continue-on-error: true
+        working-directory: semantic_models/attendance
+        env:
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+        run: |
+          set -o pipefail
+          python3 facebook_sunday_snapshot.py 2>&1 | tee facebook_run.log
+
+      - name: Check for auth failure
+        if: steps.snapshot.outcome == 'failure'
+        working-directory: semantic_models/attendance
+        run: |
+          if grep -Eqi "code=190|OAuthException|Invalid OAuth|expired|access token" facebook_run.log; then
+            echo "::error::Facebook access token is expired, invalid, or revoked. Update the FACEBOOK_PAGE_ACCESS_TOKEN GitHub secret."
+          else
+            echo "::error::Facebook snapshot failed for a non-auth reason — see facebook_run.log for details."
+          fi
+          exit 1
+
+      - name: Upload Facebook run log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: facebook-run-log
+          path: semantic_models/attendance/facebook_run.log
