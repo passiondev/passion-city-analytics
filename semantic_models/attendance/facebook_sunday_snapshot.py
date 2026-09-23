@@ -132,9 +132,9 @@ def get_live_videos():
         if after:
             params["after"] = after
 
-        payload = meta_get(
-            f"{PAGE_ID}/live_videos",
-            params=params,
+     payload = meta_get(
+    "me/live_videos",
+    params=params,
         )
 
         rows.extend(payload.get("data", []))
@@ -192,6 +192,15 @@ def discover_sunday_lives(target_sunday):
     print(
         f"Found {len(live_videos)} accessible "
         "Facebook LiveVideo object(s)."
+    )
+for live in live_videos:
+    print(
+        "  FOUND:",
+        live.get("id"),
+        "|",
+        live.get("title"),
+        "|",
+        live.get("broadcast_start_time"),
     )
 
     rows = []
