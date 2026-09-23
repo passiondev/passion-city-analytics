@@ -1,14 +1,4 @@
 #!/usr/bin/env python3
-"""
-facebook_sunday_snapshot.py
-
-Pull Facebook Sunday Gathering livestreams, retrieve lifetime
-1-minute views, and MERGE them into BigQuery.
-
-Usage:
-    python3 facebook_sunday_snapshot.py
-    python3 facebook_sunday_snapshot.py --date 2026-09-20
-"""
 
 import argparse
 import json
@@ -22,14 +12,12 @@ from google.cloud import bigquery
 
 
 # ----------------------------------------------------------------------
-# --CONFIG
+# CONFIG
 # ----------------------------------------------------------------------
 
 PROJECT = "bigquery-test-469018"
 DATASET = "youtube_passion_city_church"
 TABLE = f"{PROJECT}.{DATASET}.facebook_sunday_snapshot"
-
-PAGE_ID = "192924437428798"
 
 GRAPH_VERSION = "v25.0"
 GRAPH_BASE = f"https://graph.facebook.com/{GRAPH_VERSION}"
@@ -42,16 +30,20 @@ ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN")
 
 
 # ----------------------------------------------------------------------
-# --HELPERS
+# HELPERS
 # ----------------------------------------------------------------------
 
 def parse_meta_datetime(value):
+    """
+    Convert a Meta timestamp into a timezone-aware Python datetime.
+    """
+
     if not value:
         return None
 
     value = value.replace("Z", "+00:00")
 
-    # Meta sometimes returns offsets like +0000 instead of +00:00
+    # Meta may occasionally return +0000 instead of +00:00.
     if (
         len(value) >= 5
         and value[-5] in ("+", "-")
@@ -63,6 +55,10 @@ def parse_meta_datetime(value):
 
 
 def meta_get(path, params=None):
+    """
+    Make an authenticated GET request to the Meta Graph API.
+    """
+
     url = f"{GRAPH_BASE}/{path.lstrip('/')}"
 
     headers = {
@@ -104,12 +100,16 @@ def meta_get(path, params=None):
 
 
 # ----------------------------------------------------------------------
-# --FACEBOOK LIVE DISCOVERY
+# FACEBOOK LIVE DISCOVERY
 # ----------------------------------------------------------------------
 
 def get_live_videos():
     """
-    Get all currently accessible LiveVideo objects for the Page.
+    Retrieve all currently accessible Facebook LiveVideo objects.
+
+    We deliberately use /me/live_videos because the production Page
+    access token represents the Passion City Church Page directly, and
+    this is the route that was verified successfully during testing.
     """
 
     rows = []
@@ -132,15 +132,17 @@ def get_live_videos():
         if after:
             params["after"] = after
 
-     payload = meta_get(
-    "me/live_videos",
-    params=params,
+        payload = meta_get(
+            "me/live_videos",
+            params=params,
         )
 
         rows.extend(payload.get("data", []))
 
         paging = payload.get("paging", {})
-        after = paging.get("cursors", {}).get("after")
+        cursors = paging.get("cursors", {})
+
+        after = cursors.get("after")
 
         if not paging.get("next") or not after:
             break
@@ -149,10 +151,15 @@ def get_live_videos():
 
 
 # ----------------------------------------------------------------------
-# --FACEBOOK 1-MINUTE VIEW METRIC
+# FACEBOOK 1-MINUTE VIEW METRIC
 # ----------------------------------------------------------------------
 
 def get_one_minute_views(video_id):
+    """
+    Retrieve Facebook's lifetime 1-minute view metric for an
+    underlying Video object.
+    """
+
     payload = meta_get(
         f"{video_id}/video_insights",
         params={
@@ -180,7 +187,7 @@ def get_one_minute_views(video_id):
 
 
 # ----------------------------------------------------------------------
-# --FIND TARGET SUNDAYS GATHERINGS
+# DISCOVER TARGET SUNDAY
 # ----------------------------------------------------------------------
 
 def discover_sunday_lives(target_sunday):
@@ -193,22 +200,24 @@ def discover_sunday_lives(target_sunday):
         f"Found {len(live_videos)} accessible "
         "Facebook LiveVideo object(s)."
     )
-for live in live_videos:
-    print(
-        "  FOUND:",
-        live.get("id"),
-        "|",
-        live.get("title"),
-        "|",
-        live.get("broadcast_start_time"),
-    )
+
+    # Helpful diagnostic output.
+    for live in live_videos:
+        print(
+            "  FOUND:",
+            live.get("id"),
+            "|",
+            live.get("title"),
+            "|",
+            live.get("broadcast_start_time"),
+        )
 
     rows = []
 
     for live in live_videos:
         title = live.get("title") or ""
 
-        # Only PCC Sunday Gathering broadcasts
+        # Attendance pipeline only cares about Sunday Gathering broadcasts.
         if not title.startswith("Sunday Gathering //"):
             continue
 
@@ -225,10 +234,12 @@ for live in live_videos:
 
         broadcast_eastern = broadcast_start.astimezone(EASTERN)
 
-        # Use actual broadcast date in Atlanta/New York time
+        # Use the actual broadcast date in Eastern Time as ground truth.
         if broadcast_eastern.date() != target_sunday:
             continue
 
+        # A LiveVideo ID is NOT the ID used for video_insights.
+        # We dynamically pull the underlying Video object's ID.
         video = live.get("video") or {}
         video_id = video.get("id")
 
@@ -239,10 +250,13 @@ for live in live_videos:
             )
             continue
 
-        gathering = title.split("//", 1)[1].strip()
+        if "//" in title:
+            gathering = title.split("//", 1)[1].strip()
+        else:
+            gathering = title
 
         print(
-            f"  LIVE: {video_id} "
+            f"  MATCHED: {video_id} "
             f"'{title}' "
             f"started {broadcast_eastern}"
         )
@@ -289,7 +303,7 @@ for live in live_videos:
 
 
 # ----------------------------------------------------------------------
-# --BIGQUERY MERGE
+# BIGQUERY
 # ----------------------------------------------------------------------
 
 UNPACK_SQL = """
@@ -333,6 +347,13 @@ FROM UNNEST(
 
 
 def merge_snapshot(bq, rows):
+    """
+    Upsert Facebook records into BigQuery using video_id as the
+    unique key.
+
+    Re-running a Sunday is safe and will not create duplicates.
+    """
+
     config = bigquery.QueryJobConfig(
         query_parameters=[
             bigquery.ScalarQueryParameter(
@@ -405,7 +426,7 @@ def merge_snapshot(bq, rows):
 
 
 # ----------------------------------------------------------------------
-# --MAIN
+# MAIN
 # ----------------------------------------------------------------------
 
 def main():
@@ -417,12 +438,18 @@ def main():
         sys.exit(1)
 
     parser = argparse.ArgumentParser(
-        description="Facebook Sunday Gathering snapshot"
+        description=(
+            "Facebook Sunday Gathering "
+            "1-minute view snapshot"
+        )
     )
 
     parser.add_argument(
         "--date",
-        help="Sunday date YYYY-MM-DD",
+        help=(
+            "Sunday date YYYY-MM-DD "
+            "(default: most recent Sunday)"
+        ),
     )
 
     args = parser.parse_args()
@@ -432,6 +459,7 @@ def main():
             args.date,
             "%Y-%m-%d",
         ).date()
+
     else:
         today_eastern = datetime.now(EASTERN).date()
 
@@ -439,7 +467,9 @@ def main():
             days=(today_eastern.weekday() + 1) % 7
         )
 
-    rows = discover_sunday_lives(target_sunday)
+    rows = discover_sunday_lives(
+        target_sunday
+    )
 
     if not rows:
         print(
@@ -455,10 +485,10 @@ def main():
         key=lambda x: x["broadcast_start_time"],
     ):
         print(
-            f"  {row['gathering']:<10} "
+            f"  {row['gathering']:<12}"
             f"{row['one_minute_views']:>8,} "
             "1-minute views "
-            f"[{row['video_id']}]"
+            f"[video_id={row['video_id']}]"
         )
 
     if len(rows) == 1:
@@ -467,9 +497,14 @@ def main():
             "Facebook Live was found."
         )
 
-    bq = bigquery.Client(project=PROJECT)
+    bq = bigquery.Client(
+        project=PROJECT
+    )
 
-    merge_snapshot(bq, rows)
+    merge_snapshot(
+        bq,
+        rows,
+    )
 
     print("\nDone.")
 
