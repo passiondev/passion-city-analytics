@@ -2495,7 +2495,7 @@ table 'Campus Selector'
 			
 			'</table>'+
 			
-			'<div class=\'by-campus\'><div class=\'small-title\'>By campus</div><div class=\'lolli-wrap\'>'+lolli+'</div></div>';
+			'<div class=\'by-campus\'><div class=\'small-title\'>By Location</div><div class=\'lolli-wrap\'>'+lolli+'</div></div>';
 			
 			}
 			
@@ -2527,7 +2527,7 @@ table 'Campus Selector'
 			
 			html+='<div class=\'campus-side\' style=\'background:'+c.color+'22;border-right-color:'+c.color+'66\'><div class=\'campus-name\' style=\'color:'+c.color+'\'>'+c.short+'</div><div class=\'campus-total\' style=\'color:'+c.color+'\'>'+numSpan(totalCur,false)+'</div></div>';
 			
-			html+='<table class=\'campus-table\'><tr><td class=\'col-hdr\' style=\'text-align:left;\'>Service</td><td class=\'col-hdr\'>Att</td><td class=\'col-hdr\'>Prev</td><td class=\'col-hdr\'>5WK Avg</td><td class=\'col-hdr\'>WoW%</td><td class=\'col-hdr\'>YoY%</td></tr>';
+			html+='<table class=\'campus-table\'><tr><td class=\'col-hdr\' style=\'text-align:left;\'>Gathering</td><td class=\'col-hdr\'>Att</td><td class=\'col-hdr\'>Prev</td><td class=\'col-hdr\'>5WK Avg</td><td class=\'col-hdr\'>WoW%</td><td class=\'col-hdr\'>YoY%</td></tr>';
 			
 			if(visibleServices.length===0){
 			
