@@ -2,8 +2,21 @@ name: Facebook Sunday Snapshot
 
 on:
   schedule:
-    - cron: '0 1 * * 1'   # Sunday 9:00 PM Eastern during EDT = Monday 1:00 AM UTC
-  workflow_dispatch:        # allows manual trigger from Actions tab
+    # Main Sunday capture
+    - cron: '15 21 * * 0'
+      timezone: 'America/New_York'
+
+    # Monday recovery run in case one gathering
+    # was not available Sunday night
+    - cron: '15 9 * * 1'
+      timezone: 'America/New_York'
+
+  workflow_dispatch:
+    inputs:
+      sunday_date:
+        description: 'Optional Sunday date (YYYY-MM-DD). Leave blank for automatic.'
+        required: false
+        type: string
 
 jobs:
   run-facebook-snapshot:
@@ -30,21 +43,36 @@ jobs:
         id: snapshot
         continue-on-error: true
         working-directory: semantic_models/attendance
+
         env:
           FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          MANUAL_SUNDAY_DATE: ${{ inputs.sunday_date }}
+
         run: |
           set -o pipefail
-          python3 facebook_sunday_snapshot.py 2>&1 | tee facebook_run.log
+
+          if [ -n "$MANUAL_SUNDAY_DATE" ]; then
+            echo "Manual Sunday selected: $MANUAL_SUNDAY_DATE"
+            python3 facebook_sunday_snapshot.py \
+              --date "$MANUAL_SUNDAY_DATE" \
+              2>&1 | tee facebook_run.log
+          else
+            echo "Using automatic Sunday calculation"
+            python3 facebook_sunday_snapshot.py \
+              2>&1 | tee facebook_run.log
+          fi
 
       - name: Check for auth failure
         if: steps.snapshot.outcome == 'failure'
         working-directory: semantic_models/attendance
+
         run: |
           if grep -Eqi "code=190|OAuthException|Invalid OAuth|expired|access token" facebook_run.log; then
             echo "::error::Facebook access token is expired, invalid, or revoked. Update the FACEBOOK_PAGE_ACCESS_TOKEN GitHub secret."
           else
             echo "::error::Facebook snapshot failed for a non-auth reason — see facebook_run.log for details."
           fi
+
           exit 1
 
       - name: Upload Facebook run log
