@@ -530,14 +530,20 @@ def main():
         print(f"\nERROR: Facebook token rejected — refresh or replace it.\n  {exc}")
         sys.exit(1)
 
-    if not rows:
-        print(
-            "\nERROR: No Facebook Sunday Gathering "
-            f"Live videos with metrics found for {target_sunday}."
-        )
-        for video_id, title, reason in failures:
-            print(f"  FAILED: {video_id} '{title}' — {reason}")
-        sys.exit(1)
+ if not rows:
+    print(
+        "\nWARNING: Meta currently returned no accessible "
+        "Facebook Sunday Gathering videos with metrics for "
+        f"{target_sunday}."
+    )
+
+    print(
+        "No BigQuery changes were made. "
+        "Any previously captured snapshot remains unchanged."
+    )
+
+    print("\nDone.")
+    return
 
     print("\n=== Facebook Online Attendance ===")
 
