@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 import argparse
 import json
 import os
@@ -17,11 +18,7 @@ from google.cloud import bigquery
 
 PROJECT = "bigquery-test-469018"
 DATASET = "youtube_passion_city_church"
-
-TABLE = (
-    f"{PROJECT}.{DATASET}."
-    "facebook_sunday_snapshot"
-)
+TABLE = f"{PROJECT}.{DATASET}.facebook_sunday_snapshot"
 
 PAGE_ID = "192924437428798"
 
@@ -32,9 +29,7 @@ METRIC = "total_video_60s_excludes_shorter_views"
 
 EASTERN = ZoneInfo("America/New_York")
 
-ACCESS_TOKEN = os.environ.get(
-    "FACEBOOK_PAGE_ACCESS_TOKEN"
-)
+ACCESS_TOKEN = os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN")
 
 
 # ----------------------------------------------------------------------
@@ -54,7 +49,7 @@ class MetaAPIError(RuntimeError):
         self.error_type = error_type
 
         super().__init__(
-            "Meta API error "
+            f"Meta API error "
             f"code={code} "
             f"subcode={subcode} "
             f"type={error_type}: "
@@ -70,42 +65,27 @@ def parse_meta_datetime(value):
     if not value:
         return None
 
-    value = value.replace(
-        "Z",
-        "+00:00",
-    )
+    value = value.replace("Z", "+00:00")
 
-    # Convert offsets like +0000 to +00:00.
+    # Meta sometimes returns +0000 instead of +00:00.
     if (
         len(value) >= 5
         and value[-5] in ("+", "-")
         and value[-3] != ":"
     ):
-        value = (
-            value[:-2]
-            + ":"
-            + value[-2:]
-        )
+        value = value[:-2] + ":" + value[-2:]
 
     return datetime.fromisoformat(value)
 
 
-def meta_get(
-    path_or_url,
-    params=None,
-):
+def meta_get(path_or_url, params=None):
     if path_or_url.startswith("http"):
         url = path_or_url
     else:
-        url = (
-            f"{GRAPH_BASE}/"
-            f"{path_or_url.lstrip('/')}"
-        )
+        url = f"{GRAPH_BASE}/{path_or_url.lstrip('/')}"
 
     headers = {
-        "Authorization": (
-            f"Bearer {ACCESS_TOKEN}"
-        )
+        "Authorization": f"Bearer {ACCESS_TOKEN}"
     }
 
     response = requests.get(
@@ -117,11 +97,9 @@ def meta_get(
 
     try:
         payload = response.json()
-
     except ValueError:
         raise RuntimeError(
-            "Meta returned "
-            f"HTTP {response.status_code} "
+            f"Meta returned HTTP {response.status_code} "
             "with a non-JSON response."
         )
 
@@ -134,40 +112,27 @@ def meta_get(
                 "Unknown Meta API error",
             ),
             code=error.get("code"),
-            subcode=error.get(
-                "error_subcode"
-            ),
-            error_type=error.get(
-                "type"
-            ),
+            subcode=error.get("error_subcode"),
+            error_type=error.get("type"),
         )
 
     if not response.ok:
         raise RuntimeError(
-            "Meta returned HTTP "
-            f"{response.status_code}"
+            f"Meta returned HTTP {response.status_code}"
         )
 
     return payload
 
 
 # ----------------------------------------------------------------------
-# FACEBOOK LIVE DISCOVERY
+# LIVE VIDEO DISCOVERY
 # ----------------------------------------------------------------------
 
 def get_live_videos():
-    """
-    Retrieve every LiveVideo object currently exposed
-    through the Page's /live_videos edge.
-    """
-
     live_videos = []
     seen_ids = set()
 
-    url = (
-        f"{GRAPH_BASE}/"
-        f"{PAGE_ID}/live_videos"
-    )
+    url = f"{GRAPH_BASE}/{PAGE_ID}/live_videos"
 
     params = {
         "fields": (
@@ -185,36 +150,25 @@ def get_live_videos():
     page_number = 1
 
     while url:
-        print(
-            f"Reading Live Video "
-            f"page {page_number}..."
-        )
+        print(f"Reading Live Video page {page_number}...")
 
         payload = meta_get(
             url,
             params=params,
         )
 
-        videos = payload.get(
-            "data",
-            [],
-        )
+        videos = payload.get("data", [])
 
         for live in videos:
             live_id = live.get("id")
 
-            if (
-                live_id
-                and live_id not in seen_ids
-            ):
+            if live_id and live_id not in seen_ids:
                 seen_ids.add(live_id)
                 live_videos.append(live)
 
         print(
-            f"  Found {len(videos)} "
-            "on this page "
-            f"({len(live_videos)} "
-            "total so far)"
+            f"  Found {len(videos)} on this page "
+            f"({len(live_videos)} total so far)"
         )
 
         url = (
@@ -223,22 +177,18 @@ def get_live_videos():
             .get("next")
         )
 
-        # paging.next already contains
-        # its paging parameters.
+        # Meta's next URL already includes paging information.
         params = None
-
         page_number += 1
 
     return live_videos
 
 
 # ----------------------------------------------------------------------
-# FACEBOOK 1-MINUTE VIEWS
+# FACEBOOK 1-MINUTE VIEW METRIC
 # ----------------------------------------------------------------------
 
-def get_one_minute_views(
-    video_id,
-):
+def get_one_minute_views(video_id):
     payload = meta_get(
         f"{video_id}/video_insights",
         params={
@@ -246,24 +196,16 @@ def get_one_minute_views(
         },
     )
 
-    for metric in payload.get(
-        "data",
-        [],
-    ):
+    for metric in payload.get("data", []):
         if metric.get("name") != METRIC:
             continue
 
-        values = metric.get(
-            "values",
-            [],
-        )
+        values = metric.get("values", [])
 
         if not values:
             return None
 
-        value = values[0].get(
-            "value"
-        )
+        value = values[0].get("value")
 
         if value is None:
             return None
@@ -274,26 +216,62 @@ def get_one_minute_views(
 
 
 # ----------------------------------------------------------------------
-# FIND TARGET SUNDAY
+# BIGQUERY: WHAT DO WE ALREADY HAVE?
 # ----------------------------------------------------------------------
 
-def discover_sunday_lives(
-    target_sunday,
-):
-    print(
-        f"Target Sunday: "
-        f"{target_sunday}"
+def get_existing_keys(bq, target_dates):
+    """
+    Return existing (sunday_date, gathering) combinations for the
+    two-Sunday window.
+    """
+
+    sql = f"""
+    SELECT
+        sunday_date,
+        gathering
+    FROM `{TABLE}`
+    WHERE sunday_date IN UNNEST(@target_dates)
+    """
+
+    config = bigquery.QueryJobConfig(
+        query_parameters=[
+            bigquery.ArrayQueryParameter(
+                "target_dates",
+                "DATE",
+                sorted(target_dates),
+            )
+        ]
     )
 
-    print(
-        "Getting Facebook Live videos..."
-    )
+    results = bq.query(
+        sql,
+        job_config=config,
+    ).result()
+
+    existing = set()
+
+    for row in results:
+        existing.add(
+            (
+                row["sunday_date"],
+                row["gathering"],
+            )
+        )
+
+    return existing
+
+
+# ----------------------------------------------------------------------
+# DISCOVERY FOR TWO SUNDAYS
+# ----------------------------------------------------------------------
+
+def discover_rows(target_dates):
+    print("Getting Facebook Live videos...")
 
     live_videos = get_live_videos()
 
     print(
-        "\nScanned "
-        f"{len(live_videos)} "
+        f"\nScanned {len(live_videos)} "
         "Facebook LiveVideo object(s)."
     )
 
@@ -302,17 +280,10 @@ def discover_sunday_lives(
     for live in live_videos:
         live_id = live.get("id")
 
-        title = (
-            live.get("title")
-            or ""
-        )
+        title = live.get("title") or ""
 
-        broadcast_start = (
-            parse_meta_datetime(
-                live.get(
-                    "broadcast_start_time"
-                )
-            )
+        broadcast_start = parse_meta_datetime(
+            live.get("broadcast_start_time")
         )
 
         print(
@@ -321,80 +292,39 @@ def discover_sunday_lives(
             "|",
             title,
             "|",
-            live.get(
-                "broadcast_start_time"
-            ),
+            live.get("broadcast_start_time"),
         )
 
-        # Only Sunday Gathering streams.
-        if not title.startswith(
-            "Sunday Gathering //"
-        ):
+        if not title.startswith("Sunday Gathering //"):
             continue
 
         if not broadcast_start:
-            print(
-                "    SKIPPED - "
-                "no broadcast_start_time"
-            )
             continue
 
-        broadcast_eastern = (
-            broadcast_start
-            .astimezone(EASTERN)
-        )
+        local_start = broadcast_start.astimezone(EASTERN)
 
-        # The actual broadcast date in
-        # Eastern Time is our ground truth.
-        if (
-            broadcast_eastern.date()
-            != target_sunday
-        ):
+        sunday_date = local_start.date()
+
+        # Only care about the requested two Sundays.
+        if sunday_date not in target_dates:
             continue
 
-        video_object = (
-            live.get("video")
-            or {}
-        )
-
-        video_id = (
-            video_object.get("id")
-        )
+        video = live.get("video") or {}
+        video_id = video.get("id")
 
         if not video_id:
             print(
                 "    SKIPPED - "
-                "no underlying Video ID"
+                "No underlying Video ID."
             )
             continue
 
-        if "//" in title:
-            gathering = (
-                title
-                .split("//", 1)[1]
-                .strip()
-            )
-        else:
-            gathering = title
-
-        print(
-            f"    MATCHED "
-            f"{gathering}"
-        )
+        gathering = title.split("//", 1)[1].strip()
 
         try:
-            views = (
-                get_one_minute_views(
-                    video_id
-                )
-            )
+            views = get_one_minute_views(video_id)
 
         except MetaAPIError as error:
-            # Meta sometimes stops exposing
-            # individual Live/Video objects.
-            #
-            # Skip code 100/subcode 33 rather
-            # than failing the whole pipeline.
             if (
                 error.code == 100
                 and error.subcode == 33
@@ -402,226 +332,122 @@ def discover_sunday_lives(
                 print(
                     "    SKIPPED - "
                     "Video object is no longer "
-                    "accessible through Meta API."
+                    "accessible."
                 )
                 continue
 
-            # Authentication and other real API
-            # errors should still fail the job.
             raise
 
         if views is None:
             print(
                 "    SKIPPED - "
-                "1-minute metric returned "
-                "no value."
+                "No 1-minute view value."
             )
             continue
 
-        planned_start = (
-            parse_meta_datetime(
-                live.get(
-                    "planned_start_time"
-                )
-            )
+        planned_start = parse_meta_datetime(
+            live.get("planned_start_time")
         )
 
-        creation_time = (
-            parse_meta_datetime(
-                live.get(
-                    "creation_time"
-                )
-            )
+        creation_time = parse_meta_datetime(
+            live.get("creation_time")
         )
 
-        row = {
+        rows.append({
             "video_id": video_id,
-
-            "live_video_id":
-                live_id,
-
-            "title":
-                title,
-
-            "gathering":
-                gathering,
-
-            "sunday_date":
-                target_sunday.isoformat(),
-
-            "one_minute_views":
-                views,
-
-            "broadcast_start_time":
-                broadcast_start.isoformat(),
-
-            "planned_start_time":
-                (
-                    planned_start
-                    .isoformat()
-                    if planned_start
-                    else None
-                ),
-
-            "creation_time":
-                (
-                    creation_time
-                    .isoformat()
-                    if creation_time
-                    else None
-                ),
-
-            "status":
-                live.get("status"),
-        }
-
-        rows.append(row)
+            "live_video_id": live_id,
+            "title": title,
+            "gathering": gathering,
+            "sunday_date": sunday_date.isoformat(),
+            "one_minute_views": views,
+            "broadcast_start_time": broadcast_start.isoformat(),
+            "planned_start_time": (
+                planned_start.isoformat()
+                if planned_start
+                else None
+            ),
+            "creation_time": (
+                creation_time.isoformat()
+                if creation_time
+                else None
+            ),
+            "status": live.get("status"),
+        })
 
         print(
-            "    1-Minute Views:",
-            views,
+            f"    MATCH: {sunday_date} "
+            f"{gathering} = {views}"
         )
 
     return rows
 
 
 # ----------------------------------------------------------------------
-# BIGQUERY
+# BIGQUERY INSERT-ONLY MERGE
 # ----------------------------------------------------------------------
 
 UNPACK_SQL = """
 SELECT
-    JSON_VALUE(
-        r,
-        '$.video_id'
-    ) AS video_id,
-
-    JSON_VALUE(
-        r,
-        '$.live_video_id'
-    ) AS live_video_id,
-
-    JSON_VALUE(
-        r,
-        '$.title'
-    ) AS title,
-
-    JSON_VALUE(
-        r,
-        '$.gathering'
-    ) AS gathering,
+    JSON_VALUE(r, '$.video_id') AS video_id,
+    JSON_VALUE(r, '$.live_video_id') AS live_video_id,
+    JSON_VALUE(r, '$.title') AS title,
+    JSON_VALUE(r, '$.gathering') AS gathering,
 
     SAFE_CAST(
-        JSON_VALUE(
-            r,
-            '$.sunday_date'
-        )
+        JSON_VALUE(r, '$.sunday_date')
         AS DATE
     ) AS sunday_date,
 
     SAFE_CAST(
-        JSON_VALUE(
-            r,
-            '$.one_minute_views'
-        )
+        JSON_VALUE(r, '$.one_minute_views')
         AS INT64
     ) AS one_minute_views,
 
     SAFE_CAST(
-        JSON_VALUE(
-            r,
-            '$.broadcast_start_time'
-        )
+        JSON_VALUE(r, '$.broadcast_start_time')
         AS TIMESTAMP
     ) AS broadcast_start_time,
 
     SAFE_CAST(
-        JSON_VALUE(
-            r,
-            '$.planned_start_time'
-        )
+        JSON_VALUE(r, '$.planned_start_time')
         AS TIMESTAMP
     ) AS planned_start_time,
 
     SAFE_CAST(
-        JSON_VALUE(
-            r,
-            '$.creation_time'
-        )
+        JSON_VALUE(r, '$.creation_time')
         AS TIMESTAMP
     ) AS creation_time,
 
-    JSON_VALUE(
-        r,
-        '$.status'
-    ) AS status
+    JSON_VALUE(r, '$.status') AS status
 
 FROM UNNEST(
-    JSON_EXTRACT_ARRAY(
-        @rows_json
-    )
+    JSON_EXTRACT_ARRAY(@rows_json)
 ) AS r
 """
 
 
-def merge_snapshot(
-    bq,
-    rows,
-):
-    config = (
-        bigquery.QueryJobConfig(
-            query_parameters=[
-                bigquery
-                .ScalarQueryParameter(
-                    "rows_json",
-                    "STRING",
-                    json.dumps(rows),
-                )
-            ]
-        )
+def insert_missing_rows(bq, rows):
+    if not rows:
+        return
+
+    config = bigquery.QueryJobConfig(
+        query_parameters=[
+            bigquery.ScalarQueryParameter(
+                "rows_json",
+                "STRING",
+                json.dumps(rows),
+            )
+        ]
     )
 
     sql = f"""
     MERGE `{TABLE}` t
 
-    USING (
-        {UNPACK_SQL}
-    ) s
+    USING ({UNPACK_SQL}) s
 
-    ON t.video_id = s.video_id
-
-    WHEN MATCHED THEN
-      UPDATE SET
-
-        live_video_id =
-            s.live_video_id,
-
-        title =
-            s.title,
-
-        gathering =
-            s.gathering,
-
-        sunday_date =
-            s.sunday_date,
-
-        one_minute_views =
-            s.one_minute_views,
-
-        broadcast_start_time =
-            s.broadcast_start_time,
-
-        planned_start_time =
-            s.planned_start_time,
-
-        creation_time =
-            s.creation_time,
-
-        status =
-            s.status,
-
-        snapshot_taken_at =
-            CURRENT_TIMESTAMP()
+    ON
+        t.sunday_date = s.sunday_date
+        AND t.gathering = s.gathering
 
     WHEN NOT MATCHED THEN
       INSERT (
@@ -658,13 +484,6 @@ def merge_snapshot(
         job_config=config,
     ).result()
 
-    print(
-        "\nMERGED "
-        f"{len(rows)} "
-        "row(s) into "
-        "facebook_sunday_snapshot"
-    )
-
 
 # ----------------------------------------------------------------------
 # MAIN
@@ -673,126 +492,135 @@ def merge_snapshot(
 def main():
     if not ACCESS_TOKEN:
         print(
-            "ERROR: "
-            "FACEBOOK_PAGE_ACCESS_TOKEN "
-            "environment variable "
-            "is missing."
+            "ERROR: FACEBOOK_PAGE_ACCESS_TOKEN "
+            "environment variable is missing."
         )
-
         return 1
 
-    parser = argparse.ArgumentParser(
-        description=(
-            "Facebook Sunday Gathering "
-            "1-minute view snapshot"
-        )
-    )
+    parser = argparse.ArgumentParser()
 
     parser.add_argument(
         "--date",
         help=(
-            "Sunday date YYYY-MM-DD "
-            "(default: most recent Sunday)"
+            "Most recent Sunday YYYY-MM-DD. "
+            "That Sunday and the prior Sunday are scanned."
         ),
     )
 
     args = parser.parse_args()
 
     if args.date:
-        target_sunday = (
-            datetime.strptime(
-                args.date,
-                "%Y-%m-%d",
-            )
-            .date()
-        )
+        latest_sunday = datetime.strptime(
+            args.date,
+            "%Y-%m-%d",
+        ).date()
 
     else:
-        today_eastern = (
-            datetime.now(EASTERN)
-            .date()
+        today = datetime.now(EASTERN).date()
+
+        latest_sunday = today - timedelta(
+            days=(today.weekday() + 1) % 7
         )
 
-        target_sunday = (
-            today_eastern
-            - timedelta(
-                days=(
-                    today_eastern.weekday()
-                    + 1
-                )
-                % 7
-            )
-        )
-
-    rows = discover_sunday_lives(
-        target_sunday
+    previous_sunday = (
+        latest_sunday
+        - timedelta(days=7)
     )
 
-    # --------------------------------------------------------------
-    # IMPORTANT:
-    # No accessible Meta rows is NOT considered a workflow failure.
-    #
-    # Meta may stop exposing older LiveVideo/Video objects.
-    # Existing BigQuery data must remain untouched.
-    # --------------------------------------------------------------
+    target_dates = {
+        latest_sunday,
+        previous_sunday,
+    }
 
-    if not rows:
+    print("Facebook Sunday Snapshot")
+    print()
+    print("Scanning Sundays:")
+    print(f"  {previous_sunday}")
+    print(f"  {latest_sunday}")
+    print()
+
+    bq = bigquery.Client(project=PROJECT)
+
+    existing_keys = get_existing_keys(
+        bq,
+        target_dates,
+    )
+
+    print("Existing BigQuery records:")
+
+    if existing_keys:
+        for sunday_date, gathering in sorted(existing_keys):
+            print(
+                f"  {sunday_date} | "
+                f"{gathering}"
+            )
+    else:
+        print("  None")
+
+    print()
+
+    discovered_rows = discover_rows(
+        target_dates
+    )
+
+    missing_rows = []
+
+    for row in discovered_rows:
+        sunday_date = datetime.strptime(
+            row["sunday_date"],
+            "%Y-%m-%d",
+        ).date()
+
+        key = (
+            sunday_date,
+            row["gathering"],
+        )
+
+        if key in existing_keys:
+            print(
+                "SKIP EXISTING:",
+                row["sunday_date"],
+                "|",
+                row["gathering"],
+            )
+            continue
+
+        missing_rows.append(row)
+
+    print()
+
+    if not missing_rows:
         print(
-            "\nWARNING: Meta currently "
-            "returned no accessible "
-            "Facebook Sunday Gathering "
-            "videos with metrics for "
-            f"{target_sunday}."
+            "No missing Sunday Gathering "
+            "records were available from Meta."
         )
 
         print(
-            "No BigQuery changes were made."
-        )
-
-        print(
-            "Any previously captured "
-            "snapshot remains unchanged."
+            "BigQuery was not changed."
         )
 
         print("\nDone.")
 
         return 0
 
-    print(
-        "\n=== Facebook Online Attendance ==="
-    )
+    print("NEW RECORDS:")
 
-    rows.sort(
-        key=lambda row: (
-            row[
-                "broadcast_start_time"
-            ]
-        )
-    )
-
-    for row in rows:
+    for row in missing_rows:
         print(
-            f"  {row['gathering']:<12}"
-            f"{row['one_minute_views']:>8,} "
-            "1-minute views "
-            f"[video_id="
-            f"{row['video_id']}]"
+            f"  {row['sunday_date']} | "
+            f"{row['gathering']} | "
+            f"{row['one_minute_views']} "
+            "1-minute views"
         )
 
-    if len(rows) == 1:
-        print(
-            "\nWARNING: only ONE "
-            "Sunday Gathering Facebook "
-            "Live was accessible."
-        )
-
-    bq = bigquery.Client(
-        project=PROJECT
-    )
-
-    merge_snapshot(
+    insert_missing_rows(
         bq,
-        rows,
+        missing_rows,
+    )
+
+    print(
+        f"\nInserted {len(missing_rows)} "
+        "missing record(s) into BigQuery."
     )
 
     print("\nDone.")
