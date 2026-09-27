@@ -5,7 +5,7 @@ table fact_checkin
 		dataType: int64
 		formatString: 0
 		lineageTag: d9f6d2ab-8dee-4186-992c-19950bfae2c8
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: PersonId
 
 		annotation SummarizationSetBy = Automatic

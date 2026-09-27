@@ -1,0 +1,76 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "348be41d44010001bcb5",
+  "position": {
+    "x": 16,
+    "y": 848,
+    "z": 68000,
+    "height": 208,
+    "width": 656,
+    "tabOrder": 68000
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_checkin"
+                    }
+                  },
+                  "Property": "AOSundayDate"
+                }
+              },
+              "queryRef": "fact_checkin.AOSundayDate",
+              "nativeQueryRef": "AOSundayDate",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DH_SundaySummary"
+                    }
+                  },
+                  "Property": "FM Check Ins 5 Wk Trend"
+                }
+              },
+              "queryRef": "DH_SundaySummary.FM Check Ins 5 Wk Trend",
+              "nativeQueryRef": "FM Check Ins 5 Wk Trend"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "fact_checkin"
+                  }
+                },
+                "Property": "AOSundayDate"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "29b769dda69565076d36"
+}

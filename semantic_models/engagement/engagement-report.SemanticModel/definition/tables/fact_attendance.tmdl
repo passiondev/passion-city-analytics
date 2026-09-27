@@ -344,9 +344,10 @@ table fact_attendance
 				    Source = PowerBI.Dataflows(null),
 				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Source{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
 				    #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"]}[Data],
-				    fact_attendance1 = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="fact_attendance"]}[Data]
+				    fact_attendance1 = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="fact_attendance"]}[Data],
+				    NoDC = Table.SelectRows(fact_attendance1, each [CampusId] <> 5)
 				in
-				    fact_attendance1
+				    NoDC
 
 	annotation PBI_NavigationStepName = Navigation
 

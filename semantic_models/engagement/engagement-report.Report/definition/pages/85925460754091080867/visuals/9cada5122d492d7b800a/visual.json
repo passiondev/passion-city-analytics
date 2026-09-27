@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "9cada5122d492d7b800a",
   "position": {
-    "x": 669.9990234373679,
-    "y": 1713.87597656264,
-    "z": 51000,
+    "x": 672.66569010403452,
+    "y": 1620.7648654515287,
+    "z": 47000,
     "height": 115,
     "width": 158,
-    "tabOrder": 50000
+    "tabOrder": 45000
   },
   "visual": {
     "visualType": "card",
@@ -54,22 +54,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "e191e9e7784f5d827414",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_groupmember"
-              }
-            },
-            "Property": "ActiveYA"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "29b769dda69565076d36"
 }

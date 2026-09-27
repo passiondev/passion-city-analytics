@@ -97,6 +97,12 @@ table dim_group
 		displayFolder: Measures
 		lineageTag: df1dea3b-bc4f-497c-bef9-b92c38c41b05
 
+	measure 'Group Members (Campus)' =
+			
+			DISTINCTCOUNT ( dim_groupmember[PersonId] )
+		formatString: 0
+		lineageTag: f66af523-436c-4acb-98f8-82849bb308d0
+
 	column groupid
 		dataType: int64
 		formatString: 0
@@ -144,7 +150,7 @@ table dim_group
 		dataType: int64
 		formatString: 0
 		lineageTag: 740feae1-c90d-4690-85e8-324eadbd13f9
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: campusid
 
 		annotation SummarizationSetBy = Automatic

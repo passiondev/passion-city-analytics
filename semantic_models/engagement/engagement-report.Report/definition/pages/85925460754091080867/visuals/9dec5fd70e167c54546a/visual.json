@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "9dec5fd70e167c54546a",
   "position": {
-    "x": 932.74999237060547,
-    "y": 530,
-    "z": 12000,
+    "x": 877.194436815051,
+    "y": 436.44444444444434,
+    "z": 9000,
     "height": 115,
     "width": 125,
-    "tabOrder": 10000
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "card",
@@ -23,12 +23,12 @@
                       "Entity": "DH_SundaySummary"
                     }
                   },
-                  "Property": "NewDHP5W"
+                  "Property": "DH Last Sunday First Timers"
                 }
               },
-              "queryRef": "DH_SundaySummary.NewDHP5W",
-              "nativeQueryRef": "Past 5 Weeks",
-              "displayName": "Past 5 Weeks"
+              "queryRef": "DH_SundaySummary.DH Last Sunday First Timers",
+              "nativeQueryRef": "Last Sunday",
+              "displayName": "Last Sunday"
             }
           ]
         }
@@ -43,7 +43,7 @@
                     "Entity": "DH_SundaySummary"
                   }
                 },
-                "Property": "NewDHP5W"
+                "Property": "DH Last Sunday First Timers"
               }
             },
             "direction": "Descending"
@@ -52,6 +52,22 @@
         "isDefaultSort": true
       }
     },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
-  }
+  },
+  "parentGroupName": "29b769dda69565076d36"
 }

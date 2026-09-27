@@ -1,0 +1,135 @@
+table 'Crossover Bucket'
+	lineageTag: c50417bb-cb7b-47cc-b901-7547085f9be3
+
+	measure 'CO Total' = ```
+			CALCULATE ( [Crossover Value], REMOVEFILTERS ( 'Crossover Bucket' ) )
+			
+			```
+		formatString: 0
+		lineageTag: 10c675f9-a218-432e-92a8-652fee21591f
+
+	measure 'CO Also 1' = ```
+			
+			VAR _lens = SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" )
+			VAR _g = IF ( _lens = "DH", "CG", "DH" )
+			RETURN CALCULATE ( [Crossover Value], 'Crossover Bucket'[Type] = "Also", 'Crossover Bucket'[Group] = _g )
+			
+			```
+		formatString: 0
+		lineageTag: 24a81528-4714-4743-8b84-d3a6b73a6e53
+
+	measure 'CO Also 2' = ```
+			
+			VAR _lens = SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" )
+			VAR _g = IF ( _lens = "Giving", "CG", "Giving" )
+			RETURN CALCULATE ( [Crossover Value], 'Crossover Bucket'[Type] = "Also", 'Crossover Bucket'[Group] = _g )
+			
+			```
+		formatString: 0
+		lineageTag: 9102c5ee-911e-402e-a19c-0b679cb5265b
+
+	measure 'CO All Three' = ```
+			CALCULATE ( [Crossover Value], 'Crossover Bucket'[Type] = "All" )
+			
+			```
+		formatString: 0
+		lineageTag: 7b765ada-7e96-4f99-afe0-9da6b695376b
+
+	measure 'CO Only' =
+			
+			VAR _lens = SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" )
+			RETURN CALCULATE ( [Crossover Value], 'Crossover Bucket'[Type] = "Only", 'Crossover Bucket'[Group] = _lens )
+		formatString: 0
+		lineageTag: 20e785be-80f4-4320-b434-3251631e2ca0
+
+	measure 'CO Total Label' =
+			
+			SWITCH ( SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" ),
+			    "DH", "Active Door Holders",
+			    "CG", "Active Connect Group Members",
+			    "Giving", "Givers (Last 12 Months)" )
+		lineageTag: e7b43fa8-f037-4f04-93d9-556cf09c52b5
+
+	measure 'CO Also 1 Label' = ```
+			
+			IF ( SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" ) = "DH", "Also in a CG", "Also serving (DH)" )
+			
+			```
+		lineageTag: ef233eee-3b00-47b3-b926-c836d81fdd3a
+
+	measure 'CO Also 2 Label' = ```
+			
+			IF ( SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" ) = "Giving", "Also in a CG", "Also giving" )
+			
+			```
+		lineageTag: d3253f0d-d62e-445a-9759-c252c6c77cc1
+
+	measure 'CO Only Label' =
+			
+			"Only " & SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" )
+		lineageTag: ca234fa7-aca1-426d-a7c2-5bc34bc01767
+
+	measure 'Crossover In All Three Label' =
+			
+			"In all three (DH, CG, Giving)"
+		lineageTag: 3c6f5e59-73e1-488a-b0e0-86c6ecb1343b
+
+	column Label
+		lineageTag: 3b89f49a-ce9a-4f14-a848-dcce2a886a70
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Label]
+		sortByColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column Type
+		lineageTag: 77ea9fd1-e23e-40a8-8b87-76f93fce0051
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Type]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group
+		lineageTag: 5f7322ed-3ce5-42cd-b701-c8ee4bbc1966
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Group]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		formatString: 0
+		lineageTag: 7c7a6e81-a504-4ddb-8166-efa9b9a6d8df
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Crossover Bucket' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Label", STRING,
+				    "Type", STRING,
+				    "Group", STRING,
+				    "Order", INTEGER,
+				    {
+				        { "All Door Holders", "Total", "DH", 0 },
+				        { "All CG Members", "Total", "CG", 0 },
+				        { "All Givers", "Total", "Giving", 0 },
+				        { "Also serving (DH)", "Also", "DH", 1 },
+				        { "Also in a CG", "Also", "CG", 2 },
+				        { "Also giving", "Also", "Giving", 3 },
+				        { "All three", "All", "", 4 },
+				        { "Only DH", "Only", "DH", 5 },
+				        { "Only CG", "Only", "CG", 6 },
+				        { "Only giving", "Only", "Giving", 7 }
+				    }
+				)
+
+	annotation PBI_Id = 75c9424b570940898ea3162a0ea3b756
+

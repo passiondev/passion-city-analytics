@@ -1,0 +1,33 @@
+table 'Crossover Lens'
+	lineageTag: 33b6ece3-08ea-4a5b-8dee-fd42eb426e12
+
+	column Lens
+		lineageTag: 13a7a3d0-71ba-433d-b3b4-e4cb86d4f3d7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Lens]
+		sortByColumn: Order
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order
+		formatString: 0
+		lineageTag: 44f287e3-4781-407b-9c64-7585aee5350c
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Order]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Crossover Lens' = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Lens", STRING,
+				    "Order", INTEGER,
+				    { { "DH", 1 }, { "CG", 2 }, { "Giving", 3 } }
+				)
+
+	annotation PBI_Id = 5832a265e829483193916dddb52c0c67
+

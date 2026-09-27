@@ -54,6 +54,43 @@ table dim_groupmember
 		displayFolder: Measures
 		lineageTag: 422a7b3f-ac79-47c3-a892-4d02c1ab2bb9
 
+	measure 'Crossover Value' =
+			
+			VAR _lens = SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" )
+			VAR _dh = CALCULATETABLE ( VALUES ( dim_groupmember[PersonId] ), dim_groupmember[GroupTypeId] = 34 )
+			VAR _cg = CALCULATETABLE ( VALUES ( dim_groupmember[PersonId] ), dim_groupmember[GroupTypeId] = 100 )
+			VAR _gv = CALCULATETABLE ( VALUES ( PersonTransaction[PersonId] ), PersonTransaction[TransactionDateTime] >= TODAY () - 365 )
+			VAR nDH = COUNTROWS ( _dh )
+			VAR nCG = COUNTROWS ( _cg )
+			VAR nGV = COUNTROWS ( _gv )
+			VAR nDHCG = COUNTROWS ( INTERSECT ( _dh, _cg ) )
+			VAR nDHGV = COUNTROWS ( INTERSECT ( _dh, _gv ) )
+			VAR nCGGV = COUNTROWS ( INTERSECT ( _cg, _gv ) )
+			VAR nAll = COUNTROWS ( INTERSECT ( INTERSECT ( _dh, _cg ), _gv ) )
+			VAR nBase = SWITCH ( _lens, "DH", nDH, "CG", nCG, "Giving", nGV )
+			VAR nPairs = SWITCH ( _lens, "DH", nDHCG + nDHGV, "CG", nDHCG + nCGGV, "Giving", nDHGV + nCGGV )
+			VAR _type = SELECTEDVALUE ( 'Crossover Bucket'[Type] )
+			VAR _grp = SELECTEDVALUE ( 'Crossover Bucket'[Group] )
+			VAR _pair = _lens & "|" & _grp
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( _type ), nBase,
+			        _type = "Total" && _grp = _lens, nBase,
+			        _type = "Total", BLANK (),
+			        _type = "Also" && _grp = _lens, BLANK (),
+			        _type = "Also",
+			            SWITCH ( _pair,
+			                "DH|CG", nDHCG, "CG|DH", nDHCG,
+			                "DH|Giving", nDHGV, "Giving|DH", nDHGV,
+			                "CG|Giving", nCGGV, "Giving|CG", nCGGV ),
+			        _type = "All", nAll,
+			        _type = "Only" && _grp = _lens, nBase - nPairs + nAll,
+			        BLANK ()
+			    )
+		formatString: 0
+		lineageTag: 6a9804eb-ec1f-48b3-bb3d-fb58e83a88ae
+
 	column Id
 		dataType: int64
 		formatString: 0
@@ -373,7 +410,7 @@ table dim_groupmember
 		dataType: int64
 		formatString: 0
 		lineageTag: 566d55c7-5216-4407-b384-00949df5ce30
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: GCampusId
 
 		annotation SummarizationSetBy = Automatic

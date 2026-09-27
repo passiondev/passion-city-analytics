@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "feceeaedbc33bea40476",
   "position": {
-    "x": 585.71428571428578,
-    "y": 741.42857142857144,
-    "z": 29000,
+    "x": 588.38095238095241,
+    "y": 648.31746031746025,
+    "z": 25000,
     "height": 388.57142857142861,
     "width": 655.71428571428578,
-    "tabOrder": 26000
+    "tabOrder": 21000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -94,6 +94,21 @@
               "queryRef": "dim_group.YTDCheckIns",
               "nativeQueryRef": "Total (YTD)",
               "displayName": "Total (YTD)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DH_SundaySummary"
+                    }
+                  },
+                  "Property": "FM Last Sunday New Check Ins"
+                }
+              },
+              "queryRef": "DH_SundaySummary.FM Last Sunday New Check Ins",
+              "nativeQueryRef": "Last Sunday New ",
+              "displayName": "Last Sunday New "
             }
           ]
         }
@@ -102,22 +117,23 @@
         "sort": [
           {
             "field": {
-              "Column": {
+              "Measure": {
                 "Expression": {
                   "SourceRef": {
                     "Entity": "dim_group"
                   }
                 },
-                "Property": "groupname"
+                "Property": "P5WNewCheckIns"
               }
             },
-            "direction": "Ascending"
+            "direction": "Descending"
           }
         ]
       }
     },
     "drillFilterOtherVisuals": true
   },
+  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

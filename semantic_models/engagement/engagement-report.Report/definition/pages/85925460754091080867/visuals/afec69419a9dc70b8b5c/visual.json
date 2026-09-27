@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "afec69419a9dc70b8b5c",
   "position": {
-    "x": 868.9990234373679,
-    "y": 1713.87597656264,
-    "z": 30000,
+    "x": 871.66569010403452,
+    "y": 1620.7648654515287,
+    "z": 26000,
     "height": 115,
     "width": 158,
-    "tabOrder": 27000
+    "tabOrder": 22000
   },
   "visual": {
     "visualType": "card",
@@ -54,22 +54,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "43b2efa304f6d530df19",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_groupmember"
-              }
-            },
-            "Property": "G36_P7DCheckIns"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "29b769dda69565076d36"
 }

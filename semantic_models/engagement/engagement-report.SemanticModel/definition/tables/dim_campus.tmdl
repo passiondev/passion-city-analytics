@@ -5,7 +5,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: 37e1e067-e15c-49d8-97c1-0e39d679c419
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: Id
 
 		annotation SummarizationSetBy = Automatic
@@ -24,6 +24,9 @@ table dim_campus
 		lineageTag: 454eaca5-7a3f-43de-b5ec-813680745577
 		summarizeBy: none
 		sourceColumn: Name
+		sortByColumn: 'Campus Order'
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
@@ -64,7 +67,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: 23267ecb-1307-4d58-bb6e-2982edda6a86
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: LocationId
 
 		annotation SummarizationSetBy = Automatic
@@ -81,7 +84,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: 4468a3e8-4b12-45ee-8694-34ef8f6843ac
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: LeaderPersonAliasId
 
 		annotation SummarizationSetBy = Automatic
@@ -98,7 +101,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: 9ecb615b-a398-4745-8c69-0adbfc0cb276
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Order
 
 		annotation SummarizationSetBy = Automatic
@@ -107,7 +110,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: 7e79b79f-a135-43ae-9650-743b8710d770
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: Count
 
 		annotation SummarizationSetBy = Automatic
@@ -124,7 +127,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: b789417e-e9f4-4947-81b9-24431b99d5cb
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: ForeignId
 
 		annotation SummarizationSetBy = Automatic
@@ -157,7 +160,7 @@ table dim_campus
 		dataType: int64
 		formatString: 0
 		lineageTag: 91c7d33e-30be-4d77-bf90-5adf17754893
-		summarizeBy: none
+		summarizeBy: count
 		sourceColumn: LeaderPersonId
 
 		annotation SummarizationSetBy = Automatic
@@ -221,7 +224,7 @@ table dim_campus
 	column AddressLatitude
 		dataType: double
 		lineageTag: 0c8bb4f2-45a6-48ec-b9b0-449bb10448d3
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: AddressLatitude
 
 		annotation SummarizationSetBy = Automatic
@@ -231,7 +234,7 @@ table dim_campus
 	column AddressLongitude
 		dataType: double
 		lineageTag: 126a940e-a977-4b8d-ab97-6df51b35e8ad
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: AddressLongitude
 
 		annotation SummarizationSetBy = Automatic
@@ -246,6 +249,24 @@ table dim_campus
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Campus Order' =
+			
+			SWITCH (
+			    dim_campus[CampusId],
+			    2, 1,     // 515
+			    3, 2,     // Cumberland
+			    13, 3,    // Trilith
+			    12, 4,    // Online
+			    14, 5,    // Global
+			    -1, 6,    // No campus
+			    99
+			)
+		formatString: 0
+		lineageTag: cb0f5981-7144-4d5e-895d-ccbd6a246282
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_campus = m
 		mode: import
 		source =
@@ -253,9 +274,12 @@ table dim_campus
 				    Source = PowerBI.Dataflows(null),
 				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Source{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
 				    #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"]}[Data],
-				    dim_campus1 = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="dim_campus"]}[Data]
+				    dim_campus1 = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="dim_campus"]}[Data],
+				    NoDC = Table.SelectRows(dim_campus1, each [CampusId] <> 5 and [CampusId] <> null),
+				    NoCampusRow = #table(type table [CampusId = Int64.Type, Name = text], {{-1, "No campus"}}),
+				    WithNoCampus = Table.Combine({NoDC, NoCampusRow})
 				in
-				    dim_campus1
+				    WithNoCampus
 
 	annotation PBI_NavigationStepName = Navigation
 

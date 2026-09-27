@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "659571a0813719909820",
   "position": {
-    "x": 38.9990234375,
-    "y": 1240.3759765625,
-    "z": 42000,
+    "x": 41.665690104166671,
+    "y": 1147.2648654513887,
+    "z": 38000,
     "height": 301.25,
     "width": 636.25,
-    "tabOrder": 40000
+    "tabOrder": 35000
   },
   "visual": {
     "visualType": "lineStackedColumnComboChart",
@@ -180,6 +180,7 @@
     },
     "drillFilterOtherVisuals": true
   },
+  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

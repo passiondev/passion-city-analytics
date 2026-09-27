@@ -1,0 +1,162 @@
+table PersonTransaction
+	lineageTag: 2c624043-b382-4376-9453-4c3f6dca5ebd
+
+	column PersonId
+		dataType: int64
+		formatString: 0
+		lineageTag: 960152f6-2815-49b8-a18a-dcaddf25f6e8
+		summarizeBy: none
+		sourceColumn: PersonId
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampusId
+		dataType: int64
+		formatString: 0
+		lineageTag: 95821090-b908-4300-9070-faed7541a4db
+		summarizeBy: count
+		sourceColumn: CampusId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransactionDateTime
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b9dea927-a9b9-46b5-a6db-94507346193a
+		summarizeBy: none
+		sourceColumn: TransactionDateTime
+
+		variation Variation
+			isDefault
+			relationship: 75138f97-598e-4b6f-a7a1-88c2dd0fb128
+			defaultHierarchy: LocalDateTable_dea6571b-d93e-4981-a7a8-f488b2cc912d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransactionId
+		dataType: int64
+		formatString: 0
+		lineageTag: 9e054e87-bf8a-45f7-9060-01bf3373c43f
+		summarizeBy: count
+		sourceColumn: TransactionId
+
+		annotation SummarizationSetBy = Automatic
+
+	column TransactionDetailId
+		dataType: int64
+		formatString: 0
+		lineageTag: c74be5fe-0203-477b-9d0f-092f2efd4fce
+		summarizeBy: count
+		sourceColumn: TransactionDetailId
+
+		annotation SummarizationSetBy = Automatic
+
+	column AccountId
+		dataType: int64
+		formatString: 0
+		lineageTag: 603010b8-3b5b-4690-895a-93949c30d918
+		summarizeBy: count
+		sourceColumn: AccountId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: double
+		lineageTag: 3078ff80-1f42-4c49-ba42-e0887571592d
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GivingUnitKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c7919b1-7794-480f-bf9a-2719123a01e1
+		summarizeBy: count
+		sourceColumn: GivingUnitKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column FundName
+		dataType: string
+		lineageTag: 85928377-36fa-43c7-a978-74e3f654a364
+		summarizeBy: none
+		sourceColumn: FundName
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncludeGiftedThroughOrganization
+		dataType: string
+		lineageTag: d290766b-c747-4827-88ce-79315db6047c
+		summarizeBy: none
+		sourceColumn: IncludeGiftedThroughOrganization
+
+		annotation SummarizationSetBy = Automatic
+
+	column DonorFundsOrganization
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 8f680b2f-e3aa-4d09-9172-b1334adf1dc9
+		summarizeBy: none
+		sourceColumn: DonorFundsOrganization
+
+		annotation SummarizationSetBy = Automatic
+
+	partition PersonTransaction = m
+		mode: import
+		source = ```
+				let
+				    
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"13861ab4-9777-4e71-8a5e-442a4777a470" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="13861ab4-9777-4e71-8a5e-442a4777a470"]}[Data],
+				    PersonTransaction_ = #"13861ab4-9777-4e71-8a5e-442a4777a470"{[entity="PersonTransaction",version=""]}[Data],
+				    ContributionsOnly = Table.SelectRows(PersonTransaction_, each [TransactionType] = "Contribution"),
+				    CutoffDate = Date.AddYears(DateTime.LocalNow(), -5),
+				    RecentOnly = Table.SelectRows(
+				        ContributionsOnly,
+				        each [TransactionDateTime] <> null and [TransactionDateTime] >= CutoffDate
+				    ),
+				    KeptColumns = Table.SelectColumns(
+				        RecentOnly,
+				        {
+				            "PersonId",
+				            "CampusId",
+				            "GivingUnitKey",
+				            "TransactionId",
+				            "TransactionDetailId",
+				            "TransactionDateTime",
+				            "Amount",
+				            "FundName",
+				            "AccountId",
+				            "DonorFundsOrganization",
+				            "IncludeGiftedThroughOrganization"
+				        }
+				    ),
+				    Typed = Table.TransformColumnTypes(
+				        KeptColumns,
+				        {
+				            {"PersonId", Int64.Type},
+				            {"CampusId", Int64.Type},
+				            {"GivingUnitKey", Int64.Type},
+				            {"TransactionId", Int64.Type},
+				            {"TransactionDetailId", Int64.Type},
+				            {"TransactionDateTime", type datetime},
+				            {"Amount", type number},
+				            {"FundName", type text},
+				            {"AccountId", Int64.Type},
+				            {"DonorFundsOrganization", type logical},
+				            {"IncludeGiftedThroughOrganization", type text}
+				        }
+				    )
+				in
+				    Typed
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

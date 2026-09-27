@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "da6575a00098b5368803",
   "position": {
-    "x": 50.27777725508988,
-    "y": 332.91668270945883,
-    "z": 10000,
+    "x": 52.944443921756545,
+    "y": 239.8055715983478,
+    "z": 7000,
     "height": 298.88888888888886,
     "width": 387.77777777777777,
-    "tabOrder": 7000
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "tableEx",
@@ -32,23 +32,18 @@
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_group"
-                        }
-                      },
-                      "Property": "Group Members"
+                    "SourceRef": {
+                      "Entity": "dim_group"
                     }
                   },
-                  "Function": 0
+                  "Property": "Group Members (Campus)"
                 }
               },
-              "queryRef": "Sum(dim_group.Group Members)",
-              "nativeQueryRef": "Group Members",
-              "displayName": "Group Members"
+              "queryRef": "dim_group.Group Members (Campus)",
+              "nativeQueryRef": "Group Members ",
+              "displayName": "Group Members "
             }
           ]
         }
@@ -57,18 +52,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "dim_group"
-                      }
-                    },
-                    "Property": "Group Members"
+                  "SourceRef": {
+                    "Entity": "dim_group"
                   }
                 },
-                "Function": 0
+                "Property": "Group Members (Campus)"
               }
             },
             "direction": "Descending"
@@ -130,6 +120,11 @@
             "metadata": "dim_group.groupname"
           }
         }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
       ]
     },
     "visualContainerObjects": {
@@ -149,6 +144,7 @@
     },
     "drillFilterOtherVisuals": true
   },
+  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

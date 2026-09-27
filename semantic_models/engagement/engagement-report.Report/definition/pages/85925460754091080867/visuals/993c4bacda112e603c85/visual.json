@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "993c4bacda112e603c85",
   "position": {
-    "x": 540,
-    "y": 233.75,
-    "z": 17000,
+    "x": 542.66666666666663,
+    "y": 140.63888888888891,
+    "z": 13000,
     "height": 226.25,
     "width": 618.75,
-    "tabOrder": 16000
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "lineChart",
@@ -151,21 +151,22 @@
     },
     "drillFilterOtherVisuals": true
   },
+  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {
-        "name": "580e4941f469d22f9632",
+        "name": "76760deacb55b2e85087",
         "field": {
-          "Column": {
+          "Measure": {
             "Expression": {
               "SourceRef": {
                 "Entity": "DH_SundaySummary"
               }
             },
-            "Property": "AOOccurrenceDate"
+            "Property": "DH In 5 Sunday Window"
           }
         },
-        "type": "RelativeDate",
+        "type": "Advanced",
         "filter": {
           "Version": 2,
           "From": [
@@ -178,88 +179,29 @@
           "Where": [
             {
               "Condition": {
-                "Between": {
-                  "Expression": {
-                    "Column": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
                       "Expression": {
                         "SourceRef": {
                           "Source": "d"
                         }
                       },
-                      "Property": "AOOccurrenceDate"
+                      "Property": "DH In 5 Sunday Window"
                     }
                   },
-                  "LowerBound": {
-                    "DateSpan": {
-                      "Expression": {
-                        "DateAdd": {
-                          "Expression": {
-                            "DateAdd": {
-                              "Expression": {
-                                "Now": {}
-                              },
-                              "Amount": 1,
-                              "TimeUnit": 0
-                            }
-                          },
-                          "Amount": -35,
-                          "TimeUnit": 0
-                        }
-                      },
-                      "TimeUnit": 0
-                    }
-                  },
-                  "UpperBound": {
-                    "DateSpan": {
-                      "Expression": {
-                        "Now": {}
-                      },
-                      "TimeUnit": 0
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
                     }
                   }
                 }
               }
             }
           ]
-        }
-      },
-      {
-        "name": "d2f2aad89d1c332f6e61",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "DH_SundaySummary"
-                  }
-                },
-                "Property": "First Time"
-              }
-            },
-            "Function": 0
-          }
         },
-        "type": "Advanced"
-      },
-      {
-        "name": "02ea4f90a640dd4c19bb",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "DH_SundaySummary"
-                  }
-                },
-                "Property": "Check Ins"
-              }
-            },
-            "Function": 0
-          }
-        },
-        "type": "Advanced"
+        "howCreated": "User"
       }
     ]
   }

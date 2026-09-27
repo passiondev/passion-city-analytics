@@ -1,0 +1,72 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "name": "ee091117b626a9aba16b",
+  "position": {
+    "x": 48.000000000000007,
+    "y": 1536.0000000000002,
+    "z": 16000,
+    "height": 432,
+    "width": 1184,
+    "tabOrder": 16000
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_person"
+                    }
+                  },
+                  "Property": "Age Band"
+                }
+              },
+              "queryRef": "dim_person.Age Band",
+              "nativeQueryRef": "Age Band",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Crossover Bucket"
+                    }
+                  },
+                  "Property": "CO Total"
+                }
+              },
+              "queryRef": "Crossover Bucket.CO Total",
+              "nativeQueryRef": "CO Total"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

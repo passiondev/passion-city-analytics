@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "4b7c12aaa50c70439430",
   "position": {
-    "x": 1066.9990234373677,
-    "y": 1713.87597656264,
-    "z": 33000,
+    "x": 1069.6656901040344,
+    "y": 1620.7648654515287,
+    "z": 29000,
     "height": 115,
     "width": 158,
-    "tabOrder": 30000
+    "tabOrder": 25000
   },
   "visual": {
     "visualType": "card",
@@ -54,22 +54,5 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "45a5c9c554cb08eba92f",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_groupmember"
-              }
-            },
-            "Property": "G36_YTDCheckIns"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+  "parentGroupName": "29b769dda69565076d36"
 }

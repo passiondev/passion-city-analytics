@@ -707,10 +707,10 @@ table dim_person
 		annotation SummarizationSetBy = Automatic
 
 	column CampusId
-		dataType: int64
+		dataType: double
 		formatString: 0
 		lineageTag: 1dcad2ee-f7e3-4271-9bc7-ad81a72163c5
-		summarizeBy: count
+		summarizeBy: none
 		sourceColumn: CampusId
 
 		annotation SummarizationSetBy = Automatic
@@ -922,6 +922,66 @@ table dim_person
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Age Band' =
+			
+			VAR a = dim_person[Age]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( a ) || a <= 0, "Unknown",
+			        a < 18, "Under 18",
+			        a < 25, "18–24",
+			        a < 35, "25–34",
+			        a < 45, "35–44",
+			        a < 55, "45–54",
+			        a < 65, "55–64",
+			        "65+"
+			    )
+		lineageTag: e247feb0-dd76-4288-b66e-87c210f2d647
+		summarizeBy: none
+		sortByColumn: 'Age Band Order'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age Band Order' =
+			
+			VAR a = dim_person[Age]
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( a ) || a <= 0, 99,
+			        a < 18, 1, a < 25, 2, a < 35, 3, a < 45, 4, a < 55, 5, a < 65, 6,
+			        7
+			    )
+		formatString: 0
+		lineageTag: e2c97de0-3661-47c5-a74c-5d0c05a29cf0
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gender Label' =
+			
+			SWITCH ( dim_person[Gender], 1, "Male", 2, "Female", "Unknown" )
+		lineageTag: 30bccff5-50fe-4128-91a4-2fa6fd53ef62
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Marital Status Clean' =
+			
+			VAR m = TRIM ( dim_person[MaritalStatus] )
+			RETURN
+			    SWITCH ( TRUE (),
+			        m = "" || m = "empty value", "Unknown",
+			        m = "Widow", "Widowed",
+			        m )
+		lineageTag: 7f00ea46-3fb4-4d9a-8f1b-6f36e9fdb794
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_person = m
 		mode: import
 		source =
@@ -929,9 +989,11 @@ table dim_person
 				    Source = PowerBI.Dataflows(null),
 				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Source{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
 				    #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"]}[Data],
-				    dim_person1 = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="dim_person"]}[Data]
+				    dim_person1 = #"7298f3cf-5097-4cfa-80d0-5ba1abcf87d2"{[entity="dim_person"]}[Data],
+				    NoDC = Table.SelectRows(dim_person1, each [CampusId] <> 5),
+				    NoCampusToMinus1 = Table.ReplaceValue(NoDC, null, -1, Replacer.ReplaceValue, {"CampusId"})
 				in
-				    dim_person1
+				    NoCampusToMinus1
 
 	annotation PBI_NavigationStepName = Navigation
 

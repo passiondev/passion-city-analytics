@@ -4,8 +4,8 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 50,
-        "y": 14
+        "x": 0,
+        "y": 0
       },
       "nodes": [
         {
@@ -19,12 +19,12 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 1
         },
         {
           "location": {
-            "x": 726.220789240251,
-            "y": 249.20459924942645
+            "x": 744.220789240251,
+            "y": 0
           },
           "nodeIndex": "dim_campus",
           "nodeLineageTag": "674c8b67-e099-4d4e-b94c-c6d5d7973484",
@@ -32,12 +32,12 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 2
         },
         {
           "location": {
-            "x": 645.75131007716027,
-            "y": 644.86864030505967
+            "x": 783.75131007716027,
+            "y": 742.86864030505967
           },
           "nodeIndex": "dim_group",
           "nodeLineageTag": "51862b62-94c4-40f9-bfb0-46217c4a94d2",
@@ -45,7 +45,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 3
         },
         {
           "location": {
@@ -58,12 +58,12 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 4
         },
         {
           "location": {
-            "x": 440.22554641465945,
-            "y": 302.90055134966326
+            "x": 471.72554641465945,
+            "y": 360.65055134966326
           },
           "nodeIndex": "dim_person",
           "nodeLineageTag": "b00c233b-f6e3-47e4-8320-7a52756391c3",
@@ -71,7 +71,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 5
         },
         {
           "location": {
@@ -84,7 +84,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 6
         },
         {
           "location": {
@@ -97,11 +97,11 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 7
         },
         {
           "location": {
-            "x": 289.52785327395645,
+            "x": 216.02785327395645,
             "y": 0
           },
           "nodeIndex": "fact_connectionrequest",
@@ -110,7 +110,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 8
         },
         {
           "location": {
@@ -123,7 +123,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 9
         },
         {
           "location": {
@@ -136,7 +136,7 @@
             "height": 300,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 10
         },
         {
           "location": {
@@ -149,7 +149,7 @@
             "height": 200,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 11
         },
         {
           "location": {
@@ -161,7 +161,7 @@
             "height": 200,
             "width": 234
           },
-          "zIndex": 0
+          "zIndex": 12
         },
         {
           "location": {
@@ -174,11 +174,61 @@
             "height": 308.75,
             "width": 296.5
           },
+          "zIndex": 13
+        },
+        {
+          "location": {
+            "x": 2605.9919658201889,
+            "y": 448.1514151486017
+          },
+          "nodeIndex": "ComparisonData",
+          "nodeLineageTag": "c2eec9b7-b75f-4bc9-bce7-960988ff94e1",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 14
+        },
+        {
+          "location": {
+            "x": 2889.9919658201889,
+            "y": 386.1514151486017
+          },
+          "nodeIndex": "PersonTransaction",
+          "nodeLineageTag": "2c624043-b382-4376-9453-4c3f6dca5ebd",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 15
+        },
+        {
+          "location": {
+            "x": 3173.9919658201889,
+            "y": 436.1514151486017
+          },
+          "nodeIndex": "Crossover Lens",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 16
+        },
+        {
+          "location": {
+            "x": 3457.9919658201889,
+            "y": 436.1514151486017
+          },
+          "nodeIndex": "Crossover Bucket",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
           "zIndex": 0
         }
       ],
       "name": "All tables",
-      "zoomValue": 50,
+      "zoomValue": 80,
       "pinKeyFieldsToTop": false,
       "showExtraHeaderInfo": false,
       "hideKeyFieldsWhenCollapsed": false,

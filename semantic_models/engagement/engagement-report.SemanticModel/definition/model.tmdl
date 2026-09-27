@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["fact_checkin","fact_connectionrequest","fact_workflow","dim_campus","dim_attributevalue_JIL","dim_groupmember","dim_group","dim_person","fact_attendance","fact_step"]
+annotation PBI_QueryOrder = ["fact_checkin","fact_connectionrequest","fact_workflow","dim_campus","dim_attributevalue_JIL","dim_groupmember","dim_group","dim_person","fact_attendance","fact_step","PersonTransaction"]
 
 annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
 
@@ -78,6 +78,10 @@ ref table BaptismSummary
 ref table DH_SundaySummary
 ref table LocalDateTable_1a1dd851-272d-457f-bf61-249de5739120
 ref table ComparisonData
+ref table PersonTransaction
+ref table LocalDateTable_dea6571b-d93e-4981-a7a8-f488b2cc912d
+ref table 'Crossover Lens'
+ref table 'Crossover Bucket'
 
 ref cultureInfo en-US
 

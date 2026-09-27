@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
   "name": "b4ad5a4ae518c8ac8bde",
   "position": {
-    "x": 622,
-    "y": 544,
-    "z": 11000,
-    "height": 88,
-    "width": 120,
-    "tabOrder": 8000
+    "x": 576,
+    "y": 391,
+    "z": 8000,
+    "height": 144,
+    "width": 256,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "card",
@@ -23,12 +23,11 @@
                       "Entity": "DH_SundaySummary"
                     }
                   },
-                  "Property": "DHP5W"
+                  "Property": "DH Last Sunday Serving"
                 }
               },
-              "queryRef": "DH_SundaySummary.DHP5W",
-              "nativeQueryRef": "Serving",
-              "displayName": "Serving"
+              "queryRef": "DH_SundaySummary.DH Last Sunday Serving",
+              "nativeQueryRef": "DH Last Sunday Serving"
             }
           ]
         }
@@ -43,7 +42,7 @@
                     "Entity": "DH_SundaySummary"
                   }
                 },
-                "Property": "DHP5W"
+                "Property": "DH Last Sunday Serving"
               }
             },
             "direction": "Descending"
@@ -52,24 +51,56 @@
         "isDefaultSort": true
       }
     },
-    "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "9995461e1b1a7f26b2f1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DH_SundaySummary"
+    "objects": {
+      "categoryLabels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
               }
             },
-            "Property": "DHP5W"
+            "text": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DH_SundaySummary"
+                    }
+                  },
+                  "Property": "DH Last Sunday Label"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
           }
-        },
-        "type": "Advanced"
-      }
-    ]
-  }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "29b769dda69565076d36"
 }

@@ -1,10 +1,67 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "85925460754091080867",
   "displayName": "Page 1",
-  "displayOption": "FitToPage",
-  "height": 2550,
+  "displayOption": "ActualSize",
+  "height": 4550,
   "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d5c09f6191635ad707c5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_person"
+              }
+            },
+            "Property": "PersonId"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_person",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "Comparison": {
+                      "ComparisonKind": 0,
+                      "Left": {
+                        "Column": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Source": "d"
+                            }
+                          },
+                          "Property": "PersonId"
+                        }
+                      },
+                      "Right": {
+                        "Literal": {
+                          "Value": "null"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  },
   "visualInteractions": [
     {
       "source": "0ddc2e47b7b0a478d3de",
@@ -50,16 +107,6 @@
       "source": "0ddc2e47b7b0a478d3de",
       "target": "8d113de335a120e4ce66",
       "type": "DataFilter"
-    },
-    {
-      "source": "feceeaedbc33bea40476",
-      "target": "4d3a993110b61a0e9a17",
-      "type": "DataFilter"
-    },
-    {
-      "source": "0ddc2e47b7b0a478d3de",
-      "target": "4d3a993110b61a0e9a17",
-      "type": "NoFilter"
     },
     {
       "source": "0ddc2e47b7b0a478d3de",
@@ -135,6 +182,56 @@
       "source": "0ddc2e47b7b0a478d3de",
       "target": "4847199307e5d8a5d2b7",
       "type": "NoFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "68ff3d42ba522d93cdaa",
+      "type": "NoFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "8462d39de2750d003c93",
+      "type": "NoFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "cabe45b5238622cc872c",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "6af7b1794a04bcc6e526",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "da6575a00098b5368803",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "993c4bacda112e603c85",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "7ee0747d86e4a69197dc",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "b4ad5a4ae518c8ac8bde",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "6d316f845623437c9409",
+      "type": "DataFilter"
+    },
+    {
+      "source": "2d2e343f39a1d955a5ad",
+      "target": "7a77687ee6a056877ae0",
+      "type": "DataFilter"
     }
   ]
 }

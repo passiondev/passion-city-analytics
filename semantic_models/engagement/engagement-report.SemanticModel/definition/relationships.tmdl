@@ -225,12 +225,6 @@ relationship 4f1ff786-f69c-634e-8c5e-04a54bc870c5
 	fromColumn: dim_groupmember.GroupId
 	toColumn: dim_group.groupid
 
-relationship 1392f2b3-d787-3957-6c04-1f6eff75b4ca
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: dim_group.campusid
-	toColumn: dim_groupmember.GCampusId
-
 relationship 31c76bec-2528-4bf2-bfa9-36c141eac244
 	joinOnDateBehavior: datePartOnly
 	fromColumn: dim_group.SocialStartDate
@@ -285,12 +279,6 @@ relationship AutoDetected_d27232cc-48cc-442a-9bff-b4cd89f50bae
 	fromColumn: fact_step.PersonId
 	toColumn: dim_person.PersonId
 
-relationship 7c34ee19-dd54-3145-d362-dc2ad4edc4ba
-	crossFilteringBehavior: bothDirections
-	toCardinality: many
-	fromColumn: DH_SundaySummary.ACampusId
-	toColumn: dim_group.campusid
-
 relationship 5a4c851a-d486-4916-834b-7816cc36255f
 	joinOnDateBehavior: datePartOnly
 	fromColumn: DH_SundaySummary.AOOccurrenceDate
@@ -300,4 +288,25 @@ relationship 8f6fdb66-0307-193e-5ba2-e0d8773d75d2
 	crossFilteringBehavior: bothDirections
 	fromColumn: fact_checkin.GId
 	toColumn: dim_group.groupid
+
+relationship 75138f97-598e-4b6f-a7a1-88c2dd0fb128
+	joinOnDateBehavior: datePartOnly
+	fromColumn: PersonTransaction.TransactionDateTime
+	toColumn: LocalDateTable_dea6571b-d93e-4981-a7a8-f488b2cc912d.Date
+
+relationship AutoDetected_280a470d-289c-4214-8cd7-8ede56a6484b
+	fromColumn: PersonTransaction.PersonId
+	toColumn: dim_person.PersonId
+
+relationship dbc9d3a3-5795-a15b-4d5e-c627f99f5580
+	fromColumn: dim_person.CampusId
+	toColumn: dim_campus.CampusId
+
+relationship d99d79f5-be39-f80b-3356-ddbed290167e
+	fromColumn: fact_checkin.PersonId
+	toColumn: dim_person.PersonId
+
+relationship aea1cb21-0442-8ae7-da6a-698c9ad0296a
+	fromColumn: DH_SundaySummary.ACampusId
+	toColumn: dim_campus.CampusId
 

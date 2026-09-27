@@ -29,6 +29,138 @@ table DH_SundaySummary
 
 		annotation PBI_FormatHint = {"isDecimal":true}
 
+	measure 'DH Last Sunday Date' =
+			
+			CALCULATE (
+			    MAX ( DH_SundaySummary[AOOccurrenceDate] ),
+			    ALL ( DH_SundaySummary ),
+			    WEEKDAY ( DH_SundaySummary[AOOccurrenceDate], 1 ) = 1,
+			    DH_SundaySummary[AOOccurrenceDate] <= TODAY ()
+			)
+		formatString: General Date
+		lineageTag: ab813ee9-baa6-4be7-aacd-245bf8fb761c
+
+	measure 'FM Last Sunday Date' =
+			
+			CALCULATE (
+			    MAX ( fact_checkin[AOOccurrenceDate] ),
+			    ALL ( fact_checkin ),
+			    fact_checkin[Sunday] = 1,
+			    fact_checkin[ADidAttend] = TRUE (),
+			    fact_checkin[GTId] IN { 19, 20, 60, 68, 69, 85, 128 },
+			    fact_checkin[AOOccurrenceDate] <= TODAY ()
+			)
+		formatString: General Date
+		lineageTag: bcb7e684-9e7d-4e12-87af-a77b822ae814
+
+	measure 'DH Last Sunday Serving' =
+			
+			VAR d = [DH Last Sunday Date]
+			RETURN COALESCE ( CALCULATE ( SUM ( DH_SundaySummary[Check Ins] ), DH_SundaySummary[AOOccurrenceDate] = d ), 0 )
+		lineageTag: 4c04d916-2f72-4aaa-850b-847a4c24fed9
+
+	measure 'DH Last Sunday First Timers' =
+			
+			VAR d = [DH Last Sunday Date]
+			RETURN COALESCE ( CALCULATE ( SUM ( DH_SundaySummary[First Time] ), DH_SundaySummary[AOOccurrenceDate] = d ), 0 )
+		formatString: 0
+		lineageTag: d08e8515-2eb2-46ca-9a8f-c613c7577a0f
+
+	measure 'FM Last Sunday Check Ins' =
+			
+			VAR d = [FM Last Sunday Date]
+			RETURN
+			    COUNTROWS (
+			        FILTER ( fact_checkin,
+			            fact_checkin[AOOccurrenceDate] = d
+			                && fact_checkin[ADidAttend] = TRUE ()
+			                && fact_checkin[GTId] IN { 19, 20, 60, 68, 69, 85, 128 } ) ) + 0
+		formatString: 0
+		lineageTag: aaf62d29-d7be-402d-a0b3-f4e68bd0b432
+
+	measure 'FM Last Sunday New Check Ins' =
+			
+			VAR d = [FM Last Sunday Date]
+			RETURN
+			    COUNTROWS (
+			        FILTER ( fact_checkin,
+			            fact_checkin[AOOccurrenceDate] = d
+			                && fact_checkin[ADidAttend] = TRUE ()
+			                && fact_checkin[AIsFirstTime] = TRUE ()
+			                && fact_checkin[GTId] IN { 19, 20, 60, 68, 69, 85, 128 } ) ) + 0
+		formatString: 0
+		lineageTag: eb2bb75d-1371-47ab-aa11-362faac71da3
+
+	measure 'FM Check Ins 5 Wk Trend' =
+			
+			VAR axisDate = MAX ( fact_checkin[AOSundayDate] )
+			VAR Last5 =
+			    TOPN (
+			        5,
+			        CALCULATETABLE (
+			            VALUES ( fact_checkin[AOSundayDate] ),
+			            ALL ( fact_checkin ),
+			            fact_checkin[Sunday] = 1,
+			            fact_checkin[ADidAttend] = TRUE (),
+			            fact_checkin[GTId] IN { 19, 20, 60, 68, 69, 85, 128 },
+			            fact_checkin[AOSundayDate] <= TODAY ()
+			        ),
+			        fact_checkin[AOSundayDate], DESC
+			    )
+			RETURN
+			    IF (
+			        axisDate IN Last5,
+			        CALCULATE (
+			            COUNTROWS ( fact_checkin ),
+			            fact_checkin[ADidAttend] = TRUE (),
+			            fact_checkin[GTId] IN { 19, 20, 60, 68, 69, 85, 128 }
+			        )
+			    )
+		formatString: 0
+		lineageTag: b0532736-a8c0-4632-98e8-dbc49da6d58a
+
+	measure 'Last Sunday Label' =
+			
+			"Last Sunday · " & FORMAT ( [DH Last Sunday Date], "MM/dd" )
+		lineageTag: 2fca4fe9-e1e0-497a-af8f-159dc8a0aa50
+
+	measure 'DH Last Sunday Label' =
+			
+			"Last Sunday · " & FORMAT ( [DH Last Sunday Date], "MM/dd" )
+		lineageTag: 71623805-c81f-492e-8f1e-1908ab48dddf
+
+	measure 'FM Last Sunday Label' =
+			
+			"Last Sunday · " & FORMAT ( [FM Last Sunday Date], "MM/dd" )
+		lineageTag: fea9c362-a424-4ed7-8e63-5192696eb5bd
+
+	measure 'DH In 5 Sunday Window' =
+			
+			VAR x = MAX ( DH_SundaySummary[AOOccurrenceDate] )
+			VAR Last5 =
+			    TOPN (
+			        5,
+			        CALCULATETABLE (
+			            VALUES ( DH_SundaySummary[AOOccurrenceDate] ),
+			            ALL ( DH_SundaySummary ),
+			            WEEKDAY ( DH_SundaySummary[AOOccurrenceDate], 1 ) = 1,
+			            DH_SundaySummary[AOOccurrenceDate] <= TODAY ()
+			        ),
+			        DH_SundaySummary[AOOccurrenceDate], DESC
+			    )
+			RETURN IF ( x IN Last5, 1 )
+		formatString: 0
+		lineageTag: 194feea6-30e4-412b-bdd7-9387b7de66bb
+
+	measure 'Demographics Title' =
+			
+			"Who Are Our " &
+			SWITCH ( SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" ),
+			    "DH", "Door Holders?",
+			    "CG", "Connect Group Members?",
+			    "Giving", "Givers?" )
+		lineageTag: 0359b03f-74cc-49da-8094-6ec6e2e4de30
+
 	column ACampusId
 		formatString: 0
 		lineageTag: 0486e59a-70d2-4256-800d-db27bfcb2c76
