@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "5da679d2dedb40b29066",
   "position": {
-    "x": 966.38444243537049,
-    "y": 1248.046115557353,
-    "z": 40000,
+    "x": 954.71777576870386,
+    "y": 2849.7127822240204,
+    "z": 60000,
     "height": 115,
     "width": 214,
-    "tabOrder": 40000
+    "tabOrder": 52000
   },
   "visual": {
     "visualType": "card",
@@ -23,12 +23,11 @@
                       "Entity": "dim_group"
                     }
                   },
-                  "Property": "meetingsP5W"
+                  "Property": "Socials Meetings Held"
                 }
               },
-              "queryRef": "dim_group.meetingsP5W",
-              "nativeQueryRef": "Meetings Held",
-              "displayName": "Meetings Held"
+              "queryRef": "dim_group.Socials Meetings Held",
+              "nativeQueryRef": "Socials Meetings Held"
             }
           ]
         }
@@ -43,7 +42,7 @@
                     "Entity": "dim_group"
                   }
                 },
-                "Property": "meetingsP5W"
+                "Property": "Socials Meetings Held"
               }
             },
             "direction": "Descending"
@@ -53,6 +52,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "parentGroupName": "29b769dda69565076d36"
+  }
 }

@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "feceeaedbc33bea40476",
   "position": {
-    "x": 588.38095238095241,
-    "y": 648.31746031746025,
-    "z": 25000,
-    "height": 388.57142857142861,
-    "width": 655.71428571428578,
-    "tabOrder": 21000
+    "x": 681.66666666666674,
+    "y": 2021.6666666666667,
+    "z": 45000,
+    "height": 575,
+    "width": 568.33333333333337,
+    "tabOrder": 33000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -40,30 +40,30 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_group"
+                      "Entity": "DH_SundaySummary"
                     }
                   },
-                  "Property": "P5WNewCheckIns"
+                  "Property": "FM Last Sunday Check Ins"
                 }
               },
-              "queryRef": "dim_group.P5WNewCheckIns",
-              "nativeQueryRef": "New (Past 5 Weeks)",
-              "displayName": "New (Past 5 Weeks)"
+              "queryRef": "DH_SundaySummary.FM Last Sunday Check Ins",
+              "nativeQueryRef": "Total (Last Sunday)",
+              "displayName": "Total (Last Sunday)"
             },
             {
               "field": {
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_group"
+                      "Entity": "DH_SundaySummary"
                     }
                   },
-                  "Property": "P5WCheckIns"
+                  "Property": "FM Last Sunday New Check Ins"
                 }
               },
-              "queryRef": "dim_group.P5WCheckIns",
-              "nativeQueryRef": "Total (Past 5 Weeks)",
-              "displayName": "Total (Past 5 Weeks)"
+              "queryRef": "DH_SundaySummary.FM Last Sunday New Check Ins",
+              "nativeQueryRef": "New (Last Sunday)",
+              "displayName": "New (Last Sunday)"
             },
             {
               "field": {
@@ -94,21 +94,6 @@
               "queryRef": "dim_group.YTDCheckIns",
               "nativeQueryRef": "Total (YTD)",
               "displayName": "Total (YTD)"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DH_SundaySummary"
-                    }
-                  },
-                  "Property": "FM Last Sunday New Check Ins"
-                }
-              },
-              "queryRef": "DH_SundaySummary.FM Last Sunday New Check Ins",
-              "nativeQueryRef": "Last Sunday New ",
-              "displayName": "Last Sunday New "
             }
           ]
         }
@@ -120,10 +105,10 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "dim_group"
+                    "Entity": "DH_SundaySummary"
                   }
                 },
-                "Property": "P5WNewCheckIns"
+                "Property": "FM Last Sunday Check Ins"
               }
             },
             "direction": "Descending"
@@ -131,9 +116,59 @@
         ]
       }
     },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "70.66668319345402D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DH_SundaySummary.FM Last Sunday New Check Ins"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "79.33335435093852D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "DH_SundaySummary.FM Last Sunday Check Ins"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "245.99999493183682D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_group.groupname"
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {}
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

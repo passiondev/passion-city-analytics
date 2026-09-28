@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "dea7510770bcdab36741",
   "position": {
-    "x": 717.38444243537049,
-    "y": 1248.046115557353,
-    "z": 15000,
+    "x": 705.71777576870386,
+    "y": 2849.7127822240204,
+    "z": 31000,
     "height": 115,
     "width": 215,
-    "tabOrder": 39000
+    "tabOrder": 51000
   },
   "visual": {
     "visualType": "card",
@@ -23,12 +23,11 @@
                       "Entity": "dim_group"
                     }
                   },
-                  "Property": "socialsignupsP5W"
+                  "Property": "Socials New Sign Ups"
                 }
               },
-              "queryRef": "dim_group.socialsignupsP5W",
-              "nativeQueryRef": "New Sign Ups",
-              "displayName": "New Sign Ups"
+              "queryRef": "dim_group.Socials New Sign Ups",
+              "nativeQueryRef": "Socials New Sign Ups"
             }
           ]
         }
@@ -43,7 +42,7 @@
                     "Entity": "dim_group"
                   }
                 },
-                "Property": "socialsignupsP5W"
+                "Property": "Socials New Sign Ups"
               }
             },
             "direction": "Descending"
@@ -53,6 +52,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "parentGroupName": "29b769dda69565076d36"
+  }
 }

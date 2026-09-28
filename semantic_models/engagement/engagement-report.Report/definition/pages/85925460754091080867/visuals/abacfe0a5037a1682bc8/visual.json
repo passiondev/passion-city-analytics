@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "abacfe0a5037a1682bc8",
   "position": {
-    "x": 22.915690104166668,
-    "y": 2054.5148654513887,
-    "z": 54000,
+    "x": 28.471245659722232,
+    "y": 3647.84819878472,
+    "z": 73000,
     "height": 372,
     "width": 616,
-    "tabOrder": 52000
+    "tabOrder": 63000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -135,6 +135,19 @@
             }
           }
         }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -153,6 +166,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "parentGroupName": "29b769dda69565076d36"
+  }
 }

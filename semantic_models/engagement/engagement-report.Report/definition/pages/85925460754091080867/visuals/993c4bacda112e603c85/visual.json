@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "993c4bacda112e603c85",
   "position": {
-    "x": 542.66666666666663,
-    "y": 140.63888888888891,
-    "z": 13000,
-    "height": 226.25,
-    "width": 618.75,
-    "tabOrder": 11000
+    "x": 513.33333333333337,
+    "y": 1398.3333333333335,
+    "z": 27000,
+    "height": 296.66666666666669,
+    "width": 730,
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "lineChart",
@@ -132,6 +132,19 @@
         {
           "properties": {}
         }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -151,7 +164,6 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

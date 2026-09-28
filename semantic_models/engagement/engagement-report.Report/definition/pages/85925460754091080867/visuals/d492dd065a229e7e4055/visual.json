@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "d492dd065a229e7e4055",
   "position": {
-    "x": 670.41569008903264,
-    "y": 1480.2648654218192,
-    "z": 19000,
+    "x": 675.55555555555554,
+    "y": 3078.8888888888887,
+    "z": 39000,
     "height": 50,
-    "width": 236,
-    "tabOrder": 15000
+    "width": 236.66666666666666,
+    "tabOrder": 24000
   },
   "visual": {
     "visualType": "textbox",
@@ -33,7 +33,21 @@
         }
       ]
     },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
     "drillFilterOtherVisuals": true
-  },
-  "parentGroupName": "29b769dda69565076d36"
+  }
 }

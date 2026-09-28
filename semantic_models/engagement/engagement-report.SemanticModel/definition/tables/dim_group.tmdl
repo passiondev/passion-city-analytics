@@ -103,6 +103,49 @@ table dim_group
 		formatString: 0
 		lineageTag: f66af523-436c-4acb-98f8-82849bb308d0
 
+	measure 'Community Groups Count' =
+			
+			DISTINCTCOUNT ( dim_groupmember[GroupId] )
+		formatString: 0
+		lineageTag: cba65f8b-fd06-44f0-a44a-74162d19ac4b
+
+	measure 'Community Group Members' =
+			
+			DISTINCTCOUNT ( dim_groupmember[PersonId] )
+		formatString: 0
+		lineageTag: fa7d8610-8849-42ce-bcdb-4005b51bd04f
+
+	measure 'Socials Meetings Held' =
+			
+			COALESCE (
+			    CALCULATE (
+			        SUM ( dim_group[socialsP5W] ),
+			        dim_group[grouptypeid] = 173,
+			        TREATAS ( VALUES ( dim_campus[CampusId] ), dim_group[campusid] )
+			    ),
+			    "-"
+			)
+		formatString: 0
+		lineageTag: de213363-3549-400d-bdf4-962c1340d829
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Socials New Sign Ups' =
+			
+			COALESCE (
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_groupmember[PersonId] ),
+			        dim_groupmember[GroupTypeId] = 173,
+			        dim_groupmember[CreatedDateTime] >= NOW () - 35,
+			        REMOVEFILTERS ( dim_person ),
+			        TREATAS ( VALUES ( dim_campus[CampusId] ), dim_group[campusid] )
+			    ),
+			    "-"
+			)
+		lineageTag: dd9059ae-95bf-4811-8dee-792f148b4a89
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
 	column groupid
 		dataType: int64
 		formatString: 0

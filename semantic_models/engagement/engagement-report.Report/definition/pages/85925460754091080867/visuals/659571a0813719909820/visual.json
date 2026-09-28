@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "659571a0813719909820",
   "position": {
-    "x": 41.665690104166671,
-    "y": 1147.2648654513887,
-    "z": 38000,
-    "height": 301.25,
-    "width": 636.25,
-    "tabOrder": 35000
+    "x": 36.666666666666671,
+    "y": 2728.3333333333335,
+    "z": 58000,
+    "height": 316.66666666666669,
+    "width": 608.33333333333337,
+    "tabOrder": 47000
   },
   "visual": {
     "visualType": "lineStackedColumnComboChart",
@@ -37,21 +37,16 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_group"
-                        }
-                      },
-                      "Property": "groupid"
+                    "SourceRef": {
+                      "Entity": "dim_group"
                     }
                   },
-                  "Function": 2
+                  "Property": "Community Groups Count"
                 }
               },
-              "queryRef": "CountNonNull(dim_group.groupid)",
+              "queryRef": "dim_group.Community Groups Count",
               "nativeQueryRef": "Groups",
               "displayName": "Groups"
             }
@@ -61,21 +56,16 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "dim_group"
-                        }
-                      },
-                      "Property": "Group Members"
+                    "SourceRef": {
+                      "Entity": "dim_group"
                     }
                   },
-                  "Function": 0
+                  "Property": "Community Group Members"
                 }
               },
-              "queryRef": "Sum(dim_group.Group Members)",
+              "queryRef": "dim_group.Community Group Members",
               "nativeQueryRef": "Group Members",
               "displayName": "Group Members"
             }
@@ -86,21 +76,16 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Column": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "dim_group"
-                      }
-                    },
-                    "Property": "Group Members"
+                  "SourceRef": {
+                    "Entity": "dim_group"
                   }
                 },
-                "Function": 0
+                "Property": "Group Name"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }
@@ -158,6 +143,94 @@
                   "Value": "true"
                 }
               }
+            },
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Above'"
+                }
+              }
+            },
+            "labelOrientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "labelPosition": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Under'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_group.Community Group Members"
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineChartType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'linear'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secShowAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "secLabelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
             }
           }
         }
@@ -180,7 +253,6 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

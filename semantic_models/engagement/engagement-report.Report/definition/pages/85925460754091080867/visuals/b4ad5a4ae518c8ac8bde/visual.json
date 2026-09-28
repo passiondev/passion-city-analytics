@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "b4ad5a4ae518c8ac8bde",
   "position": {
-    "x": 576,
-    "y": 391,
-    "z": 8000,
-    "height": 144,
-    "width": 256,
-    "tabOrder": 6000
+    "x": 500,
+    "y": 1731.6666666666667,
+    "z": 19000,
+    "height": 143.33333333333334,
+    "width": 356.66666666666669,
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "card",
@@ -95,12 +95,25 @@
                   "Value": "20D"
                 }
               }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibri'"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
             }
           }
         }
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "parentGroupName": "29b769dda69565076d36"
+  }
 }

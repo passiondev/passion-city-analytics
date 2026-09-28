@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "cabe45b5238622cc872c",
   "position": {
-    "x": 40.444443921756545,
-    "y": 124.55555633955873,
-    "z": 4000,
+    "x": 38.777777255089887,
+    "y": 1396.2222230062255,
+    "z": 15000,
     "height": 115,
     "width": 200,
-    "tabOrder": 2000
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "card",
@@ -84,7 +84,6 @@
     },
     "drillFilterOtherVisuals": true
   },
-  "parentGroupName": "29b769dda69565076d36",
   "filterConfig": {
     "filters": [
       {

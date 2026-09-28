@@ -285,7 +285,6 @@ relationship 5a4c851a-d486-4916-834b-7816cc36255f
 	toColumn: LocalDateTable_1a1dd851-272d-457f-bf61-249de5739120.Date
 
 relationship 8f6fdb66-0307-193e-5ba2-e0d8773d75d2
-	crossFilteringBehavior: bothDirections
 	fromColumn: fact_checkin.GId
 	toColumn: dim_group.groupid
 

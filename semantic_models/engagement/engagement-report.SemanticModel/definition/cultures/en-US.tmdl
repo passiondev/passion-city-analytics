@@ -53130,12 +53130,6 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "groups": {
-			            "State": "Generated",
-			            "Weight": 0.97
-			          }
-			        },
-			        {
 			          "DH groups": {
 			            "State": "Generated",
 			            "Weight": 0.97
@@ -53232,13 +53226,13 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "collection": {
+			          "dh cluster": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.491
+			            "Weight": 0.485
 			          }
 			        },
 			        {
@@ -53809,16 +53803,6 @@ cultureInfo en-US
 			          "P5W": {
 			            "State": "Generated",
 			            "Weight": 0.97
-			          }
-			        },
-			        {
-			          "Meetings Held": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -64085,16 +64069,6 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.591
 			          }
-			        },
-			        {
-			          "Total (Past 5 Weeks)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },
@@ -64340,16 +64314,6 @@ cultureInfo en-US
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.494
-			          }
-			        },
-			        {
-			          "New (Past 5 Weeks)": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -69258,6 +69222,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.9
 			          }
+			        },
+			        {
+			          "Total (Last Sunday)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -69276,7 +69250,7 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "Last Sunday New": {
+			          "New (Last Sunday)": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -70867,6 +70841,930 @@ cultureInfo en-US
 			        },
 			        {
 			          "5 sunday space": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        }
+			      ]
+			    },
+			    "dim_campus.campus_order": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_campus",
+			          "ConceptualProperty": "Campus Order"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "campus order": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "campus instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "campus direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "campus edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "campus command": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "campus directive": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "campus demand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "campus mandate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "campus imperative": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "campus stability": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        },
+			        {
+			          "campus harmony": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        }
+			      ]
+			    },
+			    "dim_person.age_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_person",
+			          "ConceptualProperty": "Age Band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "age band": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "band": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "age posse": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "posse": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.491
+			          }
+			        },
+			        {
+			          "age group": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "age gang": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "age crew": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "age crowd": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "age mob": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "gang": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "crew": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        },
+			        {
+			          "crowd": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.476
+			          }
+			        }
+			      ]
+			    },
+			    "dim_person.age_band_order": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_person",
+			          "ConceptualProperty": "Age Band Order"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "age band order": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "band order": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "age band instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "age band direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "age band edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "band instruction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "band direction": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "band edict": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "age band command": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "age band directive": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "age band demand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "age band mandate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        }
+			      ]
+			    },
+			    "dim_person.gender_label": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_person",
+			          "ConceptualProperty": "Gender Label"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "gender label": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "gender sticker": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "gender tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "gender decal": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "sexuality label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "gender name tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.589
+			          }
+			        },
+			        {
+			          "sex label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "dim_person.marital_status_clean": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_person",
+			          "ConceptualProperty": "Marital Status Clean"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "marital status clean": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "marital category clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "marital importance clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "marital prestige clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "marital prominence clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.762
+			          }
+			        },
+			        {
+			          "marital condition clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "marital class clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "marital grade clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "marital level clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "marital position clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "marital rank clean": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        }
+			      ]
+			    },
+			    "DH_sunday_summary.demographics_title": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DH_SundaySummary",
+			          "ConceptualProperty": "Demographics Title"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "demographics title": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "demographics designation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "demographics name": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "demographics award": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "demographics call": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "demographics heading": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "demographics label": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "dim_group.community_groups_count": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_group",
+			          "ConceptualProperty": "Community Groups Count"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "community groups count": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "groups count": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "community group amount": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "group amount": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "Groups": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dim_group.community_group_members": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_group",
+			          "ConceptualProperty": "Community Group Members"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "community group members": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "members": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "group members": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "community category member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "community organization member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.609
+			          }
+			        },
+			        {
+			          "category member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "organization member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        },
+			        {
+			          "community bracket member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "community class member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "community crew member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "community team member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.591
+			          }
+			        },
+			        {
+			          "bracket member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        },
+			        {
+			          "class member": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.582
+			          }
+			        }
+			      ]
+			    },
+			    "dim_group.socials_meetings_held": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_group",
+			          "ConceptualProperty": "Socials Meetings Held"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "socials meetings held": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "social assembly held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "social seminar held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "social consultation held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "social convention held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "social reunion held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "social congregation held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "social conference held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "social summit held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "social get-togethers held": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "social gathering held": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
@@ -79755,6 +80653,303 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
+			    "dim_group_has_socials_meetings_held": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_group"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_group": {
+			          "Target": {
+			            "Entity": "dim_group"
+			          }
+			        },
+			        "dim_group.socials_meetings_held": {
+			          "Target": {
+			            "Entity": "dim_group.socials_meetings_held"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_group"
+			            },
+			            "Object": {
+			              "Role": "dim_group.socials_meetings_held"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_groups_have_socials_meetings_held"
+			        }
+			      ]
+			    },
+			    "dim_groupmember_has_dim_group_community_group_members": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_groupmember"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_groupmember": {
+			          "Target": {
+			            "Entity": "dim_groupmember"
+			          }
+			        },
+			        "dim_group.community_group_members": {
+			          "Target": {
+			            "Entity": "dim_group.community_group_members"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_groupmember"
+			            },
+			            "Object": {
+			              "Role": "dim_group.community_group_members"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_groupmembers_have_community_group_members"
+			        }
+			      ]
+			    },
+			    "dim_groupmember_has_dim_group_community_groups_count": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_groupmember"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_groupmember": {
+			          "Target": {
+			            "Entity": "dim_groupmember"
+			          }
+			        },
+			        "dim_group.community_groups_count": {
+			          "Target": {
+			            "Entity": "dim_group.community_groups_count"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_groupmember"
+			            },
+			            "Object": {
+			              "Role": "dim_group.community_groups_count"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_groupmembers_have_community_groups_count"
+			        }
+			      ]
+			    },
+			    "crossover_lens_has_DH_sunday_summary_demographics_title": {
+			      "Binding": {
+			        "ConceptualEntity": "Crossover Lens"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "crossover_lens": {
+			          "Target": {
+			            "Entity": "crossover_lens"
+			          }
+			        },
+			        "DH_sunday_summary.demographics_title": {
+			          "Target": {
+			            "Entity": "DH_sunday_summary.demographics_title"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "crossover_lens"
+			            },
+			            "Object": {
+			              "Role": "DH_sunday_summary.demographics_title"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "crossover_lenses_have_demographics_title"
+			        }
+			      ]
+			    },
+			    "dim_person_has_marital_status_clean": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_person"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_person": {
+			          "Target": {
+			            "Entity": "dim_person"
+			          }
+			        },
+			        "dim_person.marital_status_clean": {
+			          "Target": {
+			            "Entity": "dim_person.marital_status_clean"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_person"
+			            },
+			            "Object": {
+			              "Role": "dim_person.marital_status_clean"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_people_have_marital_status_clean"
+			        }
+			      ]
+			    },
+			    "dim_person_has_gender_label": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_person"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_person": {
+			          "Target": {
+			            "Entity": "dim_person"
+			          }
+			        },
+			        "dim_person.gender_label": {
+			          "Target": {
+			            "Entity": "dim_person.gender_label"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_person"
+			            },
+			            "Object": {
+			              "Role": "dim_person.gender_label"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_people_have_gender_labels"
+			        }
+			      ]
+			    },
+			    "dim_person_has_age_band_order": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_person"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_person": {
+			          "Target": {
+			            "Entity": "dim_person"
+			          }
+			        },
+			        "dim_person.age_band_order": {
+			          "Target": {
+			            "Entity": "dim_person.age_band_order"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_person"
+			            },
+			            "Object": {
+			              "Role": "dim_person.age_band_order"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_people_have_age_band_orders"
+			        }
+			      ]
+			    },
+			    "dim_person_has_age_band": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_person"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_person": {
+			          "Target": {
+			            "Entity": "dim_person"
+			          }
+			        },
+			        "dim_person.age_band": {
+			          "Target": {
+			            "Entity": "dim_person.age_band"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_person"
+			            },
+			            "Object": {
+			              "Role": "dim_person.age_band"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_people_have_age_bands"
+			        }
+			      ]
+			    },
+			    "dim_campus_has_campus_order": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_campus"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_campus": {
+			          "Target": {
+			            "Entity": "dim_campus"
+			          }
+			        },
+			        "dim_campus.campus_order": {
+			          "Target": {
+			            "Entity": "dim_campus.campus_order"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_campus"
+			            },
+			            "Object": {
+			              "Role": "dim_campus.campus_order"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_campuses_have_campus_orders"
+			        }
+			      ]
+			    },
 			    "DH_sunday_summary_has_DH_in_5_sunday_window": {
 			      "Binding": {
 			        "ConceptualEntity": "DH_SundaySummary"
@@ -80910,15 +82105,15 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "fact_checkin_has_DH_sunday_summary_FM_check_ins_5_wk_trend": {
+			    "DH_sunday_summary_has_FM_check_ins_5_wk_trend": {
 			      "Binding": {
-			        "ConceptualEntity": "fact_checkin"
+			        "ConceptualEntity": "DH_SundaySummary"
 			      },
 			      "State": "Generated",
 			      "Roles": {
-			        "fact_checkin": {
+			        "DH_sunday_summary": {
 			          "Target": {
-			            "Entity": "fact_checkin"
+			            "Entity": "DH_sunday_summary"
 			          }
 			        },
 			        "DH_sunday_summary.FM_check_ins_5_wk_trend": {
@@ -80931,7 +82126,7 @@ cultureInfo en-US
 			        {
 			          "Attribute": {
 			            "Subject": {
-			              "Role": "fact_checkin"
+			              "Role": "DH_sunday_summary"
 			            },
 			            "Object": {
 			              "Role": "DH_sunday_summary.FM_check_ins_5_wk_trend"
@@ -80939,7 +82134,7 @@ cultureInfo en-US
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "fact_checkins_have_FM_check_ins_5_wk_trend"
+			          "ID": "DH_sunday_summaries_have_FM_check_ins_5_wk_trend"
 			        }
 			      ]
 			    },
