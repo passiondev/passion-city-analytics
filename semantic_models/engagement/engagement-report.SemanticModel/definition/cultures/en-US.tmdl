@@ -53765,16 +53765,6 @@ cultureInfo en-US
 			            "State": "Generated",
 			            "Weight": 0.99
 			          }
-			        },
-			        {
-			          "New Sign Ups": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
-			          }
 			        }
 			      ]
 			    },

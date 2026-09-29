@@ -83,7 +83,7 @@ table dim_groupmember
 			            SWITCH ( _pair,
 			                "DH|CG", nDHCG, "CG|DH", nDHCG,
 			                "DH|Giving", nDHGV, "Giving|DH", nDHGV,
-			                "CG|Giving", nCGGV, "Giving|CG", nCGGV ),
+			                "CG|Giving", nCGGV, "Giving|CG", nCGGV ) - nAll,
 			        _type = "All", nAll,
 			        _type = "Only" && _grp = _lens, nBase - nPairs + nAll,
 			        BLANK ()
