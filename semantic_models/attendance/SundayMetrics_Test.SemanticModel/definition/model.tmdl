@@ -8,62 +8,7 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-/// Errors in queries that were loaded on 2/20/2024 10:47:03 AM.
-queryGroup 'Query Errors - 2/20/2024 10:47:03 AM'
-
-	annotation PBI_QueryGroupOrder = 0
-
-/// Errors in queries that were loaded on 2/28/2024 10:27:14 AM.
-queryGroup 'Query Errors - 2/28/2024 10:27:14 AM'
-
-	annotation PBI_QueryGroupOrder = 1
-
-/// Errors in queries that were loaded on 2/28/2024 10:27:16 AM.
-queryGroup 'Query Errors - 2/28/2024 10:27:16 AM'
-
-	annotation PBI_QueryGroupOrder = 2
-
-/// Errors in queries that were loaded on 2/28/2024 10:54:43 AM.
-queryGroup 'Query Errors - 2/28/2024 10:54:43 AM'
-
-	annotation PBI_QueryGroupOrder = 3
-
-/// Errors in queries that were loaded on 7/5/2024 12:06:41 PM.
-queryGroup 'Query Errors - 7/5/2024 12:06:41 PM'
-
-	annotation PBI_QueryGroupOrder = 4
-
-/// Errors in queries that were loaded on 7/7/2024 12:52:39 AM.
-queryGroup 'Query Errors - 7/7/2024 12:52:39 AM'
-
-	annotation PBI_QueryGroupOrder = 5
-
-/// Errors in queries that were loaded on 7/7/2024 12:52:41 AM.
-queryGroup 'Query Errors - 7/7/2024 12:52:41 AM'
-
-	annotation PBI_QueryGroupOrder = 6
-
-/// Errors in queries that were loaded on 5/25/2025 7:14:21 PM.
-queryGroup 'Query Errors - 5/25/2025 7:14:21 PM'
-
-	annotation PBI_QueryGroupOrder = 7
-
-/// Errors in queries that were loaded on 6/8/2025 8:19:45 PM.
-queryGroup 'Query Errors - 6/8/2025 8:19:45 PM'
-
-	annotation PBI_QueryGroupOrder = 8
-
-/// Errors in queries that were loaded on 7/6/2025 7:12:36 PM.
-queryGroup 'Query Errors - 7/6/2025 7:12:36 PM'
-
-	annotation PBI_QueryGroupOrder = 9
-
-/// Errors in queries that were loaded on 6/25/2026 10:37:39 PM.
-queryGroup 'Query Errors - 6/25/2026 10:37:39 PM'
-
-	annotation PBI_QueryGroupOrder = 10
-
-annotation PBI_QueryOrder = ["AnalyticsFactMetricbloomMetrics","AnalyticsFactMetricDoorHolders","AnalyticsFactMetricPassionKids","AnalyticsFactMetricMiddleSchool","AnalyticsFactMetricHighSchool","AnalyticsFactMetricGatheringAttendance","AttendanceInPerson_WOW","AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_WOW","Errors in AttendanceInPerson_WOW (2)","Errors in AttendanceInPerson_WOW (3)","Errors in AttendanceInPerson_WOW (4)","AnalyticsFactMetricSplSundaybloomMetrics","AnalyticsFactMetricSplSundayDHMetrics","AnalyticsFactMetricSplSundayGatheringAttMetrics","AnalyticsFactMetricSplSundayPKMetrics","SplSundayAttInPerson_WOW","SplSundayAtt_Online_WOW","Errors in AttendanceInPerson_Online_WOW","Errors in AttendanceInPerson_Online_WOW (2)","Errors in AttendanceInPerson_Online_WOW (3)","AnalyticsFactMetric5pmbloom","AnalyticsFactMetric5pmDoorHolders","AnalyticsFactMetric5pmGatheringAttendance","AnalyticsFactMetric5pmPassionKids","5pmSundayAttInPerson","Errors in AttendanceInPerson_Online_WOW (4)","Errors in AttendanceInPerson_Online_WOW (5)","Errors in AttendanceInPerson_Online_WOW (6)","fact_checkin","dim_person","AnalyticsGivingLastGiftByFamily","AnalyticsGivingSignals","v_gathering_views","v_sermon_clips","Errors in AttendanceInPerson_Online_WOW (7)","v_sunday_context","AnalyticsDimPersonHistorical","dim_five_gatherings","dim_holiday_posters"]
+annotation PBI_QueryOrder = ["AnalyticsFactMetricbloomMetrics","AnalyticsFactMetricDoorHolders","AnalyticsFactMetricPassionKids","AnalyticsFactMetricMiddleSchool","AnalyticsFactMetricHighSchool","AnalyticsFactMetricGatheringAttendance","AttendanceInPerson_WOW","AttendanceInPerson_Online_WOW","AnalyticsFactMetricSplSundaybloomMetrics","AnalyticsFactMetricSplSundayDHMetrics","AnalyticsFactMetricSplSundayGatheringAttMetrics","AnalyticsFactMetricSplSundayPKMetrics","SplSundayAttInPerson_WOW","SplSundayAtt_Online_WOW","AnalyticsFactMetric5pmbloom","AnalyticsFactMetric5pmDoorHolders","AnalyticsFactMetric5pmGatheringAttendance","AnalyticsFactMetric5pmPassionKids","5pmSundayAttInPerson","fact_checkin","dim_person","AnalyticsGivingLastGiftByFamily","AnalyticsGivingSignals","v_gathering_views","v_sermon_clips","v_sunday_context","AnalyticsDimPersonHistorical","dim_five_gatherings","dim_holiday_posters"]
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
