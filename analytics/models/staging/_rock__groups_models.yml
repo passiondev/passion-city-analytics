@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: stg_rock__groups
+    description: >
+      Conformed, business-ready view of Rock RMS groups. Covers families,
+      small groups, serving teams, and security roles (distinguished by
+      group_type_id). Renames to snake_case and derives is_currently_active
+      per agreed business logic. One row per group.
+    columns:
+      - name: group_id
+        description: Natural/source-system identifier from Rock (`Group.Id`).
+        tests:
+          - unique
+          - not_null
+      - name: group_guid
+        description: Rock's stable GUID for the group.
+      - name: parent_group_id
+        description: Foreign key to this group's parent group, if nested in a hierarchy.
+      - name: group_type_id
+        description: Foreign key to GroupType — determines what kind of group this is.
+      - name: campus_id
+        description: Foreign key to the campus this group is associated with.
+      - name: name
+        description: Display name of the group.
+      - name: is_security_role
+        description: True if this record is a security role rather than a real group.
+      - name: is_active
+        description: Raw active flag from Rock.
+      - name: is_archived
+        description: Raw archived (soft-deleted) flag from Rock.
+      - name: is_currently_active
+        description: >
+          Business logic — true only when is_active is true AND is_archived
+          is false. Use this field, not is_active alone, when filtering to
+          groups currently in use, since Rock allows a group to be marked
+          active while also archived.
+        tests:
+          - not_null
+      - name: status_value_id
+        description: Foreign key to DefinedValue for the group's status, where applicable.
+      - name: created_at
+        description: Timestamp the record was created in Rock.
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata — when this row was loaded into the bronze layer.
