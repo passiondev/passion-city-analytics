@@ -142,9 +142,10 @@ table dim_group
 			    ),
 			    "-"
 			)
+		formatString: 0
 		lineageTag: dd9059ae-95bf-4811-8dee-792f148b4a89
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"isDecimal":true}
 
 	column groupid
 		dataType: int64

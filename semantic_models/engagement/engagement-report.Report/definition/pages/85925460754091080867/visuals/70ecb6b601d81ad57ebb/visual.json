@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "70ecb6b601d81ad57ebb",
   "position": {
-    "x": 678.47223748106853,
-    "y": 3739.7416538960442,
-    "z": 65000,
-    "height": 257.14285714285717,
-    "width": 558.57142857142856,
+    "x": 706,
+    "y": 3740,
+    "z": 64000,
+    "height": 256,
+    "width": 532,
     "tabOrder": 55000
   },
   "visual": {
@@ -17,83 +17,61 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "BaptismSummary"
-                        }
-                      },
-                      "Property": "Requests 1y"
+                    "SourceRef": {
+                      "Entity": "BaptismSummary"
                     }
                   },
-                  "Function": 0
+                  "Property": "Baptism Requests 365 Days"
                 }
               },
-              "queryRef": "Sum(BaptismSummary.Requests 1y)",
+              "queryRef": "BaptismSummary.Baptism Requests 365 Days",
               "nativeQueryRef": "Requests 365 Days",
               "displayName": "Requests 365 Days"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "BaptismSummary"
-                        }
-                      },
-                      "Property": "Baptisms 1y"
+                    "SourceRef": {
+                      "Entity": "BaptismSummary"
                     }
                   },
-                  "Function": 0
+                  "Property": "Baptisms 365 Days"
                 }
               },
-              "queryRef": "Sum(BaptismSummary.Baptisms 1y)",
-              "nativeQueryRef": "Baptisms 365 Days",
-              "displayName": "Baptisms 365 Days"
+              "queryRef": "BaptismSummary.Baptisms 365 Days",
+              "nativeQueryRef": "Baptisms 365 Days"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "BaptismSummary"
-                        }
-                      },
-                      "Property": "Requests 3m"
+                    "SourceRef": {
+                      "Entity": "BaptismSummary"
                     }
                   },
-                  "Function": 0
+                  "Property": "Baptism Requests 90 Days"
                 }
               },
-              "queryRef": "Sum(BaptismSummary.Requests 3m)",
-              "nativeQueryRef": "Requests 3 Months",
-              "displayName": "Requests 3 Months"
+              "queryRef": "BaptismSummary.Baptism Requests 90 Days",
+              "nativeQueryRef": "Requests 90 Days",
+              "displayName": "Requests 90 Days"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "BaptismSummary"
-                        }
-                      },
-                      "Property": "Baptisms 3m"
+                    "SourceRef": {
+                      "Entity": "BaptismSummary"
                     }
                   },
-                  "Function": 0
+                  "Property": "Baptisms 90 Days"
                 }
               },
-              "queryRef": "Sum(BaptismSummary.Baptisms 3m)",
-              "nativeQueryRef": "Baptisms 3 Months",
-              "displayName": "Baptisms 3 Months"
+              "queryRef": "BaptismSummary.Baptisms 90 Days",
+              "nativeQueryRef": "Baptisms 90 Days"
             }
           ]
         }
@@ -102,18 +80,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "BaptismSummary"
-                      }
-                    },
-                    "Property": "Requests 1y"
+                  "SourceRef": {
+                    "Entity": "BaptismSummary"
                   }
                 },
-                "Function": 0
+                "Property": "Baptism Requests 365 Days"
               }
             },
             "direction": "Descending"

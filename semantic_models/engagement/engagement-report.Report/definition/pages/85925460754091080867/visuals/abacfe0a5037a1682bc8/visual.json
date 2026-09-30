@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "abacfe0a5037a1682bc8",
   "position": {
-    "x": 28.471245659722232,
-    "y": 3647.84819878472,
-    "z": 73000,
+    "x": 28,
+    "y": 3662,
+    "z": 72000,
     "height": 372,
-    "width": 616,
+    "width": 610,
     "tabOrder": 63000
   },
   "visual": {
@@ -20,16 +20,15 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "LaunchEvents"
+                      "Entity": "fact_step"
                     }
                   },
                   "Property": "SSName"
                 }
               },
-              "queryRef": "LaunchEvents.SSName",
-              "nativeQueryRef": "Status",
-              "active": true,
-              "displayName": "Status"
+              "queryRef": "fact_step.SSName",
+              "nativeQueryRef": "SSName",
+              "active": true
             }
           ]
         },
@@ -37,63 +36,45 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "LaunchEvents"
-                        }
-                      },
-                      "Property": "365d"
+                    "SourceRef": {
+                      "Entity": "LaunchEvents"
                     }
                   },
-                  "Function": 0
+                  "Property": "Launch People 365 Days"
                 }
               },
-              "queryRef": "Sum(LaunchEvents.365d)",
-              "nativeQueryRef": "Past 365 Days",
-              "displayName": "Past 365 Days"
+              "queryRef": "LaunchEvents.Launch People 365 Days",
+              "nativeQueryRef": "Launch People 365 Days"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "LaunchEvents"
-                        }
-                      },
-                      "Property": "YTD"
+                    "SourceRef": {
+                      "Entity": "LaunchEvents"
                     }
                   },
-                  "Function": 0
+                  "Property": "Launch People YTD"
                 }
               },
-              "queryRef": "Sum(LaunchEvents.YTD)",
-              "nativeQueryRef": "Year To Date",
-              "displayName": "Year To Date"
+              "queryRef": "LaunchEvents.Launch People YTD",
+              "nativeQueryRef": "Launch People YTD"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "LaunchEvents"
-                        }
-                      },
-                      "Property": "3m"
+                    "SourceRef": {
+                      "Entity": "LaunchEvents"
                     }
                   },
-                  "Function": 0
+                  "Property": "Launch People 3 Months"
                 }
               },
-              "queryRef": "Sum(LaunchEvents.3m)",
-              "nativeQueryRef": "Past 3 Months",
-              "displayName": "Past 3 Months"
+              "queryRef": "LaunchEvents.Launch People 3 Months",
+              "nativeQueryRef": "Launch People 3 Months"
             }
           ]
         }
@@ -102,24 +83,18 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Column": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "LaunchEvents"
-                      }
-                    },
-                    "Property": "365d"
+                  "SourceRef": {
+                    "Entity": "fact_step"
                   }
                 },
-                "Function": 0
+                "Property": "SSName"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
-        ],
-        "isDefaultSort": true
+        ]
       }
     },
     "objects": {

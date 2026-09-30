@@ -88,7 +88,7 @@ table fact_checkin
 
 	column AOOccurrenceDate
 		dataType: dateTime
-		formatString: Long Date
+		formatString: mmmm d\, yyyy
 		lineageTag: bb9ba59b-29b7-4b31-ba5a-fff71c6ec58d
 		summarizeBy: none
 		sourceColumn: AOOccurrenceDate
@@ -101,6 +101,8 @@ table fact_checkin
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column AOModifiedDateTime
 		dataType: dateTime
@@ -118,7 +120,7 @@ table fact_checkin
 
 	column AOSundayDate
 		dataType: dateTime
-		formatString: Long Date
+		formatString: mmmm d\, yyyy
 		lineageTag: 3c93946b-afc5-4ebb-9e2c-48d46654fac5
 		summarizeBy: none
 		sourceColumn: AOSundayDate
@@ -131,6 +133,8 @@ table fact_checkin
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column AId
 		dataType: int64

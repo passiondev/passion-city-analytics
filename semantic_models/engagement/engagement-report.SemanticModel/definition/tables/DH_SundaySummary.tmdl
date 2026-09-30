@@ -159,7 +159,7 @@ table DH_SundaySummary
 			"Who Are Our " &
 			SWITCH ( SELECTEDVALUE ( 'Crossover Lens'[Lens], "DH" ),
 			    "DH", "Door Holders?",
-			    "CG", "Connect Group Members?",
+			    "CG", "CG Members?",
 			    "Giving", "Givers?" )
 		lineageTag: 0359b03f-74cc-49da-8094-6ec6e2e4de30
 
@@ -173,7 +173,7 @@ table DH_SundaySummary
 		annotation SummarizationSetBy = Automatic
 
 	column AOOccurrenceDate
-		formatString: General Date
+		formatString: mmmm d\, yyyy
 		lineageTag: 079cb5fd-79c4-4360-9968-d75019f1a474
 		summarizeBy: none
 		isNameInferred
@@ -185,6 +185,8 @@ table DH_SundaySummary
 			defaultHierarchy: LocalDateTable_1a1dd851-272d-457f-bf61-249de5739120.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
 
 	column 'Check Ins'
 		formatString: 0

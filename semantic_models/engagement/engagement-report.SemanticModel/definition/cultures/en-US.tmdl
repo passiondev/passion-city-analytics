@@ -6332,6 +6332,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "in status": {
 			            "State": "Generated",
 			            "Weight": 0.97
@@ -8569,6 +8575,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "CR status": {
 			            "State": "Generated",
 			            "Weight": 0.97
@@ -8704,6 +8716,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "CR status": {
 			            "State": "Generated",
 			            "Weight": 0.97
@@ -8796,23 +8814,23 @@ cultureInfo en-US
 			          }
 			        },
 			        {
-			          "cr condition": {
+			          "category": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.727
+			            "Weight": 0.736
 			          }
 			        },
 			        {
-			          "cr class": {
+			          "importance": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.727
+			            "Weight": 0.736
 			          }
 			        }
 			      ]
@@ -11018,6 +11036,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "w category": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -11058,6 +11082,46 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "importance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prestige": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prominence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
 			          "w condition": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -11069,46 +11133,6 @@ cultureInfo en-US
 			        },
 			        {
 			          "w class": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "w grade": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "w level": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "w position": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "w rank": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
@@ -20213,6 +20237,12 @@ cultureInfo en-US
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
 			          }
 			        },
 			        {
@@ -43165,6 +43195,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "marital category": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -43205,6 +43241,46 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "importance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prestige": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prominence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
 			          "marital condition": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -43216,46 +43292,6 @@ cultureInfo en-US
 			        },
 			        {
 			          "marital class": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "marital grade": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "marital level": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "marital position": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "marital rank": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
@@ -43285,6 +43321,12 @@ cultureInfo en-US
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
+			          }
+			        },
+			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
 			          }
 			        },
 			        {
@@ -43328,6 +43370,46 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "importance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prestige": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prominence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
 			          "connection condition": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -43339,46 +43421,6 @@ cultureInfo en-US
 			        },
 			        {
 			          "connection class": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "connection grade": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "connection level": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "connection position": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "connection rank": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
@@ -43540,6 +43582,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "record category": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -43580,6 +43628,46 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "importance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prestige": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prominence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
 			          "record condition": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -43591,46 +43679,6 @@ cultureInfo en-US
 			        },
 			        {
 			          "record class": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "record grade": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "record level": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "record position": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "record rank": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
@@ -53007,6 +53055,12 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "status": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
 			          "rsvp category": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -53047,6 +53101,46 @@ cultureInfo en-US
 			          }
 			        },
 			        {
+			          "category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "importance": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prestige": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
+			          "prominence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.736
+			          }
+			        },
+			        {
 			          "rsvp condition": {
 			            "Type": "Noun",
 			            "State": "Suggested",
@@ -53058,46 +53152,6 @@ cultureInfo en-US
 			        },
 			        {
 			          "rsvp class": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "rsvp grade": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "rsvp level": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "rsvp position": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "rsvp rank": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
@@ -53764,16 +53818,6 @@ cultureInfo en-US
 			            "Type": "Noun",
 			            "State": "Generated",
 			            "Weight": 0.99
-			          }
-			        },
-			        {
-			          "New Sign Ups": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -62078,16 +62122,6 @@ cultureInfo en-US
 			              "Agent": "Thesaurus"
 			            },
 			            "Weight": 0.727
-			          }
-			        },
-			        {
-			          "Status": {
-			            "State": "Suggested",
-			            "Source": {
-			              "Type": "External",
-			              "Agent": "PowerBI.VisualColumnRename"
-			            },
-			            "Weight": 0.9
 			          }
 			        }
 			      ]
@@ -71772,6 +71806,1004 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.492
 			          }
+			        },
+			        {
+			          "Meetings Held": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "fact_connectionrequest.baptism_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "fact_connectionrequest",
+			          "ConceptualProperty": "Baptism Type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "baptism type": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "baptism category": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "baptism genre": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "baptism manner": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "baptism variety": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.75
+			          }
+			        },
+			        {
+			          "baptism brand": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "baptism class": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "baptism kind": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "baptism style": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "baptism form": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "baptism grouping": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "dim_group.socials_new_sign_ups": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_group",
+			          "ConceptualProperty": "Socials New Sign Ups"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "socials new sign ups": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "New Sign Ups": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "launch_event.launch_people_365_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "LaunchEvents",
+			          "ConceptualProperty": "Launch People 365 Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "launch people 365 days": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "365 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "people 365 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "launch person 365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.514
+			          }
+			        },
+			        {
+			          "person 365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "launch person 365 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.499
+			          }
+			        },
+			        {
+			          "launch person 365 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.499
+			          }
+			        },
+			        {
+			          "person 365 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "person 365 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "launch person 365 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "launch person 365 generation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "launch person 365 epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        }
+			      ]
+			    },
+			    "launch_event.launch_people_YTD": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "LaunchEvents",
+			          "ConceptualProperty": "Launch People YTD"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "launch people YTD": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "people YTD": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "launch person year to date": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.623
+			          }
+			        },
+			        {
+			          "person year to date": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.6
+			          }
+			        }
+			      ]
+			    },
+			    "launch_event.launch_people_3_months": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "LaunchEvents",
+			          "ConceptualProperty": "Launch People 3 Months"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "launch people 3 months": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "3 months": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "people 3 months": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        }
+			      ]
+			    },
+			    "baptism_summary.name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "BaptismSummary",
+			          "ConceptualProperty": "Name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "name": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "tag": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.714
+			          }
+			        }
+			      ]
+			    },
+			    "baptism_summary.baptism_requests_365_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "BaptismSummary",
+			          "ConceptualProperty": "Baptism Requests 365 Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "baptism requests 365 days": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "365 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "requests 365 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "baptism request 365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.514
+			          }
+			        },
+			        {
+			          "request 365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "baptism request 365 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.499
+			          }
+			        },
+			        {
+			          "baptism request 365 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.499
+			          }
+			        },
+			        {
+			          "request 365 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "request 365 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "baptism request 365 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "baptism request 365 generation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "baptism request 365 epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        }
+			      ]
+			    },
+			    "baptism_summary.baptisms_365_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "BaptismSummary",
+			          "ConceptualProperty": "Baptisms 365 Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "baptisms 365 days": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "365 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "baptism 365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "365 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "baptism 365 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "baptism 365 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "365 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "365 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "baptism 365 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "baptism 365 generation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "baptism 365 epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "365 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        }
+			      ]
+			    },
+			    "baptism_summary.baptism_requests_90_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "BaptismSummary",
+			          "ConceptualProperty": "Baptism Requests 90 Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "baptism requests 90 days": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "90 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "requests 90 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "baptism request 90 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.514
+			          }
+			        },
+			        {
+			          "request 90 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "90 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "baptism request 90 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.499
+			          }
+			        },
+			        {
+			          "baptism request 90 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.499
+			          }
+			        },
+			        {
+			          "request 90 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "request 90 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "baptism request 90 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "baptism request 90 generation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "baptism request 90 epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        }
+			      ]
+			    },
+			    "baptism_summary.baptisms_90_days": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "BaptismSummary",
+			          "ConceptualProperty": "Baptisms 90 Days"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "baptisms 90 days": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "90 days": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "baptism 90 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "90 existence": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "baptism 90 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "baptism 90 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "90 being": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "90 living": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "baptism 90 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "baptism 90 generation": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "baptism 90 epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "90 eras": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.475
+			          }
+			        }
+			      ]
+			    },
+			    "comparison_data.WTC_JIL_value": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "ComparisonData",
+			          "ConceptualProperty": "WTC JIL Value"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "WTC JIL value": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "JIL value": {
+			            "State": "Generated",
+			            "Weight": 0.97
+			          }
+			        },
+			        {
+			          "wtc jil assessment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.508
+			          }
+			        },
+			        {
+			          "jil assessment": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.5
+			          }
+			        },
+			        {
+			          "wtc jil worth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "wtc jil price": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "wtc jil cost": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "wtc jil charge": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "wtc jil rate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.492
+			          }
+			        },
+			        {
+			          "jil worth": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "jil price": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
+			        },
+			        {
+			          "jil cost": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.485
+			          }
 			        }
 			      ]
 			    }
@@ -80650,6 +81682,435 @@ cultureInfo en-US
 			          "State": "Generated",
 			          "Weight": 0.99,
 			          "ID": "dim_groups_have_fact_checkins"
+			        }
+			      ]
+			    },
+			    "dim_groupmember_has_comparison_data_WTC_JIL_value": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_groupmember"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_groupmember": {
+			          "Target": {
+			            "Entity": "dim_groupmember"
+			          }
+			        },
+			        "comparison_data.WTC_JIL_value": {
+			          "Target": {
+			            "Entity": "comparison_data.WTC_JIL_value"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_groupmember"
+			            },
+			            "Object": {
+			              "Role": "comparison_data.WTC_JIL_value"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_groupmembers_have_WTC_JIL_value"
+			        }
+			      ]
+			    },
+			    "dim_attributevalue_JIL_has_comparison_data_WTC_JIL_value": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_attributevalue_JIL"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_attributevalue_JIL": {
+			          "Target": {
+			            "Entity": "dim_attributevalue_JIL"
+			          }
+			        },
+			        "comparison_data.WTC_JIL_value": {
+			          "Target": {
+			            "Entity": "comparison_data.WTC_JIL_value"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_attributevalue_JIL"
+			            },
+			            "Object": {
+			              "Role": "comparison_data.WTC_JIL_value"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_attributevalue_JILs_have_WTC_JIL_value"
+			        }
+			      ]
+			    },
+			    "comparison_data_has_WTC_JIL_value": {
+			      "Binding": {
+			        "ConceptualEntity": "ComparisonData"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "comparison_data": {
+			          "Target": {
+			            "Entity": "comparison_data"
+			          }
+			        },
+			        "comparison_data.WTC_JIL_value": {
+			          "Target": {
+			            "Entity": "comparison_data.WTC_JIL_value"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "comparison_data"
+			            },
+			            "Object": {
+			              "Role": "comparison_data.WTC_JIL_value"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "comparison_data_have_WTC_JIL_value"
+			        }
+			      ]
+			    },
+			    "fact_connectionrequest_has_baptism_summary_baptisms_90_days": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_connectionrequest"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_connectionrequest": {
+			          "Target": {
+			            "Entity": "fact_connectionrequest"
+			          }
+			        },
+			        "baptism_summary.baptisms_90_days": {
+			          "Target": {
+			            "Entity": "baptism_summary.baptisms_90_days"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_connectionrequest"
+			            },
+			            "Object": {
+			              "Role": "baptism_summary.baptisms_90_days"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_connectionrequests_have_baptisms_90_days"
+			        }
+			      ]
+			    },
+			    "fact_connectionrequest_has_baptism_summary_baptism_requests_90_days": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_connectionrequest"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_connectionrequest": {
+			          "Target": {
+			            "Entity": "fact_connectionrequest"
+			          }
+			        },
+			        "baptism_summary.baptism_requests_90_days": {
+			          "Target": {
+			            "Entity": "baptism_summary.baptism_requests_90_days"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_connectionrequest"
+			            },
+			            "Object": {
+			              "Role": "baptism_summary.baptism_requests_90_days"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_connectionrequests_have_baptism_requests_90_days"
+			        }
+			      ]
+			    },
+			    "fact_connectionrequest_has_baptism_summary_baptisms_365_days": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_connectionrequest"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_connectionrequest": {
+			          "Target": {
+			            "Entity": "fact_connectionrequest"
+			          }
+			        },
+			        "baptism_summary.baptisms_365_days": {
+			          "Target": {
+			            "Entity": "baptism_summary.baptisms_365_days"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_connectionrequest"
+			            },
+			            "Object": {
+			              "Role": "baptism_summary.baptisms_365_days"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_connectionrequests_have_baptisms_365_days"
+			        }
+			      ]
+			    },
+			    "fact_connectionrequest_has_baptism_summary_baptism_requests_365_days": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_connectionrequest"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_connectionrequest": {
+			          "Target": {
+			            "Entity": "fact_connectionrequest"
+			          }
+			        },
+			        "baptism_summary.baptism_requests_365_days": {
+			          "Target": {
+			            "Entity": "baptism_summary.baptism_requests_365_days"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_connectionrequest"
+			            },
+			            "Object": {
+			              "Role": "baptism_summary.baptism_requests_365_days"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_connectionrequests_have_baptism_requests_365_days"
+			        }
+			      ]
+			    },
+			    "baptism_summary_has_name": {
+			      "Binding": {
+			        "ConceptualEntity": "BaptismSummary"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "baptism_summary": {
+			          "Target": {
+			            "Entity": "baptism_summary"
+			          }
+			        },
+			        "baptism_summary.name": {
+			          "Target": {
+			            "Entity": "baptism_summary.name"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "baptism_summary"
+			            },
+			            "Object": {
+			              "Role": "baptism_summary.name"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "baptism_summaries_have_names"
+			        }
+			      ]
+			    },
+			    "fact_step_has_launch_event_launch_people_3_months": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_step"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_step": {
+			          "Target": {
+			            "Entity": "fact_step"
+			          }
+			        },
+			        "launch_event.launch_people_3_months": {
+			          "Target": {
+			            "Entity": "launch_event.launch_people_3_months"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_step"
+			            },
+			            "Object": {
+			              "Role": "launch_event.launch_people_3_months"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_steps_have_launch_people_3_months"
+			        }
+			      ]
+			    },
+			    "fact_step_has_launch_event_launch_people_YTD": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_step"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_step": {
+			          "Target": {
+			            "Entity": "fact_step"
+			          }
+			        },
+			        "launch_event.launch_people_YTD": {
+			          "Target": {
+			            "Entity": "launch_event.launch_people_YTD"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_step"
+			            },
+			            "Object": {
+			              "Role": "launch_event.launch_people_YTD"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_steps_have_launch_people_YTD"
+			        }
+			      ]
+			    },
+			    "fact_step_has_launch_event_launch_people_365_days": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_step"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_step": {
+			          "Target": {
+			            "Entity": "fact_step"
+			          }
+			        },
+			        "launch_event.launch_people_365_days": {
+			          "Target": {
+			            "Entity": "launch_event.launch_people_365_days"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_step"
+			            },
+			            "Object": {
+			              "Role": "launch_event.launch_people_365_days"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_steps_have_launch_people_365_days"
+			        }
+			      ]
+			    },
+			    "dim_groupmember_has_dim_group_socials_new_sign_ups": {
+			      "Binding": {
+			        "ConceptualEntity": "dim_groupmember"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "dim_groupmember": {
+			          "Target": {
+			            "Entity": "dim_groupmember"
+			          }
+			        },
+			        "dim_group.socials_new_sign_ups": {
+			          "Target": {
+			            "Entity": "dim_group.socials_new_sign_ups"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "dim_groupmember"
+			            },
+			            "Object": {
+			              "Role": "dim_group.socials_new_sign_ups"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "dim_groupmembers_have_socials_new_sign_ups"
+			        }
+			      ]
+			    },
+			    "fact_connectionrequest_has_baptism_type": {
+			      "Binding": {
+			        "ConceptualEntity": "fact_connectionrequest"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "fact_connectionrequest": {
+			          "Target": {
+			            "Entity": "fact_connectionrequest"
+			          }
+			        },
+			        "fact_connectionrequest.baptism_type": {
+			          "Target": {
+			            "Entity": "fact_connectionrequest.baptism_type"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "fact_connectionrequest"
+			            },
+			            "Object": {
+			              "Role": "fact_connectionrequest.baptism_type"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "fact_connectionrequests_have_baptism_types"
 			        }
 			      ]
 			    },

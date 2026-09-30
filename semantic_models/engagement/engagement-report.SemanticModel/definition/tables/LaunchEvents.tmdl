@@ -1,6 +1,24 @@
 table LaunchEvents
 	lineageTag: 7a8f90e0-6c9b-441f-9c98-88aa221154f3
 
+	measure 'Launch People 365 Days' =
+			
+			CALCULATE ( DISTINCTCOUNT ( fact_step[PersonId] ), fact_step[SStartDateTime] >= NOW () - 365 )
+		formatString: 0
+		lineageTag: a4e45724-05d9-4903-a2e7-2a236d1fb241
+
+	measure 'Launch People YTD' =
+			
+			CALCULATE ( DISTINCTCOUNT ( fact_step[PersonId] ), YEAR ( fact_step[SStartDateTime] ) = YEAR ( NOW () ) )
+		formatString: 0
+		lineageTag: 38f91b5b-dbc0-4007-b004-f99200162721
+
+	measure 'Launch People 3 Months' =
+			
+			CALCULATE ( DISTINCTCOUNT ( fact_step[PersonId] ), fact_step[SStartDateTime] >= NOW () - 90 )
+		formatString: 0
+		lineageTag: c8577360-ce08-4e8b-b53f-2da7fb7ab3a0
+
 	column SCampusId
 		formatString: 0
 		lineageTag: 46fd94bf-850a-4900-bce9-91ef5f39fcf6

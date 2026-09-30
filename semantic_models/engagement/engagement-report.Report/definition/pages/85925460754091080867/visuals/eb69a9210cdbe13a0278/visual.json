@@ -3,11 +3,11 @@
   "name": "eb69a9210cdbe13a0278",
   "position": {
     "x": 30,
-    "y": 1938.8888888888889,
+    "y": 1936,
     "z": 5000,
-    "height": 64.444444444444443,
-    "width": 1214.4444444444443,
-    "tabOrder": 71003
+    "height": 66,
+    "width": 1230,
+    "tabOrder": 74000
   },
   "visual": {
     "visualType": "shape",
@@ -25,7 +25,7 @@
             "roundEdge": {
               "expr": {
                 "Literal": {
-                  "Value": "15L"
+                  "Value": "0L"
                 }
               }
             }
@@ -70,6 +70,13 @@
                       "Percent": -0.2
                     }
                   }
+                }
+              }
+            },
+            "transparency": {
+              "expr": {
+                "Literal": {
+                  "Value": "80D"
                 }
               }
             }

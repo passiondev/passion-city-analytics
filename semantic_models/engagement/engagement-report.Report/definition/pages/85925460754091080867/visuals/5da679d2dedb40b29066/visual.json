@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_group.Socials Meetings Held",
-              "nativeQueryRef": "Socials Meetings Held"
+              "nativeQueryRef": "Meetings Held",
+              "displayName": "Meetings Held"
             }
           ]
         }

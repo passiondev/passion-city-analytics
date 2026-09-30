@@ -54,22 +54,17 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "ComparisonData"
-                        }
-                      },
-                      "Property": "Value"
+                    "SourceRef": {
+                      "Entity": "ComparisonData"
                     }
                   },
-                  "Function": 0
+                  "Property": "WTC JIL Value"
                 }
               },
-              "queryRef": "Sum(ComparisonData.Value)",
-              "nativeQueryRef": "Sum of Value"
+              "queryRef": "ComparisonData.WTC JIL Value",
+              "nativeQueryRef": "WTC JIL Value"
             }
           ]
         }
@@ -78,18 +73,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Column": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "ComparisonData"
-                      }
-                    },
-                    "Property": "Value"
+                  "SourceRef": {
+                    "Entity": "ComparisonData"
                   }
                 },
-                "Function": 0
+                "Property": "Class"
               }
             },
             "direction": "Descending"

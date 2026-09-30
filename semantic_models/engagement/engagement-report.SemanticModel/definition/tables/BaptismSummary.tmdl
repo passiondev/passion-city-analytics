@@ -1,6 +1,52 @@
 table BaptismSummary
 	lineageTag: bc325e4c-bada-4bd1-9bc7-4d2190bf362f
 
+	measure 'Baptism Requests 365 Days' =
+			
+			CALCULATE (
+			    COUNTROWS ( fact_connectionrequest ),
+			    fact_connectionrequest[CRCreatedDateTime] >= NOW () - 365,
+			    REMOVEFILTERS ( dim_person ),
+			    TREATAS ( VALUES ( dim_campus[CampusId] ), fact_connectionrequest[CRCampusId] )
+			)
+		formatString: 0
+		lineageTag: f24ed8b6-0ad5-4821-92c5-5c9a8e9e95b5
+
+	measure 'Baptisms 365 Days' =
+			
+			CALCULATE (
+			    COUNTROWS ( fact_connectionrequest ),
+			    fact_connectionrequest[CRCreatedDateTime] >= NOW () - 365,
+			    fact_connectionrequest[CRStatusName] = "Baptism Complete",
+			    REMOVEFILTERS ( dim_person ),
+			    TREATAS ( VALUES ( dim_campus[CampusId] ), fact_connectionrequest[CRCampusId] )
+			)
+		formatString: 0
+		lineageTag: 9a6d5e71-5a06-4783-b64e-089c9e6a5969
+
+	measure 'Baptism Requests 90 Days' =
+			
+			CALCULATE (
+			    COUNTROWS ( fact_connectionrequest ),
+			    fact_connectionrequest[CRCreatedDateTime] >= NOW () - 90,
+			    REMOVEFILTERS ( dim_person ),
+			    TREATAS ( VALUES ( dim_campus[CampusId] ), fact_connectionrequest[CRCampusId] )
+			)
+		formatString: 0
+		lineageTag: 90218c3d-4d57-46da-8cf0-b267f067599a
+
+	measure 'Baptisms 90 Days' =
+			
+			CALCULATE (
+			    COUNTROWS ( fact_connectionrequest ),
+			    fact_connectionrequest[CRCreatedDateTime] >= NOW () - 90,
+			    fact_connectionrequest[CRStatusName] = "Baptism Complete",
+			    REMOVEFILTERS ( dim_person ),
+			    TREATAS ( VALUES ( dim_campus[CampusId] ), fact_connectionrequest[CRCampusId] )
+			)
+		formatString: 0
+		lineageTag: f076628f-1798-497d-9187-9a5edc8762e8
+
 	column CRCampusId
 		formatString: 0
 		lineageTag: 5c04e641-c402-4568-9973-d56cdc96ed0c
@@ -51,6 +97,14 @@ table BaptismSummary
 		summarizeBy: sum
 		isNameInferred
 		sourceColumn: [Baptisms 1y]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name =
+			
+			TRIM ( SUBSTITUTE ( BaptismSummary[COName], "Baptisms", "" ) )
+		lineageTag: 1c7bf328-5d19-475b-8434-a7f78b2c0252
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 

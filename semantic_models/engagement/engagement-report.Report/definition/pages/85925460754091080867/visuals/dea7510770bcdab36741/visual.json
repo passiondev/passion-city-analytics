@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_group.Socials New Sign Ups",
-              "nativeQueryRef": "Socials New Sign Ups"
+              "nativeQueryRef": "New Sign Ups",
+              "displayName": "New Sign Ups"
             }
           ]
         }

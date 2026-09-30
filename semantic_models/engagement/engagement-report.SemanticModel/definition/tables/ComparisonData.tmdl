@@ -1,6 +1,23 @@
 table ComparisonData
 	lineageTag: c2eec9b7-b75f-4bc9-bce7-960988ff94e1
 
+	measure 'WTC JIL Value' =
+			
+			VAR c = SELECTEDVALUE ( ComparisonData[Class] )
+			VAR p = SELECTEDVALUE ( ComparisonData[TimePeriod] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        c = "Welcome To Church" && p = "Past 365 Days", [G130_P365CheckIns],
+			        c = "Welcome To Church" && p = "Year To Date", [G130_YTDCheckIns],
+			        c = "Welcome To Church" && p = "Past 90 Days", [G130_P90CheckIns],
+			        c = "Jesus Is Life Bulb" && p = "Past 365 Days", [G_JIL_P365Yeses],
+			        c = "Jesus Is Life Bulb" && p = "Year To Date", [G_JIL_YTDYeses],
+			        c = "Jesus Is Life Bulb" && p = "Past 90 Days", [G_JIL_P90Yeses]
+			    )
+		formatString: 0
+		lineageTag: 274b6d89-81ed-49e8-8601-f35c29ecff64
+
 	column Class
 		lineageTag: 31d6e066-3854-4e25-bf30-d04ec854f2d4
 		isNameInferred

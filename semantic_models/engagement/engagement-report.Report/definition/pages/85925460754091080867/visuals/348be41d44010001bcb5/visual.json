@@ -4,7 +4,7 @@
   "position": {
     "x": 38.333333333333336,
     "y": 2103.3333333333335,
-    "z": 75000,
+    "z": 74000,
     "height": 245,
     "width": 625,
     "tabOrder": 66000
@@ -91,6 +91,28 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Categorical'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'5wk check-in trend'"
                 }
               }
             }

@@ -177,6 +177,14 @@ table fact_connectionrequest
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Baptism Type' =
+			
+			TRIM ( SUBSTITUTE ( fact_connectionrequest[COName], "Baptisms", "" ) )
+		lineageTag: e649aeec-3335-4c42-b4a2-a53cfd903ce9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_connectionrequest = m
 		mode: import
 		source =
