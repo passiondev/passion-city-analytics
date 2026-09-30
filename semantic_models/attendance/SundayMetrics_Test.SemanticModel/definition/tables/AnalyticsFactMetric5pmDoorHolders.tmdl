@@ -16,11 +16,6 @@ table AnalyticsFactMetric5pmDoorHolders
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: a6197c9a-061e-434e-a0e5-fc40f953b28f
-			defaultHierarchy: LocalDateTable_0ef796f4-6ae5-4adf-be3b-45cefcc55f72.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

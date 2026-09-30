@@ -1,0 +1,23 @@
+expression 'Errors in AttendanceInPerson_Online_WOW' =
+		let
+		Source = AttendanceInPerson_Online_WOW,
+		  #"Detected Type Mismatches" = let
+		    tableWithOnlyPrimitiveTypes = Table.SelectColumns(Source, Table.ColumnsOfType(Source, {type nullable number, type nullable text, type nullable logical, type nullable date, type nullable datetime, type nullable datetimezone, type nullable time, type nullable duration})),
+		    recordTypeFields = Type.RecordFields(Type.TableRow(Value.Type(tableWithOnlyPrimitiveTypes))),
+		    fieldNames = Record.FieldNames(recordTypeFields),
+		    fieldTypes = List.Transform(Record.ToList(recordTypeFields), each [Type]),
+		    pairs = List.Transform(List.Positions(fieldNames), (i) => {fieldNames{i}, (v) => if v = null or Value.Is(v, fieldTypes{i}) then v else error [Message = "The type of the value does not match the type of the column.", Detail = v], fieldTypes{i}})
+		in
+		    Table.TransformColumns(Source, pairs),
+		  #"Added Index" = Table.AddIndexColumn(#"Detected Type Mismatches", "Row Number" ,1),
+		  #"Kept Errors" = Table.SelectRowsWithErrors(#"Added Index", {"MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName", "EventName", "Custom", "Index", "Prev Week", "Count", "WOW", "Week of Year"}),
+		  #"Reordered Columns" = Table.ReorderColumns(#"Kept Errors", {"Row Number", "MetricValueDateTime", "CampusName", "ScheduleName", "Literal", "CityName", "EventName", "Custom", "Index", "Prev Week", "Count", "WOW", "Week of Year"})
+		in
+		  #"Reordered Columns"
+	lineageTag: 20566c60-38fa-4720-a311-bff1d8af7376
+	queryGroup: 'Query Errors - 9/30/2026 5:09:26 PM'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

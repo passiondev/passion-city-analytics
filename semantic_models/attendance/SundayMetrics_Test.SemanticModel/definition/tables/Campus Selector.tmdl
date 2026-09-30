@@ -3567,20 +3567,25 @@ table 'Campus Selector'
 		formatString: 0
 		lineageTag: d0f63745-dffe-4704-a107-f780eb7319f1
 
-	measure OnlineAttendance = ```
+	measure OnlineAttendance =
 			
 			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
 			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
 			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
 			VAR _Sun = FORMAT(_SelectedDate, "YYYY-MM-DD")
-			VAR _NewData = 
+			
+			VAR _YouTube =
 			    SUMX(
-			        FILTER(
-			            v_gathering_views,
-			            v_gathering_views[sunday_date] = _Sun
-			        ),
+			        FILTER(v_gathering_views, v_gathering_views[sunday_date] = _Sun),
 			        ROUND(v_gathering_views[total_views] * 1.94, 0)
 			    )
+			
+			VAR _Facebook =
+			    SUMX(
+			        FILTER(facebook_sunday_snapshot, facebook_sunday_snapshot[sunday_date] = _SelectedDate),
+			        ROUND(facebook_sunday_snapshot[one_minute_views] * 1.94, 0)
+			    )
+			
 			VAR _OldData =
 			    CALCULATE(
 			        SUM('AttendanceInPerson_Online_WOW'[Count]),
@@ -3588,11 +3593,9 @@ table 'Campus Selector'
 			        'AttendanceInPerson_Online_WOW'[EventName] = "Sunday Gathering",
 			        DATEVALUE('AttendanceInPerson_Online_WOW'[MetricValueDateTime]) = _SelectedDate
 			    )
+			
 			RETURN
-			IF(_NewData > 0, _NewData, _OldData)
-			
-			
-			```
+			IF(_YouTube > 0, _YouTube + COALESCE(_Facebook, 0), _OldData)
 		lineageTag: 28260510-2b85-4459-bc7a-2afe9b4c5ae6
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -3699,22 +3702,41 @@ table 'Campus Selector'
 			
 			VAR _CurAtt = [OnlineAttendance]
 			VAR _PrevAtt = [PrevWeekOnlineAttendance]
-			VAR _WoW = DIVIDE(_CurAtt - _PrevAtt, _PrevAtt, 0)
+			VAR _PrevYrAtt = [OnlinePrevYearAttendance]
+			VAR _Avg5 = [Online5WkAvg]
+			
+			-- % changes (BLANK when there's nothing to compare against)
+			VAR _WoW = IF(_CurAtt > 0 && _PrevAtt > 0, DIVIDE(_CurAtt - _PrevAtt, _PrevAtt))
+			VAR _YoY = IF(_CurAtt > 0 && _PrevYrAtt > 0, DIVIDE(_CurAtt - _PrevYrAtt, _PrevYrAtt))
+			VAR _VsAvg = IF(_CurAtt > 0 && _Avg5 > 0, DIVIDE(_CurAtt - _Avg5, _Avg5))
+			
 			VAR _AttFmt = FORMAT(_CurAtt, "#,0")
-			VAR _PrevFmt = FORMAT(_PrevAtt, "#,0")
+			VAR _PrevFmt = IF(_PrevAtt > 0, FORMAT(_PrevAtt, "#,0"), "—")
+			VAR _PrevYrFmt = IF(_PrevYrAtt > 0, FORMAT(_PrevYrAtt, "#,0"), "—")
+			VAR _Avg5Fmt = IF(_Avg5 > 0, FORMAT(_Avg5, "#,0"), "—")
+			
 			VAR _Thumb = [SermonThumbnailUrl]
 			VAR _FallbackThumb = "https://passioncitychurch.com/wp-content/uploads/2026/02/mainimageAPPROVED-scaled.jpg"
 			VAR _HasRealThumb = NOT ISBLANK([SermonVideoId])
 			VAR _ThumbToShow = IF(_HasRealThumb, _Thumb, _FallbackThumb)
 			VAR _BadgeHtml = IF(_HasRealThumb, "<div class='play-chip'>SERMON</div>", "")
+			
 			VAR _IsDark = [SelectedTheme] = "Dark"
 			VAR _Bg = [CardBackground]
 			VAR _Txt = [CardTextColor]
 			VAR _Sec = [CardSecondaryText]
 			VAR _BorderColor = IF(_IsDark, "#2A2A2A", "#E5E7EB")
-			VAR _WoWColor = IF(_WoW >= 0, IF(_IsDark, "#4ADE80", "#166634"), IF(_IsDark, "#F87171", "#991B1B"))
-			VAR _WoWArrow = IF(_WoW >= 0, "▲", "▼")
-			VAR _WoWPct = FORMAT(ABS(_WoW), "0.0%")
+			VAR _Up = IF(_IsDark, "#4ADE80", "#166634")
+			VAR _Down = IF(_IsDark, "#F87171", "#991B1B")
+			
+			-- Color + text for each comparison
+			VAR _WoWColor = IF(ISBLANK(_WoW), _Sec, IF(_WoW >= 0, _Up, _Down))
+			VAR _WoWText = IF(ISBLANK(_WoW), "—", IF(_WoW >= 0, "▲ ", "▼ ") & FORMAT(ABS(_WoW), "0.0%"))
+			VAR _YoYColor = IF(ISBLANK(_YoY), _Sec, IF(_YoY >= 0, _Up, _Down))
+			VAR _YoYText = IF(ISBLANK(_YoY), "—", IF(_YoY >= 0, "▲ ", "▼ ") & FORMAT(ABS(_YoY), "0.0%"))
+			VAR _AvgColor = IF(ISBLANK(_VsAvg), _Sec, IF(_VsAvg >= 0, _Up, _Down))
+			VAR _AvgText = IF(ISBLANK(_VsAvg), "—", IF(_VsAvg >= 0, "▲ ", "▼ ") & FORMAT(ABS(_VsAvg), "0.0%"))
+			
 			VAR _NoData = _CurAtt = 0
 			VAR _PlaceholderBg = IF(_IsDark, "#1A1A1A", "#F3F4F6")
 			RETURN
@@ -3745,12 +3767,13 @@ table 'Campus Selector'
 			.thumb-wrap { position:relative; width:100%; height:330px; background:#000; overflow:hidden; }
 			.thumb-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
 			.play-chip { position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.55); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; letter-spacing:0.02em; }
-			.stat-row { display:flex; align-items:flex-end; justify-content:space-between; padding:18px 18px 20px; }
-			.stat-label-d { font-size:11px; font-weight:700; color:" & _Sec & "; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
-			.stat-num-d { font-size:38px; font-weight:900; color:" & _Txt & "; line-height:1; animation:fadeSlideIn 0.8s ease-out; }
-			.wow-chip { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
-			.wow-pct { font-size:13px; font-weight:800; color:" & _WoWColor & "; display:flex; align-items:center; gap:3px; }
-			.wow-prev { font-size:11px; color:" & _Sec & "; font-weight:600; }
+			.strip { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; }
+			.cell { padding:16px 14px 18px; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+			.cell + .cell { border-left:1px solid " & _BorderColor & "; }
+			.k { font-size:10px; font-weight:700; color:" & _Sec & "; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; white-space:nowrap; }
+			.main-num { font-size:34px; font-weight:900; color:" & _Txt & "; line-height:1; animation:fadeSlideIn 0.8s ease-out; }
+			.pct { font-size:16px; font-weight:800; line-height:1.1; white-space:nowrap; }
+			.base { font-size:11px; font-weight:600; color:" & _Sec & "; margin-top:4px; }
 			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 			</style>
 			<div class='online-card'>
@@ -3758,14 +3781,25 @@ table 'Campus Selector'
 			<img src='" & _ThumbToShow & "' />
 			" & _BadgeHtml & "
 			</div>
-			<div class='stat-row'>
-			<div>
-			<div class='stat-label-d'>Online attendance</div>
-			<div class='stat-num-d'>" & _AttFmt & "</div>
+			<div class='strip'>
+			<div class='cell'>
+			<div class='k'>Online attendance</div>
+			<div class='main-num'>" & _AttFmt & "</div>
 			</div>
-			<div class='wow-chip'>
-			<div class='wow-pct'>" & _WoWArrow & " " & _WoWPct & "</div>
-			<div class='wow-prev'>Prev wk " & _PrevFmt & "</div>
+			<div class='cell'>
+			<div class='k'>last wk</div>
+			<div class='pct' style='color:" & _WoWColor & "'>" & _WoWText & "</div>
+			<div class='base'>" & _PrevFmt & "</div>
+			</div>
+			<div class='cell'>
+			<div class='k'>last yr</div>
+			<div class='pct' style='color:" & _YoYColor & "'>" & _YoYText & "</div>
+			<div class='base'>" & _PrevYrFmt & "</div>
+			</div>
+			<div class='cell'>
+			<div class='k'>5-wk avg</div>
+			<div class='pct' style='color:" & _AvgColor & "'>" & _AvgText & "</div>
+			<div class='base'>" & _Avg5Fmt & "</div>
 			</div>
 			</div>
 			</div>"

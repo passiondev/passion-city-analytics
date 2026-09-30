@@ -8,11 +8,6 @@ table AnalyticsFactMetricGatheringAttendance
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: 87528741-08df-40dd-ba58-8b0df105b8a3
-			defaultHierarchy: LocalDateTable_1bdae7f5-ec3a-4bf2-9b60-b2ef31106547.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

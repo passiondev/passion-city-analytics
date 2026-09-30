@@ -17,11 +17,6 @@ table AnalyticsGivingLastGiftByFamily
 		summarizeBy: none
 		sourceColumn: LastGiftDate
 
-		variation Variation
-			isDefault
-			relationship: 8a1f4925-4147-4e3e-b862-3d74bf67ac71
-			defaultHierarchy: LocalDateTable_a2ace27e-c454-4dca-8e7f-f93cb89f38fb.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -32,11 +27,6 @@ table AnalyticsGivingLastGiftByFamily
 		lineageTag: 9d208afd-a60e-47d6-8048-af7d03fe1452
 		summarizeBy: none
 		sourceColumn: PrevGiftDate
-
-		variation Variation
-			isDefault
-			relationship: 62cdeb66-4047-4215-9a2f-2f52f6620850
-			defaultHierarchy: LocalDateTable_d6cfc937-bdcd-4220-a7e2-a7a86dfb0949.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

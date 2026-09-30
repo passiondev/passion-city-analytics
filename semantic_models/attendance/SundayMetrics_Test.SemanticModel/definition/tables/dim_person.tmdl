@@ -35,11 +35,6 @@ table dim_person
 		summarizeBy: none
 		sourceColumn: EffectiveDate
 
-		variation Variation
-			isDefault
-			relationship: 8c619630-e66b-477e-8673-c14683f8770b
-			defaultHierarchy: LocalDateTable_7b458f5b-e68b-4f1d-944f-c6b1d374945d.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -50,11 +45,6 @@ table dim_person
 		lineageTag: 7b255c36-683a-4d61-bc2f-7f037ce5d93b
 		summarizeBy: none
 		sourceColumn: ExpireDate
-
-		variation Variation
-			isDefault
-			relationship: f6a21060-f847-47e4-88f0-d59732be1dec
-			defaultHierarchy: LocalDateTable_61dcf984-c97f-4d1a-aa0d-6caf31cbe8e2.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -93,11 +83,6 @@ table dim_person
 		lineageTag: 3db4c534-4cf3-468d-aebf-32c6e70819a4
 		summarizeBy: none
 		sourceColumn: RecordStatusLastModifiedDateTime
-
-		variation Variation
-			isDefault
-			relationship: cdc6bd74-4fc9-4517-b8e4-2f12aeb88e23
-			defaultHierarchy: LocalDateTable_a8b50989-369a-441a-bc9f-9f190e7e627e.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -266,11 +251,6 @@ table dim_person
 		summarizeBy: none
 		sourceColumn: AnniversaryDate
 
-		variation Variation
-			isDefault
-			relationship: 62add604-14da-48ed-975b-96d5b1d7966a
-			defaultHierarchy: LocalDateTable_ec307504-db39-4eb8-89dd-01c78b1522fc.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -418,11 +398,6 @@ table dim_person
 		summarizeBy: none
 		sourceColumn: core_EraStartDate
 
-		variation Variation
-			isDefault
-			relationship: 709037af-a2ae-4cef-999c-4da36307d40d
-			defaultHierarchy: LocalDateTable_f403fa21-d367-48cc-9b5a-eebe3e9c9c7c.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 	column core_EraFirstGave
@@ -432,11 +407,6 @@ table dim_person
 		summarizeBy: none
 		sourceColumn: core_EraFirstGave
 
-		variation Variation
-			isDefault
-			relationship: 6d432544-7f1e-416c-abc3-c3d9bed53c5e
-			defaultHierarchy: LocalDateTable_41517fa3-4c8c-4768-b9d8-c6b8b05340b2.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 	column core_EraLastGave
@@ -445,11 +415,6 @@ table dim_person
 		lineageTag: d54679e6-8635-4bc4-8af6-5b04481a9100
 		summarizeBy: none
 		sourceColumn: core_EraLastGave
-
-		variation Variation
-			isDefault
-			relationship: 688e3615-ae65-46cd-8d7d-2701b64a7b7f
-			defaultHierarchy: LocalDateTable_1f5db191-28d7-432f-8a72-c500a568b2cd.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -566,11 +531,6 @@ table dim_person
 		summarizeBy: none
 		sourceColumn: LastClassificationRunDateTime
 
-		variation Variation
-			isDefault
-			relationship: f65b370d-671b-4d1f-a862-00ad791022c7
-			defaultHierarchy: LocalDateTable_ed03b7ca-1eef-434c-9aeb-79be8e25ac15.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 	column NextExpectedGiftDate
@@ -579,11 +539,6 @@ table dim_person
 		lineageTag: fbffdb81-7260-4c79-a7dc-13c0ed554a5f
 		summarizeBy: none
 		sourceColumn: NextExpectedGiftDate
-
-		variation Variation
-			isDefault
-			relationship: 1c4fa9d3-7b17-4f0d-ab35-83def8df3bee
-			defaultHierarchy: LocalDateTable_805af7a0-5fb0-447d-8279-8498c24e8465.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -609,11 +564,6 @@ table dim_person
 		lineageTag: 3fee9925-a80f-43a4-a634-f692bc802d79
 		summarizeBy: none
 		sourceColumn: JourneyGivingStageChangeDate
-
-		variation Variation
-			isDefault
-			relationship: 065bce2c-146c-43f6-9f05-b35d91d6fc61
-			defaultHierarchy: LocalDateTable_08f97ae7-ad7c-461a-b731-266eb2f68c73.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -914,11 +864,6 @@ table dim_person
 		lineageTag: d5ed445c-d830-4c7a-9668-b03a92d9412d
 		summarizeBy: none
 		sourceColumn: ModifiedDateTime
-
-		variation Variation
-			isDefault
-			relationship: 5e64de2e-eaa9-466a-999a-d84a8b703441
-			defaultHierarchy: LocalDateTable_00ca5a5c-f823-4b09-a0ef-73b0a502d630.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
