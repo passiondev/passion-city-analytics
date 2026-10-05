@@ -23,5 +23,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 
+models:
+  analytics:              # <- replace with the actual name: value from the top of the file
+    staging:
+      +schema: silver
+      +materialized: view
+
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models

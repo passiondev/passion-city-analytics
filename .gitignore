@@ -21,3 +21,6 @@ Thumbs.db
 
 # virtual environment
 .venv/
+
+# keys
+analytics/dbt/ingestion/rock-loader-key.json
