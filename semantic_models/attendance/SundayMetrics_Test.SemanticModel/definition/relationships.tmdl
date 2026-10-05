@@ -1,3 +1,26 @@
+relationship AutoDetected_de4f26e8-c84a-4eb1-a9ac-da0b86ff6720
+	fromColumn: AttendanceInPerson_WOW.Index
+	toColumn: SplSundayAtt_Online_WOW.Index
+
+relationship AutoDetected_d94c1a65-e7e7-43f4-9e50-d0f372cb45af
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: AnalyticsGivingSignals.PersonId
+	toColumn: dim_person.PersonId
+
+relationship AutoDetected_61f958cc-8c23-4396-b9bb-2efdd1c44711
+	fromColumn: fact_checkin.PrimaryFamilyId
+	toColumn: AnalyticsGivingLastGiftByFamily.PrimaryFamilyId
+
+relationship AutoDetected_e836f254-5d30-40b7-a52f-8314bca13679
+	isActive: false
+	fromColumn: AnalyticsGivingSignals.PrimaryFamilyId
+	toColumn: AnalyticsGivingLastGiftByFamily.PrimaryFamilyId
+
+relationship AutoDetected_d828188b-e781-4025-a848-4e5107e9a8c8
+	fromColumn: AnalyticsDimPersonHistorical.PersonId
+	toColumn: dim_person.PersonId
+
 relationship 3b7791bf-3257-499a-b276-cb7d75bcea2e
 	joinOnDateBehavior: datePartOnly
 	fromColumn: AnalyticsFactMetricbloomMetrics.MetricValueDateTime
@@ -92,10 +115,6 @@ relationship d4cf4c8d-91b7-448f-9b93-8d4d8c91ca9c
 	joinOnDateBehavior: datePartOnly
 	fromColumn: AttendanceInPerson_WOW.MetricValueDateTime
 	toColumn: LocalDateTable_40ba220f-ec77-497b-9894-cc75dc1dfadd.Date
-
-relationship AutoDetected_de4f26e8-c84a-4eb1-a9ac-da0b86ff6720
-	fromColumn: AttendanceInPerson_WOW.Index
-	toColumn: SplSundayAtt_Online_WOW.Index
 
 relationship 7d28d711-6cee-4034-be59-228f14a10990
 	joinOnDateBehavior: datePartOnly
@@ -242,21 +261,6 @@ relationship 6d988595-1867-4796-9313-5d98c1dd2fbc
 	fromColumn: fact_checkin.PrevGiftDate
 	toColumn: LocalDateTable_210d6bb2-140b-4fca-9c17-50ed428a12cf.Date
 
-relationship AutoDetected_d94c1a65-e7e7-43f4-9e50-d0f372cb45af
-	crossFilteringBehavior: bothDirections
-	fromCardinality: one
-	fromColumn: AnalyticsGivingSignals.PersonId
-	toColumn: dim_person.PersonId
-
-relationship AutoDetected_61f958cc-8c23-4396-b9bb-2efdd1c44711
-	fromColumn: fact_checkin.PrimaryFamilyId
-	toColumn: AnalyticsGivingLastGiftByFamily.PrimaryFamilyId
-
-relationship AutoDetected_e836f254-5d30-40b7-a52f-8314bca13679
-	isActive: false
-	fromColumn: AnalyticsGivingSignals.PrimaryFamilyId
-	toColumn: AnalyticsGivingLastGiftByFamily.PrimaryFamilyId
-
 relationship ba405011-96e1-4eba-99df-777f8a4983b2
 	joinOnDateBehavior: datePartOnly
 	fromColumn: v_sunday_context.service_date
@@ -271,10 +275,6 @@ relationship 8feb7736-de16-4210-9d82-8d69804a1f4b
 	joinOnDateBehavior: datePartOnly
 	fromColumn: AnalyticsDimPersonHistorical.ExpireDate
 	toColumn: LocalDateTable_371be6d4-4227-49c0-a049-203494890822.Date
-
-relationship AutoDetected_d828188b-e781-4025-a848-4e5107e9a8c8
-	fromColumn: AnalyticsDimPersonHistorical.PersonId
-	toColumn: dim_person.PersonId
 
 relationship 51693b2c-e97a-478e-88b7-12d43a799dc6
 	joinOnDateBehavior: datePartOnly

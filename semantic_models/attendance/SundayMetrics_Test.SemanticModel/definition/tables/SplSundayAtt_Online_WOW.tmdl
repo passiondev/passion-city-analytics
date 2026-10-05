@@ -16,14 +16,15 @@ table SplSundayAtt_Online_WOW
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure CurrChristmasAttOnl = ```
+	measure CurrChristmasAttOnl =
 			
-			VAR curyear=( Year('Calendar'[MaxselectedDate]))
-			VAR prevyear=Year('Calendar'[MaxselectedDate])-1
-			Return 
-			if(ISBLANK(CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=curyear,AttendanceInPerson_Online_WOW[EventName]="Christmas")),CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=prevyear,AttendanceInPerson_Online_WOW[EventName]="Christmas"),CALCULATE(sum(SplSundayAtt_Online_WOW[Count]),YEAR(SplSundayAtt_Online_WOW[MetricValueDateTime])=curyear,AttendanceInPerson_Online_WOW[EventName]="Christmas"))
-			
-			```
+			VAR curyear = YEAR ( 'Calendar'[MaxselectedDate] )
+			RETURN
+			    CALCULATE (
+			        SUM ( SplSundayAtt_Online_WOW[Count] ),
+			        YEAR ( SplSundayAtt_Online_WOW[MetricValueDateTime] ) = curyear,
+			        SplSundayAtt_Online_WOW[EventName] = "Christmas"
+			    )
 		lineageTag: 57922011-953e-4664-8415-62f4bb822dde
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -180,6 +181,7 @@ table SplSundayAtt_Online_WOW
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	measure HTML_Easter_MainCard =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Countdown],
 			
 			
 			// -------------------------------------------------------------
@@ -1736,9 +1738,11 @@ table SplSundayAtt_Online_WOW
 			    _CSS
 			        & _Body
 			        & _JS
+			)
 		lineageTag: acd55cdc-1bd7-4da0-bc3e-9be017b53e49
 
 	measure HTML_Easter_Online_Chart =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Placeholder],
 			
 			VAR IsDark = [SelectedTheme] = "Dark"
 			
@@ -2490,9 +2494,11 @@ table SplSundayAtt_Online_WOW
 			
 			RETURN
 			    IF ( HasData, ChartHTML, EmptyHTML )
+			)
 		lineageTag: f6ccd2cc-13ca-4914-9610-c886ef386658
 
-	measure HTML_Christmas_InPerson_Chart = ```
+	measure HTML_Christmas_InPerson_Chart =
+			IF ( [Christmas_Status] <> "Show", [HTML_Christmas_Placeholder],
 			
 			VAR IsDark = [SelectedTheme] = "Dark"
 			
@@ -3169,10 +3175,11 @@ table SplSundayAtt_Online_WOW
 			</script>
 			"
 			
-			```
+			)
 		lineageTag: c1c5bd21-8831-48bf-925b-bd4e22726616
 
-	measure HTML_Christmas_Online_Chart = ```
+	measure HTML_Christmas_Online_Chart =
+			IF ( [Christmas_Status] <> "Show", [HTML_Christmas_Placeholder],
 			
 			VAR IsDark = [SelectedTheme] = "Dark"
 			
@@ -3925,7 +3932,7 @@ table SplSundayAtt_Online_WOW
 			RETURN
 			    IF ( HasData, ChartHTML, EmptyHTML )
 			
-			```
+			)
 		lineageTag: 54dd3f24-e094-4ce5-a550-37d085fc4a66
 
 	column MetricValueDateTime
