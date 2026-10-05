@@ -8,11 +8,6 @@ table dim_five_gatherings
 		summarizeBy: none
 		sourceColumn: gathering_date
 
-		variation Variation
-			isDefault
-			relationship: 51693b2c-e97a-478e-88b7-12d43a799dc6
-			defaultHierarchy: LocalDateTable_3f2f93e7-809c-4e82-80e9-0d4388584c68.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

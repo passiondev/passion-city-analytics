@@ -3668,11 +3668,6 @@ table SplSundayAttInPerson_WOW
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: 702ded04-6c59-4d00-a27c-47525598e398
-			defaultHierarchy: LocalDateTable_e7176be1-245f-438c-8244-bc1654e4b674.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

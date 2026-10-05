@@ -16,11 +16,6 @@ table AnalyticsFactMetricSplSundaybloomMetrics
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: 60c4aa2a-6fa1-4255-8f6f-fba060b3eb28
-			defaultHierarchy: LocalDateTable_3933fc9d-df54-4782-bab1-3b4670fa619a.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

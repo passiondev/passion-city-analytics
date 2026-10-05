@@ -17,11 +17,6 @@ table AnalyticsDimPersonHistorical
 		summarizeBy: none
 		sourceColumn: EffectiveDate
 
-		variation Variation
-			isDefault
-			relationship: ba84d524-b845-495a-8400-4714ddcc0992
-			defaultHierarchy: LocalDateTable_03583179-c7b6-4a51-a680-e7940489ddcd.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -32,11 +27,6 @@ table AnalyticsDimPersonHistorical
 		lineageTag: 5df412dd-b673-46ce-9ede-ab105c9f4d71
 		summarizeBy: none
 		sourceColumn: ExpireDate
-
-		variation Variation
-			isDefault
-			relationship: 8feb7736-de16-4210-9d82-8d69804a1f4b
-			defaultHierarchy: LocalDateTable_371be6d4-4227-49c0-a049-203494890822.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

@@ -1,0 +1,182 @@
+table facebook_sunday_snapshot
+	lineageTag: a345b3f0-a8a5-4e25-949d-1b592e223354
+
+	measure OnlinePrevYearAttendance =
+			
+			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
+			VAR _Sel = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
+			RETURN
+			CALCULATE(
+			    [OnlineAttendance],
+			    REMOVEFILTERS('Calendar'),
+			    'Calendar'[Date] = _Sel - 364
+			)
+		lineageTag: cd13f704-4d18-4506-bb1f-302dc4cc543c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OnlineYoY =
+			
+			VAR _Cur = [OnlineAttendance]
+			VAR _Prev = [OnlinePrevYearAttendance]
+			RETURN
+			IF(_Cur > 0 && _Prev > 0, DIVIDE(_Cur - _Prev, _Prev))
+		lineageTag: d16a2fbf-9dc3-4269-8835-cf033f4fbc91
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure OnlineYoYArrow =
+			
+			VAR _YoY = [OnlineYoY]
+			RETURN
+			SWITCH(TRUE(), ISBLANK(_YoY), BLANK(), _YoY >= 0, UNICHAR(9650), UNICHAR(9660))
+		lineageTag: af371580-9bcb-45d1-bfd7-5cb7e56fa345
+
+	measure Online5WkAvg =
+			
+			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
+			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
+			VAR _Sel = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
+			VAR _Weeks =
+			    ADDCOLUMNS(
+			        GENERATESERIES(0, 9, 1),
+			        "@Date", _Sel - 7 * [Value],
+			        "@Att",
+			            VAR _d = _Sel - 7 * [Value]
+			            RETURN
+			                CALCULATE(
+			                    [OnlineAttendance],
+			                    REMOVEFILTERS('Calendar'),
+			                    'Calendar'[Date] = _d
+			                )
+			    )
+			VAR _Last5 = TOPN(5, FILTER(_Weeks, [@Att] > 0), [@Date], DESC)
+			RETURN
+			ROUND(AVERAGEX(_Last5, [@Att]), 0)
+		lineageTag: a8465017-eb81-405c-bd4b-ccb7b30567a2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Online5WkAvgVsCurrent =
+			
+			VAR _Avg = [Online5WkAvg]
+			RETURN
+			IF(_Avg > 0, DIVIDE([OnlineAttendance] - _Avg, _Avg))
+		lineageTag: 7a7f46dd-2f21-4801-b452-8470011c51ef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column video_id
+		dataType: string
+		lineageTag: ad50b399-d7f8-439b-bcee-e592e990a0b0
+		summarizeBy: none
+		sourceColumn: video_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column live_video_id
+		dataType: string
+		lineageTag: 9c6567fa-52ef-4d7b-bf90-e94f62b34b42
+		summarizeBy: none
+		sourceColumn: live_video_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column title
+		dataType: string
+		lineageTag: ce7dc750-dc5c-4d4a-a342-f9182ee73306
+		summarizeBy: none
+		sourceColumn: title
+
+		annotation SummarizationSetBy = Automatic
+
+	column gathering
+		dataType: string
+		lineageTag: 89e5a50a-fd82-413d-b1b6-f9958c85af11
+		summarizeBy: none
+		sourceColumn: gathering
+
+		annotation SummarizationSetBy = Automatic
+
+	column sunday_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f30a04c2-b282-4320-b6d5-1ad937c8bb7f
+		summarizeBy: none
+		sourceColumn: sunday_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column one_minute_views
+		dataType: int64
+		formatString: 0
+		lineageTag: fe54ddd2-04b3-495a-80e6-7c6dfc65803c
+		summarizeBy: sum
+		sourceColumn: one_minute_views
+
+		annotation SummarizationSetBy = Automatic
+
+	column broadcast_start_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 65e17d13-3b20-4904-9be0-18ff8a3bf232
+		summarizeBy: none
+		sourceColumn: broadcast_start_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column planned_start_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 46ccc0f6-9a63-400a-892a-29bbdbe1fd15
+		summarizeBy: none
+		sourceColumn: planned_start_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column creation_time
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 6d4ba5bc-c6c0-40ec-8f74-4a09a1619d06
+		summarizeBy: none
+		sourceColumn: creation_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		lineageTag: fb8c44cc-05ad-4e07-ba59-405ccae2bdc2
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column snapshot_taken_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b0a4fd18-1c25-4011-985c-4067c07cc65b
+		summarizeBy: none
+		sourceColumn: snapshot_taken_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition facebook_sunday_snapshot = m
+		mode: import
+		source =
+				let
+				    Source = PowerPlatform.Dataflows(null),
+				    Workspaces = Source{[Id="Workspaces"]}[Data],
+				    #"589387ad-ce92-442a-b77f-3eb4eb51443d" = Workspaces{[workspaceId="589387ad-ce92-442a-b77f-3eb4eb51443d"]}[Data],
+				    #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa" = #"589387ad-ce92-442a-b77f-3eb4eb51443d"{[dataflowId="ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"]}[Data],
+				    facebook_sunday_snapshot_ = #"ea17ab7e-1ce3-4cc9-bc6f-bb7507b0c3fa"{[entity="facebook_sunday_snapshot",version=""]}[Data],
+				    #"Sorted Rows" = Table.Sort(facebook_sunday_snapshot_,{{"sunday_date", Order.Descending}})
+				in
+				    #"Sorted Rows"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
