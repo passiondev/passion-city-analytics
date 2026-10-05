@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "05c48eb46d9fd9bfb729",
   "position": {
     "x": 16.58108108108101,
@@ -49,23 +49,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "22dfe7e96bd218b55fe1",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "SplSundayAttInPerson_WOW"
-              }
-            },
-            "Property": "HTML_Easter"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

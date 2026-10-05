@@ -1,13 +1,13 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "6836f4dc8c1a6b0b3c7e",
   "position": {
     "x": 48,
     "y": 304,
-    "z": 4000,
+    "z": 3000,
     "height": 368,
     "width": 240,
-    "tabOrder": 9000
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "FiveDateListSlicerPCC20260812ABC123",
