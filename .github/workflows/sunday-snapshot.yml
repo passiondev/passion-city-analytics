@@ -2,8 +2,9 @@ name: Sunday Snapshot
 
 on:
   schedule:
-    - cron: '0 1 * * 1'   # Sunday 9:00 PM Eastern (EDT, UTC-4) = Monday 1:00 AM UTC
-  workflow_dispatch:        # allows manual trigger from the Actions tab
+    - cron: '0 1 * * 1'    # Sun 9 PM ET (EDT) — provisional snapshot
+    - cron: '0 13 * * 3'   # Wed 9 AM ET (EDT) — finalizes last Sunday's LIVE views
+  workflow_dispatch:
 
 jobs:
   run-snapshot:
@@ -42,8 +43,8 @@ jobs:
         if: steps.snapshot.outcome == 'failure'
         working-directory: semantic_models/attendance
         run: |
-          if grep -qi "invalid_grant\|Token has been expired or revoked\|run_local_server" run.log; then
-            echo "::error::YouTube OAuth token has expired (Testing-mode consent, ~7-day lifetime). Re-authenticate locally to regenerate token_sunday_snapshot.json, then update the YOUTUBE_TOKEN_JSON secret."
+          if grep -qi "invalid_grant\|invalid_scope\|Token has been expired or revoked\|run_local_server\|Cannot re-consent\|HttpError 403\|insufficient" run.log; then
+            echo "::error::YouTube OAuth problem (expired token, missing analytics scope, or channel permission). Re-authenticate locally as tech@ / Passion City Church with ALL permission boxes ticked, then update the YOUTUBE_TOKEN_JSON secret."
           else
             echo "::error::Script failed for a non-auth reason — see run.log above for details."
           fi

@@ -31,14 +31,15 @@ table SplSundayAttInPerson_WOW
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure CurrentYearChristmas = ```
+	measure CurrentYearChristmas =
 			
-			VAR curyear=( Year('Calendar'[MaxselectedDate]))
-			VAR prevyear=Year('Calendar'[MaxselectedDate])-1
-			Return 
-			if(ISBLANK(CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas")),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=prevyear,SplSundayAttInPerson_WOW[EventName]="Christmas"),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas"))
-			
-			```
+			VAR curyear = YEAR ( 'Calendar'[MaxselectedDate] )
+			RETURN
+			    CALCULATE (
+			        SUM ( SplSundayAttInPerson_WOW[Count] ),
+			        YEAR ( SplSundayAttInPerson_WOW[MetricValueDateTime] ) = curyear,
+			        SplSundayAttInPerson_WOW[EventName] = "Christmas"
+			    )
 		formatString: 0
 		lineageTag: 7175ec3e-f0b6-49d7-b63b-507c3fa889d8
 
@@ -46,13 +47,15 @@ table SplSundayAttInPerson_WOW
 		formatString: 0
 		lineageTag: 6552192c-4b7e-4250-8205-be7fde8f753f
 
-	measure PrevYearChristmas = ```
+	measure PrevYearChristmas =
 			
-			VAR curyear=( Year('Calendar'[MaxselectedDate]))
-			Return 
-			if(ISBLANK(CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas")),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear-2,SplSundayAttInPerson_WOW[EventName]="Christmas"),CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear-1,SplSundayAttInPerson_WOW[EventName]="Christmas"))
-			
-			```
+			VAR prevyear = YEAR ( 'Calendar'[MaxselectedDate] ) - 1
+			RETURN
+			    CALCULATE (
+			        SUM ( SplSundayAttInPerson_WOW[Count] ),
+			        YEAR ( SplSundayAttInPerson_WOW[MetricValueDateTime] ) = prevyear,
+			        SplSundayAttInPerson_WOW[EventName] = "Christmas"
+			    )
 		lineageTag: 6762d221-352d-42fe-9534-137105e9b5ea
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -91,13 +94,7 @@ table SplSundayAttInPerson_WOW
 		formatString: 0
 		lineageTag: 690c8f15-a136-42bc-bf88-68b3d062cd66
 
-	measure ChristmasYear = ```
-			
-			VAR curyear=( Year('Calendar'[MaxselectedDate]))
-			
-			Return 
-			if(ISBLANK(CALCULATE(sum(SplSundayAttInPerson_WOW[Count]),YEAR(SplSundayAttInPerson_WOW[MetricValueDateTime])=curyear,SplSundayAttInPerson_WOW[EventName]="Christmas")),curyear-1,curyear)
-			```
+	measure ChristmasYear = YEAR ( 'Calendar'[MaxselectedDate] )
 		formatString: 0
 		lineageTag: b4f0f057-2e70-42b0-b5de-324d6015afbd
 
@@ -196,6 +193,7 @@ table SplSundayAttInPerson_WOW
 		lineageTag: 775ea975-55e8-4c00-9193-842f456738e8
 
 	measure HTML_Easter_InPerson_Chart =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Placeholder],
 			
 			VAR IsDark = [SelectedTheme] = "Dark"
 			
@@ -871,9 +869,11 @@ table SplSundayAttInPerson_WOW
 			
 			</script>
 			"
+			)
 		lineageTag: 88524a41-0505-441f-a980-7a064eac181c
 
 	measure HTML_Easter_RB_Total =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Placeholder],
 			
 			VAR IsDark =
 			    [SelectedTheme] = "Dark"
@@ -1410,9 +1410,11 @@ table SplSundayAttInPerson_WOW
 			    & "</div></div>"
 			RETURN
 			    IF ( HasData, TableHTML, EmptyHTML )
+			)
 		lineageTag: f17816ae-5230-4c24-9d7f-f4fd624aa41d
 
 	measure HTML_Easter_RB_515 =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Placeholder],
 			
 			VAR IsDark =
 			[SelectedTheme] = "Dark"
@@ -2136,9 +2138,11 @@ table SplSundayAttInPerson_WOW
 			& "</div></div>"
 			RETURN
 			IF ( HasData, TableHTML, EmptyHTML )
+			)
 		lineageTag: 720f6577-d3e2-43b0-a9f8-160425b1a6ce
 
 	measure HTML_Easter_RB_CBL =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Placeholder],
 			
 			VAR IsDark =
 			    [SelectedTheme] = "Dark"
@@ -2862,9 +2866,11 @@ table SplSundayAttInPerson_WOW
 			    & "</div></div>"
 			RETURN
 			    IF ( HasData, TableHTML, EmptyHTML )
+			)
 		lineageTag: 7a2033fe-29a9-4721-88b9-1bf4e3728ab5
 
 	measure HTML_Easter_RB_TRL =
+			IF ( [Easter_Status] <> "Show", [HTML_Easter_Placeholder],
 			
 			VAR IsDark =
 			    [SelectedTheme] = "Dark"
@@ -3588,6 +3594,7 @@ table SplSundayAttInPerson_WOW
 			    & "</div></div>"
 			RETURN
 			    IF ( HasData, TableHTML, EmptyHTML )
+			)
 		lineageTag: 99c15a17-04c0-4a08-bb61-d40c0448fef6
 
 	measure HTML_Christmas = ```

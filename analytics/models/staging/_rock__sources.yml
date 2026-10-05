@@ -83,3 +83,51 @@ sources:
             description: Ingestion metadata — timestamp this row was loaded into BigQuery bronze by the polling script.
           - name: _source_system
             description: Ingestion metadata — constant "rock_rms", useful once bronze holds multiple source systems.
+
+      - name: rock_groups
+        description: >
+          Raw extract of Rock's `dbo.Group` table. Covers families, small
+          groups, serving teams, and security roles — Group is a general-
+          purpose entity in Rock, distinguished by GroupTypeId. One row
+          per group record, including inactive and archived groups.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal surrogate integer ID for the group record.
+            tests:
+              - unique
+              - not_null
+          - name: Guid
+            description: Rock's stable GUID for the group, safe across environments/exports.
+          - name: ParentGroupId
+            description: Foreign key to this group's parent group, if nested in a hierarchy.
+          - name: GroupTypeId
+            description: Foreign key to GroupType — determines what kind of group this is (family, small group, serving team, security role, etc.).
+          - name: CampusId
+            description: Foreign key to the campus this group is associated with.
+          - name: Name
+            description: Display name of the group.
+          - name: Description
+            description: Free-text description of the group.
+          - name: IsSecurityRole
+            description: True if this "group" is actually a security role rather than a real group — Rock overloads the Group table for both.
+          - name: IsActive
+            description: Whether the group is currently active in Rock.
+          - name: IsArchived
+            description: Whether the group has been archived (soft-deleted) in Rock.
+          - name: ArchivedDateTime
+            description: Timestamp the group was archived, if applicable.
+          - name: StatusValueId
+            description: Foreign key to DefinedValue for the group's status, where applicable to the group type.
+          - name: GroupAdministratorPersonAliasId
+            description: Foreign key (via PersonAlias) to the person administering this group.
+          - name: InactiveDateTime
+            description: Timestamp the group was marked inactive, if applicable.
+          - name: CreatedDateTime
+            description: Timestamp the record was created in Rock.
+          - name: ModifiedDateTime
+            description: Timestamp the record was last modified in Rock.
+          - name: _loaded_at
+            description: Ingestion metadata — timestamp this row was loaded into BigQuery bronze.
+          - name: _source_system
+            description: Ingestion metadata — constant "rock_rms".

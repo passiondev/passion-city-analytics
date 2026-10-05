@@ -131,6 +131,258 @@ TABLE_CONFIGS = {
         ],
     },
 
+    "group": {
+        "source_table": "dbo.[Group]",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_groups",
+        "columns": [
+            "Id",
+            "IsSystem",
+            "ParentGroupId",
+            "GroupTypeId",
+            "CampusId",
+            "Name",
+            "Description",
+            "IsSecurityRole",
+            "IsActive",
+            "Order",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "AllowGuests",
+            "ScheduleId",
+            "IsPublic",
+            "ForeignGuid",
+            "ForeignId",
+            "GroupCapacity",
+            "RequiredSignatureDocumentTemplateId",
+            "InactiveDateTime",
+            "IsArchived",
+            "ArchivedDateTime",
+            "ArchivedByPersonAliasId",
+            "StatusValueId",
+            "GroupAdministratorPersonAliasId",
+            "SchedulingMustMeetRequirements",
+            "AttendanceRecordRequiredForCheckIn",
+            "ScheduleCoordinatorPersonAliasId",
+            "InactiveReasonValueId",
+            "InactiveReasonNote",
+            "RSVPReminderSystemCommunicationId",
+            "RSVPReminderOffsetDays",
+            "DisableScheduleToolboxAccess",
+            "DisableScheduling",
+            "GroupSalutation",
+            "GroupSalutationFull",
+            "ElevatedSecurityLevel",
+            "ConfirmationAdditionalDetails",
+            "ReminderSystemCommunicationId",
+            "ReminderOffsetDays",
+            "ReminderAdditionalDetails",
+            "ScheduleConfirmationLogic",
+            "RelationshipGrowthEnabledOverride",
+            "RelationshipStrengthOverride",
+            "LeaderToLeaderRelationshipMultiplierOverride",
+            "LeaderToNonLeaderRelationshipMultiplierOverride",
+            "NonLeaderToNonLeaderRelationshipMultiplierOverride",
+            "NonLeaderToLeaderRelationshipMultiplierOverride",
+            "IsSpecialNeeds",
+            "ScheduleCoordinatorNotificationTypes",
+            "IsChatEnabledOverride",
+            "IsLeavingChatChannelAllowedOverride",
+            "IsChatChannelPublicOverride",
+            "IsChatChannelAlwaysShownOverride",
+            "ChatChannelKey",
+            "GroupMemberRecordSourceValueId",
+            "ChatChannelAvatarBinaryFileId",
+            "ChatPushNotificationModeOverride",
+        ],
+    },
+
+    "person_historical": {
+        "source_table": "dbo.AnalyticsDimPersonHistorical",
+        "primary_key": "Id",
+        "modified_column": "EffectiveDate",  # unused — this table is loaded via --mode full only
+        "bq_table": "rock_analytics_dim_person_historical",
+        "columns": [
+            "Id",
+            "PersonId",
+            "CurrentRowIndicator",
+            "EffectiveDate",
+            "ExpireDate",
+            "PrimaryFamilyId",
+            "RecordTypeValueId",
+            "RecordStatusValueId",
+            "RecordStatusLastModifiedDateTime",
+            "RecordStatusReasonValueId",
+            "ConnectionStatusValueId",
+            "ReviewReasonValueId",
+            "IsDeceased",
+            "TitleValueId",
+            "FirstName",
+            "NickName",
+            "MiddleName",
+            "LastName",
+            "SuffixValueId",
+            "PhotoId",
+            "BirthDay",
+            "BirthMonth",
+            "BirthYear",
+            "BirthDateKey",
+            "Age",
+            "Gender",
+            "MaritalStatusValueId",
+            "AnniversaryDate",
+            "GraduationYear",
+            "GivingGroupId",
+            "GivingId",
+            "GivingLeaderId",
+            "Email",
+            "EmailPreference",
+            "ReviewReasonNote",
+            "InactiveReasonNote",
+            "SystemNote",
+            "ViewedCount",
+            "Guid",
+            "ForeignId",
+            "ForeignGuid",
+            "ForeignKey",
+            "Count",
+            "core_CurrentlyAnEra",
+            "core_EraStartDate",
+            "core_EraFirstGave",
+            "core_EraLastGave",
+            "core_TimesCheckedIn16Wks",
+            "core_EraTimesGiven52Wks",
+            "core_EraTimesGiven6Wks",
+            "CurrentJourneyGivingStage",
+            "FrequencyLabel",
+            "GiftAmountIQR",
+            "GiftAmountMedian",
+            "GiftFrequencyDaysMean",
+            "GiftFrequencyDaysStandardDeviation",
+            "GivingBin",
+            "GivingPercentile",
+            "LastClassificationRunDateTime",
+            "NextExpectedGiftDate",
+            "PreferredCurrency",
+            "PreviousJourneyGivingStage",
+            "JourneyGivingStageChangeDate",
+            "DonorFundsOrganization",
+            "MaritalStatus",
+            "ConnectionStatus",
+            "ReviewReason",
+            "RecordStatus",
+            "RecordStatusReason",
+            "RecordType",
+            "Suffix",
+            "Title",
+            "GenderText",
+            "EmailPreferenceText",
+            "CampusId",
+            "CampusName",
+            "CampusShortCode",
+            "PrimaryFamilyKey",
+            "MailingAddressStreet1",
+            "MailingAddressStreet2",
+            "MailingAddressCity",
+            "MailingAddressCounty",
+            "MailingAddressState",
+            "MailingAddressCountry",
+            "MailingAddressPostalCode",
+            "MailingAddressLatitude",
+            "MailingAddressLongitude",
+            "MailingAddressFull",
+            "MappedAddressStreet1",
+            "MappedAddressStreet2",
+            "MappedAddressCity",
+            "MappedAddressCounty",
+            "MappedAddressState",
+            "MappedAddressCountry",
+            "MappedAddressPostalCode",
+            "MappedAddressLatitude",
+            "MappedAddressLongitude",
+            "MappedAddressFull",
+        ],
+    },
+
+        "transaction": {
+        "source_table": "dbo.FinancialTransaction",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_financial_transactions",
+        "columns": [
+            "Id",
+            "BatchId",
+            "TransactionDateTime",
+            "TransactionCode",
+            "Summary",
+            "TransactionTypeValueId",
+            "SourceTypeValueId",
+            "CheckMicrEncrypted",
+            "ScheduledTransactionId",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "ProcessedByPersonAliasId",
+            "ProcessedDateTime",
+            "CheckMicrHash",
+            "AuthorizedPersonAliasId",
+            "FinancialGatewayId",
+            "FinancialPaymentDetailId",
+            "MICRStatus",
+            "CheckMicrParts",
+            "ForeignGuid",
+            "ForeignId",
+            "Status",
+            "StatusMessage",
+            "IsSettled",
+            "SettledGroupId",
+            "SettledDate",
+            "IsReconciled",
+            "ShowAsAnonymous",
+            "FutureProcessingDateTime",
+            "NonCashAssetTypeValueId",
+            "SundayDate",
+            "TransactionDateKey",
+            "SettledDateKey",
+            "ForeignCurrencyCodeValueId",
+        ],
+    },
+
+        "transaction_detail": {
+        "source_table": "dbo.FinancialTransactionDetail",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_financial_transaction_details",
+        "columns": [
+            "Id",
+            "TransactionId",
+            "AccountId",
+            "Amount",
+            "Summary",
+            "EntityTypeId",
+            "EntityId",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "ForeignGuid",
+            "ForeignId",
+            "FeeAmount",
+            "FeeCoverageAmount",
+            "ForeignCurrencyAmount",
+        ],
+    },
+
     # Example of what adding a second table looks like — fill in real columns
     # before using. Rock's Group table is a common next candidate (families,
     # small groups, serving teams all live here).
@@ -275,7 +527,11 @@ def reconcile_deletes(config: dict, project_id: str, dataset: str) -> None:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--table", choices=sorted(TABLE_CONFIGS.keys()), help="Which configured table to load")
+    parser.add_argument(
+    "--table",
+    choices=sorted(TABLE_CONFIGS.keys()) + ["all"],
+    help="Which configured table to load, or 'all' to load every configured table",
+)
     parser.add_argument("--mode", choices=["full", "incremental"], default="full")
     parser.add_argument(
         "--reconcile-deletes",
@@ -296,20 +552,24 @@ def main():
         return
 
     if not args.table:
-        parser.error("--table is required (or use --list-tables to see options)")
+        parser.error("--table is required (use 'all' for every configured table, or --list-tables to see options)")
 
-    config = TABLE_CONFIGS[args.table]
+    tables_to_run = list(TABLE_CONFIGS.keys()) if args.table == "all" else [args.table]
 
-    df = extract(config, args.mode)
-    if df.empty:
-        print("No rows extracted; exiting.")
-    else:
-        load_to_bigquery(df, config, args.mode)
+    for table_key in tables_to_run:
+        print(f"--- {table_key} ---")
+        config = TABLE_CONFIGS[table_key]
 
-    if args.reconcile_deletes:
-        project_id = os.environ["GCP_PROJECT_ID"]
-        dataset = os.environ.get("BQ_BRONZE_DATASET", "bronze")
-        reconcile_deletes(config, project_id, dataset)
+        df = extract(config, args.mode)
+        if df.empty:
+            print("No rows extracted; skipping.")
+        else:
+            load_to_bigquery(df, config, args.mode)
+
+        if args.reconcile_deletes:
+            project_id = os.environ["GCP_PROJECT_ID"]
+            dataset = os.environ.get("BQ_BRONZE_DATASET", "bronze")
+            reconcile_deletes(config, project_id, dataset)
 
 
 if __name__ == "__main__":
