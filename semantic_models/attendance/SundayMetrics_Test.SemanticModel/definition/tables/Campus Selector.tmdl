@@ -1642,7 +1642,7 @@ table 'Campus Selector'
 			    _Labels & "|" & _ATL & "|" & _515 & "|" & _CBL & "|" & _TRL
 		lineageTag: a6219606-0038-4f6e-96dc-45c0d6d098ad
 
-	measure HTML_5WeekOverview =
+	measure HTML_5WeekOverview = ```
 			
 			
 			VAR _theme = [HTML_Theme]
@@ -1650,6 +1650,8 @@ table 'Campus Selector'
 			VAR _campus = [HTML_SelectedCampus]
 			
 			VAR _data = SUBSTITUTE([HTML_5WeekData], """", "")
+			
+			VAR _gdata = SUBSTITUTE([HTML_5WeekGatheringData], """", "")
 			
 			VAR _isDark = _theme = "Dark"
 			
@@ -1673,9 +1675,21 @@ table 'Campus Selector'
 			
 			VAR _avgBorder = IF(_isDark, "#222222", "#dddddd")
 			
+			VAR _segOn = IF(_isDark, "#262626", "#ffffff")
+			
+			VAR _zero = IF(_isDark, "rgba(255,255,255,0.35)", "rgba(0,0,0,0.35)")
+			
+			VAR _ttBg = IF(_isDark, "#1a1a1a", "#ffffff")
+			
+			VAR _ttBr = IF(_isDark, "#2a2a2a", "#dddddd")
+			
+			VAR _ttTx = IF(_isDark, "#ffffff", "#111111")
+			
 			RETURN
 			
-			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:630px;min-width:630px;}.hdr{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.avg-pill{margin-left:auto;background:" & _avgBg & ";border-radius:8px;padding:5px 14px;border:1px solid " & _avgBorder & ";text-align:center;flex-shrink:0;}.avg-lbl{font-size:9px;color:" & _axisColor & ";text-transform:uppercase;letter-spacing:0.07em;}.avg-val{font-size:16px;font-weight:700;}.cb{background:" & _cardBg & ";border-radius:10px;padding:14px 16px;}.card-label{font-size:10px;color:" & _txt & ";text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;}.chart-wrap{display:flex;gap:6px;}.y-axis{width:36px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;height:200px;padding-top:2px;}.y-lbl{font-size:10px;color:" & _axisColor & ";text-align:right;}.chart-right{flex:1;display:flex;flex-direction:column;}.canvas-wrap{position:relative;height:200px;}.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;}.labels-row{display:flex;margin-top:8px;}.lbl-cell{flex:1;text-align:center;font-size:9px;color:" & _txt & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}</style>" &
+			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:630px;min-width:630px;}.hdr{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.avg-pill{margin-left:auto;background:" & _avgBg & ";border-radius:8px;padding:5px 14px;border:1px solid " & _avgBorder & ";text-align:center;flex-shrink:0;}.avg-lbl{font-size:9px;color:" & _axisColor & ";text-transform:uppercase;letter-spacing:0.07em;}.avg-val{font-size:16px;font-weight:700;}.cb{background:" & _cardBg & ";border-radius:10px;padding:14px 16px;}.card-label{font-size:10px;color:" & _txt & ";text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;}.chart-wrap{display:flex;gap:6px;}.y-axis{width:36px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;height:200px;padding-top:2px;}.y-lbl{font-size:10px;color:" & _axisColor & ";text-align:right;}.chart-right{flex:1;display:flex;flex-direction:column;}.canvas-wrap{position:relative;height:200px;}.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;}.labels-row{display:flex;margin-top:8px;}.lbl-cell{flex:1;text-align:center;font-size:9px;color:" & _txt & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}" &
+			
+			".opts{display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 12px;}.seg{display:inline-flex;border:1px solid " & _tabBorder & ";border-radius:8px;overflow:hidden;}.sg{font-size:11px;padding:4px 10px;cursor:pointer;color:" & _tabColor & ";background:" & _tabBg & ";user-select:none;}.sg.on{background:" & _segOn & ";color:var(--ac);font-weight:600;}.lbl-sub{display:block;font-size:8px;opacity:0.65;margin-top:2px;}.lgd{font-size:9px;margin-left:10px;text-transform:none;letter-spacing:0;}.tt{position:absolute;display:none;pointer-events:none;z-index:5;background:" & _ttBg & ";border:1px solid " & _ttBr & ";color:" & _ttTx & ";border-radius:6px;padding:7px 9px;font-size:11px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.25);}.tt-h{font-size:10px;opacity:0.6;margin-bottom:4px;}.tt-r{display:flex;justify-content:space-between;gap:14px;line-height:1.5;}</style>" &
 			
 			"<div class=""w""><div class=""hdr""><div class=""tabs"">" &
 			
@@ -1689,25 +1703,36 @@ table 'Campus Selector'
 			
 			"</div>" &
 			
-			"<div class=""avg-pill""><div class=""avg-lbl"">5 Week Avg</div><div class=""avg-val"" id=""avg-val"">—</div></div>" &
+			"<div class=""avg-pill""><div class=""avg-lbl"" id=""avg-lbl"">5 Week Avg</div><div class=""avg-val"" id=""avg-val"">—</div></div>" &
 			
 			"</div>" &
 			
-			"<div class=""cb""><div class=""card-label"">5 week overview</div>" &
+			"<div class=""opts"" id=""opts"" style=""display:none;"">" &
+			
+			"<div class=""seg"" id=""segG""><span class=""sg on"" data-v=""All"">All</span><span class=""sg"" data-v=""9:30am Gathering"">9:30</span><span class=""sg"" data-v=""11:45am Gathering"">11:45</span></div>" &
+			
+			"<div class=""seg"" id=""segV""><span class=""sg on"" data-v=""cnt"">Attendance</span><span class=""sg"" data-v=""wow"">WoW %</span><span class=""sg"" data-v=""yoy"">YoY %</span></div>" &
+			
+			"</div>" &
+			
+			"<div class=""cb""><div class=""card-label"" id=""card-label"">5 week overview</div>" &
 			
 			"<div class=""chart-wrap""><div class=""y-axis"" id=""y-axis""></div>" &
 			
 			"<div class=""chart-right""><div class=""canvas-wrap"">" &
 			
-			"<canvas id=""chart-canvas""></canvas>" &
+			"<canvas id=""chart-canvas""></canvas><div class=""tt"" id=""tt""></div>" &
 			
 			"</div><div class=""labels-row"" id=""labels-row""></div>" &
 			
 			"</div></div></div></div>" &
 			
-			"<script>(function(){" &
+			"<script>" &
+			"(function(){" &
 			
 			"var RAW=""" & _data & """;" &
+			
+			"var RAW_G=""" & _gdata & """;" &
 			
 			"var IS_DARK=" & IF(_isDark, "true", "false") & ";" &
 			
@@ -1717,21 +1742,45 @@ table 'Campus Selector'
 			
 			"var TXTCOL=""" & _txt & """;" &
 			
-			"var CAMPUS=[" &
+			"var ZERO=""" & _zero & """;" &
 			
-			"{color:IS_DARK?""#ffffff"":""#111111""}," &
+			"var TTBG=""" & _ttBg & """;var TTBR=""" & _ttBr & """;var TTTX=""" & _ttTx & """;" &
 			
-			"{color:""#00B8E4""}," &
+			"var CAMPUS=[{color:IS_DARK?""#ffffff"":""#111111""},{color:""#00B8E4""},{color:""#FF641C""},{color:""#931EE7""}];" &
 			
-			"{color:""#FF641C""}," &
+			"var KEYS=["""",""515"",""Cumberland"",""Trilith""];" &
 			
-			"{color:""#931EE7""}" &
+			"var UP=""#22C55E"";var DOWN=""#EF4444"";var LYC=IS_DARK?""#777777"":""#aaaaaa"";" &
 			
-			"];" &
+			"var HOVER=null;var gMode=""All"";var vMode=""cnt"";var curIdx=0;var G=null;" &
+			
+			"var GL={""All"":""All"",""9:30am Gathering"":""9:30"",""11:45am Gathering"":""11:45""};" &
 			
 			"function getIdx(){var c=""" & SUBSTITUTE(_campus, """", "") & """;if(c===""515"")return 1;if(c===""Cumberland"")return 2;if(c===""Trilith"")return 3;return 0;}" &
 			
 			"function parse(s){return s.split("","").map(function(v){return parseInt(v)||0;});}" &
+			
+			"function pn(s){return (s||"""").split("","").map(function(v){if(v==="""")return null;var n=parseFloat(v);return isNaN(n)?null:n;});}" &
+			
+			"function getG(){var s=RAW_G.split(""||"");var top=(s[0]||"""").split(""|"");var L={cur:(top[0]||"""").split("",""),pw:(top[1]||"""").split("",""),py:(top[2]||"""").split("","")};var map={};(s[1]||"""").split(""|"").forEach(function(b){var p=b.split(""~"");if(p.length<5)return;map[p[0]+""~""+p[1]]={cur:pn(p[2]),pw:pn(p[3]),py:pn(p[4])};});return{L:L,map:map};}" &
+			
+			"function pct(a,b){return (a==null||b==null||b===0)?null:(a-b)/b*100;}" &
+			
+			"function fp(v){return v==null?""—"":(v>0?""+"":"""")+v.toFixed(1)+""%"";}" &
+			
+			"function fk(v){return v>=1000?(v/1000).toFixed(1)+""K"":v;}" &
+			
+			"function shortYr(l){var sp=(l||"""").split(""~"");return sp[0]+(sp[1]?"" '""+sp[1].slice(2):"""");}" &
+			
+			"function fdt(l){var sp=(l||"""").split(""~"");return sp[0]+(sp[1]?"", ""+sp[1]:"""");}" &
+			
+			"function fn(v){return v==null?""no data"":Math.round(v).toLocaleString();}" &
+			
+			"function fd(a,b){if(a==null||b==null)return ""—"";var d=a-b;return (d>0?""+"":"""")+Math.round(d).toLocaleString()+"" (""+fp(pct(a,b))+"")"";}" &
+			
+			"function tip(head,rows){var h=""<div class='tt-h'>""+head+""</div>"";rows.forEach(function(r){h+=""<div class='tt-r'><span>""+r[0]+""</span><b""+(r[2]?"" style='color:""+r[2]+""'"":"""")+"">""+r[1]+""</b></div>"";});return h;}" &
+			
+			"function dc(a,b){var p=pct(a,b);return p==null?TXTCOL:(p>=0?UP:DOWN);}" &
 			
 			"var animId=null;" &
 			
@@ -1739,25 +1788,25 @@ table 'Campus Selector'
 			
 			"var eio=function(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;};" &
 			
-			"function render(i){" &
+			"function setup(){var canvas=document.getElementById(""chart-canvas"");var W=canvas.parentNode.offsetWidth||500;var H=canvas.parentNode.offsetHeight||200;canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+""px"";canvas.style.height=H+""px"";var ctx=canvas.getContext(""2d"");ctx.scale(2,2);var PT=20,PB=4,PL=30,PR=30;return{ctx:ctx,W:W,H:H,PT:PT,PL:PL,PR:PR,cW:W-PL-PR,cH:H-PT-PB};}" &
 			
-			"if(animId)cancelAnimationFrame(animId);" &
+			"function yAxis(min,step,steps,fmt){var h="""";for(var s=steps;s>=0;s--){h+=""<div class='y-lbl'>""+fmt(min+step*s)+""</div>"";}document.getElementById(""y-axis"").innerHTML=h;}" &
 			
-			"var c=CAMPUS[i];" &
+			"function labelsRow(labels,subs){var h="""";var prevYr="""";labels.forEach(function(l,idx){var sp=l.split(""~"");var yr=sp[1];var display=sp[0]+(yr!==prevYr?"" ""+yr:"""");prevYr=yr;h+=""<div class='lbl-cell'>""+display+(subs?""<span class='lbl-sub'>""+subs[idx]+""</span>"":"""")+""</div>"";});document.getElementById(""labels-row"").innerHTML=h;}" &
 			
-			"var parts=RAW.split(""|"");" &
+			"function pillCount(label,a,color){document.getElementById(""avg-lbl"").textContent=label;var el=document.getElementById(""avg-val"");el.style.color=color;var start=null;var dur=800;var ease=function(t){return 1-Math.pow(1-t,3);};function tick(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(ease(p)*a).toLocaleString();if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}" &
 			
-			"var labels=parts[0].split("","");" &
+			"function pillText(label,text,color){document.getElementById(""avg-lbl"").textContent=label;var el=document.getElementById(""avg-val"");el.style.color=color;el.textContent=text;}" &
 			
-			"var vals=parse(parts[i+1]);" &
+			"function drawGrid(ctx,S,steps){for(var g=0;g<=steps;g++){var gy=S.PT+g*(S.cH/steps);ctx.strokeStyle=GRID;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(S.PL,gy);ctx.lineTo(S.W-S.PR,gy);ctx.stroke();}}" &
 			
-			"var a=Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length);" &
+			"function stroke(ctx,pts,maxIdx){ctx.beginPath();var on=false;pts.forEach(function(p,idx){if(p.y==null){on=false;return;}if(idx>maxIdx){var q=pts[idx-1];if(on&&q&&q.y!=null&&idx-1<maxIdx){var f=maxIdx-(idx-1);ctx.lineTo(q.x+(p.x-q.x)*f,q.y+(p.y-q.y)*f);}on=false;return;}if(!on){ctx.moveTo(p.x,p.y);on=true;}else{ctx.lineTo(p.x,p.y);}});ctx.stroke();}" &
 			
-			"var avgEl=document.getElementById(""avg-val"");" &
+			"function drawLine(vals,color,labels,avg,tips){" &
 			
-			"avgEl.style.color=c.color;" &
+			"var a=avg!=null?avg:Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length);" &
 			
-			"(function(){var start=null;var dur=800;var ease=function(t){return 1-Math.pow(1-t,3);};function tick(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);avgEl.textContent=Math.floor(ease(p)*a).toLocaleString();if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);})();" &
+			"pillCount(""5 Week Avg"",a,color);" &
 			
 			"var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);" &
 			
@@ -1769,105 +1818,155 @@ table 'Campus Selector'
 			
 			"yMax=yMin+stepVal*steps;" &
 			
-			"var yHtml="""";for(var s=steps;s>=0;s--){var v=yMin+stepVal*s;yHtml+=""<div class='y-lbl'>""+( v>=1000?(v/1000).toFixed(1)+""K"":v)+""</div>"";}document.getElementById(""y-axis"").innerHTML=yHtml;" &
+			"yAxis(yMin,stepVal,steps,fk);labelsRow(labels);" &
 			
-			"var lHtml="""";var prevYr="""";labels.forEach(function(l){var sp=l.split(""~"");var dateStr=sp[0];var yr=sp[1];var display=dateStr+(yr!==prevYr?"" ""+yr:"""");prevYr=yr;lHtml+=""<div class='lbl-cell'>""+display+""</div>"";});document.getElementById(""labels-row"").innerHTML=lHtml;" &
+			"var S=setup();var ctx=S.ctx;var n=vals.length;" &
 			
-			"var canvas=document.getElementById(""chart-canvas"");" &
+			"function xp(idx){return S.PL+idx*(S.cW/(n-1));}" &
 			
-			"var W=canvas.parentNode.offsetWidth||500;var H=canvas.parentNode.offsetHeight||200;" &
-			
-			"canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+""px"";canvas.style.height=H+""px"";" &
-			
-			"var ctx=canvas.getContext(""2d"");ctx.scale(2,2);" &
-			
-			"var PT=20;var PB=4;var PL=30;var PR=30;" &
-			
-			"var cW=W-PL-PR;var cH=H-PT-PB;var n=vals.length;" &
-			
-			"function xp(idx){return PL+idx*(cW/(n-1));}" &
-			
-			"function yp(v){return PT+cH-(((v-yMin)/(yMax-yMin))*cH);}" &
+			"function yp(v){return S.PT+S.cH-(((v-yMin)/(yMax-yMin))*S.cH);}" &
 			
 			"var pts=vals.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});" &
 			
-			"function drawGrid(){for(var g=0;g<=steps;g++){var gy=PT+g*(cH/steps);ctx.strokeStyle=GRID;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,gy);ctx.lineTo(W-PR,gy);ctx.stroke();}}" &
+			"HOVER={xs:pts.map(function(p){return p.x;}),ys:pts.map(function(p){return p.y;}),items:tips||vals.map(function(v,idx){return tip(fdt(labels[idx]),[[""Attendance"",fn(v)]]);})};" &
 			
-			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;" &
+			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;var startT=null;" &
 			
-			"var startT=null;" &
+			"function frame(ts){if(!startT)startT=ts;var elapsed=ts-startT;ctx.clearRect(0,0,S.W,S.H);drawGrid(ctx,S,steps);" &
 			
-			"function frame(ts){" &
+			"var lp=Math.min(elapsed/LINE_DUR,1);var maxIdx=eio(lp)*(n-1);" &
 			
-			"if(!startT)startT=ts;" &
+			"ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin=""round"";ctx.lineCap=""round"";stroke(ctx,pts,maxIdx);" &
 			
-			"var elapsed=ts-startT;" &
+			"pts.forEach(function(p,idx){if(idx<=maxIdx){ctx.beginPath();ctx.fillStyle=color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
 			
-			"ctx.clearRect(0,0,W,H);drawGrid();" &
+			"if(elapsed>LINE_DUR){var la=(elapsed-LINE_DUR)/LABEL_DUR;pts.forEach(function(p,idx){var pt=Math.max(0,(la-idx/n)/0.4);var ep=bounce(Math.min(pt,1));if(ep>0){ctx.globalAlpha=Math.min(ep*2,1);ctx.fillStyle=color;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";ctx.fillText(p.v.toLocaleString(),p.x,p.y-10);ctx.globalAlpha=1;}});}" &
 			
-			"var lp=Math.min(elapsed/LINE_DUR,1);var lep=eio(lp);var maxIdx=lep*(n-1);" &
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;}" &
 			
-			"ctx.beginPath();ctx.strokeStyle=c.color;ctx.lineWidth=2.5;ctx.lineJoin=""round"";ctx.lineCap=""round"";" &
+			"animId=requestAnimationFrame(frame);}" &
 			
-			"pts.forEach(function(p,idx){" &
+			"function drawBars(p,labels,subs,tips){" &
 			
-			"if(idx===0){ctx.moveTo(p.x,p.y);return;}" &
+			"var nn=p.filter(function(v){return v!=null;});" &
 			
-			"if(idx<=maxIdx){ctx.lineTo(p.x,p.y);}" &
+			"var avg=nn.length?nn.reduce(function(s,v){return s+v;},0)/nn.length:null;" &
 			
-			"else if(idx-1<maxIdx){" &
+			"pillText(""Avg WoW"",fp(avg),avg==null?TXTCOL:(avg>=0?UP:DOWN));" &
 			
-			"var frac=maxIdx-(idx-1);" &
+			"var lo=Math.min.apply(null,[0].concat(nn));var hi=Math.max.apply(null,[0].concat(nn));" &
 			
-			"ctx.lineTo(pts[idx-1].x+(p.x-pts[idx-1].x)*frac,pts[idx-1].y+(p.y-pts[idx-1].y)*frac);" &
+			"if(hi===lo){hi=5;}var pad=(hi-lo)*0.25;if(lo<0)lo-=pad;if(hi>0)hi+=pad;" &
 			
-			"}" &
+			"var steps=4;var raw=(hi-lo)/steps;var mag=Math.pow(10,Math.floor(Math.log10(raw||1)));var step=Math.ceil(raw/mag)*mag||1;var min=Math.floor(lo/step)*step;while(min+step*steps<hi){step+=mag;min=Math.floor(lo/step)*step;}var max=min+step*steps;" &
 			
-			"});ctx.stroke();" &
+			"yAxis(min,step,steps,function(v){v=Math.round(v*10)/10;return (v>0?""+"":"""")+v+""%"";});labelsRow(labels,subs);" &
 			
-			"pts.forEach(function(p,idx){if(idx<=maxIdx){ctx.beginPath();ctx.fillStyle=c.color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
+			"var S=setup();var ctx=S.ctx;var n=p.length;var bw=Math.min(44,S.cW/n*0.5);" &
 			
-			"if(elapsed>LINE_DUR){" &
+			"function xp(idx){return S.PL+idx*(S.cW/(n-1));}" &
 			
-			"var la=(elapsed-LINE_DUR)/LABEL_DUR;" &
+			"function yp(v){return S.PT+S.cH-(((v-min)/(max-min))*S.cH);}" &
 			
-			"pts.forEach(function(p,idx){" &
+			"var y0=yp(0);HOVER={xs:p.map(function(v,idx){return xp(idx);}),ys:p.map(function(v){return v==null?y0:Math.min(y0,yp(v));}),items:tips};var BAR_DUR=600;var LABEL_DUR=400;var TOTAL=BAR_DUR+LABEL_DUR+200;var startT=null;" &
 			
-			"var delay=idx/n;" &
+			"function frame(ts){if(!startT)startT=ts;var elapsed=ts-startT;ctx.clearRect(0,0,S.W,S.H);drawGrid(ctx,S,steps);" &
 			
-			"var pt=Math.max(0,(la-delay)/0.4);" &
+			"ctx.strokeStyle=ZERO;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(S.PL,y0);ctx.lineTo(S.W-S.PR,y0);ctx.stroke();" &
 			
-			"var ep=bounce(Math.min(pt,1));" &
+			"var ep=eio(Math.min(elapsed/BAR_DUR,1));" &
 			
-			"if(ep>0){" &
+			"p.forEach(function(v,idx){if(v==null)return;var x=xp(idx);var yt=y0+(yp(v)-y0)*ep;ctx.fillStyle=v>=0?UP:DOWN;ctx.fillRect(x-bw/2,Math.min(y0,yt),bw,Math.abs(yt-y0));});" &
 			
-			"ctx.ATLAlpha=Math.min(ep*2,1);" &
+			"if(elapsed>BAR_DUR){var la=Math.min((elapsed-BAR_DUR)/LABEL_DUR,1);ctx.globalAlpha=la;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";p.forEach(function(v,idx){var x=xp(idx);if(v==null){ctx.fillStyle=TXTCOL;ctx.fillText(""—"",x,y0-6);return;}ctx.fillStyle=v>=0?UP:DOWN;ctx.fillText(fp(v),x,v>=0?yp(v)-6:yp(v)+14);});ctx.globalAlpha=1;}" &
 			
-			"ctx.fillStyle=c.color;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";" &
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;}" &
 			
-			"ctx.fillText(p.v.toLocaleString(),p.x,p.y-10);" &
+			"animId=requestAnimationFrame(frame);}" &
 			
-			"ctx.ATLAlpha=1;" &
+			"function drawYoY(cur,py,color,labels,subs,tips){" &
 			
-			"}" &
+			"var sc=0,sp=0;cur.forEach(function(v,idx){if(v!=null&&py[idx]!=null){sc+=v;sp+=py[idx];}});var yoy=sp?(sc-sp)/sp*100:null;" &
 			
-			"});" &
+			"pillText(""5 Wk YoY"",fp(yoy),yoy==null?TXTCOL:(yoy>=0?UP:DOWN));" &
 			
-			"}" &
+			"var all=cur.concat(py).filter(function(v){return v!=null;});if(!all.length)all=[0];" &
 			
-			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;" &
+			"var max=Math.max.apply(null,all);var min=Math.min.apply(null,all);" &
 			
-			"}" &
+			"var pad=Math.round((max-min)*0.4);var yMax=max+pad;var yMin=Math.max(0,min-pad);" &
 			
-			"animId=requestAnimationFrame(frame);" &
+			"var steps=4;var raw=(yMax-yMin)/steps;var mag=Math.pow(10,Math.floor(Math.log10(raw||1)));var stepVal=Math.ceil(raw/mag)*mag||1000;yMax=yMin+stepVal*steps;" &
 			
-			"document.querySelectorAll("".tab"").forEach(function(t){t.classList.remove(""active"");if(Number(t.dataset.i)===i)t.classList.add(""active"");});}" &
+			"yAxis(yMin,stepVal,steps,fk);labelsRow(labels,subs);" &
+			
+			"var S=setup();var ctx=S.ctx;var n=cur.length;" &
+			
+			"function xp(idx){return S.PL+idx*(S.cW/(n-1));}" &
+			
+			"function yp(v){return v==null?null:S.PT+S.cH-(((v-yMin)/(yMax-yMin))*S.cH);}" &
+			
+			"var pc=cur.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});var pl=py.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});HOVER={xs:pc.map(function(p){return p.x;}),ys:pc.map(function(p,idx){var a=[p.y,pl[idx].y].filter(function(y){return y!=null;});return a.length?Math.min.apply(null,a):S.PT;}),items:tips};" &
+			
+			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;var startT=null;" &
+			
+			"function frame(ts){if(!startT)startT=ts;var elapsed=ts-startT;ctx.clearRect(0,0,S.W,S.H);drawGrid(ctx,S,steps);" &
+			
+			"var maxIdx=eio(Math.min(elapsed/LINE_DUR,1))*(n-1);ctx.lineJoin=""round"";ctx.lineCap=""round"";" &
+			
+			"ctx.setLineDash([5,4]);ctx.strokeStyle=LYC;ctx.lineWidth=1.5;stroke(ctx,pl,maxIdx);ctx.setLineDash([]);" &
+			
+			"pl.forEach(function(p,idx){if(p.y!=null&&idx<=maxIdx){ctx.beginPath();ctx.fillStyle=LYC;ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fill();}});" &
+			
+			"ctx.strokeStyle=color;ctx.lineWidth=2.5;stroke(ctx,pc,maxIdx);" &
+			
+			"pc.forEach(function(p,idx){if(p.y!=null&&idx<=maxIdx){ctx.beginPath();ctx.fillStyle=color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
+			
+			"if(elapsed>LINE_DUR){var la=(elapsed-LINE_DUR)/LABEL_DUR;ctx.globalAlpha=Math.min(la,1);ctx.font=""10px sans-serif"";ctx.textAlign=""center"";ctx.fillStyle=LYC;pl.forEach(function(p,idx){if(p.y==null)return;var cy=pc[idx].y;var above=(cy!=null&&p.y<cy);ctx.fillText(p.v.toLocaleString(),p.x,above?p.y-8:p.y+15);});ctx.globalAlpha=1;pc.forEach(function(p,idx){if(p.y==null)return;var d=pct(p.v,py[idx]);var pt=Math.max(0,(la-idx/n)/0.4);var ep=bounce(Math.min(pt,1));if(ep>0){ctx.globalAlpha=Math.min(ep*2,1);ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";ctx.fillStyle=d==null?color:(d>=0?UP:DOWN);ctx.fillText(d==null?p.v.toLocaleString():fp(d),p.x,p.y-10);ctx.globalAlpha=1;}});}" &
+			
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;}" &
+			
+			"animId=requestAnimationFrame(frame);}" &
+			
+			"function render(i){" &
+			
+			"if(animId)cancelAnimationFrame(animId);animId=null;curIdx=i;HOVER=null;document.getElementById(""tt"").style.display=""none"";var c=CAMPUS[i];" &
+			
+			"document.querySelectorAll("".tab"").forEach(function(t){t.classList.remove(""active"");if(Number(t.dataset.i)===i)t.classList.add(""active"");});" &
+			
+			"var opts=document.getElementById(""opts"");opts.style.display=i>0?""flex"":""none"";opts.style.setProperty(""--ac"",c.color);" &
+			
+			"var lbl=document.getElementById(""card-label"");var parts=RAW.split(""|"");" &
+			
+			"if(i===0||(gMode===""All""&&vMode===""cnt"")){lbl.textContent=""5 week overview""+(i>0?"" · All"":"""");var L0=parts[0].split("","");var v0=parse(parts[i+1]);drawLine(v0,c.color,L0,null,v0.map(function(v,idx){return tip(fdt(L0[idx])+(i>0?"" · All"":""""),[[""Attendance"",fn(v)]]);}));return;}" &
+			
+			"if(!G)G=getG();var r=G.map[KEYS[i]+""~""+gMode]||{cur:[],pw:[],py:[]};var base=""5 week overview · ""+GL[gMode];" &
+			
+			"if(vMode===""cnt""){lbl.textContent=base;var nn=r.cur.filter(function(v){return v!=null;});var a=nn.length?Math.round(nn.reduce(function(s,v){return s+v;},0)/nn.length):0;drawLine(r.cur.map(function(v){return v==null?0:v;}),c.color,G.L.cur,a,r.cur.map(function(v,idx){return tip(fdt(G.L.cur[idx])+"" · ""+GL[gMode],[[""Attendance"",fn(v)]]);}));return;}" &
+			
+			"if(vMode===""wow""){lbl.textContent=base+"" · WoW %"";drawBars(r.cur.map(function(v,idx){return pct(v,r.pw[idx]);}),G.L.cur,G.L.pw.map(function(d){return ""vs ""+d;}),r.cur.map(function(v,idx){return tip(fdt(G.L.cur[idx])+"" · ""+GL[gMode],[[""This Sunday"",fn(v)],[G.L.pw[idx],fn(r.pw[idx])],[""Change"",fd(v,r.pw[idx]),dc(v,r.pw[idx])]]);}));return;}" &
+			
+			"var cy=(G.L.cur[G.L.cur.length-1]||"""").split(""~"")[1]||""This yr"";var ly=(G.L.py[G.L.py.length-1]||"""").split(""~"")[1]||""Last yr"";" &
+			
+			"lbl.innerHTML=base+"" · YoY %<span class='lgd' style='color:""+c.color+""'>━ ""+cy+""</span><span class='lgd' style='color:""+LYC+""'>┅ ""+ly+""</span>"";" &
+			
+			"drawYoY(r.cur,r.py,c.color,G.L.cur,G.L.py.map(function(d){return ""vs ""+shortYr(d);}),r.cur.map(function(v,idx){return tip(fdt(G.L.cur[idx])+"" · ""+GL[gMode],[[""This year"",fn(v)],[shortYr(G.L.py[idx]),fn(r.py[idx])],[""Change"",fd(v,r.py[idx]),dc(v,r.py[idx])]]);}));}" &
+			
+			"function bindSeg(id,setter){var els=document.querySelectorAll(""#""+id+"" .sg"");els.forEach(function(el){el.addEventListener(""click"",function(){els.forEach(function(x){x.classList.remove(""on"");});el.classList.add(""on"");setter(el.dataset.v);render(curIdx);});});}" &
+			
+			"(function(){var cv=document.getElementById(""chart-canvas"");var tt=document.getElementById(""tt"");cv.addEventListener(""mousemove"",function(e){if(!HOVER||!HOVER.items)return;var r=cv.getBoundingClientRect();var mx=e.clientX-r.left;var bi=0,bd=1e9;HOVER.xs.forEach(function(x,idx){var d=Math.abs(x-mx);if(d<bd){bd=d;bi=idx;}});tt.innerHTML=HOVER.items[bi];tt.style.display=""block"";var w=tt.offsetWidth,h=tt.offsetHeight;var W=cv.parentNode.offsetWidth||500;var left=Math.max(0,Math.min(W-w,HOVER.xs[bi]-w/2));var top=HOVER.ys[bi]-h-12;if(top<0)top=HOVER.ys[bi]+14;tt.style.left=left+""px"";tt.style.top=top+""px"";});cv.addEventListener(""mouseleave"",function(){tt.style.display=""none"";});})();" &
+			
+			"bindSeg(""segG"",function(v){gMode=v;});bindSeg(""segV"",function(v){vMode=v;});" &
 			
 			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){render(Number(t.dataset.i));});});" &
 			
 			"setTimeout(function(){render(getIdx());},50);" &
 			
-			"})();</script>"
+			"})();" &
+			
+			"</script>"
+			
+			```
 		lineageTag: 371d3651-b6fb-4f6e-aa01-13292d1f464e
 
 	measure HTML_RegularSundayTable =
@@ -4628,6 +4727,198 @@ table 'Campus Selector'
 			RETURN
 			    _MonthLabels & "||" & _YearList & "||" & _D1 & "|" & _D2 & "|" & _D3 & "|" & _D4 & "|" & _D5
 		lineageTag: 9e809987-118d-4375-a71b-a9b2d3465d45
+
+	measure HTML_WeeklyGatheringData = ```
+			
+			VAR _Today = TODAY()
+			VAR _Start = _Today - 364
+			
+			VAR _Dates =
+			    FILTER(
+			        VALUES(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        AttendanceInPerson_WOW[MetricValueDateTime] > _Start
+			            && AttendanceInPerson_WOW[MetricValueDateTime] <= _Today
+			    )
+			
+			VAR _Grid =
+			    CROSSJOIN(
+			        DATATABLE("G", STRING, "GOrd", INTEGER,
+			            {{"All", 1}, {"9:30am Gathering", 2}, {"11:45am Gathering", 3}}),
+			        DATATABLE("Cp", STRING, "COrd", INTEGER,
+			            {{"ATL", 1}, {"515", 2}, {"Cumberland", 3}, {"Trilith", 4}})
+			    )
+			
+			VAR _Labels =
+			    CONCATENATEX(
+			        _Dates,
+			        FORMAT(AttendanceInPerson_WOW[MetricValueDateTime], "MMM d"),
+			        ",",
+			        AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			    )
+			
+			VAR _Series =
+			    CONCATENATEX(
+			        _Grid,
+			        VAR _g  = [G]
+			        VAR _cp = [Cp]
+			        VAR _CampusF =
+			            FILTER(
+			                ALL(AttendanceInPerson_WOW[CampusName]),
+			                IF(
+			                    _cp = "ATL",
+			                    AttendanceInPerson_WOW[CampusName] IN {"515", "Cumberland", "Trilith"},
+			                    AttendanceInPerson_WOW[CampusName] = _cp
+			                )
+			            )
+			        VAR _SlotF =
+			            FILTER(
+			                ALL(AttendanceInPerson_WOW[ServiceSlot]),
+			                _g = "All" || AttendanceInPerson_WOW[ServiceSlot] = _g
+			            )
+			        VAR _Cur =
+			            CONCATENATEX(
+			                _Dates,
+			                VAR _d = AttendanceInPerson_WOW[MetricValueDateTime]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d, _CampusF, _SlotF),
+			                ",", AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			            )
+			        VAR _PW =
+			            CONCATENATEX(
+			                _Dates,
+			                VAR _d = AttendanceInPerson_WOW[MetricValueDateTime] - 7
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d, _CampusF, _SlotF),
+			                ",", AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			            )
+			        VAR _PY =
+			            CONCATENATEX(
+			                _Dates,
+			                VAR _d = AttendanceInPerson_WOW[MetricValueDateTime] - 364
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d, _CampusF, _SlotF),
+			                ",", AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			            )
+			        RETURN _g & "~" & _cp & "~" & _Cur & "~" & _PW & "~" & _PY,
+			        "|",
+			        [GOrd], ASC,
+			        [COrd], ASC
+			    )
+			
+			RETURN
+			    _Labels & "||" & _Series
+			
+			
+			```
+		lineageTag: 3166e767-b958-4602-ba45-ee9d3f654bd0
+
+	measure HTML_5WeekGatheringData = ```
+			
+			// Feeds the campus-tab views (515 / CBL / Trilith) on the 5-week chart.
+			// Same 5 Sundays as HTML_5WeekData (follows the selected date, skips Sundays with no gathering).
+			// Output: labels | priorLabels | lastYearLabels || Campus~Gathering~cur~prior~lastYear | ...
+			//   prior    = the previous Sunday that had a gathering (so a Sabbath week doesn't blank the bar)
+			//   lastYear = same Sunday 52 weeks earlier (date - 364)
+			
+			VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			VAR _maxAttDate =
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			            WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxAttDate, _calDate)
+			
+			VAR _Gathered =
+			    FILTER(
+			        VALUES(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			            && CALCULATE(
+			                SUM(AttendanceInPerson_WOW[Count]),
+			                AttendanceInPerson_WOW[CampusName] IN {"515", "Cumberland", "Trilith"},
+			                REMOVEFILTERS(AttendanceInPerson_WOW[Literal])
+			            ) > 0
+			    )
+			
+			VAR _5Weeks =
+			    TOPN(
+			        5,
+			        FILTER(_Gathered, AttendanceInPerson_WOW[MetricValueDateTime] <= _SelectedDate),
+			        AttendanceInPerson_WOW[MetricValueDateTime], DESC
+			    )
+			
+			VAR _Wk =
+			    ADDCOLUMNS(
+			        _5Weeks,
+			        "__d", AttendanceInPerson_WOW[MetricValueDateTime],
+			        "__pw",
+			            VAR _cur = AttendanceInPerson_WOW[MetricValueDateTime]
+			            RETURN MAXX(
+			                FILTER(_Gathered, AttendanceInPerson_WOW[MetricValueDateTime] < _cur),
+			                AttendanceInPerson_WOW[MetricValueDateTime]
+			            ),
+			        "__py", AttendanceInPerson_WOW[MetricValueDateTime] - 364
+			    )
+			
+			VAR _Labels   = CONCATENATEX(_Wk, FORMAT([__d],  "MMM D~YYYY"), ",", [__d], ASC)
+			VAR _PWLabels = CONCATENATEX(_Wk, FORMAT([__pw], "MMM D"),      ",", [__d], ASC)
+			VAR _PYLabels = CONCATENATEX(_Wk, FORMAT([__py], "MMM D~YYYY"), ",", [__d], ASC)
+			
+			VAR _Grid =
+			    CROSSJOIN(
+			        DATATABLE("Cp", STRING, "COrd", INTEGER,
+			            {{"515", 1}, {"Cumberland", 2}, {"Trilith", 3}}),
+			        DATATABLE("G", STRING, "GOrd", INTEGER,
+			            {{"All", 1}, {"9:30am Gathering", 2}, {"11:45am Gathering", 3}})
+			    )
+			
+			VAR _Series =
+			    CONCATENATEX(
+			        _Grid,
+			        VAR _cp = [Cp]
+			        VAR _g  = [G]
+			        VAR _SlotF =
+			            FILTER(
+			                ALL(AttendanceInPerson_WOW[ServiceSlot]),
+			                _g = "All" || AttendanceInPerson_WOW[ServiceSlot] = _g
+			            )
+			        VAR _Cur =
+			            CONCATENATEX(_Wk,
+			                VAR _d = [__d]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d,
+			                    AttendanceInPerson_WOW[CampusName] = _cp,
+			                    _SlotF, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])),
+			                ",", [__d], ASC)
+			        VAR _PW =
+			            CONCATENATEX(_Wk,
+			                VAR _d = [__pw]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d,
+			                    AttendanceInPerson_WOW[CampusName] = _cp,
+			                    _SlotF, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])),
+			                ",", [__d], ASC)
+			        VAR _PY =
+			            CONCATENATEX(_Wk,
+			                VAR _d = [__py]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d,
+			                    AttendanceInPerson_WOW[CampusName] = _cp,
+			                    _SlotF, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])),
+			                ",", [__d], ASC)
+			        RETURN _cp & "~" & _g & "~" & _Cur & "~" & _PW & "~" & _PY,
+			        "|",
+			        [COrd], ASC,
+			        [GOrd], ASC
+			    )
+			
+			RETURN
+			    _Labels & "|" & _PWLabels & "|" & _PYLabels & "||" & _Series
+			
+			```
+		lineageTag: 3105ab28-0bce-41fb-bd4e-703c43226586
 
 	column CampusLabel
 		lineageTag: 9e347b89-c56b-40cc-ade9-d1df94466e3c
