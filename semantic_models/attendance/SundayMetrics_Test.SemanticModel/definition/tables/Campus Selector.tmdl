@@ -2769,7 +2769,9 @@ table 'Campus Selector'
 			    [CampusList] & "," &
 			    [MinList] & "," &
 			    [Headcount] & "," &
-			    [GivingCode],
+			    [GivingCode] & "," &
+			    [PrimaryPersonId] & "," &
+			    [Names],
 			    ";"
 			)
 		lineageTag: a170ef00-0103-4e9a-8a69-e7e195d1c5ae
@@ -2963,6 +2965,28 @@ table 'Campus Selector'
 			
 			.legend.hidden{display:none;}
 			
+			.info-box{max-width:280px;}
+			.household-dot.dot-selected,.giving-dot.dot-selected{
+			    box-shadow:0 0 0 3px " & _activeColor & ", 0 0 14px 5px rgba(255,255,255,.55)!important;
+			    z-index:50!important;
+			    animation:selPulse 1.4s ease-in-out infinite;
+			}
+			@keyframes selPulse{
+			    0%,100%{box-shadow:0 0 0 3px " & _activeColor & ", 0 0 10px 3px rgba(255,255,255,.35);}
+			    50%{box-shadow:0 0 0 3px " & _activeColor & ", 0 0 18px 8px rgba(255,255,255,.7);}
+			}
+			.info-box.pinned{pointer-events:auto;border-color:" & _activeColor & ";}
+			.info-box a{color:#3B82F6;text-decoration:underline;cursor:pointer;}
+			
+			.legend.interactive{pointer-events:auto;}
+			.leg-item{display:flex;align-items:center;cursor:pointer;user-select:none;border-radius:6px;padding:0 6px;margin:0 -6px;transition:opacity .15s ease;}
+			.leg-item:hover{background:" & _tabBg & ";}
+			.leg-item.off{opacity:.3;}
+			.leg-count{margin-left:auto;padding-left:14px;color:" & _labelColor & ";font-variant-numeric:tabular-nums;}
+			.leg-clear{display:none;margin-top:4px;padding-top:4px;border-top:1px solid " & _tabBorder & ";color:" & _labelColor & ";cursor:pointer;text-align:center;}
+			.leg-clear.show{display:block;}
+			.leg-clear:hover{color:" & _activeColor & ";}
+			
 			.area{font-size:13px;font-weight:700;margin-bottom:4px;}
 			.lbl{color:" & _labelColor & ";}
 			.sw{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;border:1px solid rgba(255,255,255,.5);}
@@ -3051,6 +3075,10 @@ table 'Campus Selector'
 			                <div><span class='sw' style='background:#BA7517'></span>Lapsed  gave before, has paused</div>
 			                <div><span class='sw' style='background:#8B2E2E'></span>Former  no recent giving</div>
 			                <div><span class='sw' style='background:#9a9890'></span>Non-giver</div>
+			
+			                <div class='sec'><b>Filter by stage</b> - in Giving View, click a stage in the legend to show only those households. Click more stages to add them, click again to remove, or Show all to reset.</div>
+			
+			                <div class='sec'><b>Click a dot</b> to open that household's primary person in Connect (new tab).</div>
 			            </div>
 			        </div>
 			    </div>
@@ -3077,13 +3105,14 @@ table 'Campus Selector'
 			        <div><span class='sw' style='background:#FFD700'></span>Multi-campus</div>
 			    </div>
 			
-			    <div class='legend hidden' id='legendGiving'>
-			        <div><span class='sw' style='background:#3B82F6'></span>New</div>
-			        <div><span class='sw' style='background:#639922'></span>Consistent</div>
-			        <div><span class='sw' style='background:#6D5BD0'></span>Occasional</div>
-			        <div><span class='sw' style='background:#BA7517'></span>Lapsed</div>
-			        <div><span class='sw' style='background:#8B2E2E'></span>Former</div>
-			        <div><span class='sw' style='background:#9a9890'></span>Non-giver</div>
+			    <div class='legend interactive hidden' id='legendGiving'>
+			        <div class='leg-item' data-stage='1'><span class='sw' style='background:#3B82F6'></span>New<span class='leg-count' id='cnt1'></span></div>
+			        <div class='leg-item' data-stage='2'><span class='sw' style='background:#639922'></span>Consistent<span class='leg-count' id='cnt2'></span></div>
+			        <div class='leg-item' data-stage='3'><span class='sw' style='background:#6D5BD0'></span>Occasional<span class='leg-count' id='cnt3'></span></div>
+			        <div class='leg-item' data-stage='4'><span class='sw' style='background:#BA7517'></span>Lapsed<span class='leg-count' id='cnt4'></span></div>
+			        <div class='leg-item' data-stage='5'><span class='sw' style='background:#8B2E2E'></span>Former<span class='leg-count' id='cnt5'></span></div>
+			        <div class='leg-item' data-stage='0'><span class='sw' style='background:#9a9890'></span>Non-giver<span class='leg-count' id='cnt0'></span></div>
+			        <div class='leg-clear' id='legClear'>Show all</div>
 			    </div>
 			
 			    <div class='reset-btn' id='resetBtn'>Reset View</div>
@@ -3096,6 +3125,11 @@ table 'Campus Selector'
 			var activeCampus=null;
 			var markers=[];
 			var campusMarkers=[];
+			var activeStages={};
+			var pinned=false;
+			var selectedEl=null;
+			var selectedPid='';
+			var PROFILE_BASE='https://connect.passion.team/person/';
 			var map;
 			var STROKE_COLOR = " &
 			IF(
@@ -3148,6 +3182,7 @@ table 'Campus Selector'
 			var FIT_PADDING={top:80,bottom:100,left:80,right:280};
 			
 			function clearMarkers(){
+			    selectedEl=null;
 			    markers.forEach(function(m){ m.remove(); });
 			    markers=[];
 			}
@@ -3204,6 +3239,134 @@ table 'Campus Selector'
 			    });
 			}
 			
+			function hasStageFilter(){
+			    return Object.keys(activeStages).length > 0;
+			}
+			
+			function toggleStage(code){
+			    if(activeStages[code]){ delete activeStages[code]; } else { activeStages[code]=true; }
+			    updateStageLegend();
+			    renderMarkers();
+			}
+			
+			function clearStages(){
+			    activeStages={};
+			    updateStageLegend();
+			    renderMarkers();
+			}
+			
+			function updateStageLegend(){
+			    var filtering=hasStageFilter();
+			    document.querySelectorAll('[data-stage]').forEach(function(el){
+			        var code=el.getAttribute('data-stage');
+			        if(filtering && !activeStages[code]){ el.classList.add('off'); }
+			        else { el.classList.remove('off'); }
+			    });
+			    document.getElementById('legClear').classList.toggle('show', filtering);
+			}
+			
+			function updateStageCounts(counts){
+			    for(var k in counts){
+			        var el=document.getElementById('cnt'+k);
+			        if(el){ el.textContent=counts[k].toLocaleString(); }
+			    }
+			}
+			
+			function selectDot(el, pid){
+			    if(selectedEl){ selectedEl.classList.remove('dot-selected'); }
+			    selectedEl=el;
+			    selectedPid=pid || '';
+			    el.classList.add('dot-selected');
+			}
+			
+			function clearSelectedDot(){
+			    if(selectedEl){ selectedEl.classList.remove('dot-selected'); }
+			    selectedEl=null;
+			    selectedPid='';
+			}
+			
+			function namesHtml(p){
+			    var names=(p[7] || '').split('|').filter(function(x){ return x; });
+			    if(!names.length) return '';
+			    return '<div><span class=""lbl"">Checked in:</span> '+names.join(', ')+'</div>';
+			}
+			
+			function unpinInfo(){
+			    clearSelectedDot();
+			    pinned=false;
+			    infoBox.classList.remove('pinned');
+			    infoBox.innerHTML='Hover a dot for details';
+			}
+			
+			function clickHint(pid){
+			    return pid ? '<div class=""lbl"" style=""margin-top:4px;font-size:10px;"">Click for Connect link</div>' : '';
+			}
+			
+			function openProfile(pid, detailHtml){
+			    if(!pid || pid === '0') return;
+			    var url=PROFILE_BASE+pid;
+			
+			    // Power BI's sandbox blocks new tabs, so pin the details with a copyable link
+			    pinned=true;
+			    infoBox.classList.add('pinned');
+			    infoBox.innerHTML=detailHtml;
+			    var row=document.createElement('div');
+			    row.style.marginTop='4px';
+			    var urlText=document.createElement('div');
+			    urlText.textContent=url;
+			    urlText.style.userSelect='text';
+			    urlText.style.fontSize='10px';
+			    urlText.style.wordBreak='break-all';
+			    var btn=document.createElement('div');
+			    btn.textContent='Copy link';
+			    btn.className='tab';
+			    btn.style.display='inline-block';
+			    btn.style.marginTop='4px';
+			    btn.addEventListener('click',function(e){
+			        e.stopPropagation();
+			        var ok=false;
+			        var ta=document.createElement('textarea');
+			        ta.value=url; document.body.appendChild(ta); ta.select();
+			        try { ok=document.execCommand('copy'); } catch(err){}
+			        ta.remove();
+			        btn.textContent = ok ? 'Copied!' : 'Select the link above to copy';
+			        if(!ok && navigator.clipboard){
+			            navigator.clipboard.writeText(url).then(function(){ btn.textContent='Copied!'; }).catch(function(){});
+			        }
+			    });
+			    row.appendChild(urlText);
+			    row.appendChild(btn);
+			    infoBox.appendChild(row);
+			}
+			
+			function attachDotEvents(el, buildHtml, pid){
+			    el.addEventListener('mouseenter',function(){
+			        if(pinned) return;
+			        infoBox.innerHTML=buildHtml() + clickHint(pid);
+			    });
+			    el.addEventListener('mouseleave',function(){
+			        if(pinned) return;
+			        infoBox.innerHTML='Hover a dot for details';
+			    });
+			    el.addEventListener('click',function(e){
+			        e.stopPropagation();
+			        selectDot(el, pid);
+			        if(pid){
+			            openProfile(pid, buildHtml());
+			        } else {
+			            pinned=true;
+			            infoBox.classList.add('pinned');
+			            infoBox.innerHTML=buildHtml();
+			        }
+			    });
+			
+			    // Re-apply highlight when markers are redrawn (filter / view changes)
+			    if(pid && pid === selectedPid){
+			        selectedEl=el;
+			        el.classList.add('dot-selected');
+			    }
+			}
+			
 			function renderStandardDot(p, ministry){
 			    var lat=parseFloat(p[0]);
 			    var lng=parseFloat(p[1]);
@@ -3228,21 +3391,19 @@ table 'Campus Selector'
 			    el.style.cursor='pointer';
 			    el.style.zIndex='1';
 			
-			    el.addEventListener('mouseenter',function(){
+			    var pid=p[6] || '';
+			
+			    attachDotEvents(el, function(){
 			        var mins=ministry.split('').map(function(x){return MINISTRY_LABELS[x] || x;}).join(', ');
 			        var camps=campus.split('').map(function(x){return CAMPUS_LABELS[x] || x;}).join(', ');
 			        var peopleLabel = headcount+(headcount===1?' person':' people');
 			        var minLabel = ministry.length+(ministry.length===1?' ministry':' ministries');
 			
-			        infoBox.innerHTML =
-			            '<div class=""area"" style=""color:'+color+'"">'+camps+'</div>' +
+			        return '<div class=""area"" style=""color:'+color+'"">'+camps+'</div>' +
 			            '<div><span class=""lbl"">Household:</span> '+peopleLabel+'</div>' +
-			            '<div><span class=""lbl"">Ministries:</span> '+mins+' ('+minLabel+')</div>';
-			    });
-			
-			    el.addEventListener('mouseleave',function(){
-			        infoBox.innerHTML='Hover a dot for details';
-			    });
+			            '<div><span class=""lbl"">Ministries:</span> '+mins+' ('+minLabel+')</div>' +
+			            namesHtml(p);
+			    }, pid);
 			
 			    var marker=new mapboxgl.Marker({element:el, anchor:'center'})
 			        .setLngLat([lng,lat])
@@ -3269,6 +3430,7 @@ table 'Campus Selector'
 			    var campusLabel = campus.length === 1 ? campus : 'M';
 			
 			    var el=document.createElement('div');
+			    el.className='giving-dot';
 			    el.style.width=size+'px';
 			    el.style.height=size+'px';
 			    el.style.borderRadius='50%';
@@ -3283,20 +3445,18 @@ table 'Campus Selector'
 			    el.style.cursor='pointer';
 			    el.textContent=campusLabel;
 			
-			    el.addEventListener('mouseenter',function(){
+			    var pid=p[6] || '';
+			
+			    attachDotEvents(el, function(){
 			        var camps=campus.split('').map(function(x){return CAMPUS_LABELS[x] || x;}).join(', ');
 			        var peopleLabel = headcount+(headcount===1?' person':' people');
 			        var givingLabel = GIVING_LABELS[givingCode] || 'Unknown';
 			
-			        infoBox.innerHTML =
-			            '<div class=""area"" style=""color:'+fillColor+'"">'+camps+'</div>' +
+			        return '<div class=""area"" style=""color:'+fillColor+'"">'+camps+'</div>' +
 			            '<div><span class=""lbl"">Household:</span> '+peopleLabel+'</div>' +
-			            '<div><span class=""lbl"">Giving:</span> '+givingLabel+'</div>';
-			    });
-			
-			    el.addEventListener('mouseleave',function(){
-			        infoBox.innerHTML='Hover a dot for details';
-			    });
+			            '<div><span class=""lbl"">Giving:</span> '+givingLabel+'</div>' +
+			            namesHtml(p);
+			    }, pid);
 			
 			    var marker=new mapboxgl.Marker({element:el, anchor:'center'})
 			        .setLngLat([lng,lat])
@@ -3311,6 +3471,8 @@ table 'Campus Selector'
 			    var rows = RAW.split(';');
 			    var rendered = 0;
 			    var errors = 0;
+			    var counts = {0:0,1:0,2:0,3:0,4:0,5:0};
+			    var filterStages = givingMode && hasStageFilter();
 			
 			    rows.forEach(function(r){
 			        var p=r.split(',');
@@ -3321,6 +3483,10 @@ table 'Campus Selector'
 			
 			        if(activeMinistry !== 'all' && ministry.indexOf(activeMinistry) === -1) return;
 			        if(activeCampus !== null && campus.indexOf(activeCampus) === -1) return;
+			
+			        var stage = p[5] || '0';
+			        if(counts[stage] !== undefined){ counts[stage]++; }
+			        if(filterStages && !activeStages[stage]) return;
 			
 			        try {
 			            if(givingMode){
@@ -3334,6 +3500,8 @@ table 'Campus Selector'
 			            console.error('Render error:', e, p);
 			        }
 			    });
+			
+			    updateStageCounts(counts);
 			
 			    console.log('Total rows:', rows.length, 'Rendered:', rendered, 'Errors:', errors);
 			}
@@ -3366,6 +3534,22 @@ table 'Campus Selector'
 			    map.on('load',function(){
 			        renderMarkers();
 			        addCampusPins();
+			    });
+			
+			    map.on('click',function(){
+			        if(pinned){ unpinInfo(); }
+			    });
+			
+			    document.querySelectorAll('[data-stage]').forEach(function(el){
+			        el.addEventListener('click',function(e){
+			            e.stopPropagation();
+			            toggleStage(el.getAttribute('data-stage'));
+			        });
+			    });
+			
+			    document.getElementById('legClear').addEventListener('click',function(e){
+			        e.stopPropagation();
+			        clearStages();
 			    });
 			
 			    document.querySelectorAll('[data-f]').forEach(function(btn){

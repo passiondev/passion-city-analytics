@@ -88,9 +88,26 @@ table fact_checkin
 
 		annotation SummarizationSetBy = Automatic
 
+	column PrimaryPersonId
+		dataType: int64
+		formatString: 0
+		lineageTag: 419edadc-c773-4c57-b39a-6ba18815c5bc
+		summarizeBy: count
+		sourceColumn: PrimaryPersonId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Names
+		dataType: string
+		lineageTag: 7ae43ffb-a710-44ab-81aa-16e5b41a0a9c
+		summarizeBy: none
+		sourceColumn: Names
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_checkin = m
 		mode: import
-		source =
+		source = ```
 				let
 				    Source = PowerPlatform.Dataflows(null),
 				    Workspaces = Source{[Id="Workspaces"]}[Data],
@@ -115,9 +132,9 @@ table fact_checkin
 				
 				    // Join dim_person for lat/lng and family ID
 				    MergedPerson = Table.NestedJoin(Selected, {"PersonId"}, dim_person, {"PersonId"}, "dim_person", JoinKind.LeftOuter),
-				    ExpandedPerson = Table.ExpandTableColumn(MergedPerson, "dim_person", {
-				        "PrimaryFamilyId", "MappedAddressLatitude", "MappedAddressLongitude"
-				    }, {"PrimaryFamilyId", "Lat", "Lng"}),
+				     ExpandedPerson = Table.ExpandTableColumn(MergedPerson, "dim_person", {
+				        "PrimaryFamilyId", "MappedAddressLatitude", "MappedAddressLongitude", "NickName", "FirstName", "LastName"
+				    }, {"PrimaryFamilyId", "Lat", "Lng", "NickName", "FirstName", "LastName"}),
 				
 				    // Filter out bad/missing coordinates immediately
 				    FilteredCoords = Table.SelectRows(ExpandedPerson, each
@@ -154,24 +171,63 @@ table fact_checkin
 				    ExpandedGiving = Table.ExpandTableColumn(MergedGiving, "Giving", {"LastGiftDate", "PrevGiftDate"}, {"LastGiftDate", "PrevGiftDate"}),
 				
 				    // Group by Sunday + Family — one row per family per week
-				    Grouped = Table.Group(ExpandedGiving, {
+				    AddDisplayName = Table.AddColumn(ExpandedGiving, "DisplayName", each
+				        let
+				            first = if [NickName] <> null and [NickName] <> "" then [NickName] else [FirstName],
+				            raw = Text.Trim(Text.Combine({first, [LastName]}, " ")),
+				            safe = Text.Replace(Text.Remove(raw, {",", ";", "|", "\", "<", ">", """", "#(cr)", "#(lf)"}), "'", "’")
+				        in
+				            safe,
+				        type text
+				    ),
+				    Grouped = Table.Group(AddDisplayName, {
 				        "AOSundayDate", "PrimaryFamilyId", "Lat", "Lng", "LastGiftDate", "PrevGiftDate"
 				    }, {
 				        {"CampusList", each Text.Combine(List.Distinct([CampusCode]), ""), type text},
 				        {"MinList", each Text.Combine(List.Distinct([MinCode]), ""), type text},
-				        {"Headcount", each Table.RowCount(_), Int64.Type}
+				        {"Headcount", each List.Count(List.Distinct([PersonId])), Int64.Type},
+				        {"Names", each Text.Combine(List.Sort(List.Distinct([DisplayName])), "|"), type text}
 				    }),
 				
-				    // Set types
-				    ChangedTypes = Table.TransformColumnTypes(Grouped, {
+				    //  build a family -> primary person lookup from current dim_person rows 
+				    PersonPool = Table.SelectRows(dim_person, each
+				        [CurrentRowIndicator] = true and
+				        [IsDeceased] <> true and
+				        [PrimaryFamilyId] <> null
+				    ),
+				    PersonSlim = Table.SelectColumns(PersonPool, {"PrimaryFamilyId", "PersonId", "Age", "core_EraTimesGiven52Wks"}),
+				    PersonScored = Table.AddColumn(PersonSlim, "IsAdult", each
+				        if [Age] <> null and [Age] >= 18 then 1 else 0, Int64.Type
+				    ),
+				    FamilyPrimary = Table.Group(PersonScored, {"PrimaryFamilyId"}, {
+				        {"PrimaryPersonId", each
+				            Table.First(
+				                Table.Sort(_, {
+				                    {"IsAdult", Order.Descending},
+				                    {"core_EraTimesGiven52Wks", Order.Descending},
+				                    {"Age", Order.Descending},
+				                    {"PersonId", Order.Ascending}
+				                })
+				            )[PersonId],
+				        Int64.Type}
+				    }),
+				
+				    // attach it to the grouped household rows 
+				    MergedPrimary = Table.NestedJoin(Grouped, {"PrimaryFamilyId"}, FamilyPrimary, {"PrimaryFamilyId"}, "FP", JoinKind.LeftOuter),
+				    ExpandedPrimary = Table.ExpandTableColumn(MergedPrimary, "FP", {"PrimaryPersonId"}),
+				
+				    //  point ChangedTypes at ExpandedPrimary and type the new column 
+				    ChangedTypes = Table.TransformColumnTypes(ExpandedPrimary, {
 				        {"AOSundayDate", type date},
 				        {"Lat", type number},
 				        {"Lng", type number},
-				        {"Headcount", Int64.Type}
+				        {"Headcount", Int64.Type},
+				        {"PrimaryPersonId", Int64.Type}
 				    })
 				
 				in
 				    ChangedTypes
+				```
 
 	annotation PBI_NavigationStepName = Navigation
 
