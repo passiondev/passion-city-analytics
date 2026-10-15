@@ -128,9 +128,9 @@ table AttendanceInPerson_WOW
 	measure '5WeekAverage N' = ```
 			
 			Var currdate=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])
-			var sundays = CALCULATE(DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-35,DAY))
+			var sundays = CALCULATE(DISTINCTCOUNT(AttendanceInPerson_WOW[MetricValueDateTime]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime],currdate,-35,DAY))
 			return
-			 if(sundays = 5,CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-35,DAY))/5+0,CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-49,DAY))/5+0)
+			 if(sundays = 5,CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime],currdate,-35,DAY))/5+0,CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime],currdate,-49,DAY))/5+0)
 			
 			```
 		lineageTag: 954111cc-d603-4d95-8385-95219dfa7fc1
@@ -143,17 +143,18 @@ table AttendanceInPerson_WOW
 
 	measure 'CountNew YoY%' =
 			
-			IF(
-				ISFILTERED('AttendanceInPerson_WOW'[MetricValueDateTime]),
-				ERROR("Time intelligence quick measures can only be grouped or filtered by the Power BI-provided date hierarchy or primary date column."),
-				VAR __PREV_YEAR =
-					CALCULATE(
-						[CountNew],
-						DATEADD('AttendanceInPerson_WOW'[MetricValueDateTime].[Date], -1, YEAR)
-					)
-				RETURN
-					DIVIDE([CountNew] - __PREV_YEAR, __PREV_YEAR)
-			)
+			VAR _PrevDates =
+			    SELECTCOLUMNS(
+			        VALUES(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        "d", AttendanceInPerson_WOW[MetricValueDateTime] - 364
+			    )
+			VAR _Prev =
+			    CALCULATE(
+			        [CountNew],
+			        TREATAS(_PrevDates, AttendanceInPerson_WOW[MetricValueDateTime])
+			    )
+			RETURN
+			DIVIDE([CountNew] - _Prev, _Prev)
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: 01bb601f-2810-477d-93f0-9cb4889d625a
 
@@ -196,7 +197,7 @@ table AttendanceInPerson_WOW
 			
 			Var currdate=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])
 			return
-			 CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-35,DAY))
+			 CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime],currdate,-35,DAY))
 		lineageTag: 72e42624-ff89-41eb-99e2-710e5f8fcca2
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -246,7 +247,7 @@ table AttendanceInPerson_WOW
 			
 			Var currdate=MINX(VALUES('Calendar'[Date]),'Calendar'[Date])
 			return
-			 CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime].[Date],currdate,-365,DAY))
+			 CALCULATE(SUM(AttendanceInPerson_WOW[Count]),DATESINPERIOD(AttendanceInPerson_WOW[MetricValueDateTime],currdate,-365,DAY))
 		lineageTag: d8909d7f-0434-4c09-80d7-679b0195d427
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -481,7 +482,7 @@ table AttendanceInPerson_WOW
 			FORMAT([515_vs_PastYearAvg], "0%") & " of Avg"
 		lineageTag: 9fc7ac17-7c30-4015-9597-cecaf6291130
 
-	column FormattedDate = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime].[Date],"mmm yy")
+	column FormattedDate = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime],"mmm yy")
 		lineageTag: 93b4cf5d-4cba-4683-aa17-59f84df27f78
 		summarizeBy: none
 		sortByColumn: YearMonthNumber
@@ -494,11 +495,11 @@ table AttendanceInPerson_WOW
 			
 			CONVERT (
 			CONCATENATE (
-			RIGHT ( YEAR ( AttendanceInPerson_WOW[MetricValueDateTime].[Date] ), 2 ),
+			RIGHT ( YEAR ( AttendanceInPerson_WOW[MetricValueDateTime] ), 2 ),
 			IF (
-			MONTH ( AttendanceInPerson_WOW[MetricValueDateTime].[Date]  ) < 10,
-			CONCATENATE ( 0, MONTH ( AttendanceInPerson_WOW[MetricValueDateTime].[Date]  ) ),
-			MONTH ( AttendanceInPerson_WOW[MetricValueDateTime].[Date]  )
+			MONTH ( AttendanceInPerson_WOW[MetricValueDateTime]  ) < 10,
+			CONCATENATE ( 0, MONTH ( AttendanceInPerson_WOW[MetricValueDateTime]  ) ),
+			MONTH ( AttendanceInPerson_WOW[MetricValueDateTime]  )
 			)
 			),
 			INTEGER
@@ -507,22 +508,17 @@ table AttendanceInPerson_WOW
 			```
 		formatString: 0
 		lineageTag: d15e2763-acba-4af9-bfec-9bc9df65532e
-		summarizeBy: sum
+		summarizeBy: none
 
 		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = Automatic
 
-	column SparkChartDates = AttendanceInPerson_WOW[MetricValueDateTime].[Date]
+	column SparkChartDates = AttendanceInPerson_WOW[MetricValueDateTime]
 		formatString: mmmm d\, yyyy
 		lineageTag: 2e3bced5-ccb3-4dde-a82c-f31876ec8a11
 		summarizeBy: none
 		sortByColumn: SparkChartSortOrder
-
-		variation Variation
-			isDefault
-			relationship: 177d9a38-1e47-4796-a586-8248b7ddfde5
-			defaultHierarchy: LocalDateTable_b6d3e045-d7b9-4566-a8ae-3811ecdcb82d.'Date Hierarchy'
 
 		changedProperty = SortByColumn
 
@@ -535,11 +531,6 @@ table AttendanceInPerson_WOW
 		lineageTag: e558de20-df38-4d14-b64d-1ea55df6fad9
 		summarizeBy: none
 
-		variation Variation
-			isDefault
-			relationship: 14c3c317-465a-490a-8a83-1ed7e0037619
-			defaultHierarchy: LocalDateTable_88ae3098-0fc2-4e58-a445-51a79edc9140.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 	column md = [MaxselectedDate]
@@ -547,14 +538,9 @@ table AttendanceInPerson_WOW
 		lineageTag: daffb6a8-86f5-4687-9f2c-aba6234c5aa3
 		summarizeBy: none
 
-		variation Variation
-			isDefault
-			relationship: bfac2f1b-1585-4255-89e8-d9025fe8ed40
-			defaultHierarchy: LocalDateTable_38370fbd-c89d-4e14-b880-065170ef1ac4.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
-	column SparkChartSortOrder = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime].[Date],"YYYYMMDD")
+	column SparkChartSortOrder = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime],"YYYYMMDD")
 		lineageTag: 6cad8da2-4b52-4a2d-93ef-8d5d9e85eb4d
 		summarizeBy: none
 
@@ -569,7 +555,7 @@ table AttendanceInPerson_WOW
 
 		annotation SummarizationSetBy = Automatic
 
-	column 52WksSortOrder = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime].[Date],"YYMMDD")
+	column 52WksSortOrder = FORMAT(AttendanceInPerson_WOW[MetricValueDateTime],"YYMMDD")
 		lineageTag: d189d4e8-2c50-41c3-8e5b-ef07d8884e70
 		summarizeBy: none
 
@@ -583,11 +569,6 @@ table AttendanceInPerson_WOW
 		lineageTag: dd41ac2e-90de-46c0-8c63-18899857fa2f
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
-
-		variation Variation
-			isDefault
-			relationship: d4cf4c8d-91b7-448f-9b93-8d4d8c91ca9c
-			defaultHierarchy: LocalDateTable_40ba220f-ec77-497b-9894-cc75dc1dfadd.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -696,7 +677,7 @@ table AttendanceInPerson_WOW
 
 		annotation SummarizationSetBy = Automatic
 
-	column Rolling52WksSort = YEAR ( AttendanceInPerson_WOW[MetricValueDateTime].[Date] ) & FORMAT(WEEKNUM(AttendanceInPerson_WOW[MetricValueDateTime],1),"00")
+	column Rolling52WksSort = YEAR ( AttendanceInPerson_WOW[MetricValueDateTime] ) & FORMAT(WEEKNUM(AttendanceInPerson_WOW[MetricValueDateTime],1),"00")
 		lineageTag: c3aeb0a0-c7ff-4338-86b0-4e850c45bc31
 		summarizeBy: none
 
@@ -709,22 +690,12 @@ table AttendanceInPerson_WOW
 		lineageTag: 169a9ed6-877c-446f-8513-0157b0f01757
 		summarizeBy: none
 
-		variation Variation
-			isDefault
-			relationship: 7d28d711-6cee-4034-be59-228f14a10990
-			defaultHierarchy: LocalDateTable_34d51a28-af03-4d8e-9a52-dd779f9f7d1f.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 	column MetricValueMonthStartDate = DATE(YEAR(AttendanceInPerson_WOW[MetricValueDateTime]),MONTH(AttendanceInPerson_WOW[MetricValueDateTime]),1)
 		formatString: General Date
 		lineageTag: 7766e680-8cf9-450a-b7dc-440bb6e0a725
 		summarizeBy: none
-
-		variation Variation
-			isDefault
-			relationship: 3d86e022-4eb8-478c-af77-50dada1ba5e9
-			defaultHierarchy: LocalDateTable_82b0be0d-1428-460b-b69b-49d1ccc08b0c.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

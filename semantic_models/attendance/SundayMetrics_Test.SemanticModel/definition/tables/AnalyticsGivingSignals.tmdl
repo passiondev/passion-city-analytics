@@ -26,11 +26,6 @@ table AnalyticsGivingSignals
 		summarizeBy: none
 		sourceColumn: FirstGiftDate
 
-		variation Variation
-			isDefault
-			relationship: bda5bc2b-427a-4584-8a56-4c693d492eb1
-			defaultHierarchy: LocalDateTable_a3492b32-c8f0-4a21-a142-513a244bee14.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -42,11 +37,6 @@ table AnalyticsGivingSignals
 		summarizeBy: none
 		sourceColumn: LastGiftDate
 
-		variation Variation
-			isDefault
-			relationship: a4498927-35c5-4713-9e30-bea97498d997
-			defaultHierarchy: LocalDateTable_a44a4804-f696-4f3b-9b86-3c9458bc092b.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -57,11 +47,6 @@ table AnalyticsGivingSignals
 		lineageTag: 2fc163fa-f16c-4b43-a3f0-e95c05e740f0
 		summarizeBy: none
 		sourceColumn: PrevGiftDate
-
-		variation Variation
-			isDefault
-			relationship: 7597bbbb-e462-47bd-b860-14b3e283b467
-			defaultHierarchy: LocalDateTable_6a5f2134-c650-4575-841e-68f8ebdf5b68.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

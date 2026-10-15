@@ -12,11 +12,6 @@ table Calendar5pm
 		isNameInferred
 		sourceColumn: [Date]
 
-		variation Variation
-			isDefault
-			relationship: 4a365270-9683-4d84-94e1-8d06b5f5c408
-			defaultHierarchy: LocalDateTable_a91f4c7f-f695-44a0-afaf-b1ed767a0085.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -104,11 +99,6 @@ table Calendar5pm
 		formatString: General Date
 		lineageTag: b01dd2d4-95ea-448f-907b-e411364b92d8
 		summarizeBy: none
-
-		variation Variation
-			isDefault
-			relationship: 7fa2379b-ff4c-43d9-befe-684eb5bba50a
-			defaultHierarchy: LocalDateTable_2fde6ace-35eb-4104-975c-c9f3c3eed459.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

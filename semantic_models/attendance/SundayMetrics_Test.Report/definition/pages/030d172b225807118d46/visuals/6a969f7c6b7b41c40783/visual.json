@@ -1,11 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "6a969f7c6b7b41c40783",
   "position": {
     "x": 632,
-    "y": 1990.5,
+    "y": 1968,
     "z": 15000,
-    "height": 400,
+    "height": 448,
     "width": 640,
     "tabOrder": 12000
   },
@@ -49,5 +49,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1a4723341c4b96d91406",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Campus Selector"
+              }
+            },
+            "Property": "HTML_5WeekOverview"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

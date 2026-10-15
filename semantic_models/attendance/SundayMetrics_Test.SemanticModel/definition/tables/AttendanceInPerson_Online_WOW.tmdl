@@ -135,11 +135,6 @@ table AttendanceInPerson_Online_WOW
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: 8ee3438d-f6d9-4dc6-b030-2759c3ab0948
-			defaultHierarchy: LocalDateTable_ca43bbfb-7c53-490a-a553-c2c04a041f2b.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

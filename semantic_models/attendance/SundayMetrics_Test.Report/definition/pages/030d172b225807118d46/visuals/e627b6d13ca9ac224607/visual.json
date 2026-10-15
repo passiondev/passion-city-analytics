@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "e627b6d13ca9ac224607",
   "position": {
     "x": 0,
@@ -80,5 +80,37 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a0c968629aec040a9d9d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Campus Selector"
+              }
+            },
+            "Property": "HTML_Card1"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "fb357dd1e533a14687a8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Campus Selector"
+              }
+            },
+            "Property": "HTML_SelectedCampus"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

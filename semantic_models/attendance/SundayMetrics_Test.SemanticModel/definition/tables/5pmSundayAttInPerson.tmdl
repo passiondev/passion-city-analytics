@@ -17,7 +17,7 @@ table 5pmSundayAttInPerson
 
 	measure PrevMonth5pm = ```
 			
-			VAR prevmon=PREVIOUSDAY(Calendar5pm[selecteddate5PM].[Date])
+			VAR prevmon=PREVIOUSDAY(Calendar5pm[selecteddate5PM])
 			var prevmonlatest='5pmSundayAttInPerson'[Previous1]
 			Return 
 			Coalesce(CALCULATE(sum('5pmSundayAttInPerson'[Count]), '5pmSundayAttInPerson'[MetricValueDateTime]=prevmonlatest),0)
@@ -236,11 +236,6 @@ table 5pmSundayAttInPerson
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: d8e45faf-4ee5-477c-ab89-7c30dd1f832f
-			defaultHierarchy: LocalDateTable_3eecce43-8437-4fc7-82d0-a8d1fec471d0.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -336,7 +331,7 @@ table 5pmSundayAttInPerson
 
 		annotation SummarizationSetBy = Automatic
 
-	column 5pmFormattedDate = FORMAT('5pmSundayAttInPerson'[MetricValueDateTime].[Date],"mmm yy")
+	column 5pmFormattedDate = FORMAT('5pmSundayAttInPerson'[MetricValueDateTime],"mmm yy")
 		lineageTag: 1134dafd-33d0-46bf-87cb-fe9efa89dc9f
 		summarizeBy: none
 		sortByColumn: 5pmYearMonthNumber
@@ -349,11 +344,11 @@ table 5pmSundayAttInPerson
 			
 			CONVERT (
 			CONCATENATE (
-			RIGHT ( YEAR ( '5pmSundayAttInPerson'[MetricValueDateTime].[Date] ), 2 ),
+			RIGHT ( YEAR ( '5pmSundayAttInPerson'[MetricValueDateTime] ), 2 ),
 			IF (
-			MONTH ('5pmSundayAttInPerson'[MetricValueDateTime].[Date]  ) < 10,
-			CONCATENATE ( 0, MONTH ( '5pmSundayAttInPerson'[MetricValueDateTime].[Date] ) ),
-			MONTH ( '5pmSundayAttInPerson'[MetricValueDateTime].[Date] )
+			MONTH ('5pmSundayAttInPerson'[MetricValueDateTime]  ) < 10,
+			CONCATENATE ( 0, MONTH ( '5pmSundayAttInPerson'[MetricValueDateTime] ) ),
+			MONTH ( '5pmSundayAttInPerson'[MetricValueDateTime] )
 			)
 			),
 			INTEGER
@@ -362,7 +357,7 @@ table 5pmSundayAttInPerson
 			```
 		formatString: 0
 		lineageTag: cf5bd16f-cc41-4347-818f-5c899b5856f3
-		summarizeBy: sum
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 

@@ -47,11 +47,6 @@ table Calendar
 		isNameInferred
 		sourceColumn: [Date]
 
-		variation Variation
-			isDefault
-			relationship: af082dac-13d6-4096-aacc-4bda4158f64b
-			defaultHierarchy: LocalDateTable_b505c2e6-642f-4604-ab94-750828ce446f.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -178,11 +173,6 @@ table Calendar
 		lineageTag: d20d5345-9d6f-4cc4-8f24-eeece9f865bd
 		summarizeBy: none
 
-		variation Variation
-			isDefault
-			relationship: 4ab2401b-78cf-4e53-84bb-f4e560ad10f8
-			defaultHierarchy: LocalDateTable_ef8ff5c0-f0f9-4a81-a630-79b50f37644f.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 	column AutoDate =
@@ -198,11 +188,6 @@ table Calendar
 		formatString: General Date
 		lineageTag: 0ed64455-1c3a-439c-9f9c-79f7cc81d072
 		summarizeBy: none
-
-		variation Variation
-			isDefault
-			relationship: d6e54f76-7777-4dd9-8b8a-eea573673bd0
-			defaultHierarchy: LocalDateTable_f0b0c640-d4c8-4bab-8164-de5dbf7205e4.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

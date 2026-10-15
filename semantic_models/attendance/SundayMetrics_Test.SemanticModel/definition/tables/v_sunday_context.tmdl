@@ -8,11 +8,6 @@ table v_sunday_context
 		summarizeBy: none
 		sourceColumn: service_date
 
-		variation Variation
-			isDefault
-			relationship: ba405011-96e1-4eba-99df-777f8a4983b2
-			defaultHierarchy: LocalDateTable_72280db6-bca4-424a-b523-3dd5312bf506.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

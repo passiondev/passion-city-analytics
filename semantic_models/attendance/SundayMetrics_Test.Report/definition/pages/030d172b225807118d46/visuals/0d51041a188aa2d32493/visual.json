@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "0d51041a188aa2d32493",
   "position": {
     "x": 664,
@@ -75,5 +75,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "9e5b5a80de7b1f60628c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Campus Selector"
+              }
+            },
+            "Property": "HTML_Card_CBL"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

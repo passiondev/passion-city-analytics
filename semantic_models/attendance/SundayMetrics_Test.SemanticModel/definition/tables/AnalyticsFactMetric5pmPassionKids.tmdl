@@ -17,11 +17,6 @@ table AnalyticsFactMetric5pmPassionKids
 		summarizeBy: none
 		sourceColumn: MetricValueDateTime
 
-		variation Variation
-			isDefault
-			relationship: 19fc5079-8ddd-4917-b2ad-6b00c9a9f1be
-			defaultHierarchy: LocalDateTable_98ffd8a6-e704-4b0b-ab6f-dbe6c916d003.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

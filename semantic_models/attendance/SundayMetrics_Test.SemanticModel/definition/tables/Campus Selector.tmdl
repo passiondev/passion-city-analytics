@@ -296,29 +296,27 @@ table 'Campus Selector'
 			        'v_sunday_context'[service_date], SelectedDate,
 			        'v_sunday_context'[campus], "515"
 			    )
-			VAR ShareOnBreak = 
+			VAR BreakDistricts = 
 			    LOOKUPVALUE(
-			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[break_districts],
 			        'v_sunday_context'[service_date], SelectedDate,
 			        'v_sunday_context'[campus], "515"
 			    )
 			VAR BreakAccent = "#60A5FA"
 			VAR BreakTextColor = IF(IsDark, "#FFFFFF", "#FFFFFF")
-			VAR SharePct = FORMAT(ShareOnBreak, "0%")
 			
 			VAR SchoolBreakLine = 
 			    IF(
 			        IsBreak = TRUE() && BreakName <> BLANK(),
 			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
 			            <div style='width:3px; align-self:stretch; background:" & BreakAccent & "; border-radius:2px; flex-shrink:0;'></div>
-			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & " · " & SharePct & " on break</span>
+			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & IF(BreakDistricts <> BLANK(), " · " & BreakDistricts, "") & "</span>
 			        </div>",
 			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
 			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
 			            <span style='font-size:11px; font-weight:500; color:" & IF(IsDark, "#4B5563", "#9CA3AF") & "; font-family:Inter,sans-serif;'>No school break this week</span>
 			        </div>"
 			    )
-			
 			RETURN
 			"<!-- theme:" & [SelectedTheme] & " -->
 			<style>
@@ -463,22 +461,21 @@ table 'Campus Selector'
 			        'v_sunday_context'[service_date], SelectedDate,
 			        'v_sunday_context'[campus], "Cumberland"
 			    )
-			VAR ShareOnBreak = 
+			VAR BreakDistricts = 
 			    LOOKUPVALUE(
-			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[break_districts],
 			        'v_sunday_context'[service_date], SelectedDate,
 			        'v_sunday_context'[campus], "Cumberland"
 			    )
 			VAR BreakAccent = "#60A5FA"
 			VAR BreakTextColor = IF(IsDark, "#FFFFFF", "#FFFFFF")
-			VAR SharePct = FORMAT(ShareOnBreak, "0%")
 			
 			VAR SchoolBreakLine = 
 			    IF(
 			        IsBreak = TRUE() && BreakName <> BLANK(),
 			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
 			            <div style='width:3px; align-self:stretch; background:" & BreakAccent & "; border-radius:2px; flex-shrink:0;'></div>
-			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & " · " & SharePct & " on break</span>
+			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & IF(BreakDistricts <> BLANK(), " · " & BreakDistricts, "") & "</span>
 			        </div>",
 			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
 			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
@@ -614,22 +611,21 @@ table 'Campus Selector'
 			        'v_sunday_context'[service_date], SelectedDate,
 			        'v_sunday_context'[campus], "Trilith"
 			    )
-			VAR ShareOnBreak = 
+			VAR BreakDistricts = 
 			    LOOKUPVALUE(
-			        'v_sunday_context'[share_on_break],
+			        'v_sunday_context'[break_districts],
 			        'v_sunday_context'[service_date], SelectedDate,
 			        'v_sunday_context'[campus], "Trilith"
 			    )
 			VAR BreakAccent = "#60A5FA"
 			VAR BreakTextColor = IF(IsDark, "#FFFFFF", "#FFFFFF")
-			VAR SharePct = FORMAT(ShareOnBreak, "0%")
 			
 			VAR SchoolBreakLine = 
 			    IF(
 			        IsBreak = TRUE() && BreakName <> BLANK(),
 			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
 			            <div style='width:3px; align-self:stretch; background:" & BreakAccent & "; border-radius:2px; flex-shrink:0;'></div>
-			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & " · " & SharePct & " on break</span>
+			            <span style='font-size:11px; font-weight:600; color:" & BreakTextColor & "; font-family:Inter,sans-serif; line-height:1.4;'>" & BreakName & IF(BreakDistricts <> BLANK(), " · " & BreakDistricts, "") & "</span>
 			        </div>",
 			        "<div style='display:flex; align-items:center; gap:8px; margin-top:10px;'>
 			            <div style='width:3px; align-self:stretch; background:" & IF(IsDark, "#3A3A3A", "#E5E7EB") & "; border-radius:2px; flex-shrink:0;'></div>
@@ -770,15 +766,15 @@ table 'Campus Selector'
 
 	measure HTML_MonthlyData =
 			
-			VAR _Today = TODAY()
-			VAR _StartDate = DATE(YEAR(_Today) - 1, MONTH(_Today), 1)VAR _Months =
+			VAR _Today = [MaxselectedDate]
+			VAR _StartDate = DATE(YEAR(_Today) - 1, MONTH(_Today), 1)
+			VAR _EndYYMM = VALUE(FORMAT(_Today, "YYMM"))
+			
+			VAR _Months =
 			    FILTER(
-			        SUMMARIZE(
-			            AttendanceInPerson_WOW,
-			            AttendanceInPerson_WOW[YearMonthNumber],
-			            AttendanceInPerson_WOW[FormattedDate]
-			        ),
+			        SUMMARIZE(AttendanceInPerson_WOW, AttendanceInPerson_WOW[YearMonthNumber], AttendanceInPerson_WOW[FormattedDate]),
 			        AttendanceInPerson_WOW[YearMonthNumber] >= VALUE(FORMAT(_StartDate, "YYMM"))
+			            && AttendanceInPerson_WOW[YearMonthNumber] <= _EndYYMM
 			    )
 			
 			VAR _515 =
@@ -839,19 +835,20 @@ table 'Campus Selector'
 
 	measure HTML_WeeklyData =
 			
-			VAR _Today = TODAY()
+			VAR _Today = [MaxselectedDate]
 			VAR _CurrentWeek = WEEKNUM(_Today, 1)
 			VAR _CurrentYear = YEAR(_Today)
 			VAR _StartSort = VALUE(FORMAT(_CurrentYear - 1, "0000") & FORMAT(_CurrentWeek, "00"))
+			VAR _EndSort = VALUE(FORMAT(YEAR(_Today), "0000") & FORMAT(WEEKNUM(_Today, 1), "00"))
 			
 			VAR _Weeks =
 			    FILTER(
 			        SUMMARIZE(
 			            AttendanceInPerson_WOW,
-			            AttendanceInPerson_WOW[Rolling52WksSort],
-			            AttendanceInPerson_WOW[FormattedDate]
+			            AttendanceInPerson_WOW[Rolling52WksSort]
 			        ),
-			        VALUE(AttendanceInPerson_WOW[Rolling52WksSort]) >= _StartSort
+			        VALUE(AttendanceInPerson_WOW[Rolling52WksSort]) >= _StartSort &&
+			        VALUE(AttendanceInPerson_WOW[Rolling52WksSort]) <= _EndSort
 			    )
 			
 			VAR _515 =
@@ -901,7 +898,7 @@ table 'Campus Selector'
 			VAR _Labels =
 			    CONCATENATEX(
 			        _Weeks,
-			        AttendanceInPerson_WOW[FormattedDate],
+			        CALCULATE(MIN(AttendanceInPerson_WOW[FormattedDate])),
 			        ",",
 			        AttendanceInPerson_WOW[Rolling52WksSort], ASC
 			    )
@@ -910,7 +907,7 @@ table 'Campus Selector'
 			    _Labels & "|" & _ATL & "|" & _515 & "|" & _CBL & "|" & _TRL
 		lineageTag: fa873995-a873-4582-9654-fca1baea338b
 
-	measure HTML_YoYData =
+	measure HTML_YoYData = ```
 			
 			VAR _CampusName =
 			    SWITCH(
@@ -921,8 +918,9 @@ table 'Campus Selector'
 			        "515"
 			    )
 			
-			VAR _MinYear = YEAR(TODAY()) - 4
-			VAR _MaxYear = YEAR(TODAY())
+			VAR _Today = [MaxselectedDate]
+			VAR _MinYear = YEAR(_Today) - 4
+			VAR _MaxYear = YEAR(_Today)
 			
 			VAR _AllWeeks =
 			    SELECTCOLUMNS(
@@ -964,6 +962,8 @@ table 'Campus Selector'
 			
 			RETURN
 			    _WeekLabels & "||" & _YearList & "||" & _D1 & "|" & _D2 & "|" & _D3 & "|" & _D4 & "|" & _D5
+			
+			```
 		lineageTag: a93edf3f-1f36-4d65-ab35-56b64d5b3ac3
 
 	measure HTML_SelectedCampus =
@@ -976,148 +976,92 @@ table 'Campus Selector'
 			SELECTEDVALUE('Theme'[Theme], "Dark")
 		lineageTag: e037442f-dea7-46d4-93ea-f4d440e4191f
 
-	measure HTML_Card1 =
-			
+	measure HTML_Card1 = ```
 			
 			VAR _campus = [HTML_SelectedCampus]
-			
 			VAR _monthly = [HTML_MonthlyData]
-			
 			VAR _weekly = [HTML_WeeklyData]
-			
-			VAR _yoy = [HTML_YoYData]
-			
 			VAR _theme = [HTML_Theme]
-			
 			VAR _bg = IF(_theme = "Dark", "#0d0d0d", "#f8f8f8")
-			
 			VAR _tickc = IF(_theme = "Dark", "#aaaaaa", "#333333")
-			
 			VAR _grid = IF(_theme = "Dark", "rgba(255,255,255,0.06)", "rgba(0,0,0,0.08)")
-			
 			VAR _bb = IF(_theme = "Dark", "#161616", "#ffffff")
-			
 			VAR _tabBg = IF(_theme = "Dark", "#181818", "#eeeeee")
-			
 			VAR _tabColor = IF(_theme = "Dark", "#aaaaaa", "#333333")
-			
 			VAR _tabBorder = IF(_theme = "Dark", "#252525", "#dddddd")
-			
 			VAR _bdgBg = IF(_theme = "Dark", "#181818", "#eeeeee")
-			
 			VAR _bdgColor = IF(_theme = "Dark", "#aaaaaa", "#333333")
-			
 			VAR _bdgBorder = IF(_theme = "Dark", "#222", "#dddddd")
-			
 			VAR _labelColor = IF(_theme = "Dark", "#aaaaaa", "#333333")
-			
 			VAR _tooltipBg = IF(_theme = "Dark", "#1a1a1a", "#ffffff")
-			
 			VAR _tooltipBorder = IF(_theme = "Dark", "#2a2a2a", "#dddddd")
-			
 			VAR _tooltipTitle = IF(_theme = "Dark", "#888", "#999")
-			
 			VAR _tooltipBody = IF(_theme = "Dark", "#ffffff", "#111111")
-			
 			VAR _c = SUBSTITUTE(_campus, """", "")
-			
 			VAR _m = SUBSTITUTE(_monthly, """", "")
-			
 			VAR _w = SUBSTITUTE(_weekly, """", "")
 			
-			VAR _y = SUBSTITUTE(_yoy, """", "")
+			-- Pre-compute YoY data for every campus so the JS tabs can switch without going back to Power BI
+			VAR _y515  = SUBSTITUTE(CALCULATE([HTML_YoYData],        'Campus Selector'[CampusKey] = "515"),        """", "")
+			VAR _yCBL  = SUBSTITUTE(CALCULATE([HTML_YoYData],        'Campus Selector'[CampusKey] = "Cumberland"), """", "")
+			VAR _yTRL  = SUBSTITUTE(CALCULATE([HTML_YoYData],        'Campus Selector'[CampusKey] = "Trilith"),    """", "")
+			VAR _my515 = SUBSTITUTE(CALCULATE([HTML_MonthlyYoYData], 'Campus Selector'[CampusKey] = "515"),        """", "")
+			VAR _myCBL = SUBSTITUTE(CALCULATE([HTML_MonthlyYoYData], 'Campus Selector'[CampusKey] = "Cumberland"), """", "")
+			VAR _myTRL = SUBSTITUTE(CALCULATE([HTML_MonthlyYoYData], 'Campus Selector'[CampusKey] = "Trilith"),    """", "")
 			
 			VAR _html =
-			
 			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:100%;min-width:0;}.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 16px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.bdg{font-size:10px;padding:3px 9px;border-radius:10px;background:" & _bdgBg & ";color:" & _bdgColor & ";border:1px solid " & _bdgBorder & ";}.cb{background:" & _bb & ";border-radius:10px;padding:14px 16px;margin-bottom:10px;}.cb:last-child{margin-bottom:0;}.ct{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap;}.cl{font-size:10px;color:" & _labelColor & ";text-transform:uppercase;letter-spacing:0.07em;}.lg{display:flex;gap:10px;flex-wrap:wrap;}.li{display:flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:2px 6px;border-radius:4px;border:1px solid transparent;transition:all 0.15s;}.li.hl{border-color:#aaa;}.ls{width:10px;height:3px;border-radius:1px;flex-shrink:0;}.cw{position:relative;width:100%;height:220px;}canvas{width:100%!important;height:100%!important;image-rendering:auto;}</style>" &
-			
 			"<div class=""w""><div class=""hdr""><div class=""tabs"">" &
-			
 			"<div class=""tab active"" data-c=""Overall"" style=""--tc:" & IF(_theme = "Dark", "#ffffff", "#111111") & ";"">ATL</div>" &
-			
 			"<div class=""tab"" data-c=""515"" style=""--tc:#00B8E4;"">515</div>" &
-			
 			"<div class=""tab"" data-c=""Cumberland"" style=""--tc:#FF641C;"">CBL</div>" &
-			
 			"<div class=""tab"" data-c=""Trilith"" style=""--tc:#931EE7;"">Trilith</div>" &
-			
 			"</div><div class=""bdg"" id=""bdg"">All campuses</div></div>" &
-			
 			"<div id=""gv"">" &
-			
 			"<div class=""cb""><div class=""ct""><div class=""cl"">Rolling 12 months</div><div class=""lg"" id=""gl1""></div></div><div class=""cw""><canvas id=""gc1""></canvas></div></div>" &
-			
 			"<div class=""cb""><div class=""ct""><div class=""cl"">Rolling 52 weeks</div><div class=""lg"" id=""gl2""></div></div><div class=""cw""><canvas id=""gc2""></canvas></div></div>" &
-			
 			"</div>" &
-			
-			"<div id=""cv"" style=""display:none;""><div class=""cb""><div class=""ct""><div class=""cl"" id=""yoylbl"">Year over year</div><div class=""lg"" id=""yl""></div></div><div class=""cw""><canvas id=""yc""></canvas></div></div></div>" &
-			
+			"<div id=""cv"" style=""display:none;""><div class=""cb""><div class=""ct""><div class=""cl"" id=""myoylbl"">Rolling months</div><div class=""lg"" id=""yl""></div></div><div class=""cw""><canvas id=""myc""></canvas></div></div><div class=""cb""><div class=""ct""><div class=""cl"" id=""yoylbl"">Rolling 52 weeks</div></div><div class=""cw""><canvas id=""yc""></canvas></div></div></div>" &
 			"</div>" &
-			
 			"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js""></script>" &
-			
 			"<script>" &
-			
 			"var RAW_CAMPUS=""" & _c & """;" &
-			
 			"var RAW_MON=""" & _m & """;" &
-			
 			"var RAW_WK=""" & _w & """;" &
-			
-			"var RAW_YOY=""" & _y & """;" &
-			
+			"var RAW_YOY={""515"":""" & _y515 & """,Cumberland:""" & _yCBL & """,Trilith:""" & _yTRL & """};" &
+			"var RAW_MYOY={""515"":""" & _my515 & """,Cumberland:""" & _myCBL & """,Trilith:""" & _myTRL & """};" &
 			"var GRID=""" & _grid & """;" &
-			
 			"var TICKC=""" & _tickc & """;" &
-			
 			"var TRBG=""" & _tooltipBg & """;" &
-			
 			"var TRBR=""" & _tooltipBorder & """;" &
-			
 			"var TRTC=""" & _tooltipTitle & """;" &
-			
 			"var TRBC=""" & _tooltipBody & """;" &
-			
 			"var IS_DARK=" & IF(_theme = "Dark", "true", "false") & ";" &
-			
-			"var C={Overall:{label:""ATL"",color:IS_DARK?""#ffffff"":""#111111"",fill:IS_DARK?""rgba(255,255,255,0.08)"":""rgba(0,0,0,0.06)""},""515"":{label:""515"",color:""#00B8E4"",fill:""rgba(0,184,228,0.12)""},Cumberland:{label:""CBL"",color:""#FF641C"",fill:""rgba(255,100,28,0.12)""},Trilith:{label:""Trilith"",color:""#931EE7"",fill:""rgba(30,231,184,0.10)""}};" &
-			
+			"var C={Overall:{label:""ATL"",color:IS_DARK?""#ffffff"":""#111111"",fill:IS_DARK?""rgba(255,255,255,0.08)"":""rgba(0,0,0,0.06)""},""515"":{label:""515"",color:""#00B8E4"",fill:""rgba(0,184,228,0.12)""},Cumberland:{label:""CBL"",color:""#FF641C"",fill:""rgba(255,100,28,0.12)""},Trilith:{label:""Trilith"",color:""#931EE7"",fill:""rgba(147,30,231,0.12)""}};" &
 			"var YR_LINE_DARK=[""#444444"",""#666666"",""#7c6fcd"",""#aaaaaa""];" &
-			
 			"var YR_LINE_LIGHT=[""#cccccc"",""#aaaaaa"",""#7c6fcd"",""#666666""];" &
-			
 			"var charts={};var activeYr=-1;var activeCampus=""515"";var currentYrs=[];var currentAccent="""";" &
-			
 			"function kill(id){if(charts[id]){charts[id].destroy();delete charts[id];}}" &
-			
 			"function parse(str){if(!str){return [];}return str.split("","").map(function(v){var n=parseFloat(v);return isNaN(n)?null:n;});}" &
-			
 			"function lineColor(yi,total){if(yi===total-1)return currentAccent;return IS_DARK?YR_LINE_DARK[Math.min(yi,YR_LINE_DARK.length-1)]:YR_LINE_LIGHT[Math.min(yi,YR_LINE_LIGHT.length-1)];}" &
-			
 			"function baseOpts(xMax){return{responsive:true,maintainAspectRatio:false,devicePixelRatio:2,interaction:{mode:""index"",intersect:false},plugins:{legend:{display:false},tooltip:{backgroundColor:TRBG,borderColor:TRBR,borderWidth:1,titleColor:TRTC,bodyColor:TRBC,padding:9,callbacks:{label:function(c){return "" ""+c.dataset.label+"": ""+(c.parsed.y?Math.round(c.parsed.y).toLocaleString():""—"");}}}},scales:{x:{grid:{color:GRID},ticks:{color:TICKC,font:{size:11},maxRotation:0,autoSkip:true,maxTicksLimit:xMax||8},border:{display:false}},y:{grid:{color:GRID},ticks:{color:TICKC,font:{size:11},callback:function(v){return v>=1000?(v/1000).toFixed(0)+""K"":v;}},border:{display:false}}}}}" &
-			
-			"function mkLegATL(id,items){var el=document.getElementById(id);if(!el)return;el.innerHTML="""";items.forEach(function(it){var s=document.createElement(""span"");s.className=""li"";s.style.color=it.color;var dot=document.createElement(""span"");dot.className=""ls"";dot.style.background=it.color;s.appendChild(dot);s.appendChild(document.createTextNode(it.label));el.appendChild(s);});}" &
-			
+			"function mkLegGlobal(id,items){var el=document.getElementById(id);if(!el)return;el.innerHTML="""";items.forEach(function(it){var s=document.createElement(""span"");s.className=""li"";s.style.color=it.color;var dot=document.createElement(""span"");dot.className=""ls"";dot.style.background=it.color;s.appendChild(dot);s.appendChild(document.createTextNode(it.label));el.appendChild(s);});}" &
 			"function mkLegYoy(id){var el=document.getElementById(id);if(!el)return;el.innerHTML="""";currentYrs.forEach(function(yr,yi){var isSelected=yi===activeYr;var labelCol=isSelected?currentAccent:TICKC;var dotCol=lineColor(yi,currentYrs.length);var s=document.createElement(""span"");s.className=""li""+(isSelected?"" hl"":"""");s.dataset.yi=yi;s.style.color=labelCol;var dot=document.createElement(""span"");dot.className=""ls"";dot.style.background=dotCol;s.appendChild(dot);s.appendChild(document.createTextNode(yr));el.appendChild(s);});document.querySelectorAll(""#yl .li"").forEach(function(el){el.addEventListener(""click"",function(){updateYrHL(parseInt(el.dataset.yi));});});}" &
-			
-			"function updateYrHL(yi){var ch=charts.yc;if(!ch)return;if(activeYr===yi){activeYr=-1;}else{activeYr=yi;}var total=currentYrs.length;ch.data.datasets.forEach(function(ds,i){if(activeYr>=0){var isSelected=i===activeYr;ds.borderColor=isSelected?currentAccent:IS_DARK?""#333333"":""#cccccc"";ds.borderWidth=isSelected?3:1;ds.borderDash=isSelected?[]:[4,3];}else{var isLast=i===total-1;ds.borderColor=lineColor(i,total);ds.borderWidth=isLast?2.5:1;ds.borderDash=isLast?[]:[4,3];}});ch.update(""none"");mkLegYoy(""yl"");}" &
-			
+			"function updateYrHL(yi){var ch=charts.yc;var mch=charts.myc;if(!ch)return;if(activeYr===yi){activeYr=-1;}else{activeYr=yi;}var total=currentYrs.length;[ch,mch].forEach(function(cc){if(!cc)return;cc.data.datasets.forEach(function(ds,i){if(activeYr>=0){var isSelected=i===activeYr;ds.borderColor=isSelected?currentAccent:IS_DARK?""#333333"":""#cccccc"";ds.borderWidth=isSelected?3:1;ds.borderDash=isSelected?[]:[4,3];}else{var isLast=i===total-1;ds.borderColor=lineColor(i,total);ds.borderWidth=isLast?2.5:1;ds.borderDash=isLast?[]:[4,3];}});cc.update(""none"");});mkLegYoy(""yl"");}" &
 			"function setActiveTab(c){document.querySelectorAll("".tab"").forEach(function(x){x.classList.remove(""active"");if(x.dataset.c===c){x.classList.add(""active"");}});}" &
-			
-			"function renderATL(){setActiveTab(""Overall"");document.getElementById(""gv"").style.display=""block"";document.getElementById(""cv"").style.display=""none"";document.getElementById(""bdg"").textContent=""All campuses"";var mp=RAW_MON.split(""|"");var wp=RAW_WK.split(""|"");var ml=(mp[0]||"""").split("","");var wl=(wp[0]||"""").split("","");var keys=[""Overall"",""515"",""Cumberland"",""Trilith""];mkLegATL(""gl1"",keys.map(function(k){return{label:C[k].label,color:C[k].color};}));mkLegATL(""gl2"",keys.map(function(k){return{label:C[k].label,color:C[k].color};}));kill(""gc1"");kill(""gc2"");var ds1=keys.map(function(k,i){return{label:C[k].label,data:parse(mp[i+1]),borderColor:C[k].color,backgroundColor:C[k].fill,borderWidth:k===""Overall""?2:1.5,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:4,spanGaps:true};});var ds2=keys.map(function(k,i){return{label:C[k].label,data:parse(wp[i+1]),borderColor:C[k].color,backgroundColor:C[k].fill,borderWidth:k===""Overall""?2:1.5,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:4,spanGaps:true};});var o1=baseOpts(12);o1.scales.x.ticks.autoSkip=false;o1.scales.x.ticks.maxRotation=40;charts.gc1=new Chart(document.getElementById(""gc1""),{type:""line"",data:{labels:ml,datasets:ds1},options:o1});charts.gc2=new Chart(document.getElementById(""gc2""),{type:""line"",data:{labels:wl,datasets:ds2},options:baseOpts(8)});}" &
-			
-			"function renderCampus(c){if(!C[c]){renderATL();return;}setActiveTab(c);activeCampus=c;activeYr=-1;currentAccent=C[c].color;var lbl=C[c].label;document.getElementById(""gv"").style.display=""none"";document.getElementById(""cv"").style.display=""block"";document.getElementById(""bdg"").textContent=lbl+"" — year over year"";document.getElementById(""yoylbl"").textContent=""Rolling 52 weeks — ""+lbl+"" — year over year"";var sections=RAW_YOY.split(""||"");var wkLabels=(sections[0]||"""").split("","");currentYrs=(sections[1]||"""").split("","").filter(function(x){return x!=="""";});var yearDataParts=(sections[2]||"""").split(""|"");var total=currentYrs.length;kill(""yc"");var ds=currentYrs.map(function(yr,yi){var isLast=yi===total-1;return{label:yr,data:parse(yearDataParts[yi]),borderColor:lineColor(yi,total),backgroundColor:""transparent"",borderWidth:isLast?2.5:1,fill:false,tension:0.2,pointRadius:0,pointHoverRadius:4,borderDash:isLast?[]:[4,3],spanGaps:true};});charts.yc=new Chart(document.getElementById(""yc""),{type:""line"",data:{labels:wkLabels,datasets:ds},options:baseOpts(10)});mkLegYoy(""yl"");}" &
-			
-			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){var c=t.dataset.c;if(c===""Overall""){renderATL();}else{renderCampus(c);}});});" &
-			
-			"function init(){if(typeof Chart===""undefined""){setTimeout(init,100);return;}if(!RAW_CAMPUS || RAW_CAMPUS===""Overall"" || RAW_CAMPUS===""ATL""){renderATL();}else{renderCampus(RAW_CAMPUS);}}" &
-			
+			"function renderGlobal(){setActiveTab(""Overall"");document.getElementById(""gv"").style.display=""block"";document.getElementById(""cv"").style.display=""none"";document.getElementById(""bdg"").textContent=""All campuses"";var mp=RAW_MON.split(""|"");var wp=RAW_WK.split(""|"");var ml=(mp[0]||"""").split("","");var wl=(wp[0]||"""").split("","");var keys=[""Overall"",""515"",""Cumberland"",""Trilith""];mkLegGlobal(""gl1"",keys.map(function(k){return{label:C[k].label,color:C[k].color};}));mkLegGlobal(""gl2"",keys.map(function(k){return{label:C[k].label,color:C[k].color};}));kill(""gc1"");kill(""gc2"");var ds1=keys.map(function(k,i){return{label:C[k].label,data:parse(mp[i+1]),borderColor:C[k].color,backgroundColor:C[k].fill,borderWidth:k===""Overall""?2:1.5,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:4,spanGaps:true};});var ds2=keys.map(function(k,i){return{label:C[k].label,data:parse(wp[i+1]),borderColor:C[k].color,backgroundColor:C[k].fill,borderWidth:k===""Overall""?2:1.5,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:4,spanGaps:true};});var o1=baseOpts(12);o1.scales.x.ticks.autoSkip=false;o1.scales.x.ticks.maxRotation=40;var o2=baseOpts(8);o2.scales.x.ticks.autoSkip=false;o2.layout={padding:{right:24}};o2.scales.x.ticks.maxRotation=0;var wlen=wl.length;var wstep=Math.ceil(wlen/7);o2.scales.x.ticks.callback=function(val,idx){return (idx===0||idx===wlen-1||idx%wstep===0)?wl[idx]:"""";};charts.gc1=new Chart(document.getElementById(""gc1""),{type:""line"",data:{labels:ml,datasets:ds1},options:o1});charts.gc2=new Chart(document.getElementById(""gc2""),{type:""line"",data:{labels:wl,datasets:ds2},options:o2});}" &
+			"function renderCampus(c){if(!C[c]){renderGlobal();return;}setActiveTab(c);activeCampus=c;activeYr=-1;currentAccent=C[c].color;var lbl=C[c].label;document.getElementById(""gv"").style.display=""none"";document.getElementById(""cv"").style.display=""block"";document.getElementById(""bdg"").textContent=lbl+"" — year over year"";document.getElementById(""yoylbl"").textContent=""Rolling 52 weeks — ""+lbl;document.getElementById(""myoylbl"").textContent=""Rolling months — ""+lbl;" &
+			"var sections=(RAW_YOY[c]||"""").split(""||"");var wkLabels=(sections[0]||"""").split("","");currentYrs=(sections[1]||"""").split("","").filter(function(x){return x!=="""";});var yearDataParts=(sections[2]||"""").split(""|"");var total=currentYrs.length;kill(""yc"");var ds=currentYrs.map(function(yr,yi){var isLast=yi===total-1;return{label:yr,data:parse(yearDataParts[yi]),borderColor:lineColor(yi,total),backgroundColor:""transparent"",borderWidth:isLast?2.5:1,fill:false,tension:0.2,pointRadius:0,pointHoverRadius:4,borderDash:isLast?[]:[4,3],spanGaps:true};});charts.yc=new Chart(document.getElementById(""yc""),{type:""line"",data:{labels:wkLabels,datasets:ds},options:baseOpts(10)});" &
+			"var msections=(RAW_MYOY[c]||"""").split(""||"");var moLabels=(msections[0]||"""").split("","");var monthYearDataParts=(msections[2]||"""").split(""|"");kill(""myc"");var mds=currentYrs.map(function(yr,yi){var isLast=yi===total-1;return{label:yr,data:parse(monthYearDataParts[yi]),borderColor:lineColor(yi,total),backgroundColor:""transparent"",borderWidth:isLast?2.5:1,fill:false,tension:0.2,pointRadius:0,pointHoverRadius:4,borderDash:isLast?[]:[4,3],spanGaps:true};});charts.myc=new Chart(document.getElementById(""myc""),{type:""line"",data:{labels:moLabels,datasets:mds},options:baseOpts(12)});" &
+			"mkLegYoy(""yl"");}" &
+			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){var c=t.dataset.c;if(c===""Overall""){renderGlobal();}else{renderCampus(c);}});});" &
+			"function init(){if(typeof Chart===""undefined""){setTimeout(init,100);return;}if(!RAW_CAMPUS || RAW_CAMPUS===""Overall"" || RAW_CAMPUS===""Global""){renderGlobal();}else{renderCampus(RAW_CAMPUS);}}" &
 			"setTimeout(init,100);" &
-			
 			"</script>"
 			
 			RETURN _html
+			
+			```
 		lineageTag: 2b821bbb-0641-4587-8f82-f696c709680f
 
 	measure Current =
@@ -1698,7 +1642,7 @@ table 'Campus Selector'
 			    _Labels & "|" & _ATL & "|" & _515 & "|" & _CBL & "|" & _TRL
 		lineageTag: a6219606-0038-4f6e-96dc-45c0d6d098ad
 
-	measure HTML_5WeekOverview =
+	measure HTML_5WeekOverview = ```
 			
 			
 			VAR _theme = [HTML_Theme]
@@ -1706,6 +1650,8 @@ table 'Campus Selector'
 			VAR _campus = [HTML_SelectedCampus]
 			
 			VAR _data = SUBSTITUTE([HTML_5WeekData], """", "")
+			
+			VAR _gdata = SUBSTITUTE([HTML_5WeekGatheringData], """", "")
 			
 			VAR _isDark = _theme = "Dark"
 			
@@ -1729,9 +1675,21 @@ table 'Campus Selector'
 			
 			VAR _avgBorder = IF(_isDark, "#222222", "#dddddd")
 			
+			VAR _segOn = IF(_isDark, "#262626", "#ffffff")
+			
+			VAR _zero = IF(_isDark, "rgba(255,255,255,0.35)", "rgba(0,0,0,0.35)")
+			
+			VAR _ttBg = IF(_isDark, "#1a1a1a", "#ffffff")
+			
+			VAR _ttBr = IF(_isDark, "#2a2a2a", "#dddddd")
+			
+			VAR _ttTx = IF(_isDark, "#ffffff", "#111111")
+			
 			RETURN
 			
-			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:630px;min-width:630px;}.hdr{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.avg-pill{margin-left:auto;background:" & _avgBg & ";border-radius:8px;padding:5px 14px;border:1px solid " & _avgBorder & ";text-align:center;flex-shrink:0;}.avg-lbl{font-size:9px;color:" & _axisColor & ";text-transform:uppercase;letter-spacing:0.07em;}.avg-val{font-size:16px;font-weight:700;}.cb{background:" & _cardBg & ";border-radius:10px;padding:14px 16px;}.card-label{font-size:10px;color:" & _txt & ";text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;}.chart-wrap{display:flex;gap:6px;}.y-axis{width:36px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;height:200px;padding-top:2px;}.y-lbl{font-size:10px;color:" & _axisColor & ";text-align:right;}.chart-right{flex:1;display:flex;flex-direction:column;}.canvas-wrap{position:relative;height:200px;}.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;}.labels-row{display:flex;margin-top:8px;}.lbl-cell{flex:1;text-align:center;font-size:9px;color:" & _txt & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}</style>" &
+			"<style>*{box-sizing:border-box;margin:0;padding:0;}.w{background:" & _bg & ";border-radius:12px;padding:16px;font-family:sans-serif;width:630px;min-width:630px;}.hdr{display:flex;align-items:center;gap:6px;margin-bottom:14px;flex-wrap:wrap;}.tabs{display:flex;gap:6px;flex-wrap:wrap;}.tab{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid " & _tabBorder & ";color:" & _tabColor & ";background:" & _tabBg & ";transition:all 0.15s;}.tab.active{border-color:var(--tc);color:var(--tc);}.avg-pill{margin-left:auto;background:" & _avgBg & ";border-radius:8px;padding:5px 14px;border:1px solid " & _avgBorder & ";text-align:center;flex-shrink:0;}.avg-lbl{font-size:9px;color:" & _axisColor & ";text-transform:uppercase;letter-spacing:0.07em;}.avg-val{font-size:16px;font-weight:700;}.cb{background:" & _cardBg & ";border-radius:10px;padding:14px 16px;}.card-label{font-size:10px;color:" & _txt & ";text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;}.chart-wrap{display:flex;gap:6px;}.y-axis{width:36px;flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;height:200px;padding-top:2px;}.y-lbl{font-size:10px;color:" & _axisColor & ";text-align:right;}.chart-right{flex:1;display:flex;flex-direction:column;}.canvas-wrap{position:relative;height:200px;}.canvas-wrap canvas{position:absolute;top:0;left:0;width:100%;height:100%;}.labels-row{display:flex;margin-top:8px;}.lbl-cell{flex:1;text-align:center;font-size:9px;color:" & _txt & ";white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}" &
+			
+			".opts{display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 12px;}.seg{display:inline-flex;border:1px solid " & _tabBorder & ";border-radius:8px;overflow:hidden;}.sg{font-size:11px;padding:4px 10px;cursor:pointer;color:" & _tabColor & ";background:" & _tabBg & ";user-select:none;}.sg.on{background:" & _segOn & ";color:var(--ac);font-weight:600;}.lbl-sub{display:block;font-size:8px;opacity:0.65;margin-top:2px;}.lgd{font-size:9px;margin-left:10px;text-transform:none;letter-spacing:0;}.tt{position:absolute;display:none;pointer-events:none;z-index:5;background:" & _ttBg & ";border:1px solid " & _ttBr & ";color:" & _ttTx & ";border-radius:6px;padding:7px 9px;font-size:11px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.25);}.tt-h{font-size:10px;opacity:0.6;margin-bottom:4px;}.tt-r{display:flex;justify-content:space-between;gap:14px;line-height:1.5;}</style>" &
 			
 			"<div class=""w""><div class=""hdr""><div class=""tabs"">" &
 			
@@ -1745,25 +1703,36 @@ table 'Campus Selector'
 			
 			"</div>" &
 			
-			"<div class=""avg-pill""><div class=""avg-lbl"">5 Week Avg</div><div class=""avg-val"" id=""avg-val"">—</div></div>" &
+			"<div class=""avg-pill""><div class=""avg-lbl"" id=""avg-lbl"">5 Week Avg</div><div class=""avg-val"" id=""avg-val"">—</div></div>" &
 			
 			"</div>" &
 			
-			"<div class=""cb""><div class=""card-label"">5 week overview</div>" &
+			"<div class=""opts"" id=""opts"" style=""display:none;"">" &
+			
+			"<div class=""seg"" id=""segG""><span class=""sg on"" data-v=""All"">All</span><span class=""sg"" data-v=""9:30am Gathering"">9:30</span><span class=""sg"" data-v=""11:45am Gathering"">11:45</span></div>" &
+			
+			"<div class=""seg"" id=""segV""><span class=""sg on"" data-v=""cnt"">Attendance</span><span class=""sg"" data-v=""wow"">WoW %</span><span class=""sg"" data-v=""yoy"">YoY %</span></div>" &
+			
+			"</div>" &
+			
+			"<div class=""cb""><div class=""card-label"" id=""card-label"">5 week overview</div>" &
 			
 			"<div class=""chart-wrap""><div class=""y-axis"" id=""y-axis""></div>" &
 			
 			"<div class=""chart-right""><div class=""canvas-wrap"">" &
 			
-			"<canvas id=""chart-canvas""></canvas>" &
+			"<canvas id=""chart-canvas""></canvas><div class=""tt"" id=""tt""></div>" &
 			
 			"</div><div class=""labels-row"" id=""labels-row""></div>" &
 			
 			"</div></div></div></div>" &
 			
-			"<script>(function(){" &
+			"<script>" &
+			"(function(){" &
 			
 			"var RAW=""" & _data & """;" &
+			
+			"var RAW_G=""" & _gdata & """;" &
 			
 			"var IS_DARK=" & IF(_isDark, "true", "false") & ";" &
 			
@@ -1773,21 +1742,45 @@ table 'Campus Selector'
 			
 			"var TXTCOL=""" & _txt & """;" &
 			
-			"var CAMPUS=[" &
+			"var ZERO=""" & _zero & """;" &
 			
-			"{color:IS_DARK?""#ffffff"":""#111111""}," &
+			"var TTBG=""" & _ttBg & """;var TTBR=""" & _ttBr & """;var TTTX=""" & _ttTx & """;" &
 			
-			"{color:""#00B8E4""}," &
+			"var CAMPUS=[{color:IS_DARK?""#ffffff"":""#111111""},{color:""#00B8E4""},{color:""#FF641C""},{color:""#931EE7""}];" &
 			
-			"{color:""#FF641C""}," &
+			"var KEYS=["""",""515"",""Cumberland"",""Trilith""];" &
 			
-			"{color:""#931EE7""}" &
+			"var UP=""#22C55E"";var DOWN=""#EF4444"";var LYC=IS_DARK?""#777777"":""#aaaaaa"";" &
 			
-			"];" &
+			"var HOVER=null;var gMode=""All"";var vMode=""cnt"";var curIdx=0;var G=null;" &
+			
+			"var GL={""All"":""All"",""9:30am Gathering"":""9:30"",""11:45am Gathering"":""11:45""};" &
 			
 			"function getIdx(){var c=""" & SUBSTITUTE(_campus, """", "") & """;if(c===""515"")return 1;if(c===""Cumberland"")return 2;if(c===""Trilith"")return 3;return 0;}" &
 			
 			"function parse(s){return s.split("","").map(function(v){return parseInt(v)||0;});}" &
+			
+			"function pn(s){return (s||"""").split("","").map(function(v){if(v==="""")return null;var n=parseFloat(v);return isNaN(n)?null:n;});}" &
+			
+			"function getG(){var s=RAW_G.split(""||"");var top=(s[0]||"""").split(""|"");var L={cur:(top[0]||"""").split("",""),pw:(top[1]||"""").split("",""),py:(top[2]||"""").split("","")};var map={};(s[1]||"""").split(""|"").forEach(function(b){var p=b.split(""~"");if(p.length<5)return;map[p[0]+""~""+p[1]]={cur:pn(p[2]),pw:pn(p[3]),py:pn(p[4])};});return{L:L,map:map};}" &
+			
+			"function pct(a,b){return (a==null||b==null||b===0)?null:(a-b)/b*100;}" &
+			
+			"function fp(v){return v==null?""—"":(v>0?""+"":"""")+v.toFixed(1)+""%"";}" &
+			
+			"function fk(v){return v>=1000?(v/1000).toFixed(1)+""K"":v;}" &
+			
+			"function shortYr(l){var sp=(l||"""").split(""~"");return sp[0]+(sp[1]?"" '""+sp[1].slice(2):"""");}" &
+			
+			"function fdt(l){var sp=(l||"""").split(""~"");return sp[0]+(sp[1]?"", ""+sp[1]:"""");}" &
+			
+			"function fn(v){return v==null?""no data"":Math.round(v).toLocaleString();}" &
+			
+			"function fd(a,b){if(a==null||b==null)return ""—"";var d=a-b;return (d>0?""+"":"""")+Math.round(d).toLocaleString()+"" (""+fp(pct(a,b))+"")"";}" &
+			
+			"function tip(head,rows){var h=""<div class='tt-h'>""+head+""</div>"";rows.forEach(function(r){h+=""<div class='tt-r'><span>""+r[0]+""</span><b""+(r[2]?"" style='color:""+r[2]+""'"":"""")+"">""+r[1]+""</b></div>"";});return h;}" &
+			
+			"function dc(a,b){var p=pct(a,b);return p==null?TXTCOL:(p>=0?UP:DOWN);}" &
 			
 			"var animId=null;" &
 			
@@ -1795,25 +1788,25 @@ table 'Campus Selector'
 			
 			"var eio=function(t){return t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2;};" &
 			
-			"function render(i){" &
+			"function setup(){var canvas=document.getElementById(""chart-canvas"");var W=canvas.parentNode.offsetWidth||500;var H=canvas.parentNode.offsetHeight||200;canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+""px"";canvas.style.height=H+""px"";var ctx=canvas.getContext(""2d"");ctx.scale(2,2);var PT=20,PB=4,PL=30,PR=30;return{ctx:ctx,W:W,H:H,PT:PT,PL:PL,PR:PR,cW:W-PL-PR,cH:H-PT-PB};}" &
 			
-			"if(animId)cancelAnimationFrame(animId);" &
+			"function yAxis(min,step,steps,fmt){var h="""";for(var s=steps;s>=0;s--){h+=""<div class='y-lbl'>""+fmt(min+step*s)+""</div>"";}document.getElementById(""y-axis"").innerHTML=h;}" &
 			
-			"var c=CAMPUS[i];" &
+			"function labelsRow(labels,subs){var h="""";var prevYr="""";labels.forEach(function(l,idx){var sp=l.split(""~"");var yr=sp[1];var display=sp[0]+(yr!==prevYr?"" ""+yr:"""");prevYr=yr;h+=""<div class='lbl-cell'>""+display+(subs?""<span class='lbl-sub'>""+subs[idx]+""</span>"":"""")+""</div>"";});document.getElementById(""labels-row"").innerHTML=h;}" &
 			
-			"var parts=RAW.split(""|"");" &
+			"function pillCount(label,a,color){document.getElementById(""avg-lbl"").textContent=label;var el=document.getElementById(""avg-val"");el.style.color=color;var start=null;var dur=800;var ease=function(t){return 1-Math.pow(1-t,3);};function tick(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(ease(p)*a).toLocaleString();if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);}" &
 			
-			"var labels=parts[0].split("","");" &
+			"function pillText(label,text,color){document.getElementById(""avg-lbl"").textContent=label;var el=document.getElementById(""avg-val"");el.style.color=color;el.textContent=text;}" &
 			
-			"var vals=parse(parts[i+1]);" &
+			"function drawGrid(ctx,S,steps){for(var g=0;g<=steps;g++){var gy=S.PT+g*(S.cH/steps);ctx.strokeStyle=GRID;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(S.PL,gy);ctx.lineTo(S.W-S.PR,gy);ctx.stroke();}}" &
 			
-			"var a=Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length);" &
+			"function stroke(ctx,pts,maxIdx){ctx.beginPath();var on=false;pts.forEach(function(p,idx){if(p.y==null){on=false;return;}if(idx>maxIdx){var q=pts[idx-1];if(on&&q&&q.y!=null&&idx-1<maxIdx){var f=maxIdx-(idx-1);ctx.lineTo(q.x+(p.x-q.x)*f,q.y+(p.y-q.y)*f);}on=false;return;}if(!on){ctx.moveTo(p.x,p.y);on=true;}else{ctx.lineTo(p.x,p.y);}});ctx.stroke();}" &
 			
-			"var avgEl=document.getElementById(""avg-val"");" &
+			"function drawLine(vals,color,labels,avg,tips){" &
 			
-			"avgEl.style.color=c.color;" &
+			"var a=avg!=null?avg:Math.round(vals.reduce(function(s,v){return s+v;},0)/vals.length);" &
 			
-			"(function(){var start=null;var dur=800;var ease=function(t){return 1-Math.pow(1-t,3);};function tick(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);avgEl.textContent=Math.floor(ease(p)*a).toLocaleString();if(p<1)requestAnimationFrame(tick);}requestAnimationFrame(tick);})();" &
+			"pillCount(""5 Week Avg"",a,color);" &
 			
 			"var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);" &
 			
@@ -1825,105 +1818,155 @@ table 'Campus Selector'
 			
 			"yMax=yMin+stepVal*steps;" &
 			
-			"var yHtml="""";for(var s=steps;s>=0;s--){var v=yMin+stepVal*s;yHtml+=""<div class='y-lbl'>""+( v>=1000?(v/1000).toFixed(1)+""K"":v)+""</div>"";}document.getElementById(""y-axis"").innerHTML=yHtml;" &
+			"yAxis(yMin,stepVal,steps,fk);labelsRow(labels);" &
 			
-			"var lHtml="""";var prevYr="""";labels.forEach(function(l){var sp=l.split(""~"");var dateStr=sp[0];var yr=sp[1];var display=dateStr+(yr!==prevYr?"" ""+yr:"""");prevYr=yr;lHtml+=""<div class='lbl-cell'>""+display+""</div>"";});document.getElementById(""labels-row"").innerHTML=lHtml;" &
+			"var S=setup();var ctx=S.ctx;var n=vals.length;" &
 			
-			"var canvas=document.getElementById(""chart-canvas"");" &
+			"function xp(idx){return S.PL+idx*(S.cW/(n-1));}" &
 			
-			"var W=canvas.parentNode.offsetWidth||500;var H=canvas.parentNode.offsetHeight||200;" &
-			
-			"canvas.width=W*2;canvas.height=H*2;canvas.style.width=W+""px"";canvas.style.height=H+""px"";" &
-			
-			"var ctx=canvas.getContext(""2d"");ctx.scale(2,2);" &
-			
-			"var PT=20;var PB=4;var PL=30;var PR=30;" &
-			
-			"var cW=W-PL-PR;var cH=H-PT-PB;var n=vals.length;" &
-			
-			"function xp(idx){return PL+idx*(cW/(n-1));}" &
-			
-			"function yp(v){return PT+cH-(((v-yMin)/(yMax-yMin))*cH);}" &
+			"function yp(v){return S.PT+S.cH-(((v-yMin)/(yMax-yMin))*S.cH);}" &
 			
 			"var pts=vals.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});" &
 			
-			"function drawGrid(){for(var g=0;g<=steps;g++){var gy=PT+g*(cH/steps);ctx.strokeStyle=GRID;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,gy);ctx.lineTo(W-PR,gy);ctx.stroke();}}" &
+			"HOVER={xs:pts.map(function(p){return p.x;}),ys:pts.map(function(p){return p.y;}),items:tips||vals.map(function(v,idx){return tip(fdt(labels[idx]),[[""Attendance"",fn(v)]]);})};" &
 			
-			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;" &
+			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;var startT=null;" &
 			
-			"var startT=null;" &
+			"function frame(ts){if(!startT)startT=ts;var elapsed=ts-startT;ctx.clearRect(0,0,S.W,S.H);drawGrid(ctx,S,steps);" &
 			
-			"function frame(ts){" &
+			"var lp=Math.min(elapsed/LINE_DUR,1);var maxIdx=eio(lp)*(n-1);" &
 			
-			"if(!startT)startT=ts;" &
+			"ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.lineJoin=""round"";ctx.lineCap=""round"";stroke(ctx,pts,maxIdx);" &
 			
-			"var elapsed=ts-startT;" &
+			"pts.forEach(function(p,idx){if(idx<=maxIdx){ctx.beginPath();ctx.fillStyle=color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
 			
-			"ctx.clearRect(0,0,W,H);drawGrid();" &
+			"if(elapsed>LINE_DUR){var la=(elapsed-LINE_DUR)/LABEL_DUR;pts.forEach(function(p,idx){var pt=Math.max(0,(la-idx/n)/0.4);var ep=bounce(Math.min(pt,1));if(ep>0){ctx.globalAlpha=Math.min(ep*2,1);ctx.fillStyle=color;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";ctx.fillText(p.v.toLocaleString(),p.x,p.y-10);ctx.globalAlpha=1;}});}" &
 			
-			"var lp=Math.min(elapsed/LINE_DUR,1);var lep=eio(lp);var maxIdx=lep*(n-1);" &
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;}" &
 			
-			"ctx.beginPath();ctx.strokeStyle=c.color;ctx.lineWidth=2.5;ctx.lineJoin=""round"";ctx.lineCap=""round"";" &
+			"animId=requestAnimationFrame(frame);}" &
 			
-			"pts.forEach(function(p,idx){" &
+			"function drawBars(p,labels,subs,tips){" &
 			
-			"if(idx===0){ctx.moveTo(p.x,p.y);return;}" &
+			"var nn=p.filter(function(v){return v!=null;});" &
 			
-			"if(idx<=maxIdx){ctx.lineTo(p.x,p.y);}" &
+			"var avg=nn.length?nn.reduce(function(s,v){return s+v;},0)/nn.length:null;" &
 			
-			"else if(idx-1<maxIdx){" &
+			"pillText(""Avg WoW"",fp(avg),avg==null?TXTCOL:(avg>=0?UP:DOWN));" &
 			
-			"var frac=maxIdx-(idx-1);" &
+			"var lo=Math.min.apply(null,[0].concat(nn));var hi=Math.max.apply(null,[0].concat(nn));" &
 			
-			"ctx.lineTo(pts[idx-1].x+(p.x-pts[idx-1].x)*frac,pts[idx-1].y+(p.y-pts[idx-1].y)*frac);" &
+			"if(hi===lo){hi=5;}var pad=(hi-lo)*0.25;if(lo<0)lo-=pad;if(hi>0)hi+=pad;" &
 			
-			"}" &
+			"var steps=4;var raw=(hi-lo)/steps;var mag=Math.pow(10,Math.floor(Math.log10(raw||1)));var step=Math.ceil(raw/mag)*mag||1;var min=Math.floor(lo/step)*step;while(min+step*steps<hi){step+=mag;min=Math.floor(lo/step)*step;}var max=min+step*steps;" &
 			
-			"});ctx.stroke();" &
+			"yAxis(min,step,steps,function(v){v=Math.round(v*10)/10;return (v>0?""+"":"""")+v+""%"";});labelsRow(labels,subs);" &
 			
-			"pts.forEach(function(p,idx){if(idx<=maxIdx){ctx.beginPath();ctx.fillStyle=c.color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
+			"var S=setup();var ctx=S.ctx;var n=p.length;var bw=Math.min(44,S.cW/n*0.5);" &
 			
-			"if(elapsed>LINE_DUR){" &
+			"function xp(idx){return S.PL+idx*(S.cW/(n-1));}" &
 			
-			"var la=(elapsed-LINE_DUR)/LABEL_DUR;" &
+			"function yp(v){return S.PT+S.cH-(((v-min)/(max-min))*S.cH);}" &
 			
-			"pts.forEach(function(p,idx){" &
+			"var y0=yp(0);HOVER={xs:p.map(function(v,idx){return xp(idx);}),ys:p.map(function(v){return v==null?y0:Math.min(y0,yp(v));}),items:tips};var BAR_DUR=600;var LABEL_DUR=400;var TOTAL=BAR_DUR+LABEL_DUR+200;var startT=null;" &
 			
-			"var delay=idx/n;" &
+			"function frame(ts){if(!startT)startT=ts;var elapsed=ts-startT;ctx.clearRect(0,0,S.W,S.H);drawGrid(ctx,S,steps);" &
 			
-			"var pt=Math.max(0,(la-delay)/0.4);" &
+			"ctx.strokeStyle=ZERO;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(S.PL,y0);ctx.lineTo(S.W-S.PR,y0);ctx.stroke();" &
 			
-			"var ep=bounce(Math.min(pt,1));" &
+			"var ep=eio(Math.min(elapsed/BAR_DUR,1));" &
 			
-			"if(ep>0){" &
+			"p.forEach(function(v,idx){if(v==null)return;var x=xp(idx);var yt=y0+(yp(v)-y0)*ep;ctx.fillStyle=v>=0?UP:DOWN;ctx.fillRect(x-bw/2,Math.min(y0,yt),bw,Math.abs(yt-y0));});" &
 			
-			"ctx.ATLAlpha=Math.min(ep*2,1);" &
+			"if(elapsed>BAR_DUR){var la=Math.min((elapsed-BAR_DUR)/LABEL_DUR,1);ctx.globalAlpha=la;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";p.forEach(function(v,idx){var x=xp(idx);if(v==null){ctx.fillStyle=TXTCOL;ctx.fillText(""—"",x,y0-6);return;}ctx.fillStyle=v>=0?UP:DOWN;ctx.fillText(fp(v),x,v>=0?yp(v)-6:yp(v)+14);});ctx.globalAlpha=1;}" &
 			
-			"ctx.fillStyle=c.color;ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";" &
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;}" &
 			
-			"ctx.fillText(p.v.toLocaleString(),p.x,p.y-10);" &
+			"animId=requestAnimationFrame(frame);}" &
 			
-			"ctx.ATLAlpha=1;" &
+			"function drawYoY(cur,py,color,labels,subs,tips){" &
 			
-			"}" &
+			"var sc=0,sp=0;cur.forEach(function(v,idx){if(v!=null&&py[idx]!=null){sc+=v;sp+=py[idx];}});var yoy=sp?(sc-sp)/sp*100:null;" &
 			
-			"});" &
+			"pillText(""5 Wk YoY"",fp(yoy),yoy==null?TXTCOL:(yoy>=0?UP:DOWN));" &
 			
-			"}" &
+			"var all=cur.concat(py).filter(function(v){return v!=null;});if(!all.length)all=[0];" &
 			
-			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;" &
+			"var max=Math.max.apply(null,all);var min=Math.min.apply(null,all);" &
 			
-			"}" &
+			"var pad=Math.round((max-min)*0.4);var yMax=max+pad;var yMin=Math.max(0,min-pad);" &
 			
-			"animId=requestAnimationFrame(frame);" &
+			"var steps=4;var raw=(yMax-yMin)/steps;var mag=Math.pow(10,Math.floor(Math.log10(raw||1)));var stepVal=Math.ceil(raw/mag)*mag||1000;yMax=yMin+stepVal*steps;" &
 			
-			"document.querySelectorAll("".tab"").forEach(function(t){t.classList.remove(""active"");if(Number(t.dataset.i)===i)t.classList.add(""active"");});}" &
+			"yAxis(yMin,stepVal,steps,fk);labelsRow(labels,subs);" &
+			
+			"var S=setup();var ctx=S.ctx;var n=cur.length;" &
+			
+			"function xp(idx){return S.PL+idx*(S.cW/(n-1));}" &
+			
+			"function yp(v){return v==null?null:S.PT+S.cH-(((v-yMin)/(yMax-yMin))*S.cH);}" &
+			
+			"var pc=cur.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});var pl=py.map(function(v,idx){return{x:xp(idx),y:yp(v),v:v};});HOVER={xs:pc.map(function(p){return p.x;}),ys:pc.map(function(p,idx){var a=[p.y,pl[idx].y].filter(function(y){return y!=null;});return a.length?Math.min.apply(null,a):S.PT;}),items:tips};" &
+			
+			"var LINE_DUR=600;var LABEL_DUR=400;var TOTAL=LINE_DUR+LABEL_DUR+200;var startT=null;" &
+			
+			"function frame(ts){if(!startT)startT=ts;var elapsed=ts-startT;ctx.clearRect(0,0,S.W,S.H);drawGrid(ctx,S,steps);" &
+			
+			"var maxIdx=eio(Math.min(elapsed/LINE_DUR,1))*(n-1);ctx.lineJoin=""round"";ctx.lineCap=""round"";" &
+			
+			"ctx.setLineDash([5,4]);ctx.strokeStyle=LYC;ctx.lineWidth=1.5;stroke(ctx,pl,maxIdx);ctx.setLineDash([]);" &
+			
+			"pl.forEach(function(p,idx){if(p.y!=null&&idx<=maxIdx){ctx.beginPath();ctx.fillStyle=LYC;ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fill();}});" &
+			
+			"ctx.strokeStyle=color;ctx.lineWidth=2.5;stroke(ctx,pc,maxIdx);" &
+			
+			"pc.forEach(function(p,idx){if(p.y!=null&&idx<=maxIdx){ctx.beginPath();ctx.fillStyle=color;ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fill();}});" &
+			
+			"if(elapsed>LINE_DUR){var la=(elapsed-LINE_DUR)/LABEL_DUR;ctx.globalAlpha=Math.min(la,1);ctx.font=""10px sans-serif"";ctx.textAlign=""center"";ctx.fillStyle=LYC;pl.forEach(function(p,idx){if(p.y==null)return;var cy=pc[idx].y;var above=(cy!=null&&p.y<cy);ctx.fillText(p.v.toLocaleString(),p.x,above?p.y-8:p.y+15);});ctx.globalAlpha=1;pc.forEach(function(p,idx){if(p.y==null)return;var d=pct(p.v,py[idx]);var pt=Math.max(0,(la-idx/n)/0.4);var ep=bounce(Math.min(pt,1));if(ep>0){ctx.globalAlpha=Math.min(ep*2,1);ctx.font=""bold 11px sans-serif"";ctx.textAlign=""center"";ctx.fillStyle=d==null?color:(d>=0?UP:DOWN);ctx.fillText(d==null?p.v.toLocaleString():fp(d),p.x,p.y-10);ctx.globalAlpha=1;}});}" &
+			
+			"if(elapsed<TOTAL)animId=requestAnimationFrame(frame);else animId=null;}" &
+			
+			"animId=requestAnimationFrame(frame);}" &
+			
+			"function render(i){" &
+			
+			"if(animId)cancelAnimationFrame(animId);animId=null;curIdx=i;HOVER=null;document.getElementById(""tt"").style.display=""none"";var c=CAMPUS[i];" &
+			
+			"document.querySelectorAll("".tab"").forEach(function(t){t.classList.remove(""active"");if(Number(t.dataset.i)===i)t.classList.add(""active"");});" &
+			
+			"var opts=document.getElementById(""opts"");opts.style.display=i>0?""flex"":""none"";opts.style.setProperty(""--ac"",c.color);" &
+			
+			"var lbl=document.getElementById(""card-label"");var parts=RAW.split(""|"");" &
+			
+			"if(i===0||(gMode===""All""&&vMode===""cnt"")){lbl.textContent=""5 week overview""+(i>0?"" · All"":"""");var L0=parts[0].split("","");var v0=parse(parts[i+1]);drawLine(v0,c.color,L0,null,v0.map(function(v,idx){return tip(fdt(L0[idx])+(i>0?"" · All"":""""),[[""Attendance"",fn(v)]]);}));return;}" &
+			
+			"if(!G)G=getG();var r=G.map[KEYS[i]+""~""+gMode]||{cur:[],pw:[],py:[]};var base=""5 week overview · ""+GL[gMode];" &
+			
+			"if(vMode===""cnt""){lbl.textContent=base;var nn=r.cur.filter(function(v){return v!=null;});var a=nn.length?Math.round(nn.reduce(function(s,v){return s+v;},0)/nn.length):0;drawLine(r.cur.map(function(v){return v==null?0:v;}),c.color,G.L.cur,a,r.cur.map(function(v,idx){return tip(fdt(G.L.cur[idx])+"" · ""+GL[gMode],[[""Attendance"",fn(v)]]);}));return;}" &
+			
+			"if(vMode===""wow""){lbl.textContent=base+"" · WoW %"";drawBars(r.cur.map(function(v,idx){return pct(v,r.pw[idx]);}),G.L.cur,G.L.pw.map(function(d){return ""vs ""+d;}),r.cur.map(function(v,idx){return tip(fdt(G.L.cur[idx])+"" · ""+GL[gMode],[[""This Sunday"",fn(v)],[G.L.pw[idx],fn(r.pw[idx])],[""Change"",fd(v,r.pw[idx]),dc(v,r.pw[idx])]]);}));return;}" &
+			
+			"var cy=(G.L.cur[G.L.cur.length-1]||"""").split(""~"")[1]||""This yr"";var ly=(G.L.py[G.L.py.length-1]||"""").split(""~"")[1]||""Last yr"";" &
+			
+			"lbl.innerHTML=base+"" · YoY %<span class='lgd' style='color:""+c.color+""'>━ ""+cy+""</span><span class='lgd' style='color:""+LYC+""'>┅ ""+ly+""</span>"";" &
+			
+			"drawYoY(r.cur,r.py,c.color,G.L.cur,G.L.py.map(function(d){return ""vs ""+shortYr(d);}),r.cur.map(function(v,idx){return tip(fdt(G.L.cur[idx])+"" · ""+GL[gMode],[[""This year"",fn(v)],[shortYr(G.L.py[idx]),fn(r.py[idx])],[""Change"",fd(v,r.py[idx]),dc(v,r.py[idx])]]);}));}" &
+			
+			"function bindSeg(id,setter){var els=document.querySelectorAll(""#""+id+"" .sg"");els.forEach(function(el){el.addEventListener(""click"",function(){els.forEach(function(x){x.classList.remove(""on"");});el.classList.add(""on"");setter(el.dataset.v);render(curIdx);});});}" &
+			
+			"(function(){var cv=document.getElementById(""chart-canvas"");var tt=document.getElementById(""tt"");cv.addEventListener(""mousemove"",function(e){if(!HOVER||!HOVER.items)return;var r=cv.getBoundingClientRect();var mx=e.clientX-r.left;var bi=0,bd=1e9;HOVER.xs.forEach(function(x,idx){var d=Math.abs(x-mx);if(d<bd){bd=d;bi=idx;}});tt.innerHTML=HOVER.items[bi];tt.style.display=""block"";var w=tt.offsetWidth,h=tt.offsetHeight;var W=cv.parentNode.offsetWidth||500;var left=Math.max(0,Math.min(W-w,HOVER.xs[bi]-w/2));var top=HOVER.ys[bi]-h-12;if(top<0)top=HOVER.ys[bi]+14;tt.style.left=left+""px"";tt.style.top=top+""px"";});cv.addEventListener(""mouseleave"",function(){tt.style.display=""none"";});})();" &
+			
+			"bindSeg(""segG"",function(v){gMode=v;});bindSeg(""segV"",function(v){vMode=v;});" &
 			
 			"document.querySelectorAll("".tab"").forEach(function(t){t.addEventListener(""click"",function(){render(Number(t.dataset.i));});});" &
 			
 			"setTimeout(function(){render(getIdx());},50);" &
 			
-			"})();</script>"
+			"})();" &
+			
+			"</script>"
+			
+			```
 		lineageTag: 371d3651-b6fb-4f6e-aa01-13292d1f464e
 
 	measure HTML_RegularSundayTable =
@@ -2568,7 +2611,7 @@ table 'Campus Selector'
 			
 			'</table>'+
 			
-			'<div class=\'by-campus\'><div class=\'small-title\'>By campus</div><div class=\'lolli-wrap\'>'+lolli+'</div></div>';
+			'<div class=\'by-campus\'><div class=\'small-title\'>By Location</div><div class=\'lolli-wrap\'>'+lolli+'</div></div>';
 			
 			}
 			
@@ -2600,7 +2643,7 @@ table 'Campus Selector'
 			
 			html+='<div class=\'campus-side\' style=\'background:'+c.color+'22;border-right-color:'+c.color+'66\'><div class=\'campus-name\' style=\'color:'+c.color+'\'>'+c.short+'</div><div class=\'campus-total\' style=\'color:'+c.color+'\'>'+numSpan(totalCur,false)+'</div></div>';
 			
-			html+='<table class=\'campus-table\'><tr><td class=\'col-hdr\' style=\'text-align:left;\'>Service</td><td class=\'col-hdr\'>Att</td><td class=\'col-hdr\'>Prev</td><td class=\'col-hdr\'>5WK Avg</td><td class=\'col-hdr\'>WoW%</td><td class=\'col-hdr\'>YoY%</td></tr>';
+			html+='<table class=\'campus-table\'><tr><td class=\'col-hdr\' style=\'text-align:left;\'>Gathering</td><td class=\'col-hdr\'>Att</td><td class=\'col-hdr\'>Prev</td><td class=\'col-hdr\'>5WK Avg</td><td class=\'col-hdr\'>WoW%</td><td class=\'col-hdr\'>YoY%</td></tr>';
 			
 			if(visibleServices.length===0){
 			
@@ -3623,20 +3666,25 @@ table 'Campus Selector'
 		formatString: 0
 		lineageTag: d0f63745-dffe-4704-a107-f780eb7319f1
 
-	measure OnlineAttendance = ```
+	measure OnlineAttendance =
 			
 			VAR _calDate = MINX(VALUES('Calendar'[Date]), 'Calendar'[Date])
 			VAR _maxDate = MAXX(ALL(v_gathering_views), DATEVALUE(v_gathering_views[sunday_date]))
 			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxDate, _calDate)
 			VAR _Sun = FORMAT(_SelectedDate, "YYYY-MM-DD")
-			VAR _NewData = 
+			
+			VAR _YouTube =
 			    SUMX(
-			        FILTER(
-			            v_gathering_views,
-			            v_gathering_views[sunday_date] = _Sun
-			        ),
+			        FILTER(v_gathering_views, v_gathering_views[sunday_date] = _Sun),
 			        ROUND(v_gathering_views[total_views] * 1.94, 0)
 			    )
+			
+			VAR _Facebook =
+			    SUMX(
+			        FILTER(facebook_sunday_snapshot, facebook_sunday_snapshot[sunday_date] = _SelectedDate),
+			        ROUND(facebook_sunday_snapshot[one_minute_views] * 1.94, 0)
+			    )
+			
 			VAR _OldData =
 			    CALCULATE(
 			        SUM('AttendanceInPerson_Online_WOW'[Count]),
@@ -3644,11 +3692,9 @@ table 'Campus Selector'
 			        'AttendanceInPerson_Online_WOW'[EventName] = "Sunday Gathering",
 			        DATEVALUE('AttendanceInPerson_Online_WOW'[MetricValueDateTime]) = _SelectedDate
 			    )
+			
 			RETURN
-			IF(_NewData > 0, _NewData, _OldData)
-			
-			
-			```
+			IF(_YouTube > 0, _YouTube + COALESCE(_Facebook, 0), _OldData)
 		lineageTag: 28260510-2b85-4459-bc7a-2afe9b4c5ae6
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
@@ -3755,22 +3801,41 @@ table 'Campus Selector'
 			
 			VAR _CurAtt = [OnlineAttendance]
 			VAR _PrevAtt = [PrevWeekOnlineAttendance]
-			VAR _WoW = DIVIDE(_CurAtt - _PrevAtt, _PrevAtt, 0)
+			VAR _PrevYrAtt = [OnlinePrevYearAttendance]
+			VAR _Avg5 = [Online5WkAvg]
+			
+			-- % changes (BLANK when there's nothing to compare against)
+			VAR _WoW = IF(_CurAtt > 0 && _PrevAtt > 0, DIVIDE(_CurAtt - _PrevAtt, _PrevAtt))
+			VAR _YoY = IF(_CurAtt > 0 && _PrevYrAtt > 0, DIVIDE(_CurAtt - _PrevYrAtt, _PrevYrAtt))
+			VAR _VsAvg = IF(_CurAtt > 0 && _Avg5 > 0, DIVIDE(_CurAtt - _Avg5, _Avg5))
+			
 			VAR _AttFmt = FORMAT(_CurAtt, "#,0")
-			VAR _PrevFmt = FORMAT(_PrevAtt, "#,0")
+			VAR _PrevFmt = IF(_PrevAtt > 0, FORMAT(_PrevAtt, "#,0"), "—")
+			VAR _PrevYrFmt = IF(_PrevYrAtt > 0, FORMAT(_PrevYrAtt, "#,0"), "—")
+			VAR _Avg5Fmt = IF(_Avg5 > 0, FORMAT(_Avg5, "#,0"), "—")
+			
 			VAR _Thumb = [SermonThumbnailUrl]
 			VAR _FallbackThumb = "https://passioncitychurch.com/wp-content/uploads/2026/02/mainimageAPPROVED-scaled.jpg"
 			VAR _HasRealThumb = NOT ISBLANK([SermonVideoId])
 			VAR _ThumbToShow = IF(_HasRealThumb, _Thumb, _FallbackThumb)
 			VAR _BadgeHtml = IF(_HasRealThumb, "<div class='play-chip'>SERMON</div>", "")
+			
 			VAR _IsDark = [SelectedTheme] = "Dark"
 			VAR _Bg = [CardBackground]
 			VAR _Txt = [CardTextColor]
 			VAR _Sec = [CardSecondaryText]
 			VAR _BorderColor = IF(_IsDark, "#2A2A2A", "#E5E7EB")
-			VAR _WoWColor = IF(_WoW >= 0, IF(_IsDark, "#4ADE80", "#166634"), IF(_IsDark, "#F87171", "#991B1B"))
-			VAR _WoWArrow = IF(_WoW >= 0, "▲", "▼")
-			VAR _WoWPct = FORMAT(ABS(_WoW), "0.0%")
+			VAR _Up = IF(_IsDark, "#4ADE80", "#166634")
+			VAR _Down = IF(_IsDark, "#F87171", "#991B1B")
+			
+			-- Color + text for each comparison
+			VAR _WoWColor = IF(ISBLANK(_WoW), _Sec, IF(_WoW >= 0, _Up, _Down))
+			VAR _WoWText = IF(ISBLANK(_WoW), "—", IF(_WoW >= 0, "▲ ", "▼ ") & FORMAT(ABS(_WoW), "0.0%"))
+			VAR _YoYColor = IF(ISBLANK(_YoY), _Sec, IF(_YoY >= 0, _Up, _Down))
+			VAR _YoYText = IF(ISBLANK(_YoY), "—", IF(_YoY >= 0, "▲ ", "▼ ") & FORMAT(ABS(_YoY), "0.0%"))
+			VAR _AvgColor = IF(ISBLANK(_VsAvg), _Sec, IF(_VsAvg >= 0, _Up, _Down))
+			VAR _AvgText = IF(ISBLANK(_VsAvg), "—", IF(_VsAvg >= 0, "▲ ", "▼ ") & FORMAT(ABS(_VsAvg), "0.0%"))
+			
 			VAR _NoData = _CurAtt = 0
 			VAR _PlaceholderBg = IF(_IsDark, "#1A1A1A", "#F3F4F6")
 			RETURN
@@ -3801,12 +3866,13 @@ table 'Campus Selector'
 			.thumb-wrap { position:relative; width:100%; height:330px; background:#000; overflow:hidden; }
 			.thumb-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
 			.play-chip { position:absolute; top:12px; left:12px; background:rgba(0,0,0,0.55); color:#fff; font-size:11px; font-weight:700; padding:4px 10px; border-radius:6px; letter-spacing:0.02em; }
-			.stat-row { display:flex; align-items:flex-end; justify-content:space-between; padding:18px 18px 20px; }
-			.stat-label-d { font-size:11px; font-weight:700; color:" & _Sec & "; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
-			.stat-num-d { font-size:38px; font-weight:900; color:" & _Txt & "; line-height:1; animation:fadeSlideIn 0.8s ease-out; }
-			.wow-chip { display:flex; flex-direction:column; align-items:flex-end; gap:3px; }
-			.wow-pct { font-size:13px; font-weight:800; color:" & _WoWColor & "; display:flex; align-items:center; gap:3px; }
-			.wow-prev { font-size:11px; color:" & _Sec & "; font-weight:600; }
+			.strip { display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; }
+			.cell { padding:16px 14px 18px; display:flex; flex-direction:column; justify-content:center; min-width:0; }
+			.cell + .cell { border-left:1px solid " & _BorderColor & "; }
+			.k { font-size:10px; font-weight:700; color:" & _Sec & "; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; white-space:nowrap; }
+			.main-num { font-size:34px; font-weight:900; color:" & _Txt & "; line-height:1; animation:fadeSlideIn 0.8s ease-out; }
+			.pct { font-size:16px; font-weight:800; line-height:1.1; white-space:nowrap; }
+			.base { font-size:11px; font-weight:600; color:" & _Sec & "; margin-top:4px; }
 			@keyframes fadeSlideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 			</style>
 			<div class='online-card'>
@@ -3814,14 +3880,25 @@ table 'Campus Selector'
 			<img src='" & _ThumbToShow & "' />
 			" & _BadgeHtml & "
 			</div>
-			<div class='stat-row'>
-			<div>
-			<div class='stat-label-d'>Online attendance</div>
-			<div class='stat-num-d'>" & _AttFmt & "</div>
+			<div class='strip'>
+			<div class='cell'>
+			<div class='k'>Online attendance</div>
+			<div class='main-num'>" & _AttFmt & "</div>
 			</div>
-			<div class='wow-chip'>
-			<div class='wow-pct'>" & _WoWArrow & " " & _WoWPct & "</div>
-			<div class='wow-prev'>Prev wk " & _PrevFmt & "</div>
+			<div class='cell'>
+			<div class='k'>last wk</div>
+			<div class='pct' style='color:" & _WoWColor & "'>" & _WoWText & "</div>
+			<div class='base'>" & _PrevFmt & "</div>
+			</div>
+			<div class='cell'>
+			<div class='k'>last yr</div>
+			<div class='pct' style='color:" & _YoYColor & "'>" & _YoYText & "</div>
+			<div class='base'>" & _PrevYrFmt & "</div>
+			</div>
+			<div class='cell'>
+			<div class='k'>5-wk avg</div>
+			<div class='pct' style='color:" & _AvgColor & "'>" & _AvgText & "</div>
+			<div class='base'>" & _Avg5Fmt & "</div>
 			</div>
 			</div>
 			</div>"
@@ -4608,6 +4685,240 @@ table 'Campus Selector'
 			)   
 			```
 		lineageTag: 8da1a582-bb3c-4f67-9041-b63055c2195a
+
+	measure HTML_MonthlyYoYData =
+			
+			VAR _CampusName =
+			    SWITCH(
+			        SELECTEDVALUE('Campus Selector'[CampusKey]),
+			        "515", "515",
+			        "Cumberland", "Cumberland",
+			        "Trilith", "Trilith",
+			        "515"
+			    )
+			
+			VAR _Today = [MaxselectedDate]
+			VAR _MinYear = YEAR(_Today) - 4
+			VAR _MaxYear = YEAR(_Today)
+			
+			VAR _AllMonths =
+			    SELECTCOLUMNS(
+			        GENERATESERIES(1, 12, 1),
+			        "Mo", [Value]
+			    )
+			
+			VAR _Y1 = _MinYear
+			VAR _Y2 = _MinYear + 1
+			VAR _Y3 = _MinYear + 2
+			VAR _Y4 = _MinYear + 3
+			VAR _Y5 = _MaxYear
+			
+			VAR _YearList = _Y1 & "," & _Y2 & "," & _Y3 & "," & _Y4 & "," & _Y5
+			
+			VAR _MonthLabels =
+			    CONCATENATEX(_AllMonths, FORMAT(DATE(2000, [Mo], 1), "MMM"), ",", [Mo], ASC)
+			
+			VAR _D1 = CONCATENATEX(_AllMonths, VAR _Month = [Mo] RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y1, MONTH(AttendanceInPerson_WOW[MetricValueDateTime]) = _Month), ",", [Mo], ASC)
+			VAR _D2 = CONCATENATEX(_AllMonths, VAR _Month = [Mo] RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y2, MONTH(AttendanceInPerson_WOW[MetricValueDateTime]) = _Month), ",", [Mo], ASC)
+			VAR _D3 = CONCATENATEX(_AllMonths, VAR _Month = [Mo] RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y3, MONTH(AttendanceInPerson_WOW[MetricValueDateTime]) = _Month), ",", [Mo], ASC)
+			VAR _D4 = CONCATENATEX(_AllMonths, VAR _Month = [Mo] RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y4, MONTH(AttendanceInPerson_WOW[MetricValueDateTime]) = _Month), ",", [Mo], ASC)
+			VAR _D5 = CONCATENATEX(_AllMonths, VAR _Month = [Mo] RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]), AttendanceInPerson_WOW[CampusName] = _CampusName, YEAR(AttendanceInPerson_WOW[MetricValueDateTime]) = _Y5, MONTH(AttendanceInPerson_WOW[MetricValueDateTime]) = _Month), ",", [Mo], ASC)
+			
+			RETURN
+			    _MonthLabels & "||" & _YearList & "||" & _D1 & "|" & _D2 & "|" & _D3 & "|" & _D4 & "|" & _D5
+		lineageTag: 9e809987-118d-4375-a71b-a9b2d3465d45
+
+	measure HTML_WeeklyGatheringData = ```
+			
+			VAR _Today = TODAY()
+			VAR _Start = _Today - 364
+			
+			VAR _Dates =
+			    FILTER(
+			        VALUES(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        AttendanceInPerson_WOW[MetricValueDateTime] > _Start
+			            && AttendanceInPerson_WOW[MetricValueDateTime] <= _Today
+			    )
+			
+			VAR _Grid =
+			    CROSSJOIN(
+			        DATATABLE("G", STRING, "GOrd", INTEGER,
+			            {{"All", 1}, {"9:30am Gathering", 2}, {"11:45am Gathering", 3}}),
+			        DATATABLE("Cp", STRING, "COrd", INTEGER,
+			            {{"ATL", 1}, {"515", 2}, {"Cumberland", 3}, {"Trilith", 4}})
+			    )
+			
+			VAR _Labels =
+			    CONCATENATEX(
+			        _Dates,
+			        FORMAT(AttendanceInPerson_WOW[MetricValueDateTime], "MMM d"),
+			        ",",
+			        AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			    )
+			
+			VAR _Series =
+			    CONCATENATEX(
+			        _Grid,
+			        VAR _g  = [G]
+			        VAR _cp = [Cp]
+			        VAR _CampusF =
+			            FILTER(
+			                ALL(AttendanceInPerson_WOW[CampusName]),
+			                IF(
+			                    _cp = "ATL",
+			                    AttendanceInPerson_WOW[CampusName] IN {"515", "Cumberland", "Trilith"},
+			                    AttendanceInPerson_WOW[CampusName] = _cp
+			                )
+			            )
+			        VAR _SlotF =
+			            FILTER(
+			                ALL(AttendanceInPerson_WOW[ServiceSlot]),
+			                _g = "All" || AttendanceInPerson_WOW[ServiceSlot] = _g
+			            )
+			        VAR _Cur =
+			            CONCATENATEX(
+			                _Dates,
+			                VAR _d = AttendanceInPerson_WOW[MetricValueDateTime]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d, _CampusF, _SlotF),
+			                ",", AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			            )
+			        VAR _PW =
+			            CONCATENATEX(
+			                _Dates,
+			                VAR _d = AttendanceInPerson_WOW[MetricValueDateTime] - 7
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d, _CampusF, _SlotF),
+			                ",", AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			            )
+			        VAR _PY =
+			            CONCATENATEX(
+			                _Dates,
+			                VAR _d = AttendanceInPerson_WOW[MetricValueDateTime] - 364
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d, _CampusF, _SlotF),
+			                ",", AttendanceInPerson_WOW[MetricValueDateTime], ASC
+			            )
+			        RETURN _g & "~" & _cp & "~" & _Cur & "~" & _PW & "~" & _PY,
+			        "|",
+			        [GOrd], ASC,
+			        [COrd], ASC
+			    )
+			
+			RETURN
+			    _Labels & "||" & _Series
+			
+			
+			```
+		lineageTag: 3166e767-b958-4602-ba45-ee9d3f654bd0
+
+	measure HTML_5WeekGatheringData = ```
+			
+			// Feeds the campus-tab views (515 / CBL / Trilith) on the 5-week chart.
+			// Same 5 Sundays as HTML_5WeekData (follows the selected date, skips Sundays with no gathering).
+			// Output: labels | priorLabels | lastYearLabels || Campus~Gathering~cur~prior~lastYear | ...
+			//   prior    = the previous Sunday that had a gathering (so a Sabbath week doesn't blank the bar)
+			//   lastYear = same Sunday 52 weeks earlier (date - 364)
+			
+			VAR _calDate = MINX(VALUES('Calendar'[selecteddate]), 'Calendar'[selecteddate])
+			VAR _maxAttDate =
+			    MAXX(
+			        FILTER(
+			            ALL(AttendanceInPerson_WOW[MetricValueDateTime]),
+			            WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			        ),
+			        AttendanceInPerson_WOW[MetricValueDateTime]
+			    )
+			VAR _SelectedDate = IF(YEAR(_calDate) < 2020, _maxAttDate, _calDate)
+			
+			VAR _Gathered =
+			    FILTER(
+			        VALUES(AttendanceInPerson_WOW[MetricValueDateTime]),
+			        WEEKDAY(AttendanceInPerson_WOW[MetricValueDateTime], 2) = 7
+			            && CALCULATE(
+			                SUM(AttendanceInPerson_WOW[Count]),
+			                AttendanceInPerson_WOW[CampusName] IN {"515", "Cumberland", "Trilith"},
+			                REMOVEFILTERS(AttendanceInPerson_WOW[Literal])
+			            ) > 0
+			    )
+			
+			VAR _5Weeks =
+			    TOPN(
+			        5,
+			        FILTER(_Gathered, AttendanceInPerson_WOW[MetricValueDateTime] <= _SelectedDate),
+			        AttendanceInPerson_WOW[MetricValueDateTime], DESC
+			    )
+			
+			VAR _Wk =
+			    ADDCOLUMNS(
+			        _5Weeks,
+			        "__d", AttendanceInPerson_WOW[MetricValueDateTime],
+			        "__pw",
+			            VAR _cur = AttendanceInPerson_WOW[MetricValueDateTime]
+			            RETURN MAXX(
+			                FILTER(_Gathered, AttendanceInPerson_WOW[MetricValueDateTime] < _cur),
+			                AttendanceInPerson_WOW[MetricValueDateTime]
+			            ),
+			        "__py", AttendanceInPerson_WOW[MetricValueDateTime] - 364
+			    )
+			
+			VAR _Labels   = CONCATENATEX(_Wk, FORMAT([__d],  "MMM D~YYYY"), ",", [__d], ASC)
+			VAR _PWLabels = CONCATENATEX(_Wk, FORMAT([__pw], "MMM D"),      ",", [__d], ASC)
+			VAR _PYLabels = CONCATENATEX(_Wk, FORMAT([__py], "MMM D~YYYY"), ",", [__d], ASC)
+			
+			VAR _Grid =
+			    CROSSJOIN(
+			        DATATABLE("Cp", STRING, "COrd", INTEGER,
+			            {{"515", 1}, {"Cumberland", 2}, {"Trilith", 3}}),
+			        DATATABLE("G", STRING, "GOrd", INTEGER,
+			            {{"All", 1}, {"9:30am Gathering", 2}, {"11:45am Gathering", 3}})
+			    )
+			
+			VAR _Series =
+			    CONCATENATEX(
+			        _Grid,
+			        VAR _cp = [Cp]
+			        VAR _g  = [G]
+			        VAR _SlotF =
+			            FILTER(
+			                ALL(AttendanceInPerson_WOW[ServiceSlot]),
+			                _g = "All" || AttendanceInPerson_WOW[ServiceSlot] = _g
+			            )
+			        VAR _Cur =
+			            CONCATENATEX(_Wk,
+			                VAR _d = [__d]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d,
+			                    AttendanceInPerson_WOW[CampusName] = _cp,
+			                    _SlotF, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])),
+			                ",", [__d], ASC)
+			        VAR _PW =
+			            CONCATENATEX(_Wk,
+			                VAR _d = [__pw]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d,
+			                    AttendanceInPerson_WOW[CampusName] = _cp,
+			                    _SlotF, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])),
+			                ",", [__d], ASC)
+			        VAR _PY =
+			            CONCATENATEX(_Wk,
+			                VAR _d = [__py]
+			                RETURN CALCULATE(SUM(AttendanceInPerson_WOW[Count]),
+			                    AttendanceInPerson_WOW[MetricValueDateTime] = _d,
+			                    AttendanceInPerson_WOW[CampusName] = _cp,
+			                    _SlotF, REMOVEFILTERS(AttendanceInPerson_WOW[Literal])),
+			                ",", [__d], ASC)
+			        RETURN _cp & "~" & _g & "~" & _Cur & "~" & _PW & "~" & _PY,
+			        "|",
+			        [COrd], ASC,
+			        [GOrd], ASC
+			    )
+			
+			RETURN
+			    _Labels & "|" & _PWLabels & "|" & _PYLabels & "||" & _Series
+			
+			```
+		lineageTag: 3105ab28-0bce-41fb-bd4e-703c43226586
 
 	column CampusLabel
 		lineageTag: 9e347b89-c56b-40cc-ade9-d1df94466e3c

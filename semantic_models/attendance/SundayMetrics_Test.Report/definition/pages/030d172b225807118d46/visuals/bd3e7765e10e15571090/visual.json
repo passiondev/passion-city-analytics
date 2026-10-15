@@ -1,11 +1,11 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "bd3e7765e10e15571090",
   "position": {
     "x": 592,
     "y": 855,
     "z": 19000,
-    "height": 440,
+    "height": 433,
     "width": 688,
     "tabOrder": 17000
   },
@@ -49,5 +49,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e1254ddc4e3e08e08d59",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Campus Selector"
+              }
+            },
+            "Property": "HTML_Card_FirstTimeGivers"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

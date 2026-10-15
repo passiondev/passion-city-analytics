@@ -8,11 +8,6 @@ table fact_checkin
 		summarizeBy: none
 		sourceColumn: AOSundayDate
 
-		variation Variation
-			isDefault
-			relationship: ad9a8dc6-580b-49fd-9517-0ecba1f98a8a
-			defaultHierarchy: LocalDateTable_45e29300-017f-4ecf-a607-cf9d4527166a.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -33,11 +28,6 @@ table fact_checkin
 		summarizeBy: none
 		sourceColumn: LastGiftDate
 
-		variation Variation
-			isDefault
-			relationship: 1b40fee9-0c15-440d-9142-c2ea32048354
-			defaultHierarchy: LocalDateTable_9bddb686-ff48-4cef-accb-85ca623594d5.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
@@ -48,11 +38,6 @@ table fact_checkin
 		lineageTag: 6ab849bb-8d10-422b-85b6-a4721de92dc2
 		summarizeBy: none
 		sourceColumn: PrevGiftDate
-
-		variation Variation
-			isDefault
-			relationship: 6d988595-1867-4796-9313-5d98c1dd2fbc
-			defaultHierarchy: LocalDateTable_210d6bb2-140b-4fca-9c17-50ed428a12cf.'Date Hierarchy'
 
 		annotation SummarizationSetBy = Automatic
 

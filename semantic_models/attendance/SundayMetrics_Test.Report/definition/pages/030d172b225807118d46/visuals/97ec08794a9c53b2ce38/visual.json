@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "97ec08794a9c53b2ce38",
   "position": {
     "x": 1120,
@@ -91,5 +91,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "e3c01dec0b7ac198aa81",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Theme"
+              }
+            },
+            "Property": "Theme"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
