@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: stg_rock__financial_accounts
+    description: >
+      Conformed view of Rock's FinancialAccount table, the chart of funds
+      that gifts are recorded against. One row per account. Accounts can
+      nest under a parent through parent_account_id. Transaction detail rows
+      join to it on financial_account_id. Derives is_currently_active from
+      the active flag and the account's start and end dates.
+    columns:
+      - name: financial_account_id
+        description: Natural identifier from Rock (FinancialAccount.Id).
+        tests:
+          - unique
+          - not_null
+      - name: parent_account_id
+        description: Foreign key to this account's parent account, if nested.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_rock__financial_accounts')
+                field: financial_account_id
+              config:
+                severity: warn
+      - name: campus_id
+        description: Campus the account is tied to, if any.
+      - name: name
+        description: Internal name of the account.
+        tests:
+          - not_null
+      - name: public_name
+        description: Name shown to donors, when different from the internal name.
+      - name: gl_code
+        description: General ledger code used for accounting exports.
+      - name: sort_order
+        description: Rock's manual ordering value for the account (the Order column).
+      - name: is_active
+        description: Raw active flag from Rock.
+      - name: is_tax_deductible
+        description: Whether gifts to this account are tax deductible.
+      - name: start_date
+        description: First date the account accepts gifts, if set.
+      - name: end_date
+        description: Last date the account accepts gifts, if set.
+      - name: is_currently_active
+        description: >
+          Business logic: true only when is_active is true AND today falls
+          within the optional start and end dates. Use this, not is_active
+          alone, when listing funds that can currently receive gifts.
+        tests:
+          - not_null
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.

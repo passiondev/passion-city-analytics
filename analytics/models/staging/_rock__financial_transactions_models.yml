@@ -1,0 +1,112 @@
+version: 2
+
+models:
+  - name: stg_rock__financial_transactions
+    description: >
+      Conformed view of Rock's FinancialTransaction table. One row per
+      transaction (the header), such as one online gift or one check. It
+      holds no dollar amounts: amounts live on stg_rock__financial_transaction_details,
+      one row per fund the transaction was split across. Join on
+      financial_transaction_id. Check MICR fields and Summary are
+      intentionally excluded.
+    columns:
+      - name: financial_transaction_id
+        description: Natural identifier from Rock (FinancialTransaction.Id).
+        tests:
+          - unique
+          - not_null
+      - name: batch_id
+        description: Foreign key to the financial batch the transaction was entered in.
+      - name: scheduled_transaction_id
+        description: Foreign key to the recurring gift schedule that produced this transaction, if any.
+      - name: financial_gateway_id
+        description: Foreign key to the payment gateway used, if any.
+      - name: authorized_person_alias_id
+        description: >
+          Foreign key to Rock's PersonAlias for the giver. Not a person_id:
+          it needs the PersonAlias table to resolve to a person.
+      - name: transaction_type_value_id
+        description: Raw DefinedValue id for the transaction type (contribution, event registration, and so on).
+      - name: source_type_value_id
+        description: Raw DefinedValue id for how the gift arrived (website, kiosk, bank import, and so on).
+      - name: status
+        description: Result text from the payment gateway, when there is one.
+      - name: transaction_at
+        description: Date and time of the transaction, as Rock shows it.
+      - name: transaction_date
+        description: Calendar date of the transaction. Use this for daily and monthly giving rollups.
+      - name: sunday_date
+        description: Rock's weekly rollup date, the Sunday that ends the week containing the transaction.
+      - name: is_settled
+        description: Whether the gateway has settled the transaction.
+      - name: is_reconciled
+        description: Whether the transaction has been reconciled in a batch.
+      - name: show_as_anonymous
+        description: >
+          True when the giver asked to be shown as anonymous. Any report
+          that names givers should respect this flag.
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.
+
+  - name: stg_rock__financial_transaction_details
+    description: >
+      Conformed view of Rock's FinancialTransactionDetail table. One row per
+      fund a transaction was applied to, so a gift split across two funds has
+      two rows. This is where the dollar amounts live. Join to
+      stg_rock__financial_transactions for the date and giver, and to
+      stg_rock__financial_accounts for the fund. Summary is intentionally excluded.
+    columns:
+      - name: financial_transaction_detail_id
+        description: Natural identifier from Rock (FinancialTransactionDetail.Id).
+        tests:
+          - unique
+          - not_null
+      - name: financial_transaction_id
+        description: Foreign key to stg_rock__financial_transactions.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_rock__financial_transactions')
+                field: financial_transaction_id
+              config:
+                severity: warn
+      - name: financial_account_id
+        description: Foreign key to stg_rock__financial_accounts, the fund the amount went to.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_rock__financial_accounts')
+                field: financial_account_id
+              config:
+                severity: warn
+      - name: entity_type_id
+        description: Optional type of the thing the gift was for, such as an event or group.
+      - name: entity_id
+        description: Optional id of the thing the gift was for, interpreted with entity_type_id.
+      - name: amount
+        description: >
+          Amount applied to the fund, in the transaction's currency, as an
+          exact decimal. Negative for refunds and reversals.
+      - name: fee_amount
+        description: >
+          Processing fee Rock recorded against this line. How it relates to
+          fee_coverage_amount depends on how your church set up fee
+          coverage, so confirm before computing net giving.
+      - name: fee_coverage_amount
+        description: Portion of the fee the giver chose to cover, when that option is used.
+      - name: foreign_currency_amount
+        description: Amount in the original currency for non-default-currency gifts.
+      - name: is_refund
+        description: >
+          Business logic: true when amount is negative. Keeps refunds and
+          reversals from being counted as gifts in "total given" logic.
+        tests:
+          - not_null
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.

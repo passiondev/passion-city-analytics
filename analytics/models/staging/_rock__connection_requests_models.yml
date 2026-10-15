@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: stg_rock__connection_requests
+    description: >
+      Conformed view of Rock's ConnectionRequest table. One row per request
+      a person has made to connect with an opportunity (a team, class, or
+      next step). Decodes the connection state and derives is_connected and
+      days_to_connect. The Comments field is intentionally excluded.
+    columns:
+      - name: connection_request_id
+        description: Natural identifier from Rock (ConnectionRequest.Id).
+        tests:
+          - unique
+          - not_null
+      - name: connection_opportunity_id
+        description: Foreign key to the connection opportunity the request is for.
+        tests:
+          - not_null
+      - name: connection_type_id
+        description: Foreign key to the connection type of the opportunity.
+      - name: connection_status_id
+        description: Foreign key to the request's workflow status within its connection type.
+      - name: person_alias_id
+        description: Foreign key to Rock's PersonAlias for the person who made the request.
+        tests:
+          - not_null
+      - name: connector_person_alias_id
+        description: Foreign key to PersonAlias for the person assigned to follow up, if any.
+      - name: campus_id
+        description: Campus associated with the request.
+      - name: assigned_group_id
+        description: Group the person was assigned to, if any.
+      - name: connection_state_code
+        description: Raw Rock connection state code.
+      - name: connection_state
+        description: "Decoded state: Active, Inactive, Future Follow-up, Connected, or Unknown."
+      - name: is_connected
+        description: >
+          Business logic: true only when Rock's connection state is Connected.
+          Null state is treated as not connected.
+        tests:
+          - not_null
+      - name: days_to_connect
+        description: >
+          Whole days between created_at and connected_at. Null when the
+          request has not been connected, so averages only cover finished
+          requests.
+      - name: followup_at
+        description: When follow-up on the request is scheduled.
+      - name: due_date
+        description: Date the request is due.
+      - name: connected_at
+        description: Timestamp the request was marked connected.
+      - name: was_completed_on_time
+        description: Whether the request was completed by its due date, as flagged by Rock.
+      - name: sort_order
+        description: Rock's manual ordering value for the request within its opportunity (the Order column).
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.

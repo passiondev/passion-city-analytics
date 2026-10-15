@@ -12,6 +12,42 @@ sources:
     database: "{{ target.project }}"
     schema: bronze
     tables:
+      - name: rock_attendance
+        description: >
+          Raw extract of Rock's Attendance table. One row per person per
+          occurrence, including people who were only scheduled or RSVP'd.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the attendance record.
+            tests:
+              - unique
+              - not_null
+          - name: OccurrenceId
+            description: Foreign key to AttendanceOccurrence.
+          - name: PersonAliasId
+            description: Foreign key to PersonAlias.
+          - name: DidAttend
+            description: Whether the person actually attended.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_attendance_occurrences
+        description: >
+          Raw extract of Rock's AttendanceOccurrence table. One row per
+          occurrence of a group meeting or service.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the occurrence.
+            tests:
+              - unique
+              - not_null
+          - name: OccurrenceDate
+            description: Date of the occurrence.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
       - name: rock_people
         description: >
           Raw extract of Rock's `dbo.Person` table. One row per person
@@ -131,3 +167,182 @@ sources:
             description: Ingestion metadata — timestamp this row was loaded into BigQuery bronze.
           - name: _source_system
             description: Ingestion metadata — constant "rock_rms".
+
+      - name: rock_connection_requests
+        description: >
+          Raw extract of Rock's ConnectionRequest table. One row per request
+          a person has made to connect with an opportunity.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the connection request.
+            tests:
+              - unique
+              - not_null
+          - name: ConnectionOpportunityId
+            description: Foreign key to the connection opportunity.
+          - name: PersonAliasId
+            description: Foreign key to PersonAlias for the requester.
+          - name: ConnectionState
+            description: Raw connection state code.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+    
+      - name: rock_group_members
+        description: >
+          Raw extract of Rock's GroupMember table. One row per person's
+          membership in a group.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the membership.
+            tests:
+              - unique
+              - not_null
+          - name: GroupId
+            description: Foreign key to the group.
+          - name: PersonId
+            description: Foreign key to the person.
+          - name: GroupMemberStatus
+            description: Raw membership status code.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_financial_accounts
+        description: >
+          Raw extract of Rock's FinancialAccount table. The chart of funds
+          that gifts are recorded against.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the account.
+            tests:
+              - unique
+              - not_null
+          - name: ParentAccountId
+            description: Foreign key to the parent account, if nested.
+          - name: IsActive
+            description: Raw active flag.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+        
+      - name: rock_financial_transactions
+        description: >
+          Raw extract of Rock's FinancialTransaction table. One row per
+          transaction header. Dollar amounts are on the detail table.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the transaction.
+            tests:
+              - unique
+              - not_null
+          - name: TransactionDateTime
+            description: Date and time of the transaction.
+          - name: AuthorizedPersonAliasId
+            description: Foreign key to PersonAlias for the giver.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_financial_transaction_details
+        description: >
+          Raw extract of Rock's FinancialTransactionDetail table. One row
+          per fund a transaction was applied to, with the amounts.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the detail line.
+            tests:
+              - unique
+              - not_null
+          - name: TransactionId
+            description: Foreign key to the transaction header.
+          - name: AccountId
+            description: Foreign key to the financial account (fund).
+          - name: Amount
+            description: Amount applied to the fund. Negative for refunds.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_person_aliases
+        description: Raw extract of Rock's PersonAlias table. Bridges alias ids to person ids.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the alias.
+            tests:
+              - unique
+              - not_null
+          - name: PersonId
+            description: The person the alias currently resolves to.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_defined_values
+        description: Raw extract of Rock's DefinedValue table. The lookup behind every ...ValueId column.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the defined value.
+            tests:
+              - unique
+              - not_null
+          - name: DefinedTypeId
+            description: The defined type (list) the value belongs to.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_group_types
+        description: Raw extract of Rock's GroupType table. One row per kind of group.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the group type.
+            tests:
+              - unique
+              - not_null
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_campuses
+        description: Raw extract of Rock's Campus table. One row per campus.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the campus.
+            tests:
+              - unique
+              - not_null
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_connection_opportunities
+        description: Raw extract of Rock's ConnectionOpportunity table. One row per requestable opportunity.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Rock's internal ID for the opportunity.
+            tests:
+              - unique
+              - not_null
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.
+
+      - name: rock_analytics_dim_person_historical
+        description: >
+          Raw extract of Rock's AnalyticsDimPersonHistorical table, a
+          slowly changing history of each person's attributes. One row per
+          person per period.
+        loaded_at_field: _loaded_at
+        columns:
+          - name: Id
+            description: Surrogate key for this historical snapshot row.
+            tests:
+              - unique
+              - not_null
+          - name: PersonId
+            description: The person this row describes. Repeats across rows for the same person.
+          - name: CurrentRowIndicator
+            description: True if this row is the person's current state.
+          - name: _loaded_at
+            description: Ingestion metadata, when this row was loaded into bronze.

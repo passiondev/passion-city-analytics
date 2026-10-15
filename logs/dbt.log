@@ -160,3 +160,19 @@ Runtime Error
 [0m08:56:17.783328 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108fa6b40>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108fa6390>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108fa71d0>]}
 [0m08:56:17.783467 [debug] [MainThread]: Flushing usage events
 [0m08:56:17.925322 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m09:21:56.963499 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1106d9f70>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111dd6c30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111dd6930>]}
+
+
+============================== 09:21:56.966250 | e3ed91f6-55eb-4f92-ae52-3d6e89cda92a ==============================
+[0m09:21:56.966250 [info ] [MainThread]: Running with dbt=1.12.0
+[0m09:21:56.966516 [debug] [MainThread]: running dbt with arguments {'hints_enabled': 'True', 'target_path': 'None', 'use_experimental_parser': 'False', 'version_check': 'True', 'introspect': 'True', 'invocation_command': 'dbt run --select stg_rock__person_aliases stg_rock__defined_values stg_rock__group_types stg_rock__campuses stg_rock__connection_opportunities', 'cache_selected_only': 'False', 'log_format': 'default', 'log_cache_events': 'False', 'printer_width': '80', 'log_path': 'logs', 'empty': 'False', 'warn_error': 'None', 'static_parser': 'True', 'write_json': 'True', 'debug': 'False', 'no_print': 'None', 'profiles_dir': '/Users/trevor.brewer/.dbt', 'use_colors': 'True', 'maximum_seed_size_mib': '1', 'indirect_selection': 'eager', 'send_anonymous_usage_stats': 'True', 'partial_parse': 'True', 'quiet': 'False', 'fail_fast': 'False', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])'}
+[0m09:21:56.966782 [error] [MainThread]: [[31mERROR[0m]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/trevor.brewer/Documents/GitHub/passion-city-analytics/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m09:21:56.968146 [debug] [MainThread]: Resource report: {"command_name": "run", "command_success": false, "command_wall_clock_time": 0.04928379, "process_in_blocks": "0", "process_kernel_time": 0.103213, "process_mem_max_rss": "113098752", "process_out_blocks": "0", "process_user_time": 0.570301}
+[0m09:21:56.968426 [debug] [MainThread]: Command `dbt run` failed at 09:21:56.968380 after 0.05 seconds
+[0m09:21:56.968588 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111bc9bb0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1105c2870>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x111cf9b80>]}
+[0m09:21:56.968744 [debug] [MainThread]: Flushing usage events
+[0m09:21:57.107714 [debug] [MainThread]: An error was encountered while trying to flush usage events

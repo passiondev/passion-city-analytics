@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: stg_rock__group_members
+    description: >
+      Conformed view of Rock's GroupMember table. One row per person's
+      membership in a group, so a person in three groups has three rows. It
+      is the join between stg_rock__people and stg_rock__groups. Decodes the
+      membership status and derives is_currently_active_member. The Note
+      field is intentionally excluded.
+    columns:
+      - name: group_member_id
+        description: Natural identifier from Rock (GroupMember.Id).
+        tests:
+          - unique
+          - not_null
+      - name: group_id
+        description: Foreign key to stg_rock__groups.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_rock__groups')
+                field: group_id
+              config:
+                severity: warn
+      - name: person_id
+        description: Foreign key to stg_rock__people.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_rock__people')
+                field: person_id
+              config:
+                severity: warn
+      - name: group_role_id
+        description: Foreign key to the member's role within the group (leader, member, and so on).
+      - name: group_type_id
+        description: Foreign key to the group's type, copied onto the membership row by Rock.
+      - name: group_member_status_code
+        description: Raw Rock membership status code.
+      - name: group_member_status
+        description: "Decoded status: Active, Inactive, Pending, or Unknown."
+      - name: is_archived
+        description: Raw archived (soft-deleted) flag from Rock.
+      - name: is_currently_active_member
+        description: >
+          Business logic: true only when the member's status is Active AND
+          the row is not archived. Use this, not the status alone, when
+          filtering to current members.
+        tests:
+          - not_null
+      - name: added_at
+        description: When the person was added to the group.
+      - name: inactive_at
+        description: When the membership was marked inactive, if applicable.
+      - name: archived_at
+        description: When the membership was archived, if applicable.
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.

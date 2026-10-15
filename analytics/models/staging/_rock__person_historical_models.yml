@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: stg_rock__person_historical
+    description: >
+      Conformed view of Rock's AnalyticsDimPersonHistorical — one row per
+      person per historical period. Renamed to snake_case; text/decoded
+      columns Rock already computed (record_status, connection_status,
+      etc.) are passed through as-is rather than re-decoded. Loaded from a
+      bronze table that only ever gets --mode full reloads, so this view
+      is always as fresh as the last full load, not continuously synced.
+    columns:
+      - name: person_historical_id
+        description: Surrogate key for this historical snapshot row.
+        tests:
+          - unique
+          - not_null
+      - name: person_id
+        description: The person this row describes. Repeats across rows for the same person over time.
+        tests:
+          - not_null
+      - name: is_current_row
+        description: True if this is the person's current (most recent) historical row.
+      - name: effective_date
+        description: Date this row's attributes became effective.
+      - name: expire_date
+        description: Date this row stopped being current, if superseded.
+      - name: record_status
+        description: Decoded record status text (already computed by Rock).
+      - name: connection_status
+        description: Decoded connection status text (already computed by Rock).
+      - name: campus_name
+        description: Decoded campus name (already computed by Rock).
+      - name: giving_bin
+        description: Rock-computed giving segment for this person as of this period.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata — when this row's bronze source was last fully reloaded.
+
+  - name: stg_rock__person_current
+    description: >
+      One row per person: their current snapshot only, filtered from
+      stg_rock__person_historical where is_current_row is true. Use this
+      model, not stg_rock__person_historical directly, for any report that
+      wants "who is this person right now" rather than their full history.
+    columns:
+      - name: person_historical_id
+        description: Surrogate key for this person's current historical row.
+        tests:
+          - unique
+          - not_null
+      - name: person_id
+        description: The person this row describes.
+        tests:
+          - unique
+          - not_null

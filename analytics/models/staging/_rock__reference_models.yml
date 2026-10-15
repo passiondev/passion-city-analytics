@@ -1,0 +1,190 @@
+version: 2
+
+models:
+  - name: stg_rock__person_aliases
+    description: >
+      Conformed view of Rock's PersonAlias table. The bridge from the
+      person_alias_id that attendance, giving, and connection requests store
+      to the person_id in stg_rock__people. A person has one alias of their
+      own, plus one more for each person record merged into theirs.
+      InternalMessage is intentionally excluded.
+    columns:
+      - name: person_alias_id
+        description: Natural identifier from Rock (PersonAlias.Id).
+        tests:
+          - unique
+          - not_null
+      - name: person_id
+        description: The person this alias currently resolves to.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_rock__people')
+                field: person_id
+              config:
+                severity: warn
+      - name: alias_person_id
+        description: The person id this alias was originally created for.
+      - name: is_merged_alias
+        description: >
+          Business logic: true when alias_person_id differs from person_id,
+          meaning the alias came from a merged person record. Based on
+          Rock's convention that a person's own alias has matching ids.
+        tests:
+          - not_null
+      - name: aliased_at
+        description: When the alias was created.
+      - name: last_visit_at
+        description: Last time the alias was recorded as visiting, if tracked.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.
+
+  - name: stg_rock__defined_values
+    description: >
+      Conformed view of Rock's DefinedValue table, the lookup that gives
+      every ...ValueId column its label (record status, connection status,
+      transaction type, and so on). Ids are unique across all defined types,
+      so decode a column by joining on defined_value_id.
+    columns:
+      - name: defined_value_id
+        description: Natural identifier from Rock (DefinedValue.Id).
+        tests:
+          - unique
+          - not_null
+      - name: defined_type_id
+        description: The defined type (list) this value belongs to.
+        tests:
+          - not_null
+      - name: value
+        description: The label shown in Rock.
+        tests:
+          - not_null
+      - name: description
+        description: Longer description of the value, if set.
+      - name: sort_order
+        description: Rock's manual ordering value within its defined type (the Order column).
+      - name: is_active
+        description: Whether the value can still be chosen in Rock.
+      - name: is_system
+        description: Whether the value is built into Rock.
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.
+
+  - name: stg_rock__group_types
+    description: >
+      Conformed view of Rock's GroupType table. One row per kind of group
+      (family, small group, serving team, and so on). Only the settings
+      analytics tends to need are kept; the roughly 70 other configuration
+      columns stay in bronze.
+    columns:
+      - name: group_type_id
+        description: Natural identifier from Rock (GroupType.Id).
+        tests:
+          - unique
+          - not_null
+      - name: inherited_group_type_id
+        description: Parent group type this one inherits settings from, if any.
+      - name: group_type_purpose_value_id
+        description: Raw DefinedValue id for the group type's purpose.
+      - name: name
+        description: Name of the group type.
+        tests:
+          - not_null
+      - name: group_term
+        description: Word Rock uses for a group of this type (for example Group, Family, Team).
+      - name: group_member_term
+        description: Word Rock uses for a member of this type (for example Member, Volunteer).
+      - name: takes_attendance
+        description: Whether groups of this type record attendance.
+      - name: attendance_counts_as_weekend_service
+        description: Whether attendance in this type counts toward weekend service totals.
+      - name: is_scheduling_enabled
+        description: Whether groups of this type use Rock's volunteer scheduling.
+      - name: sort_order
+        description: Rock's manual ordering value (the Order column).
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.
+
+  - name: stg_rock__campuses
+    description: >
+      Conformed view of Rock's Campus table. One row per campus. Join to it
+      on campus_id from people, groups, attendance, connection requests, and
+      financial accounts. Derives is_currently_open from the active flag and
+      the campus's opened and closed dates.
+    columns:
+      - name: campus_id
+        description: Natural identifier from Rock (Campus.Id).
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: Name of the campus.
+        tests:
+          - not_null
+      - name: short_code
+        description: Short code Rock uses for the campus.
+      - name: time_zone_id
+        description: >
+          Time zone of the campus. Rock stores times without a zone, so use
+          this to interpret service times for campuses in different zones.
+      - name: average_weekend_attendance
+        description: Weekend attendance figure stored on the campus record in Rock.
+      - name: tithe_metric
+        description: Giving benchmark stored on the campus record, as an exact decimal.
+      - name: opened_date
+        description: Date the campus opened, if set.
+      - name: closed_date
+        description: Date the campus closed, if set.
+      - name: is_active
+        description: Raw active flag from Rock.
+      - name: is_currently_open
+        description: >
+          Business logic: true only when is_active is true AND today falls
+          between opened_date and closed_date. Use this, not is_active
+          alone, when listing campuses currently operating.
+        tests:
+          - not_null
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.
+
+  - name: stg_rock__connection_opportunities
+    description: >
+      Conformed view of Rock's ConnectionOpportunity table. One row per
+      opportunity a person can request (a team, class, or next step). Join
+      to it from stg_rock__connection_requests on connection_opportunity_id
+      to turn a request into a named opportunity.
+    columns:
+      - name: connection_opportunity_id
+        description: Natural identifier from Rock (ConnectionOpportunity.Id).
+        tests:
+          - unique
+          - not_null
+      - name: connection_type_id
+        description: Foreign key to the connection type the opportunity belongs to.
+      - name: name
+        description: Internal name of the opportunity.
+        tests:
+          - not_null
+      - name: public_name
+        description: Name shown to people on the public site, when different.
+      - name: summary
+        description: Short summary of the opportunity.
+      - name: request_due_date_offset_days
+        description: Days after a request is created that Rock sets its due date.
+      - name: request_due_soon_offset_days
+        description: Days before the due date that Rock flags a request as due soon.
+      - name: is_active
+        description: Whether the opportunity is currently open for requests.
+      - name: sort_order
+        description: Rock's manual ordering value (the Order column).
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.

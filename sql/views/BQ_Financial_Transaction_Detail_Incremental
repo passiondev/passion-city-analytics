@@ -1,0 +1,33 @@
+CREATE OR ALTER VIEW dbo.BQ_Financial_Transaction_Detail_Incremental AS
+SELECT
+    Id,
+    TransactionId,
+    AccountId,
+    CAST(Amount AS DECIMAL(18,2))                           AS Amount,
+    Summary,
+    EntityTypeId,
+    EntityId,
+    CAST(Guid AS NVARCHAR(36))                              AS Guid,
+    CreatedDateTime,
+    ModifiedDateTime,
+    CreatedByPersonAliasId,
+    ModifiedByPersonAliasId,
+    ForeignKey,
+    CAST(ForeignGuid AS NVARCHAR(36))                       AS ForeignGuid,
+    ForeignId,
+    CAST(FeeAmount AS DECIMAL(18,2))                        AS FeeAmount,
+    CAST(FeeCoverageAmount AS DECIMAL(18,2))                AS FeeCoverageAmount,
+    CAST(ForeignCurrencyAmount AS DECIMAL(18,2))            AS ForeignCurrencyAmount,
+
+    -- ingestion metadata for Make.com
+    GETUTCDATE()                                            AS _loaded_at,
+    'rock_rms'                                               AS _source_system
+
+FROM dbo.FinancialTransactionDetail
+WHERE ModifiedDateTime >= (
+        SELECT TOP(1) Last_Generated_Time
+        FROM scheduler_log
+        WHERE View_Name = 'BQ_Financial_Transaction_Detail_Incremental'
+        ORDER BY Last_Generated_Time DESC
+      )
+  AND ModifiedDateTime <= CURRENT_TIMESTAMP

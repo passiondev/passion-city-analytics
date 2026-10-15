@@ -1,0 +1,87 @@
+version: 2
+
+models:
+  - name: stg_rock__attendance
+    description: >
+      Conformed view of Rock's Attendance table. One row per person per
+      occurrence, including people who were only scheduled or RSVP'd, not
+      just people who showed up. Use did_attend to count actual attendance.
+      Join to stg_rock__attendance_occurrences on occurrence_id for the date,
+      group, and location. SearchValue is intentionally excluded.
+    columns:
+      - name: attendance_id
+        description: Natural identifier from Rock (Attendance.Id).
+        tests:
+          - unique
+          - not_null
+      - name: occurrence_id
+        description: Foreign key to stg_rock__attendance_occurrences.
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_rock__attendance_occurrences')
+              field: occurrence_id
+              config:
+                severity: warn
+      - name: person_alias_id
+        description: Foreign key to Rock's PersonAlias table (not directly to person_id).
+      - name: campus_id
+        description: Campus where the attendance was recorded.
+      - name: started_at
+        description: When the attendance record started (check-in time for check-in based attendance).
+      - name: ended_at
+        description: When the attendance record ended, if recorded.
+      - name: did_attend
+        description: >
+          Business logic: true only when Rock's DidAttend flag is true. Null
+          in the source is treated as false, so counts never drop rows.
+        tests:
+          - not_null
+      - name: is_first_time
+        description: True if this was the person's first attendance, as flagged by Rock.
+      - name: rsvp_code
+        description: Raw Rock RSVP code.
+      - name: rsvp
+        description: "Decoded RSVP: Yes, No, Maybe, or Unknown (0 and anything unrecognized)."
+      - name: check_in_status_code
+        description: Raw Rock check-in status code. Not decoded here.
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.
+
+  - name: stg_rock__attendance_occurrences
+    description: >
+      Conformed view of Rock's AttendanceOccurrence table. One row per
+      scheduled or recorded occurrence of a group meeting or service at a
+      location and schedule. Attendance rows join to it on occurrence_id.
+    columns:
+      - name: occurrence_id
+        description: Natural identifier from Rock (AttendanceOccurrence.Id).
+        tests:
+          - unique
+          - not_null
+      - name: group_id
+        description: Group the occurrence belongs to.
+      - name: location_id
+        description: Location where the occurrence took place.
+      - name: schedule_id
+        description: Schedule the occurrence ran on.
+      - name: occurrence_date
+        description: Calendar date of the occurrence.
+        tests:
+          - not_null
+      - name: sunday_date
+        description: Rock's weekly rollup date, the Sunday that ends the week containing the occurrence.
+      - name: anonymous_attendance_count
+        description: Count of attendees recorded without a person record.
+      - name: did_not_occur
+        description: Raw flag set when an occurrence was cancelled or did not happen.
+      - name: did_occur
+        description: "Business logic: the inverse of did_not_occur, with null treated as occurred."
+        tests:
+          - not_null
+      - name: updated_at
+        description: Timestamp the record was last modified in Rock.
+      - name: _bronze_loaded_at
+        description: Ingestion metadata, when this row was last loaded into bronze.

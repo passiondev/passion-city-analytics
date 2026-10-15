@@ -356,19 +356,254 @@ TABLE_CONFIGS = {
         ],
     },
 
-        "transaction_detail": {
+    "transaction_detail": {
         "source_table": "dbo.FinancialTransactionDetail",
         "primary_key": "Id",
         "modified_column": "ModifiedDateTime",
         "bq_table": "rock_financial_transaction_details",
+        "numeric_columns": ["Amount", "FeeAmount", "FeeCoverageAmount", "ForeignCurrencyAmount"],
+        "columns": [
+            "Id", "TransactionId", "AccountId", "Amount", "Summary",
+            "EntityTypeId", "EntityId", "Guid", "CreatedDateTime",
+            "ModifiedDateTime", "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId", "ForeignKey", "ForeignGuid",
+            "ForeignId", "FeeAmount", "FeeCoverageAmount",
+            "ForeignCurrencyAmount",
+        ],
+    },
+
+        "group_member": {
+        "source_table": "dbo.GroupMember",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_group_members",
         "columns": [
             "Id",
-            "TransactionId",
-            "AccountId",
-            "Amount",
-            "Summary",
-            "EntityTypeId",
-            "EntityId",
+            "IsSystem",
+            "GroupId",
+            "PersonId",
+            "GroupRoleId",
+            "GroupMemberStatus",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "GuestCount",
+            "DateTimeAdded",
+            "IsNotified",
+            "Note",
+            "ForeignGuid",
+            "ForeignId",
+            "GroupOrder",
+            "InactiveDateTime",
+            "IsArchived",
+            "ArchivedDateTime",
+            "ArchivedByPersonAliasId",
+            "ScheduleTemplateId",
+            "ScheduleStartDate",
+            "ScheduleReminderEmailOffsetDays",
+            "CommunicationPreference",
+            "GroupTypeId",
+            "IsChatMuted",
+            "IsChatBanned",
+        ],
+    },
+
+        "attendance": {
+        "source_table": "dbo.Attendance",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_attendance",
+        "columns": [
+            "Id",
+            "DeviceId",
+            "SearchTypeValueId",
+            "AttendanceCodeId",
+            "QualifierValueId",
+            "StartDateTime",
+            "EndDateTime",
+            "DidAttend",
+            "Note",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "CampusId",
+            "PersonAliasId",
+            "RSVP",
+            "Processed",
+            "ForeignGuid",
+            "ForeignId",
+            "SearchValue",
+            "SearchResultGroupId",
+            "OccurrenceId",
+            "CheckedInByPersonAliasId",
+            "ScheduledToAttend",
+            "RequestedToAttend",
+            "ScheduleConfirmationSent",
+            "ScheduleReminderSent",
+            "RSVPDateTime",
+            "DeclineReasonValueId",
+            "ScheduledByPersonAliasId",
+            "AttendanceCheckInSessionId",
+            "PresentDateTime",
+            "PresentByPersonAliasId",
+            "CheckedOutByPersonAliasId",
+            "IsFirstTime",
+            "CheckInStatus",
+            "SourceValueId",
+        ],
+    },
+
+        "attendance_occurrence": {
+        "source_table": "dbo.AttendanceOccurrence",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_attendance_occurrences",
+        "columns": [
+            "Id",
+            "GroupId",
+            "LocationId",
+            "ScheduleId",
+            "OccurrenceDate",
+            "DidNotOccur",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "Guid",
+            "ForeignId",
+            "ForeignGuid",
+            "ForeignKey",
+            "Notes",
+            "AnonymousAttendanceCount",
+            "StepTypeId",
+            "AcceptConfirmationMessage",
+            "DeclineConfirmationMessage",
+            "ShowDeclineReasons",
+            "DeclineReasonValueIds",
+            "SundayDate",
+            "Name",
+            "OccurrenceDateKey",
+            "AttendanceTypeValueId",
+            "AttendanceReminderLastSentDateTime",
+            "RootGroupTypeId",
+        ],
+    },
+
+        "connection_request": {
+        "source_table": "dbo.ConnectionRequest",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_connection_requests",
+        "columns": [
+            "Id",
+            "ConnectionOpportunityId",
+            "PersonAliasId",
+            "Comments",
+            "ConnectionStatusId",
+            "ConnectionState",
+            "FollowupDate",
+            "CampusId",
+            "AssignedGroupId",
+            "ConnectorPersonAliasId",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "Guid",
+            "ForeignKey",
+            "ForeignGuid",
+            "ForeignId",
+            "AssignedGroupMemberRoleId",
+            "AssignedGroupMemberStatus",
+            "AssignedGroupMemberAttributeValues",
+            "CreatedDateKey",
+            "Order",
+            "ConnectionTypeId",
+            "ConnectionTypeSourceId",
+            "DueDate",
+            "DueSoonDate",
+            "ConnectedDateTime",
+            "WasCompletedOnTime",
+        ],
+    },
+
+        "financial_account": {
+        "source_table": "dbo.FinancialAccount",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_financial_accounts",
+        "columns": [
+            "Id",
+            "ParentAccountId",
+            "CampusId",
+            "Name",
+            "PublicName",
+            "Description",
+            "IsTaxDeductible",
+            "GlCode",
+            "Order",
+            "IsActive",
+            "StartDate",
+            "EndDate",
+            "AccountTypeValueId",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "ImageBinaryFileId",
+            "Url",
+            "PublicDescription",
+            "IsPublic",
+            "ForeignGuid",
+            "ForeignId",
+            "UsesCampusChildAccounts",
+        ],
+    },
+
+    "person_alias": {
+        "source_table": "dbo.PersonAlias",
+        "primary_key": "Id",
+        # PersonAlias has no ModifiedDateTime or CreatedDateTime, so there is
+        # nothing to filter incrementally on. This table is loaded with
+        # --mode full only, and modified_column is unused.
+        "modified_column": "AliasedDateTime",
+        "bq_table": "rock_person_aliases",
+        "columns": [
+            "Id",
+            "Name",
+            "PersonId",
+            "AliasPersonId",
+            "AliasPersonGuid",
+            "Guid",
+            "ForeignKey",
+            "ForeignGuid",
+            "ForeignId",
+            "AliasedDateTime",
+            "LastVisitDateTime",
+            "InternalMessage",
+        ],
+    },
+
+    "defined_value": {
+        "source_table": "dbo.DefinedValue",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_defined_values",
+        "columns": [
+            "Id",
+            "IsSystem",
+            "DefinedTypeId",
+            "Order",
+            "Value",
+            "Description",
             "Guid",
             "CreatedDateTime",
             "ModifiedDateTime",
@@ -377,9 +612,186 @@ TABLE_CONFIGS = {
             "ForeignKey",
             "ForeignGuid",
             "ForeignId",
-            "FeeAmount",
-            "FeeCoverageAmount",
-            "ForeignCurrencyAmount",
+            "IsActive",
+            "CategoryId",
+        ],
+    },
+
+    "group_type": {
+        "source_table": "dbo.GroupType",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_group_types",
+        # The four relationship multipliers are decimals. Listing them here
+        # makes the loader store them as exact NUMERIC instead of letting
+        # BigQuery guess a type from whichever values happen to be present.
+        "numeric_columns": [
+            "LeaderToLeaderRelationshipMultiplier",
+            "LeaderToNonLeaderRelationshipMultiplier",
+            "NonLeaderToNonLeaderRelationshipMultiplier",
+            "NonLeaderToLeaderRelationshipMultiplier",
+        ],
+        "columns": [
+            "Id",
+            "IsSystem",
+            "Name",
+            "Description",
+            "GroupTerm",
+            "GroupMemberTerm",
+            "DefaultGroupRoleId",
+            "AllowMultipleLocations",
+            "ShowInGroupList",
+            "ShowInNavigation",
+            "IconCssClass",
+            "TakesAttendance",
+            "AttendanceRule",
+            "AttendancePrintTo",
+            "Order",
+            "InheritedGroupTypeId",
+            "LocationSelectionMode",
+            "GroupTypePurposeValueId",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "EnableLocationSchedules",
+            "AllowedScheduleTypes",
+            "SendAttendanceReminder",
+            "IgnorePersonInactivated",
+            "ForeignGuid",
+            "ForeignId",
+            "ShowConnectionStatus",
+            "AttendanceCountsAsWeekendService",
+            "GroupCapacityRule",
+            "GroupsRequireCampus",
+            "GroupAttendanceRequiresLocation",
+            "GroupAttendanceRequiresSchedule",
+            "IsIndexEnabled",
+            "ShowMaritalStatus",
+            "GroupViewLavaTemplate",
+            "AllowSpecificGroupMemberAttributes",
+            "EnableSpecificGroupRequirements",
+            "AllowGroupSync",
+            "AllowSpecificGroupMemberWorkflows",
+            "EnableGroupHistory",
+            "GroupTypeColor",
+            "GroupStatusDefinedTypeId",
+            "AdministratorTerm",
+            "ShowAdministrator",
+            "EnableGroupTag",
+            "IsSchedulingEnabled",
+            "ScheduleCancellationWorkflowTypeId",
+            "ScheduleConfirmationEmailOffsetDays",
+            "ScheduleReminderEmailOffsetDays",
+            "RequiresReasonIfDeclineSchedule",
+            "EnableRSVP",
+            "EnableInactiveReason",
+            "RequiresInactiveReason",
+            "AllowAnyChildGroupType",
+            "ScheduleConfirmationSystemCommunicationId",
+            "ScheduleReminderSystemCommunicationId",
+            "RSVPReminderSystemCommunicationId",
+            "RSVPReminderOffsetDays",
+            "IsCapacityRequired",
+            "ScheduleConfirmationLogic",
+            "AttendanceReminderSystemCommunicationId",
+            "AttendanceReminderSendStartOffsetMinutes",
+            "AttendanceReminderFollowupDays",
+            "IsPeerNetworkEnabled",
+            "RelationshipGrowthEnabled",
+            "RelationshipStrength",
+            "LeaderToLeaderRelationshipMultiplier",
+            "LeaderToNonLeaderRelationshipMultiplier",
+            "NonLeaderToNonLeaderRelationshipMultiplier",
+            "NonLeaderToLeaderRelationshipMultiplier",
+            "AlreadyEnrolledMatchingLogic",
+            "ScheduleCoordinatorNotificationTypes",
+            "IsConcurrentCheckInPrevented",
+            "IsChatAllowed",
+            "IsChatEnabledForAllGroups",
+            "IsLeavingChatChannelAllowed",
+            "IsChatChannelPublic",
+            "IsChatChannelAlwaysShown",
+            "GroupMemberRecordSourceValueId",
+            "AllowGroupSpecificRecordSource",
+            "ChatPushNotificationMode",
+            "AdditionalSettingsJson",
+        ],
+    },
+
+    "campus": {
+        "source_table": "dbo.Campus",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_campuses",
+        # TitheMetric is a decimal. Listing it here stores it as exact
+        # NUMERIC instead of letting BigQuery guess from the values present.
+        "numeric_columns": ["TitheMetric"],
+        "columns": [
+            "Id",
+            "IsSystem",
+            "Name",
+            "ShortCode",
+            "LocationId",
+            "Guid",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "ForeignKey",
+            "PhoneNumber",
+            "LeaderPersonAliasId",
+            "ServiceTimes",
+            "Description",
+            "IsActive",
+            "Url",
+            "ForeignGuid",
+            "ForeignId",
+            "Order",
+            "TimeZoneId",
+            "CampusStatusValueId",
+            "CampusTypeValueId",
+            "TeamGroupId",
+            "OpenedDate",
+            "ClosedDate",
+            "TitheMetric",
+            "BeaconId",
+            "AverageWeekendAttendance",
+        ],
+    },
+
+    "connection_opportunity": {
+        "source_table": "dbo.ConnectionOpportunity",
+        "primary_key": "Id",
+        "modified_column": "ModifiedDateTime",
+        "bq_table": "rock_connection_opportunities",
+        "columns": [
+            "Id",
+            "Name",
+            "PublicName",
+            "Description",
+            "PhotoId",
+            "ConnectionTypeId",
+            "IconCssClass",
+            "IsActive",
+            "CreatedDateTime",
+            "ModifiedDateTime",
+            "CreatedByPersonAliasId",
+            "ModifiedByPersonAliasId",
+            "Guid",
+            "ForeignKey",
+            "Summary",
+            "ForeignGuid",
+            "ForeignId",
+            "Order",
+            "ShowStatusOnTransfer",
+            "ShowConnectButton",
+            "ShowCampusOnTransfer",
+            "AdditionalSettingsJson",
+            "RequestDueSoonOffsetInDays",
+            "RequestDueDateOffsetInDays",
         ],
     },
 
@@ -435,9 +847,76 @@ def extract(config: dict, mode: str) -> pd.DataFrame:
         chunks = pd.read_sql(query, conn, chunksize=CHUNK_SIZE)
         df = pd.concat(chunks, ignore_index=True)
 
+    from decimal import Decimal
+    for col in config.get("numeric_columns", []):
+        if col in df.columns:
+            df[col] = df[col].apply(lambda x: Decimal(str(x)) if pd.notnull(x) else None)
+
+    # Some columns come back from pyodbc/pandas as ambiguous "object" dtype
+    # rather than a clean numeric type -- often when a batch happens to mix
+    # nulls with numeric values in a way pandas can't unify on its own.
+    # build_explicit_schema() would otherwise default these to STRING, which
+    # then fails outright once BigQuery's writer hits an actual numeric
+    # value inside a column declared as STRING. Coerce any object column
+    # that is really numeric underneath before schema-building ever sees it.
+    numeric_cols = set(config.get("numeric_columns", []))
+    for col in df.columns:
+        if col in numeric_cols:
+            continue  # already handled above as Decimal
+        if df[col].dtype == object:
+            if df[col].notna().sum() == 0:
+                continue  # all-null column: leave as object so it lands as STRING
+            # nullable bit columns come back as object dtype holding
+            # True/False/None. Keep them as real booleans -- pd.to_numeric
+            # would turn them into 1.0/0.0 floats and BigQuery would land
+            # them as FLOAT64.
+            non_null = df[col].dropna()
+            if len(non_null) > 0 and all(isinstance(v, bool) for v in non_null):
+                df[col] = df[col].astype("boolean")
+                continue
+            # try numeric first
+            coerced_numeric = pd.to_numeric(df[col], errors="coerce")
+            if coerced_numeric.notna().sum() == df[col].notna().sum():
+                df[col] = coerced_numeric
+                continue
+            # not numeric -- try datetime (covers columns like
+            # ProcessedDateTime that pandas/pyodbc left as ambiguous
+            # "object" dtype instead of a clean datetime64 column, usually
+            # because of a mix of real timestamps and nulls)
+            coerced_datetime = pd.to_datetime(df[col], errors="coerce")
+            if coerced_datetime.notna().sum() == df[col].notna().sum():
+                df[col] = coerced_datetime
+
     df["_loaded_at"] = datetime.datetime.utcnow()
     df["_source_system"] = "rock_rms"
     return df
+
+def build_explicit_schema(df: pd.DataFrame, config: dict) -> list:
+    """
+    Build a BigQuery schema explicitly rather than relying on autodetect.
+    Columns listed in config["numeric_columns"] are forced to NUMERIC
+    (exact decimal — correct for money, unlike FLOAT64) regardless of
+    whether this particular batch happens to have nulls or values in them.
+    Locking this in at load time also prevents future incremental loads
+    from drifting to a different inferred type, the same class of bug that
+    broke the person table's merge earlier.
+    """
+    numeric_columns = set(config.get("numeric_columns", []))
+    schema = []
+    for col in df.columns:
+        if col in numeric_columns:
+            schema.append(bigquery.SchemaField(col, "NUMERIC"))
+        elif pd.api.types.is_bool_dtype(df[col]):
+            schema.append(bigquery.SchemaField(col, "BOOLEAN"))
+        elif pd.api.types.is_integer_dtype(df[col]):
+            schema.append(bigquery.SchemaField(col, "INTEGER"))
+        elif pd.api.types.is_float_dtype(df[col]):
+            schema.append(bigquery.SchemaField(col, "FLOAT"))
+        elif pd.api.types.is_datetime64_any_dtype(df[col]):
+            schema.append(bigquery.SchemaField(col, "TIMESTAMP"))
+        else:
+            schema.append(bigquery.SchemaField(col, "STRING"))
+    return schema
 
 
 def load_to_bigquery(df: pd.DataFrame, config: dict, mode: str) -> None:
@@ -453,7 +932,7 @@ def load_to_bigquery(df: pd.DataFrame, config: dict, mode: str) -> None:
         write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
         job_config = bigquery.LoadJobConfig(
             write_disposition=write_disposition,
-            autodetect=True,
+            schema=build_explicit_schema(df, config),
         )
     else:
         write_disposition = bigquery.WriteDisposition.WRITE_TRUNCATE
