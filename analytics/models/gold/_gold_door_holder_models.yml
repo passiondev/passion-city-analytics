@@ -1,0 +1,291 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: One row per calendar day, 2000 through 2040. Every fact joins to it on date_key.
+    columns:
+      - name: date_key
+        description: Date as a YYYYMMDD integer. The join key for facts.
+        tests:
+          - unique
+          - not_null
+      - name: date_day
+        description: The calendar date.
+      - name: sunday_date
+        description: Rock's weekly rollup date, the Sunday that ends the Monday-to-Sunday week containing this day.
+
+  - name: dim_group
+    description: >
+      One row per group in Rock, current state only, with group type and
+      campus names decoded. is_door_holder_team and is_connect_group mark the
+      groups the door holder report uses, based on the group type ids set in
+      the door_holder_group_type_id and connect_group_group_type_id vars.
+    columns:
+      - name: group_key
+        description: Surrogate key generated in the warehouse. The join key for facts.
+        tests:
+          - unique
+          - not_null
+      - name: group_id
+        description: Rock's own group id (Group.Id).
+        tests:
+          - unique
+          - not_null
+      - name: group_type_name
+        description: Name of the group's type, decoded from Rock's group types.
+      - name: is_door_holder_team
+        description: True when the group's type is the door holder team type.
+        tests:
+          - not_null
+      - name: is_connect_group
+        description: True when the group's type is the connect group type.
+        tests:
+          - not_null
+      - name: is_currently_active
+        description: True only when the group is active and not archived. Use this, not is_active alone.
+
+  - name: fct_group_membership
+    description: >
+      One row per person's membership in a group. Join to dim_person on
+      person_key and to dim_group on group_key. A person in several groups
+      has several rows, so count distinct person_key when counting people.
+    columns:
+      - name: group_member_key
+        description: Surrogate key for the membership.
+        tests:
+          - unique
+          - not_null
+      - name: person_key
+        description: Foreign key to dim_person.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_person')
+                field: person_key
+              config:
+                severity: warn
+      - name: group_key
+        description: Foreign key to dim_group.
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_group')
+                field: group_key
+              config:
+                severity: warn
+      - name: group_role_id
+        description: Raw Rock id for the member's role in the group. Not decoded because the role table is not loaded.
+      - name: is_currently_active_member
+        description: True only when the member is Active and the row is not archived.
+        tests:
+          - not_null
+      - name: added_date_key
+        description: Date the person was added to the group, as a YYYYMMDD key into dim_date.
+
+  - name: fct_connection_request
+    description: >
+      One row per connection request. person_key is the requester and
+      connector_person_key is the person assigned to follow up. request_category
+      groups requests into Door Holder, Connect Group, and Other using the
+      opportunity ids set in the door_holder_connection_opportunity_id and
+      connect_group_connection_opportunity_ids vars. assigned_group_key links a
+      request to the group it was assigned to.
+    columns:
+      - name: connection_request_key
+        description: Surrogate key for the request.
+        tests:
+          - unique
+          - not_null
+      - name: person_key
+        description: Foreign key to dim_person for the requester. Null when the alias does not resolve to a person.
+        tests:
+          - not_null:
+              config:
+                severity: warn
+          - relationships:
+              arguments:
+                to: ref('dim_person')
+                field: person_key
+              config:
+                severity: warn
+      - name: connector_person_key
+        description: Foreign key to dim_person for the person assigned to follow up, if any.
+      - name: opportunity_name
+        description: Name of the connection opportunity the request is for.
+      - name: request_category
+        description: Door Holder, Connect Group, or Other.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Door Holder', 'Connect Group', 'Other']
+      - name: assigned_group_key
+        description: Foreign key to dim_group for the group the request was assigned to. Null when unassigned.
+      - name: is_connected
+        description: True when the request reached the Connected state.
+      - name: created_date_key
+        description: Date the request was created, as a YYYYMMDD key into dim_date.
+      - name: connected_date_key
+        description: Date the request was connected, as a YYYYMMDD key into dim_date. Null until connected.
+
+  - name: door_holder_engagement
+    description: >
+      One row per door holder, meaning any person who has ever been a member of
+      a door holder team group. Demographics, serving history, connect group
+      participation, and door holder join request history. Giving is not in
+      this table; see door_holder_giving. Email and exact birth date are
+      intentionally excluded, and age is computed instead.
+    columns:
+      - name: person_key
+        description: Surrogate key for the person. Joins one-to-one to dim_person.
+        tests:
+          - unique
+          - not_null
+      - name: age
+        description: Whole years of age from the exact birth date. Null when Rock has no complete birth date.
+      - name: is_active_door_holder
+        description: True when the person has an active membership in an active door holder team group.
+        tests:
+          - not_null
+      - name: active_door_holder_team_count
+        description: Number of door holder teams the person is currently an active member of.
+      - name: first_door_holder_added_date
+        description: Earliest date the person was added to any door holder team.
+      - name: days_since_first_joined
+        description: Days from first_door_holder_added_date to today.
+      - name: check_ins_total
+        description: >
+          All-time count of attendance records where the person attended an
+          occurrence that took place. Counts every kind of attendance Rock
+          records, not only weekend services.
+        tests:
+          - not_null
+      - name: first_check_in_date
+        description: Date of the person's earliest check-in. Null if they have none.
+      - name: last_check_in_date
+        description: Date of the person's most recent check-in. Null if they have none.
+      - name: days_since_last_check_in
+        description: Days from last_check_in_date to today. Null if they have never checked in.
+      - name: check_ins_last_90_days
+        description: Check-ins in the last 90 days.
+      - name: check_ins_last_12_months
+        description: Check-ins in the last 12 months.
+      - name: weeks_checked_in_last_12_months
+        description: Number of different weeks in the last 12 months with at least one check-in. A frequency measure out of roughly 52.
+      - name: weekend_service_check_ins_last_12_months
+        description: >
+          Check-ins in the last 12 months at groups whose group type Rock
+          marks as counting toward weekend service attendance.
+      - name: serving_check_ins_last_12_months
+        description: Check-ins in the last 12 months at door holder team groups, meaning their serving attendance.
+      - name: is_in_connect_group
+        description: True when the person has an active membership in an active connect group.
+        tests:
+          - not_null
+      - name: active_connect_group_count
+        description: Number of connect groups the person is currently an active member of.
+      - name: door_holder_request_count
+        description: Number of door holder join requests the person has made.
+      - name: first_door_holder_request_date
+        description: Date of the person's earliest door holder join request.
+      - name: has_connected_door_holder_request
+        description: True when any of the person's door holder join requests reached Connected.
+
+  - name: door_holder_giving
+    description: >
+      One row per door holder with Rock's giving journey fields. CONTAINS
+      INDIVIDUAL FINANCIAL DATA, so it is separate from door_holder_engagement
+      to allow separate access control. Every journey stage is passed through
+      as Rock reports it. Values refresh when Rock's analytics history table is
+      reloaded; giving_data_loaded_at shows when that last happened.
+    columns:
+      - name: person_key
+        description: Surrogate key for the person. Joins one-to-one to door_holder_engagement and dim_person.
+        tests:
+          - unique
+          - not_null
+      - name: current_journey_giving_stage
+        description: Rock's current giving journey stage. Null when Rock has not classified the person.
+      - name: previous_journey_giving_stage
+        description: The giving journey stage before the current one.
+      - name: journey_giving_stage_change_date
+        description: When the giving journey stage last changed.
+      - name: giving_bin
+        description: Rock's giving segment for the person.
+      - name: giving_percentile
+        description: Rock's giving percentile for the person.
+      - name: next_expected_gift_date
+        description: When Rock expects the person's next gift, based on their giving pattern.
+      - name: giving_data_loaded_at
+        description: When the analytics history table these values come from was last loaded into bronze.
+
+  - name: fct_attendance
+    description: >
+      One row per person per attendance occurrence, with the occurrence's date,
+      group, location and schedule joined on. Joins to dim_person on person_key,
+      dim_group on group_key and dim_date on date_key. Use is_check_in to count
+      real check-ins (the person attended and the occurrence happened). Rock
+      does not track individual Sunday attendance in the occurrence table, so
+      this is the only attendance fact.
+    columns:
+      - name: attendance_key
+        description: Surrogate key for the attendance record.
+        tests:
+          - unique
+          - not_null
+      - name: attendance_id
+        description: Rock's Attendance.Id.
+      - name: person_key
+        description: Foreign key to dim_person. Null when the attendance alias cannot be resolved.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_person')
+                field: person_key
+              config:
+                severity: warn
+      - name: occurrence_id
+        description: Rock's AttendanceOccurrence.Id.
+      - name: group_key
+        description: Foreign key to dim_group.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_group')
+                field: group_key
+              config:
+                severity: warn
+      - name: location_id
+        description: Rock location id of the occurrence.
+      - name: schedule_id
+        description: Rock schedule id of the occurrence.
+      - name: campus_id
+        description: Campus the attendance was recorded at.
+      - name: date_key
+        description: Occurrence date as a YYYYMMDD key into dim_date.
+      - name: occurrence_date
+        description: Calendar date of the occurrence.
+      - name: sunday_date
+        description: The Sunday of the week the occurrence falls in, per Rock.
+      - name: started_at
+        description: Check-in start timestamp.
+      - name: ended_at
+        description: Check-out timestamp.
+      - name: did_attend
+        description: Whether the person was marked as attending.
+      - name: did_occur
+        description: Whether the occurrence happened (false for cancelled occurrences).
+      - name: is_check_in
+        description: True when the person attended and the occurrence happened. Count this for attendance.
+        tests:
+          - not_null
+      - name: rsvp
+        description: Decoded RSVP response.
+      - name: is_first_time
+        description: Whether Rock flagged this as the person's first visit.
+      - name: is_scheduled_to_attend
+        description: Whether the person was scheduled to attend (serving schedules).
+      - name: updated_at
+        description: Timestamp the attendance record was last modified in Rock.
